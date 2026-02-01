@@ -706,14 +706,98 @@
     }
   };
 
-  const ENGLISH_BANK = [
-    { q: "The little boy tried to ________ the wall to get the ball.", a: "climb up", o: ["lie on", "climb up", "sit on"], t: "Actions" },
-    { q: "Be careful! Don't ________ on the bed, you might break it.", a: "jump up", o: ["jump up", "stand in", "walk on"], t: "Actions" },
-    { q: "She likes to ________ the grass and look at the sky.", a: "lie on", o: ["climb up", "lie on", "jump up"], t: "Actions" },
-    { q: "Please ________ the line and wait for your turn.", a: "stand in", o: ["stand in", "walk on", "sit on"], t: "Actions" },
-    { q: "You should not ________ the fragile bridge.", a: "walk on", o: ["lie on", "walk on", "jump up"], t: "Actions" },
-    { q: "He decided to ________ the chair because he was tired.", a: "sit on", o: ["sit on", "climb up", "stand in"], t: "Actions" }
-  ];
+const ENGLISH_BANK = [
+  // --- TOPIC: ADJECTIVES VS ADVERBS ---
+  { q: "She is a very ________ designer. She always has new ideas.", a: "creative", o: ["creative", "creatively", "creation"], t: "Adj_Adv" },
+  { q: "He decorated the room ________ for the party.", a: "creatively", o: ["creative", "creatively", "create"], t: "Adj_Adv" },
+  { q: "You should be ________ when speaking to elderly people.", a: "polite", o: ["polite", "politely", "politeness"], t: "Adj_Adv" },
+  { q: "The boy replied ________ to the teacher and got into trouble.", a: "rudely", o: ["rude", "rudely", "rudeness"], t: "Adj_Adv" },
+  { q: "It was ________ of him to ignore my question.", a: "rude", o: ["rude", "rudely", "rudest"], t: "Adj_Adv" },
+  { q: "This sofa is very ________. I can sleep on it.", a: "comfortable", o: ["comfortable", "comfortably", "comfort"], t: "Adj_Adv" },
+  { q: "We sat ________ by the fire and drank hot cocoa.", a: "comfortably", o: ["comfortable", "comfortably", "comforting"], t: "Adj_Adv" },
+  { q: "She speaks English very ________.", a: "well", o: ["good", "well", "goodness"], t: "Adj_Adv" },
+  { q: "He is a ________ student. He always gets high marks.", a: "good", o: ["well", "good", "badly"], t: "Adj_Adv" },
+  { q: "The team played ________ yesterday and lost the match.", a: "badly", o: ["bad", "badly", "worse"], t: "Adj_Adv" },
+  { q: "The weather is really ________ today.", a: "bad", o: ["badly", "bad", "worse"], t: "Adj_Adv" },
+  { q: "The test was surprisingly ________.", a: "easy", o: ["easy", "easily", "ease"], t: "Adj_Adv" },
+  { q: "She passed the exam ________.", a: "easily", o: ["easy", "easily", "easier"], t: "Adj_Adv" },
+  { q: "Please be ________! The baby is sleeping.", a: "quiet", o: ["quiet", "quietly", "quite"], t: "Adj_Adv" },
+  { q: "The students worked ________ in the library.", a: "quietly", o: ["quiet", "quietly", "quietness"], t: "Adj_Adv" },
+  { q: "He asked ________ for permission to leave.", a: "politely", o: ["polite", "politely", "politeness"], t: "Adj_Adv" },
+
+  // --- TOPIC: VOCABULARY & WORD FORM ---
+  { q: "That is an ________ painting. I've never seen anything like it.", a: "unusual", o: ["unusual", "usual", "usually"], t: "Vocabulary" },
+  { q: "We need to measure the ________ of the triangle.", a: "angle", o: ["angel", "angle", "angry"], t: "Vocabulary" },
+  { q: "My sister loves taking pictures. She wants to study ________.", a: "photography", o: ["photographer", "photography", "photograph"], t: "Vocabulary" },
+  { q: "The ________ asked us to smile for the picture.", a: "photographer", o: ["photography", "photographer", "photographic"], t: "Vocabulary" },
+  { q: "I have a terrible ________. I always forget names.", a: "memory", o: ["memorize", "memory", "memorable"], t: "Vocabulary" },
+  { q: "Our trip to Paris was truly ________.", a: "memorable", o: ["memory", "memorize", "memorable"], t: "Vocabulary" },
+  { q: "I need to ________ these vocabulary words for the test.", a: "memorize", o: ["memory", "memorize", "memorable"], t: "Vocabulary" },
+  { q: "We watched the amazing ________ on New Year's Eve.", a: "firework display", o: ["firework display", "fire work", "display fire"], t: "Vocabulary" },
+  { q: "When did they ________? - Last year.", a: "get married", o: ["get marry", "get married", "got marry"], t: "Vocabulary" },
+  { q: "What time did you ________ for the party?", a: "arrive", o: ["arrive", "arriving", "arrival"], t: "Vocabulary" },
+
+  // --- TOPIC: VERB PATTERNS (NEED TO / DECIDE TO) ---
+  { q: "I need ________ my homework right now.", a: "to finish", o: ["finish", "to finish", "finishing"], t: "Grammar" },
+  { q: "You need to ________ careful when crossing the street.", a: "be", o: ["be", "is", "being"], t: "Grammar" },
+  { q: "She needs to ________ quiet in the hospital.", a: "be", o: ["do", "be", "make"], t: "Grammar" },
+  { q: "They decided ________ to the beach for their holiday.", a: "to go", o: ["go", "to go", "going"], t: "Grammar" },
+  { q: "He decided ________ a new car.", a: "to buy", o: ["buy", "to buy", "buying"], t: "Grammar" },
+  { q: "Did you ________ permission before using my phone?", a: "ask for", o: ["ask with", "ask for", "ask to"], t: "Phrases" },
+  { q: "I must ________ permission to leave early.", a: "ask for", o: ["ask", "ask for", "asking"], t: "Phrases" },
+
+  // --- TOPIC: ACTION VERBS & PREPOSITIONS ---
+  { q: "The cat tried to ________ the tall tree.", a: "climb up", o: ["climb up", "lie on", "sit on"], t: "Actions" },
+  { q: "He was so happy he started to ________.", a: "jump up", o: ["jump up", "lie on", "walk on"], t: "Actions" },
+  { q: "I like to ________ the sofa and watch TV.", a: "lie on", o: ["climb up", "lie on", "stand in"], t: "Actions" },
+  { q: "Please ________ the queue and wait for your turn.", a: "stand in", o: ["stand in", "walk on", "sit on"], t: "Actions" },
+  { q: "The baby learned to ________ the grass.", a: "walk on", o: ["walk on", "climb up", "stand in"], t: "Actions" },
+  { q: "Come and ________ this chair next to me.", a: "sit on", o: ["sit on", "lie on", "climb up"], t: "Actions" },
+  { q: "Don't ________ the wall, it's dangerous!", a: "climb up", o: ["walk on", "climb up", "stand in"], t: "Actions" },
+  { q: "The floor is wet. Don't ________ it.", a: "walk on", o: ["walk on", "jump up", "lie on"], t: "Actions" },
+  { q: "He likes to ________ the floor to play with his toys.", a: "sit on", o: ["sit on", "climb up", "stand in"], t: "Actions" },
+  { q: "When the teacher entered, the students had to ________ their places.", a: "stand in", o: ["stand in", "jump up", "walk on"], t: "Actions" },
+
+  // --- TOPIC: ABILITY (CAN/COULD/WILL BE ABLE TO) ---
+  { q: "I ________ swim when I was five years old.", a: "could", o: ["can", "could", "will be able to"], t: "Ability" },
+  { q: "She ________ speak three languages now.", a: "can", o: ["could", "can", "will be able to"], t: "Ability" },
+  { q: "I ________ finish this project tomorrow.", a: "will be able to", o: ["could", "can", "will be able to"], t: "Ability" },
+  { q: "Mozart ________ play music when he was very young.", a: "could", o: ["can", "could", "will be able to"], t: "Ability" },
+  { q: "Sorry, I ________ help you right now. I'm busy.", a: "can't", o: ["couldn't", "can't", "won't be able to"], t: "Ability" },
+  { q: "Yesterday, I ________ find my keys anywhere.", a: "couldn't", o: ["can't", "couldn't", "won't be able to"], t: "Ability" },
+  { q: "In the future, robots ________ do all the housework.", a: "will be able to", o: ["can", "could", "will be able to"], t: "Ability" },
+  { q: "________ you ride a bike when you were six?", a: "Could", o: ["Can", "Could", "Will"], t: "Ability" },
+  { q: "I hope I ________ travel to Japan next year.", a: "will be able to", o: ["can", "could", "will be able to"], t: "Ability" },
+  { q: "He ________ run very fast now, he is an athlete.", a: "can", o: ["could", "can", "will be able to"], t: "Ability" },
+  { q: "The text was blurry, so I ________ read it.", a: "couldn't", o: ["can't", "couldn't", "won't be able to"], t: "Ability" },
+  { q: "If you study hard, you ________ pass the exam.", a: "will be able to", o: ["can", "could", "will be able to"], t: "Ability" },
+
+  // --- TOPIC: WH- QUESTIONS (HOW...) ---
+  { q: "________ is it from your house to the school?", a: "How far", o: ["How long", "How far", "How much"], t: "Questions" },
+  { q: "________ does this shirt cost?", a: "How much", o: ["How many", "How much", "How long"], t: "Questions" },
+  { q: "________ students are there in your class?", a: "How many", o: ["How much", "How many", "How often"], t: "Questions" },
+  { q: "________ do you go to the cinema? - Twice a month.", a: "How often", o: ["How long", "How often", "How far"], t: "Questions" },
+  { q: "________ does the movie last? - Two hours.", a: "How long", o: ["How often", "How long", "How tall"], t: "Questions" },
+  { q: "________ is your brother? - He is 1.7 meters.", a: "How tall", o: ["How high", "How tall", "How long"], t: "Questions" },
+  { q: "________ is Mount Everest?", a: "How high", o: ["How tall", "How high", "How long"], t: "Questions" },
+  { q: "________ is your grandmother? - She is 80.", a: "How old", o: ["How many", "How old", "How long"], t: "Questions" },
+
+  // --- TOPIC: QUESTION TRANSFORMATIONS ---
+  { q: "How old are you? -> What is your ________?", a: "age", o: ["old", "age", "birth"], t: "Transformations" },
+  { q: "What is the age of this building? -> How ________ is this building?", a: "old", o: ["long", "old", "age"], t: "Transformations" },
+  { q: "How far is it from A to B? -> What is the ________ between A and B?", a: "distance", o: ["length", "distance", "far"], t: "Transformations" },
+  { q: "What is the distance between Hanoi and Hue? -> How ________ is it from Hanoi to Hue?", a: "far", o: ["long", "far", "distance"], t: "Transformations" },
+  { q: "How long is the river? -> What is the ________ of the river?", a: "length", o: ["long", "length", "distance"], t: "Transformations" },
+  { q: "What is the length of the table? -> How ________ is the table?", a: "long", o: ["far", "long", "tall"], t: "Transformations" },
+  { q: "How high is the wall? -> What is the ________ of the wall?", a: "height", o: ["high", "height", "length"], t: "Transformations" },
+  { q: "What is the height of the mountain? -> How ________ is the mountain?", a: "high", o: ["tall", "high", "height"], t: "Transformations" },
+  { q: "How tall is he? -> What is his ________?", a: "height", o: ["tall", "height", "length"], t: "Transformations" },
+
+  // --- EXTRA ---
+  { q: "A child who is amazingly talented at something is called a ________.", a: "prodigy", o: ["prodigy", "student", "beginner"], t: "Vocabulary" },
+  { q: "To ________ means to keep something in your mind.", a: "memorize", o: ["decide", "memorize", "arrive"], t: "Vocabulary" }
+];
+
 
   const englishGame = {
     curr: null,
@@ -789,3 +873,4 @@
 </script>
 </body>
 </html>
+
