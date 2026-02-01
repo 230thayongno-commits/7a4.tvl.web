@@ -1,438 +1,356 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-  <title>7A4 GALAXY COMMAND</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>7A4 GALAXY COMMAND</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f3ff;
+            --secondary: #bc13fe;
+            --accent: #ff0055;
+            --success: #00ff9d;
+            --dark-bg: #030712;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-  <style>
-    :root{
-      --bg1:#060912;
-      --bg2:#0b1230;
-      --card:rgba(255,255,255,0.06);
-      --card2:rgba(255,255,255,0.09);
-      --stroke:rgba(255,255,255,0.12);
-      --txt:#eaf1ff;
-      --muted:rgba(234,241,255,0.7);
-      --accent:#7c5cff;
-      --accent2:#00e5ff;
-      --danger:#ff4d6d;
-      --good:#2cffb3;
-      --shadow: 0 18px 50px rgba(0,0,0,0.35);
-      --r:22px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Montserrat,system-ui,-apple-system,Segoe UI,Roboto,Arial;
-      color:var(--txt);
-      background:
-        radial-gradient(1200px 800px at 10% 10%, rgba(124,92,255,0.25), transparent 60%),
-        radial-gradient(900px 600px at 90% 20%, rgba(0,229,255,0.18), transparent 55%),
-        linear-gradient(160deg,var(--bg1),var(--bg2));
-      min-height:100vh;
-      overflow-x:hidden;
-    }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--dark-bg);
+            color: #fff;
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 243, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.05) 0%, transparent 50%);
+        }
 
-    header{
-      position:sticky;
-      top:0;
-      z-index:50;
-      padding:18px 18px;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0));
-      backdrop-filter: blur(10px);
-    }
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes floating { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
-    .topbar{
-      max-width:1100px;
-      margin:0 auto;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
+        .animate-in { animation: fadeIn 0.5s ease forwards; }
+        .slide-in { animation: slideIn 0.3s ease-out forwards; }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-    .logo{
-      width:44px;height:44px;border-radius:14px;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.55), transparent 50%),
-        linear-gradient(135deg,var(--accent),var(--accent2));
-      box-shadow: var(--shadow);
-    }
-    .brand h1{
-      font-size:1.05rem;
-      margin:0;
-      letter-spacing:0.5px;
-      font-weight:800;
-      text-transform:uppercase;
-    }
-    .brand p{
-      margin:2px 0 0;
-      font-size:0.78rem;
-      color:var(--muted);
-      font-weight:600;
-    }
+        /* UI Components */
+        #toast {
+            position: fixed; top: 30px; left: 50%; transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95); color: #000;
+            padding: 12px 25px; border-radius: 50px;
+            font-weight: 800; z-index: 10000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            opacity: 0; pointer-events: none; transition: 0.3s;
+        }
 
-    .actions{
-      display:flex;
-      gap:10px;
-      align-items:center;
-    }
-    button{
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,0.07);
-      color:var(--txt);
-      padding:10px 14px;
-      border-radius:14px;
-      cursor:pointer;
-      font-weight:700;
-      transition: transform .15s ease, background .15s ease, border .15s ease;
-    }
-    button:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.11); }
-    button.primary{
-      border: none;
-      background: linear-gradient(135deg,var(--accent),var(--accent2));
-      color:#071024;
-      box-shadow: 0 14px 30px rgba(124,92,255,0.28);
-    }
-    button.danger{
-      border: none;
-      background: linear-gradient(135deg,var(--danger),#ff9a3d);
-      color:#140308;
-    }
+        /* Selector Screen */
+        #selector-screen {
+            position: fixed; inset: 0; background: var(--dark-bg);
+            z-index: 9999; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; padding: 20px;
+            text-align: center;
+        }
 
-    main{
-      max-width:1100px;
-      margin:0 auto;
-      padding: 12px 18px 80px;
-    }
+        .hero-title {
+            font-size: clamp(2rem, 8vw, 3.5rem); font-weight: 900;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; color: transparent;
+            margin-bottom: 10px; letter-spacing: -1px;
+        }
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1.3fr 0.7fr;
-      gap:16px;
-      align-items:start;
-    }
+        .team-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 15px; width: 100%; max-width: 500px; margin-top: 40px;
+        }
 
-    .card{
-      border:1px solid var(--stroke);
-      background: var(--card);
-      border-radius: var(--r);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .card-header{
-      padding:16px 16px 12px;
-      border-bottom:1px solid rgba(255,255,255,0.08);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .card-header h2{
-      margin:0;
-      font-size:1.02rem;
-      font-weight:800;
-    }
-    .card-header small{
-      color:var(--muted);
-      font-weight:700;
-    }
-    .card-body{ padding:16px; }
+        .team-card {
+            background: var(--card-bg); border: 1px solid var(--glass-border);
+            padding: 30px 10px; border-radius: 20px; font-weight: 800;
+            cursor: pointer; transition: 0.3s; text-transform: uppercase;
+        }
+        .team-card:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); border-color: var(--primary); }
 
-    .teams{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-    }
-    .team{
-      padding:14px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.06);
-      position:relative;
-      overflow:hidden;
-    }
-    .team:before{
-      content:"";
-      position:absolute; inset:-40px -40px auto auto;
-      width:160px;height:160px;border-radius:50%;
-      background: radial-gradient(circle at 30% 30%, rgba(124,92,255,0.45), transparent 65%);
-      filter: blur(2px);
-      opacity:0.7;
-      pointer-events:none;
-    }
-    .team h3{
-      margin:0 0 6px;
-      font-size:1rem;
-      font-weight:900;
-    }
-    .score{
-      display:flex;
-      align-items:baseline;
-      gap:10px;
-    }
-    .score span.value{
-      font-size:2.2rem;
-      font-weight:900;
-      letter-spacing:0.5px;
-    }
-    .score span.unit{
-      color:var(--muted);
-      font-weight:800;
-      font-size:0.9rem;
-    }
-    .controls{
-      margin-top:10px;
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-    .controls button{
-      padding:9px 12px;
-      border-radius:14px;
-      font-weight:900;
-    }
+        /* App Layout */
+        header {
+            padding: 20px; display: flex; justify-content: space-between;
+            align-items: center; 
+            background: var(--dark-bg);
+            position: sticky; top: 0; z-index: 100;
+            border-bottom: 1px solid var(--glass-border);
+        }
 
-    .mini{
-      display:flex;
-      flex-direction:column;
-      gap:16px;
-    }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
 
-    .list{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-    .item{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:12px 12px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.05);
-    }
-    .item b{font-weight:900}
-    .item small{color:var(--muted); font-weight:700}
+        .rank-card {
+            background: var(--card-bg); border-radius: 24px; padding: 25px;
+            margin-bottom: 20px; border: 1px solid var(--glass-border);
+            position: relative;
+        }
 
-    /* ===== Admin Panel ===== */
-    #admin-panel{
-      position:fixed;
-      right:18px;
-      top:88px;
-      width: 320px;
-      z-index:100;
-      border-radius:22px;
-      border:1px solid rgba(255,255,255,0.14);
-      background: rgba(0,0,0,0.72);
-      backdrop-filter: blur(12px);
-      box-shadow: var(--shadow);
-      padding:14px;
-      display:none;
-    }
-    #admin-panel h4{
-      margin:0 0 10px;
-      font-size:1rem;
-      font-weight:900;
-    }
-    #admin-panel .row{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-    #admin-panel .row button{
-      flex:1;
-      min-width:120px;
-      padding:10px 12px;
-    }
+        .rank-item { margin-bottom: 15px; }
+        .rank-label { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 700; font-size: 0.9rem; }
+        .bar-outer { background: rgba(255,255,255,0.05); height: 14px; border-radius: 10px; overflow: hidden; }
+        .bar-inner { height: 100%; border-radius: 10px; transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
-    /* ===== Mobile ===== */
-    @media (max-width: 900px){
-      .grid{ grid-template-columns:1fr; }
-    }
-    @media (max-width: 600px){
-      header{ padding:14px; }
-      main{ padding: 10px 14px 90px; }
-      .logo{ width:40px; height:40px; border-radius:14px; }
-      .teams{ grid-template-columns:1fr; }
+        .reset-notice {
+            text-align: center; font-size: 0.75rem; color: #888; margin-top: 15px; font-weight: 600;
+            border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;
+        }
 
-      #admin-panel{
-        left: 50%;
-        right: auto;
-        top: auto;
-        bottom: 18px;
-        transform: translateX(-50%);
-        width: calc(100% - 28px);
-        max-width: 440px;
-      }
-    }
-  </style>
+        .tiktok-group { display: flex; gap: 12px; margin-bottom: 30px; }
+        .tiktok-link {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            gap: 10px; background: #000; padding: 15px; border-radius: 16px;
+            text-decoration: none; color: #fff; font-weight: 800; font-size: 0.85rem;
+            border: 1px solid var(--glass-border); transition: 0.3s;
+        }
+        .tiktok-link:hover { transform: translateY(-3px); border-color: var(--primary); }
+
+        .mission-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .mission-card {
+            background: var(--card-bg); padding: 30px; border-radius: 24px;
+            border: 1px solid var(--glass-border); cursor: pointer;
+            transition: 0.3s; position: relative; overflow: hidden;
+            animation: floating 4s ease-in-out infinite;
+        }
+        .mission-card:hover { background: rgba(255,255,255,0.08); border-color: var(--primary); }
+        .mission-card.locked { opacity: 0.5; cursor: not-allowed; animation: none; }
+
+        .mission-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
+        .mission-name { font-size: 1.4rem; font-weight: 900; margin-bottom: 8px; color: var(--primary); }
+        .mission-desc { font-size: 0.9rem; color: #aaa; line-height: 1.4; }
+
+        .badge-soon {
+            position: absolute; top: 12px; right: -30px; background: #febd23;
+            color: #000; padding: 4px 35px; font-size: 0.65rem;
+            font-weight: 900; transform: rotate(45deg);
+        }
+
+        /* Overlay Game */
+        #game-overlay {
+            position: fixed; inset: 0; background: var(--dark-bg);
+            z-index: 1000; display: none; flex-direction: column; padding: 20px;
+        }
+
+        .game-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .game-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 600px; margin: 0 auto; width: 100%; }
+        
+        .q-tag { background: rgba(0, 243, 255, 0.1); color: var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; }
+        .q-text { font-size: clamp(1.1rem, 4vw, 1.7rem); font-weight: 800; text-align: center; margin-bottom: 25px; line-height: 1.4; }
+
+        .option-list { display: grid; gap: 14px; width: 100%; margin-bottom: 10px; }
+        .option-item {
+            background: var(--card-bg); border: 1px solid var(--glass-border);
+            padding: 16px 20px; border-radius: 12px; color: #fff;
+            text-align: left; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: 0.2s;
+        }
+        .option-item:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); }
+        .option-item:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .math-input {
+            background: transparent; border: none; border-bottom: 4px solid var(--primary);
+            color: #fff; font-size: 3.5rem; width: 100%; text-align: center;
+            font-weight: 900; outline: none; margin-bottom: 20px;
+        }
+
+        .btn-confirm {
+            background: var(--primary); color: #000; width: 100%; padding: 15px 20px;
+            border-radius: 12px; font-weight: 900; font-size: 1.0rem; margin-top: 10px; border: none; cursor: pointer;
+        }
+        .btn-confirm.small { width: auto; padding: 10px 14px; font-size: 0.9rem; border-radius: 10px; }
+        .btn-confirm:disabled { background: #555; cursor: not-allowed; }
+
+        footer {
+            margin-top: 30px; padding: 30px; text-align: center;
+            border-top: 1px solid var(--glass-border); color: #555; font-size: 0.8rem;
+        }
+
+        .hidden { display: none !important; }
+
+        .update-card {
+            background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.06);
+            padding: 12px 14px; border-radius: 12px; color: #ddd; font-weight: 700; margin-bottom: 18px;
+        }
+
+        /* admin panel */
+        #admin-panel {
+            position: fixed; right: 20px; top: 80px; background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 10px;
+            z-index: 1100; display:none; width: 220px; font-weight:700;
+        }
+        #admin-panel button { display:block; width:100%; margin:6px 0; }
+
+        @media (max-width: 600px) {
+            .mission-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 2.2rem; }
+            .q-text { font-size: 1.2rem; }
+            .option-item { padding: 12px 15px; font-size: 0.95rem; }
+            .math-input { font-size: 2.4rem; }
+
+            /* ✅ FULL FIX: admin panel mobile */
+            header{
+                padding: 14px;
+            }
+            #user-info{
+                gap: 10px !important;
+            }
+            #admin-btn{
+                padding: 8px 10px;
+                border-radius: 10px;
+                background: rgba(255,255,255,0.06);
+            }
+            header button{
+                padding: 8px 10px;
+                border-radius: 10px;
+            }
+            #admin-panel{
+                left: 50%;
+                right: auto;
+                top: auto;
+                bottom: 18px;
+                transform: translateX(-50%);
+                width: calc(100% - 36px);
+                max-width: 420px;
+                border-radius: 18px;
+                padding: 14px;
+                background: rgba(0,0,0,0.85);
+                backdrop-filter: blur(12px);
+            }
+            #admin-panel button{
+                padding: 12px 12px;
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
-<header>
-  <div class="topbar">
-    <div class="brand">
-      <div class="logo"></div>
-      <div>
-        <h1>7A4 Galaxy Command</h1>
-        <p>Realtime điểm tổ + Admin</p>
-      </div>
+
+    <div id="toast">Thông báo</div>
+
+    <!-- MÀN HÌNH CHỌN TỔ -->
+    <div id="selector-screen">
+        <div class="hero-title animate-in">7A4 GALAXY<br>COMMAND</div>
+        <p class="animate-in" style="color: #aaa; letter-spacing: 2px; font-size: 0.75rem; font-weight: 600;">HỆ THỐNG ÔN TẬP HK2</p>
+        
+        <div class="team-grid animate-in" style="animation-delay: 0.2s;">
+            <div class="team-card" onclick="galaxy.selectTeam('Tổ 1')" style="color: var(--primary)">Tổ 1</div>
+            <div class="team-card" onclick="galaxy.selectTeam('Tổ 2')" style="color: var(--secondary)">Tổ 2</div>
+            <div class="team-card" onclick="galaxy.selectTeam('Tổ 3')" style="color: var(--accent)">Tổ 3</div>
+            <div class="team-card" onclick="galaxy.selectTeam('Tổ 4')" style="color: var(--success)">Tổ 4</div>
+        </div>
     </div>
 
-    <div class="actions">
-      <button id="admin-btn" class="primary" onclick="galaxy.toggleAdminPrompt()">Admin</button>
-      <button class="danger" onclick="galaxy.logout()">Thoát</button>
+    <!-- APP CHÍNH -->
+    <div id="main-app" class="hidden">
+        <header>
+            <div style="font-weight: 900; letter-spacing: 1px; font-size: 1.1rem;">7A4 COMMAND</div>
+            <div id="user-info" style="display: flex; align-items: center; gap: 15px;">
+                <span id="team-tag" style="font-weight: 900; background: var(--primary); color: #000; padding: 4px 12px; border-radius: 8px; font-size: 0.8rem;"></span>
+                <button onclick="galaxy.logout()" style="background:none; border:none; color:#555; font-weight:bold; cursor:pointer; font-family:'Montserrat';">THOÁT</button>
+                <button id="admin-btn" onclick="galaxy.toggleAdminPrompt()" style="background:none; border:none; color:#ddd; font-weight:700; cursor:pointer; font-family:'Montserrat';">Admin</button>
+            </div>
+        </header>
+
+        <div class="container animate-in">
+            <div class="rank-card">
+                <h2 style="margin-top: 0; font-size: 1.1rem; text-align: center; color: var(--primary); text-transform: uppercase; letter-spacing: 2px;">Điểm Số Chiến Đội</h2>
+                <div id="ranking-list"></div>
+                <div id="prev-winner" style="margin-top:12px; font-weight:800; text-align:center; color:#ddd;"></div>
+                <div class="reset-notice">
+                    ⏰ Hệ thống sẽ tự động reset điểm vào mỗi <strong>Chủ nhật 12:00</strong> (giờ địa phương).
+                </div>
+            </div>
+
+            <div class="update-card">
+                Bản cập nhật 1.1 — Sửa lỗi nhỏ, thêm nút <strong>BỎ QUA</strong> cho Tiếng Anh & Toán, chỉnh sửa bố cục câu hỏi, tối ưu đồng bộ điểm sever
+            </div>
+
+            <div class="tiktok-group">
+                <a href="https://www.tiktok.com/@7a4.tvl.2025.2026" target="_blank" class="tiktok-link">TikTok A4 1</a>
+                <a href="https://www.tiktok.com/@a4.tvl.2025.2026" target="_blank" class="tiktok-link">TikTok A4 2</a>
+            </div>
+
+            <div class="mission-grid">
+                <div class="mission-card" onclick="englishGame.start()">
+                    <span class="mission-icon">🇬🇧</span>
+                    <div class="mission-name">Tiếng Anh HK2</div>
+                    <div class="mission-desc">100+ câu hỏi Vocabulary, Adverbs, How structure, Ability...</div>
+                </div>
+
+                <div class="mission-card" onclick="mathGame.start()">
+                    <span class="mission-icon">📐</span>
+                    <div class="mission-name">Toán Học</div>
+                    <div class="mission-desc">Cộng trừ, nhân chia, tìm x, số mũ.</div>
+                </div>
+
+                <div class="mission-card locked">
+                    <span class="badge-soon">SẮP CÓ</span>
+                    <span class="mission-icon">🧪</span>
+                    <div class="mission-name">KHTN</div>
+                    <div class="mission-desc">Hệ thống câu hỏi ôn tập Khoa học tự nhiên.</div>
+                </div>
+            </div>
+
+            <footer>
+                *nếu web có lỗi gì hay các câu hỏi sai xin liên hệ admin tại 2 trang tik tok của lớp.
+            </footer>
+        </div>
     </div>
-  </div>
-</header>
 
-<main>
-  <div class="grid">
-
-    <!-- Left: Teams -->
-    <section class="card">
-      <div class="card-header">
-        <h2>📊 Bảng điểm tổ (Realtime)</h2>
-        <small id="sync-status">Đang kết nối…</small>
-      </div>
-
-      <div class="card-body">
-        <div class="teams">
-
-          <div class="team">
-            <h3>Tổ 1</h3>
-            <div class="score">
-              <span class="value" id="score_to1">0</span>
-              <span class="unit">điểm</span>
-            </div>
-            <div class="controls">
-              <button onclick="galaxy.adjust('to1', +1)">+1</button>
-              <button onclick="galaxy.adjust('to1', -1)">-1</button>
-              <button onclick="galaxy.adjust('to1', +5)">+5</button>
-              <button onclick="galaxy.adjust('to1', -5)">-5</button>
-            </div>
-          </div>
-
-          <div class="team">
-            <h3>Tổ 2</h3>
-            <div class="score">
-              <span class="value" id="score_to2">0</span>
-              <span class="unit">điểm</span>
-            </div>
-            <div class="controls">
-              <button onclick="galaxy.adjust('to2', +1)">+1</button>
-              <button onclick="galaxy.adjust('to2', -1)">-1</button>
-              <button onclick="galaxy.adjust('to2', +5)">+5</button>
-              <button onclick="galaxy.adjust('to2', -5)">-5</button>
-            </div>
-          </div>
-
-          <div class="team">
-            <h3>Tổ 3</h3>
-            <div class="score">
-              <span class="value" id="score_to3">0</span>
-              <span class="unit">điểm</span>
-            </div>
-            <div class="controls">
-              <button onclick="galaxy.adjust('to3', +1)">+1</button>
-              <button onclick="galaxy.adjust('to3', -1)">-1</button>
-              <button onclick="galaxy.adjust('to3', +5)">+5</button>
-              <button onclick="galaxy.adjust('to3', -5)">-5</button>
-            </div>
-          </div>
-
-          <div class="team">
-            <h3>Tổ 4</h3>
-            <div class="score">
-              <span class="value" id="score_to4">0</span>
-              <span class="unit">điểm</span>
-            </div>
-            <div class="controls">
-              <button onclick="galaxy.adjust('to4', +1)">+1</button>
-              <button onclick="galaxy.adjust('to4', -1)">-1</button>
-              <button onclick="galaxy.adjust('to4', +5)">+5</button>
-              <button onclick="galaxy.adjust('to4', -5)">-5</button>
-            </div>
-          </div>
-
+    <!-- ADMIN PANEL (hidden until login) -->
+    <div id="admin-panel">
+        <div style="font-size:0.95rem; margin-bottom:8px;">Admin Tools (đã đăng nhập)</div>
+        <div style="font-size:0.85rem; margin-bottom:6px;">Điều chỉnh điểm thủ công:</div>
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <button onclick="adminAdjust('to1',1)" class="btn-confirm small">T+1</button>
+            <button onclick="adminAdjust('to1',-1)" class="btn-confirm small">T-1</button>
         </div>
-      </div>
-    </section>
-
-    <!-- Right: Info -->
-    <aside class="mini">
-      <section class="card">
-        <div class="card-header">
-          <h2>⚡ Trạng thái</h2>
-          <small>Firebase Firestore</small>
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <button onclick="adminAdjust('to2',1)" class="btn-confirm small">T+1</button>
+            <button onclick="adminAdjust('to2',-1)" class="btn-confirm small">T-1</button>
         </div>
-        <div class="card-body">
-          <div class="list">
-            <div class="item">
-              <div>
-                <b>Admin mode</b><br>
-                <small id="admin-state">OFF</small>
-              </div>
-              <button onclick="galaxy.toggleAdminPrompt()">Mở</button>
-            </div>
-
-            <div class="item">
-              <div>
-                <b>Đồng bộ</b><br>
-                <small>Realtime</small>
-              </div>
-              <button onclick="galaxy.forceRefresh()">Refresh</button>
-            </div>
-
-            <div class="item">
-              <div>
-                <b>Reset</b><br>
-                <small>Về 0 (Admin)</small>
-              </div>
-              <button class="danger" onclick="galaxy.resetAll()">Reset</button>
-            </div>
-          </div>
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <button onclick="adminAdjust('to3',1)" class="btn-confirm small">T+1</button>
+            <button onclick="adminAdjust('to3',-1)" class="btn-confirm small">T-1</button>
         </div>
-      </section>
-    </aside>
+        <div style="display:flex; gap:6px; margin-bottom:8px;">
+            <button onclick="adminAdjust('to4',1)" class="btn-confirm small">T+1</button>
+            <button onclick="adminAdjust('to4',-1)" class="btn-confirm small">T-1</button>
+        </div>
+        <button onclick="galaxy.logoutAdmin()" style="background:#ff5a5a; color:#000; font-weight:900; border-radius:8px; padding:8px;">Đăng xuất Admin</button>
+    </div>
 
-  </div>
-</main>
+    <!-- GAME OVERLAY -->
+    <div id="game-overlay">
+        <div class="game-nav">
+            <div id="game-label" style="font-weight: 900; color: var(--primary); letter-spacing: 2px;">MISSION</div>
+            <button onclick="galaxy.closeGame()" style="background:none; border:none; color:#fff; font-size: 1.5rem; cursor:pointer;">✕</button>
+        </div>
+        <div id="game-content-area" class="game-content">
+            <div id="q-tag" class="q-tag">Kiến thức HK2</div>
+            <div id="q-text" class="q-text">Đang tải câu hỏi...</div>
+            <div id="q-action" style="width: 100%;"></div>
+            <div id="q-feedback" style="margin-top: 16px; font-weight: 800; text-align: center; height: 26px;"></div>
+        </div>
+    </div>
 
-<!-- Admin Panel -->
-<div id="admin-panel">
-  <h4>🔐 Admin Panel</h4>
-  <div class="row">
-    <button onclick="galaxy.resetAll()">Reset tất cả</button>
-    <button onclick="galaxy.toggleAdmin(false)">Tắt admin</button>
-  </div>
-</div>
-
-<!-- ===== Firebase + App Logic ===== -->
 <script type="module">
+  /***** Firebase setup *****/
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
   import {
-    getFirestore,
-    doc,
-    getDoc,
-    setDoc,
-    updateDoc,
-    onSnapshot
+    getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, collection, getDocs,
+    writeBatch, increment
   } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
-  // ===== Firebase config (của bạn) =====
   const firebaseConfig = {
     apiKey: "AIzaSyBtdoU4bzBVsXXvYswbUf0smAuYIq9rxlM",
     authDomain: "a4-galaxy-command.firebaseapp.com",
@@ -443,161 +361,431 @@
     measurementId: "G-678SMH2ND5"
   };
 
-  // Init Firebase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  const $ = (id) => document.getElementById(id);
+  const ADMIN_PASSWORD = "emyeudang"; // đổi nếu muốn
 
-  const state = {
-    admin: false,
-    adminPass: "7A4", // đổi mật khẩu admin tại đây
-    connected: false
+  const DOC_TO_TEAM = {
+    to1: { id: "Tổ 1", color: "#00f3ff" },
+    to2: { id: "Tổ 2", color: "#bc13fe" },
+    to3: { id: "Tổ 3", color: "#ff0055" },
+    to4: { id: "Tổ 4", color: "#00ff9d" }
   };
 
-  function setSyncStatus(text){
-    const el = $("sync-status");
-    if (el) el.textContent = text;
-  }
+  const TEAMS = [
+    { id: "Tổ 1", color: "#00f3ff" },
+    { id: "Tổ 2", color: "#bc13fe" },
+    { id: "Tổ 3", color: "#ff0055" },
+    { id: "Tổ 4", color: "#00ff9d" }
+  ];
 
-  function setAdminUI(){
-    $("admin-state").textContent = state.admin ? "ON" : "OFF";
-    $("admin-state").style.color = state.admin ? "var(--good)" : "var(--muted)";
-    $("admin-panel").style.display = state.admin ? "block" : "none";
-  }
+  let realtimeTeams = {};
+  let adminLogged = false;
 
-  async function ensureTeam(teamId, nameText){
-    const ref = doc(db, "teams", teamId);
-    const snap = await getDoc(ref);
-    if (!snap.exists()){
-      await setDoc(ref, {
-        name: nameText,
-        score: 0,
-        updatedAt: Date.now()
-      });
-    }
-  }
-
-  async function adjustScore(teamId, delta){
-    if (!state.admin){
-      alert("Bạn chưa bật Admin!");
-      return;
-    }
-    const ref = doc(db, "teams", teamId);
-    const snap = await getDoc(ref);
-
-    if (!snap.exists()){
-      await setDoc(ref, {
-        name: teamId,
-        score: 0,
-        updatedAt: Date.now()
-      });
-    }
-
-    const snap2 = await getDoc(ref);
-    const current = snap2.data()?.score ?? 0;
-    const newScore = current + delta;
-
-    await updateDoc(ref, {
-      score: newScore,
-      updatedAt: Date.now()
-    });
-  }
-
-  function listenTeam(teamId, elementId){
-    const ref = doc(db, "teams", teamId);
-    onSnapshot(ref, (snap) => {
-      if (!snap.exists()) return;
-      state.connected = true;
-      setSyncStatus("Đã kết nối ✓");
-
-      const score = snap.data()?.score ?? 0;
-      const el = $(elementId);
-      if (el) el.textContent = score;
-    }, (err)=>{
-      console.error(err);
-      setSyncStatus("Lỗi kết nối!");
-    });
-  }
-
-  async function resetAllScores(){
-    if (!state.admin){
-      alert("Chỉ Admin mới reset được!");
-      return;
-    }
-    if (!confirm("Reset tất cả điểm về 0?")) return;
-
-    const teams = ["to1","to2","to3","to4"];
-    for (const t of teams){
-      const ref = doc(db, "teams", t);
-      await updateDoc(ref, { score: 0, updatedAt: Date.now() });
-    }
-    alert("Đã reset điểm!");
-  }
-
-  // ===== Galaxy object (onclick sẽ gọi) =====
   const galaxy = {
-    logout(){
-      alert("Đã thoát (demo). Nếu bạn muốn, mình sẽ nối logout thật bằng Firebase Auth.");
-      // window.location.href = "index.html";
+    team: null,
+
+    init: async function() {
+      this.setupRealtimeListeners();
+      await this.checkWeeklyResetFirestore();
+
+      const saved = localStorage.getItem('7a4_member');
+      if (saved) {
+        this.team = saved;
+        this.showMain();
+      } else {
+        this.showSelector();
+      }
+
+      this.renderRank();
+
+      window.addEventListener('storage', (e) => {
+        if (!e.key) return;
+        if (e.key.startsWith('score_') || e.key === '7a4_last_reset' || e.key === '7a4_prev_winners') {
+          this.renderRank();
+        }
+      });
     },
 
-    forceRefresh(){
-      alert("Realtime tự cập nhật rồi 😄 Nếu muốn refresh cứng: F5");
+    selectTeam(name) {
+      this.team = name;
+      localStorage.setItem('7a4_member', name);
+      this.showMain();
     },
 
-    toggleAdminPrompt(){
-      if (state.admin){
-        galaxy.toggleAdmin(false);
+    showSelector() {
+      document.getElementById('selector-screen').style.display = 'flex';
+      document.getElementById('main-app').classList.add('hidden');
+      document.getElementById('main-app').style.display = 'none';
+    },
+
+    showMain() {
+      document.getElementById('selector-screen').style.display = 'none';
+      document.getElementById('main-app').classList.remove('hidden');
+      document.getElementById('main-app').style.display = 'block';
+      document.getElementById('team-tag').innerText = this.team;
+      const color = TEAMS.find(t => t.id === this.team).color;
+      document.getElementById('team-tag').style.background = color;
+      this.renderRank();
+    },
+
+    logout() {
+      localStorage.removeItem('7a4_member');
+      this.team = null;
+      this.showSelector();
+    },
+
+    teamToDocId(teamLabel) {
+      if (!teamLabel) return null;
+      const num = teamLabel.replace(/\D/g,'');
+      return 'to' + num;
+    },
+
+    async addPoints(p) {
+      if (!this.team) return;
+      const docId = this.teamToDocId(this.team);
+      if (!docId) return;
+
+      const ref = doc(db, "teams", docId);
+      try {
+        const s = await getDoc(ref);
+        if (!s.exists()) {
+          await setDoc(ref, {
+            name: DOC_TO_TEAM[docId].id,
+            score: 0,
+            updatedAt: Date.now()
+          });
+        }
+        await updateDoc(ref, {
+          score: increment(p),
+          updatedAt: Date.now()
+        });
+        this.toast(`+${p} ĐIỂM!`);
+      } catch (e) {
+        console.error("addPoints error:", e);
+        this.toast("Lỗi đồng bộ điểm");
+      }
+    },
+
+    async adminAdjustPoints(docId, delta) {
+      if (!adminLogged) {
+        this.toast("Cần đăng nhập Admin");
         return;
       }
-      const pass = prompt("Nhập mật khẩu Admin:");
-      if (pass === null) return;
-      if (pass.trim() === state.adminPass){
-        galaxy.toggleAdmin(true);
-      } else {
-        alert("Sai mật khẩu!");
+      const ref = doc(db, "teams", docId);
+      try {
+        const s = await getDoc(ref);
+        if (!s.exists()) {
+          await setDoc(ref, { name: DOC_TO_TEAM[docId].id, score: 0, updatedAt: Date.now() });
+        }
+        await updateDoc(ref, { score: increment(delta), updatedAt: Date.now() });
+        this.toast(`${delta>0? '+'+delta: delta} điểm (Admin)`);
+      } catch (e) {
+        console.error(e);
+        this.toast("Lỗi Admin update");
       }
     },
 
-    toggleAdmin(on){
-      state.admin = !!on;
-      setAdminUI();
+    toast(m) {
+      const t = document.getElementById('toast');
+      t.innerText = m;
+      t.style.opacity = '1';
+      t.style.top = '100px';
+      setTimeout(() => { t.style.opacity = '0'; t.style.top = '30px'; }, 1500);
     },
 
-    adjust(teamId, delta){
-      adjustScore(teamId, delta);
+    renderRank() {
+      const list = document.getElementById('ranking-list');
+
+      let data = [];
+      if (Object.keys(realtimeTeams).length) {
+        data = Object.keys(DOC_TO_TEAM).map(docId => ({
+          id: DOC_TO_TEAM[docId].id,
+          score: realtimeTeams[docId]?.score ?? 0,
+          color: DOC_TO_TEAM[docId].color
+        }));
+      } else {
+        data = TEAMS.map(t => ({
+          ...t,
+          score: parseInt(localStorage.getItem('score_' + t.id) || '0', 10)
+        }));
+      }
+
+      data = data.sort((a,b) => b.score - a.score);
+      const max = Math.max(...data.map(d => d.score), 10);
+
+      list.innerHTML = data.map(d => `
+        <div class="rank-item">
+          <div class="rank-label"><span style="color:${d.color}">${d.id}</span><span>${d.score} XP</span></div>
+          <div class="bar-outer"><div class="bar-inner" style="width:${(d.score/max)*100}%; background:${d.color}"></div></div>
+        </div>
+      `).join('');
+
+      this.renderPrevWinner();
     },
 
-    resetAll(){
-      resetAllScores();
+    async renderPrevWinner() {
+      const prevEl = document.getElementById('prev-winner');
+      try {
+        const metaRef = doc(db, "meta", "weekly");
+        const snap = await getDoc(metaRef);
+        if (snap.exists()) {
+          const data = snap.data();
+          if (data && Array.isArray(data.winners) && data.winners.length) {
+            if (data.winners.length === 1) {
+              prevEl.innerText = `🏆 Vô địch tuần trước: ${data.winners[0]} — ${data.maxScore} XP`;
+            } else {
+              prevEl.innerText = `🤝 Hòa tuần trước: ${data.winners.join(', ')} — ${data.maxScore} XP`;
+            }
+            return;
+          }
+        }
+      } catch(e) {
+        console.warn("renderPrevWinner error", e);
+      }
+      prevEl.innerText = '';
+    },
+
+    closeGame() {
+      document.getElementById('game-overlay').style.display = 'none';
+    },
+
+    applyTransition() {
+      const content = document.getElementById('game-content-area');
+      content.classList.remove('slide-in');
+      void content.offsetWidth; 
+      content.classList.add('slide-in');
+    },
+
+    toggleAdminPrompt() {
+      const ok = prompt("Nhập mật khẩu Admin:");
+      if (ok === null) return;
+      if (ok === ADMIN_PASSWORD) {
+        adminLogged = true;
+        document.getElementById('admin-panel').style.display = 'block';
+        this.toast("Đăng nhập Admin thành công");
+      } else {
+        alert("Mật khẩu sai");
+      }
+    },
+
+    logoutAdmin() {
+      adminLogged = false;
+      document.getElementById('admin-panel').style.display = 'none';
+      this.toast("Đã đăng xuất Admin");
+    },
+
+    async checkWeeklyResetFirestore() {
+      try {
+        const now = new Date();
+        const sundayThis = new Date(now);
+        const day = sundayThis.getDay();
+        sundayThis.setDate(now.getDate() - day);
+        sundayThis.setHours(12,0,0,0);
+
+        let scheduledReset;
+        if (now >= sundayThis) scheduledReset = sundayThis;
+        else scheduledReset = new Date(sundayThis.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+        const metaRef = doc(db, "meta", "weekly");
+        const metaSnap = await getDoc(metaRef);
+        const lastReset = metaSnap.exists() ? (metaSnap.data().lastReset || 0) : 0;
+
+        if (!lastReset || lastReset < scheduledReset.getTime()) {
+          const colSnap = await getDocs(collection(db, "teams"));
+          const prevScores = {};
+          colSnap.forEach(d => prevScores[d.id] = d.data().score || 0);
+
+          const arr = Object.entries(prevScores);
+          const maxScore = arr.length ? Math.max(...arr.map(a=>a[1])) : 0;
+          const winners = arr.filter(a=>a[1]===maxScore).map(a=> DOC_TO_TEAM[a[0]]?.id ?? a[0]);
+
+          const batch = writeBatch(db);
+          colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
+
+          batch.set(metaRef, {
+            lastReset: scheduledReset.getTime(),
+            prevScores,
+            winners,
+            maxScore,
+            updatedAt: Date.now()
+          }, { merge: true });
+
+          await batch.commit();
+        }
+      } catch (e) {
+        console.error("checkWeeklyResetFirestore error:", e);
+      }
+    },
+
+    setupRealtimeListeners() {
+      try {
+        onSnapshot(collection(db, "teams"), (snapshot) => {
+          const tmp = {};
+          snapshot.forEach(d => tmp[d.id] = d.data());
+          realtimeTeams = tmp;
+          this.renderRank();
+        });
+
+        onSnapshot(doc(db, "meta", "weekly"), () => {
+          this.renderPrevWinner();
+        });
+      } catch (e) {
+        console.error("setupRealtimeListeners error", e);
+      }
     }
   };
 
-  // ===== FULL FIX quan trọng: expose global =====
-  // (nếu không có dòng này thì onclick="galaxy...." sẽ không chạy)
+  function adminAdjust(docId, delta) {
+    galaxy.adminAdjustPoints(docId, delta);
+  }
+
+  const mathGame = {
+    ans: 0,
+    isProcessing: false,
+    start() {
+      document.getElementById('game-overlay').style.display = 'flex';
+      document.getElementById('game-label').innerText = "MATH MISSION";
+      this.generate();
+    },
+    generate() {
+      this.isProcessing = false;
+      galaxy.applyTransition();
+      const type = Math.floor(Math.random() * 4);
+      let q = "";
+      document.getElementById('q-feedback').innerText = "";
+      if (type === 0) {
+        const a = Math.floor(Math.random() * 100), b = Math.floor(Math.random() * 50);
+        this.ans = a + b; q = `${a} + ${b} = ?`;
+      } else if (type === 1) {
+        const a = Math.floor(Math.random() * 12) + 2, b = Math.floor(Math.random() * 11) + 2;
+        this.ans = a * b; q = `${a} × ${b} = ?`;
+      } else if (type === 2) {
+        const x = Math.floor(Math.random() * 30), a = Math.floor(Math.random() * 20);
+        this.ans = x; q = `Tìm x: x + ${a} = ${x + a}`;
+      } else {
+        const b = Math.floor(Math.random() * 5) + 2, p = Math.floor(Math.random() * 2) + 2;
+        this.ans = Math.pow(b, p); q = `${b}<sup>${p}</sup> = ?`;
+      }
+      document.getElementById('q-text').innerHTML = q;
+      document.getElementById('q-action').innerHTML = `
+        <input type="number" id="m-input" class="math-input" autofocus>
+        <div style="display:flex; gap:10px; margin-top:6px;">
+          <button id="btn-m-confirm" class="btn-confirm" onclick="mathGame.check()">XÁC NHẬN</button>
+          <button class="btn-confirm small" style="background:#555;" onclick="mathGame.skip()">BỎ QUA</button>
+        </div>
+      `;
+      const input = document.getElementById('m-input');
+      if (input) input.focus();
+    },
+    check() {
+      if (this.isProcessing) return;
+      this.isProcessing = true;
+      const btn = document.getElementById('btn-m-confirm');
+      if (btn) btn.disabled = true;
+
+      const val = parseInt(document.getElementById('m-input').value || '', 10);
+      if (val === this.ans) {
+        document.getElementById('q-feedback').innerText = "CHÍNH XÁC! +5 XP";
+        document.getElementById('q-feedback').style.color = "var(--success)";
+        galaxy.addPoints(5);
+        setTimeout(() => this.generate(), 800);
+      } else {
+        document.getElementById('q-feedback').innerText = "SAI RỒI!";
+        document.getElementById('q-feedback').style.color = "var(--accent)";
+        setTimeout(() => this.generate(), 1500);
+      }
+    },
+    skip() {
+      if (this.isProcessing) return;
+      this.isProcessing = true;
+      document.getElementById('q-feedback').innerText = "ĐÃ BỎ QUA";
+      document.getElementById('q-feedback').style.color = "#ddd";
+      setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
+    }
+  };
+
+  const ENGLISH_BANK = [
+    { q: "The little boy tried to ________ the wall to get the ball.", a: "climb up", o: ["lie on", "climb up", "sit on"], t: "Actions" },
+    { q: "Be careful! Don't ________ on the bed, you might break it.", a: "jump up", o: ["jump up", "stand in", "walk on"], t: "Actions" },
+    { q: "She likes to ________ the grass and look at the sky.", a: "lie on", o: ["climb up", "lie on", "jump up"], t: "Actions" },
+    { q: "Please ________ the line and wait for your turn.", a: "stand in", o: ["stand in", "walk on", "sit on"], t: "Actions" },
+    { q: "You should not ________ the fragile bridge.", a: "walk on", o: ["lie on", "walk on", "jump up"], t: "Actions" },
+    { q: "He decided to ________ the chair because he was tired.", a: "sit on", o: ["sit on", "climb up", "stand in"], t: "Actions" }
+  ];
+
+  const englishGame = {
+    curr: null,
+    lastIndex: -1,
+    isProcessing: false,
+    start() {
+      document.getElementById('game-overlay').style.display = 'flex';
+      document.getElementById('game-label').innerText = "ENGLISH COMMAND";
+      this.generate();
+    },
+    generate() {
+      this.isProcessing = false;
+      galaxy.applyTransition();
+      if (ENGLISH_BANK.length === 0) return;
+
+      let idx = Math.floor(Math.random() * ENGLISH_BANK.length);
+      let attempts = 0;
+      while (idx === this.lastIndex && attempts < 10) {
+        idx = Math.floor(Math.random() * ENGLISH_BANK.length);
+        attempts++;
+      }
+      this.lastIndex = idx;
+      this.curr = ENGLISH_BANK[idx];
+
+      document.getElementById('q-feedback').innerText = "";
+      document.getElementById('q-text').innerText = this.curr.q;
+      document.getElementById('q-tag').innerText = this.curr.t + " • HK2";
+
+      const shuffled = [...this.curr.o].sort(() => Math.random() - 0.5);
+      document.getElementById('q-action').innerHTML = `
+        <div class="option-list">
+          ${shuffled.map(o => `<button class="option-item" onclick="englishGame.check(this, '${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}
+        </div>
+        <div style="width:100%; display:flex; justify-content:center; margin-top:10px;">
+          <button class="btn-confirm small" style="background:#555;" onclick="englishGame.skip()">BỎ QUA</button>
+        </div>
+      `;
+    },
+    check(btn, choice) {
+      if (this.isProcessing) return;
+      this.isProcessing = true;
+
+      const allBtns = document.querySelectorAll('.option-item');
+      allBtns.forEach(b => b.disabled = true);
+
+      if (choice === this.curr.a) {
+        document.getElementById('q-feedback').innerText = "ĐÚNG RỒI! +10 XP";
+        document.getElementById('q-feedback').style.color = "var(--success)";
+        galaxy.addPoints(10);
+        setTimeout(() => this.generate(), 800);
+      } else {
+        document.getElementById('q-feedback').innerText = `SAI! ĐÁP ÁN: ${this.curr.a}`;
+        document.getElementById('q-feedback').style.color = "var(--accent)";
+        setTimeout(() => this.generate(), 2000);
+      }
+    },
+    skip() {
+      if (this.isProcessing) return;
+      this.isProcessing = true;
+      document.getElementById('q-feedback').innerText = "ĐÃ BỎ QUA";
+      document.getElementById('q-feedback').style.color = "#ddd";
+      setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
+    }
+  };
+
+  // ✅ FULL FIX: expose global so onclick="" works with type="module"
   window.galaxy = galaxy;
+  window.englishGame = englishGame;
+  window.mathGame = mathGame;
+  window.adminAdjust = adminAdjust;
 
-  // ===== Init =====
-  (async ()=>{
-    setSyncStatus("Đang kết nối…");
-    setAdminUI();
-
-    await ensureTeam("to1", "Tổ 1");
-    await ensureTeam("to2", "Tổ 2");
-    await ensureTeam("to3", "Tổ 3");
-    await ensureTeam("to4", "Tổ 4");
-
-    listenTeam("to1", "score_to1");
-    listenTeam("to2", "score_to2");
-    listenTeam("to3", "score_to3");
-    listenTeam("to4", "score_to4");
-
-    setTimeout(()=>{
-      if (!state.connected) setSyncStatus("Chưa có phản hồi…");
-    }, 2500);
-  })();
+  window.onload = () => galaxy.init();
 </script>
-
 </body>
 </html>
