@@ -185,9 +185,22 @@
         #admin-panel {
             position: fixed; right: 20px; top: 80px; background: rgba(0,0,0,0.6);
             border: 1px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 10px;
-            z-index: 1100; display:none; width: 220px; font-weight:700;
+            z-index: 1100; display:none; width: 240px; font-weight:700;
         }
         #admin-panel button { display:block; width:100%; margin:6px 0; }
+
+        /* NEW: admin input */
+        #admin-panel input{
+            width:100%;
+            padding:10px 12px;
+            border-radius:10px;
+            border:1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.06);
+            color:#fff;
+            font-weight:800;
+            outline:none;
+            margin-bottom:8px;
+        }
 
         @media (max-width: 600px) {
             .mission-grid { grid-template-columns: 1fr; }
@@ -309,7 +322,29 @@
     <!-- ADMIN PANEL (hidden until login) -->
     <div id="admin-panel">
         <div style="font-size:0.95rem; margin-bottom:8px;">Admin Tools (đã đăng nhập)</div>
+
+        <!-- NEW: input points -->
+        <div style="font-size:0.85rem; margin-bottom:6px;">Nhập điểm (+ hoặc -):</div>
+        <input id="admin-point-input" type="number" placeholder="Ví dụ: 10 hoặc -5" />
+
         <div style="font-size:0.85rem; margin-bottom:6px;">Điều chỉnh điểm thủ công:</div>
+
+        <!-- NEW: apply buttons -->
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <button onclick="adminApplyInput('to1')" class="btn-confirm small">ÁP DỤNG TỔ 1</button>
+        </div>
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <button onclick="adminApplyInput('to2')" class="btn-confirm small">ÁP DỤNG TỔ 2</button>
+        </div>
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <button onclick="adminApplyInput('to3')" class="btn-confirm small">ÁP DỤNG TỔ 3</button>
+        </div>
+        <div style="display:flex; gap:6px; margin-bottom:10px;">
+            <button onclick="adminApplyInput('to4')" class="btn-confirm small">ÁP DỤNG TỔ 4</button>
+        </div>
+
+        <!-- keep old +/-1 buttons (DO NOT REMOVE) -->
+        <div style="font-size:0.85rem; margin-bottom:6px;">Nút nhanh:</div>
         <div style="display:flex; gap:6px; margin-bottom:6px;">
             <button onclick="adminAdjust('to1',1)" class="btn-confirm small">T+1</button>
             <button onclick="adminAdjust('to1',-1)" class="btn-confirm small">T-1</button>
@@ -322,10 +357,15 @@
             <button onclick="adminAdjust('to3',1)" class="btn-confirm small">T+1</button>
             <button onclick="adminAdjust('to3',-1)" class="btn-confirm small">T-1</button>
         </div>
-        <div style="display:flex; gap:6px; margin-bottom:8px;">
+        <div style="display:flex; gap:6px; margin-bottom:10px;">
             <button onclick="adminAdjust('to4',1)" class="btn-confirm small">T+1</button>
             <button onclick="adminAdjust('to4',-1)" class="btn-confirm small">T-1</button>
         </div>
+
+        <!-- NEW: reset + undo -->
+        <button onclick="adminResetScores()" class="btn-confirm" style="background:#febd23;">RESET ĐIỂM (ALL)</button>
+        <button onclick="adminUndo()" class="btn-confirm" style="background:#888;">HOÀN TÁC HÀNH ĐỘNG</button>
+
         <button onclick="galaxy.logoutAdmin()" style="background:#ff5a5a; color:#000; font-weight:900; border-radius:8px; padding:8px;">Đăng xuất Admin</button>
     </div>
 
@@ -382,6 +422,9 @@
 
   let realtimeTeams = {};
   let adminLogged = false;
+
+  // NEW: admin undo storage
+  let adminLastAction = null;
 
   const galaxy = {
     team: null,
@@ -468,6 +511,17 @@
       }
     },
 
+    async ensureTeamsDocs() {
+      // NEW: ensure 4 team docs always exist (fix reset reliability)
+      for (const docId of Object.keys(DOC_TO_TEAM)) {
+        const ref = doc(db, "teams", docId);
+        const s = await getDoc(ref);
+        if (!s.exists()) {
+          await setDoc(ref, { name: DOC_TO_TEAM[docId].id, score: 0, updatedAt: Date.now() });
+        }
+      }
+    },
+
     async adminAdjustPoints(docId, delta) {
       if (!adminLogged) {
         this.toast("Cần đăng nhập Admin");
@@ -480,6 +534,10 @@
           await setDoc(ref, { name: DOC_TO_TEAM[docId].id, score: 0, updatedAt: Date.now() });
         }
         await updateDoc(ref, { score: increment(delta), updatedAt: Date.now() });
+
+        // NEW: save undo action
+        adminLastAction = { type: "adjust", docId, delta };
+
         this.toast(`${delta>0? '+'+delta: delta} điểm (Admin)`);
       } catch (e) {
         console.error(e);
@@ -576,23 +634,35 @@
       this.toast("Đã đăng xuất Admin");
     },
 
+    // ✅ FIX: weekly reset logic (reliable)
     async checkWeeklyResetFirestore() {
       try {
-        const now = new Date();
-        const sundayThis = new Date(now);
-        const day = sundayThis.getDay();
-        sundayThis.setDate(now.getDate() - day);
-        sundayThis.setHours(12,0,0,0);
+        await this.ensureTeamsDocs();
 
-        let scheduledReset;
-        if (now >= sundayThis) scheduledReset = sundayThis;
-        else scheduledReset = new Date(sundayThis.getTime() - 7 * 24 * 60 * 60 * 1000);
+        const now = new Date();
+
+        // Find the most recent Sunday 12:00 (local time) that has passed
+        const reset = new Date(now);
+        const day = reset.getDay(); // 0=Sun
+        reset.setDate(now.getDate() - day);
+        reset.setHours(12,0,0,0);
+
+        // If it's Sunday but before 12:00 -> use last week's Sunday 12:00
+        if (now.getDay() === 0 && now.getHours() < 12) {
+          reset.setDate(reset.getDate() - 7);
+        }
+        // If it's not Sunday and reset time is in future due to time shift -> ensure passed
+        if (reset.getTime() > now.getTime()) {
+          reset.setDate(reset.getDate() - 7);
+        }
+
+        const resetTime = reset.getTime();
 
         const metaRef = doc(db, "meta", "weekly");
         const metaSnap = await getDoc(metaRef);
         const lastReset = metaSnap.exists() ? (metaSnap.data().lastReset || 0) : 0;
 
-        if (!lastReset || lastReset < scheduledReset.getTime()) {
+        if (!lastReset || lastReset < resetTime) {
           const colSnap = await getDocs(collection(db, "teams"));
           const prevScores = {};
           colSnap.forEach(d => prevScores[d.id] = d.data().score || 0);
@@ -602,10 +672,13 @@
           const winners = arr.filter(a=>a[1]===maxScore).map(a=> DOC_TO_TEAM[a[0]]?.id ?? a[0]);
 
           const batch = writeBatch(db);
+
+          // reset all scores
           colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
 
+          // store weekly meta
           batch.set(metaRef, {
-            lastReset: scheduledReset.getTime(),
+            lastReset: resetTime,
             prevScores,
             winners,
             maxScore,
@@ -639,6 +712,87 @@
 
   function adminAdjust(docId, delta) {
     galaxy.adminAdjustPoints(docId, delta);
+  }
+
+  // NEW: apply input points
+  async function adminApplyInput(docId){
+    if (!adminLogged) {
+      galaxy.toast("Cần đăng nhập Admin");
+      return;
+    }
+    const input = document.getElementById("admin-point-input");
+    const val = parseInt((input?.value || "").trim(), 10);
+    if (!input || isNaN(val) || val === 0) {
+      galaxy.toast("Nhập số điểm hợp lệ (khác 0)");
+      return;
+    }
+    await galaxy.adminAdjustPoints(docId, val);
+    input.value = "";
+  }
+
+  // NEW: reset scores (admin)
+  async function adminResetScores(){
+    if (!adminLogged) {
+      galaxy.toast("Cần đăng nhập Admin");
+      return;
+    }
+    try{
+      await galaxy.ensureTeamsDocs();
+      const colSnap = await getDocs(collection(db, "teams"));
+      const before = {};
+      colSnap.forEach(d => before[d.id] = d.data().score || 0);
+
+      const batch = writeBatch(db);
+      colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
+      await batch.commit();
+
+      // save undo action
+      adminLastAction = { type: "reset", before };
+
+      galaxy.toast("Đã RESET điểm tất cả tổ");
+    }catch(e){
+      console.error(e);
+      galaxy.toast("Lỗi reset điểm");
+    }
+  }
+
+  // NEW: undo last admin action
+  async function adminUndo(){
+    if (!adminLogged) {
+      galaxy.toast("Cần đăng nhập Admin");
+      return;
+    }
+    if (!adminLastAction){
+      galaxy.toast("Không có hành động để hoàn tác");
+      return;
+    }
+
+    try{
+      if (adminLastAction.type === "adjust"){
+        const { docId, delta } = adminLastAction;
+        await galaxy.adminAdjustPoints(docId, -delta);
+        adminLastAction = null;
+        galaxy.toast("Đã hoàn tác điều chỉnh điểm");
+        return;
+      }
+
+      if (adminLastAction.type === "reset"){
+        const before = adminLastAction.before || {};
+        const batch = writeBatch(db);
+        for (const docId of Object.keys(DOC_TO_TEAM)){
+          const ref = doc(db, "teams", docId);
+          const score = before[docId] ?? 0;
+          batch.update(ref, { score, updatedAt: Date.now() });
+        }
+        await batch.commit();
+        adminLastAction = null;
+        galaxy.toast("Đã hoàn tác RESET");
+        return;
+      }
+    }catch(e){
+      console.error(e);
+      galaxy.toast("Lỗi hoàn tác");
+    }
   }
 
   const mathGame = {
@@ -798,7 +952,6 @@ const ENGLISH_BANK = [
   { q: "To ________ means to keep something in your mind.", a: "memorize", o: ["decide", "memorize", "arrive"], t: "Vocabulary" }
 ];
 
-
   const englishGame = {
     curr: null,
     lastIndex: -1,
@@ -869,8 +1022,12 @@ const ENGLISH_BANK = [
   window.mathGame = mathGame;
   window.adminAdjust = adminAdjust;
 
+  // NEW expose
+  window.adminApplyInput = adminApplyInput;
+  window.adminResetScores = adminResetScores;
+  window.adminUndo = adminUndo;
+
   window.onload = () => galaxy.init();
 </script>
 </body>
 </html>
-
