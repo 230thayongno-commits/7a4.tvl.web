@@ -181,6 +181,14 @@
             padding: 12px 14px; border-radius: 12px; color: #ddd; font-weight: 700; margin-bottom: 18px;
         }
 
+        /* admin panel */
+        #admin-panel {
+            position: fixed; right: 20px; top: 80px; background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 10px;
+            z-index: 1100; display:none; width: 220px; font-weight:700;
+        }
+        #admin-panel button { display:block; width:100%; margin:6px 0; }
+
         @media (max-width: 600px) {
             .mission-grid { grid-template-columns: 1fr; }
             .hero-title { font-size: 2.2rem; }
@@ -214,6 +222,7 @@
             <div id="user-info" style="display: flex; align-items: center; gap: 15px;">
                 <span id="team-tag" style="font-weight: 900; background: var(--primary); color: #000; padding: 4px 12px; border-radius: 8px; font-size: 0.8rem;"></span>
                 <button onclick="galaxy.logout()" style="background:none; border:none; color:#555; font-weight:bold; cursor:pointer; font-family:'Montserrat';">THOÁT</button>
+                <button id="admin-btn" onclick="galaxy.toggleAdminPrompt()" style="background:none; border:none; color:#ddd; font-weight:700; cursor:pointer; font-family:'Montserrat';">Admin</button>
             </div>
         </header>
 
@@ -263,6 +272,29 @@
         </div>
     </div>
 
+    <!-- ADMIN PANEL (hidden until login) -->
+    <div id="admin-panel">
+        <div style="font-size:0.95rem; margin-bottom:8px;">Admin Tools (đã đăng nhập)</div>
+        <div style="font-size:0.85rem; margin-bottom:6px;">Điều chỉnh điểm thủ công:</div>
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <button onclick="adminAdjust('to1',1)" class="btn-confirm small">T+1</button>
+            <button onclick="adminAdjust('to1',-1)" class="btn-confirm small">T-1</button>
+        </div>
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <button onclick="adminAdjust('to2',1)" class="btn-confirm small">T+1</button>
+            <button onclick="adminAdjust('to2',-1)" class="btn-confirm small">T-1</button>
+        </div>
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <button onclick="adminAdjust('to3',1)" class="btn-confirm small">T+1</button>
+            <button onclick="adminAdjust('to3',-1)" class="btn-confirm small">T-1</button>
+        </div>
+        <div style="display:flex; gap:6px; margin-bottom:8px;">
+            <button onclick="adminAdjust('to4',1)" class="btn-confirm small">T+1</button>
+            <button onclick="adminAdjust('to4',-1)" class="btn-confirm small">T-1</button>
+        </div>
+        <button onclick="galaxy.logoutAdmin()" style="background:#ff5a5a; color:#000; font-weight:900; border-radius:8px; padding:8px;">Đăng xuất Admin</button>
+    </div>
+
     <!-- GAME OVERLAY -->
     <div id="game-overlay">
         <div class="game-nav">
@@ -277,7 +309,41 @@
         </div>
     </div>
 
-<script>
+<script type="module">
+  /***** Firebase setup *****/
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+  import {
+    getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, collection, getDocs,
+    writeBatch, increment, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+
+  // YOUR firebaseConfig (Đã cung cấp trước)
+  const firebaseConfig = {
+    apiKey: "AIzaSyBtdoU4bzBVsXXvYswbUf0smAuYIq9rxlM",
+    authDomain: "a4-galaxy-command.firebaseapp.com",
+    projectId: "a4-galaxy-command",
+    storageBucket: "a4-galaxy-command.firebasestorage.app",
+    messagingSenderId: "147400399283",
+    appId: "1:147400399283:web:6d470d3e02a94e01f053c6",
+    measurementId: "G-678SMH2ND5"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // ADMIN password (client-side): thay đổi nếu cần
+  const ADMIN_PASSWORD = "admin123"; // <-- đổi mật khẩu này nếu muốn
+
+  // map doc ids to display names/colors (giữ giống TEAMS)
+  const DOC_TO_TEAM = {
+    to1: { id: "Tổ 1", color: "#00f3ff" },
+    to2: { id: "Tổ 2", color: "#bc13fe" },
+    to3: { id: "Tổ 3", color: "#ff0055" },
+    to4: { id: "Tổ 4", color: "#00ff9d" }
+  };
+
+  /***** END Firebase setup *****/
+
 const TEAMS = [
     { id: "Tổ 1", color: "#00f3ff" },
     { id: "Tổ 2", color: "#bc13fe" },
@@ -285,10 +351,18 @@ const TEAMS = [
     { id: "Tổ 4", color: "#00ff9d" }
 ];
 
+let realtimeTeams = {}; // will hold latest scores from Firestore
+let adminLogged = false;
+
 const galaxy = {
     team: null,
-    init() {
-        this.checkWeeklyReset();
+    init: async function() {
+        // start listening teams collection realtime
+        this.setupRealtimeListeners();
+
+        // perform weekly reset if needed (uses Firestore)
+        await this.checkWeeklyResetFirestore();
+
         const saved = localStorage.getItem('7a4_member');
         if (saved) {
             this.team = saved;
@@ -296,9 +370,10 @@ const galaxy = {
         } else {
             this.showSelector();
         }
+        // initial render (will use realtimeTeams when available)
         this.renderRank();
 
-        // Lắng nghe thay đổi localStorage từ tab khác để cập nhật bảng xếp hạng (cơ chế "online" trong cùng domain)
+        // keep old storage listener for compatibility (not primary)
         window.addEventListener('storage', (e) => {
             if (!e.key) return;
             if (e.key.startsWith('score_') || e.key === '7a4_last_reset' || e.key === '7a4_prev_winners') {
@@ -314,17 +389,12 @@ const galaxy = {
     showSelector() {
         document.getElementById('selector-screen').style.display = 'flex';
         document.getElementById('main-app').classList.add('hidden');
-
-        /* FIX CHUYỂN TRANG: đảm bảo main-app ẩn hẳn */
         document.getElementById('main-app').style.display = 'none';
     },
     showMain() {
         document.getElementById('selector-screen').style.display = 'none';
         document.getElementById('main-app').classList.remove('hidden');
-
-        /* FIX CHUYỂN TRANG: đảm bảo main-app hiện lại */
         document.getElementById('main-app').style.display = 'block';
-
         document.getElementById('team-tag').innerText = this.team;
         const color = TEAMS.find(t => t.id === this.team).color;
         document.getElementById('team-tag').style.background = color;
@@ -336,56 +406,57 @@ const galaxy = {
         this.showSelector();
     },
 
-    // Reset logic: vào mỗi Chủ nhật 12:00 (giờ local) -> trước khi reset lưu lại điểm tuần trước
-    checkWeeklyReset() {
-        const lastReset = parseInt(localStorage.getItem('7a4_last_reset') || '0', 10);
-        const now = new Date();
-
-        // Tìm Sunday 12:00 của tuần hiện tại
-        const sundayThis = new Date(now);
-        const day = sundayThis.getDay(); // 0=Sunday
-        sundayThis.setDate(now.getDate() - day); // về Chủ nhật tuần này
-        sundayThis.setHours(12,0,0,0);
-
-        // Nếu giờ hiện tại < sundayThis => scheduledReset là sundayThis - 7 ngày (đã xảy ra tuần trước)
-        let scheduledReset;
-        if (now >= sundayThis) {
-            scheduledReset = sundayThis;
-        } else {
-            scheduledReset = new Date(sundayThis.getTime() - 7 * 24 * 60 * 60 * 1000);
-        }
-
-        // Nếu lastReset < scheduledReset => thực hiện reset (bảo lưu điểm tuần trước)
-        if (!lastReset || lastReset < scheduledReset.getTime()) {
-            // Lưu điểm hiện tại làm điểm tuần trước
-            const prevScores = {};
-            TEAMS.forEach(t => {
-                prevScores[t.id] = parseInt(localStorage.getItem('score_' + t.id) || '0', 10);
-            });
-            localStorage.setItem('7a4_prev_scores', JSON.stringify(prevScores));
-
-            // Tính người chiến thắng/tie
-            const scoresArr = TEAMS.map(t => ({ id: t.id, score: prevScores[t.id] }));
-            const maxScore = Math.max(...scoresArr.map(s => s.score));
-            const winners = scoresArr.filter(s => s.score === maxScore).map(s => s.id);
-            localStorage.setItem('7a4_prev_winners', JSON.stringify({ winners, maxScore }));
-
-            // Reset điểm cho tuần mới
-            TEAMS.forEach(t => localStorage.setItem('score_' + t.id, 0));
-            localStorage.setItem('7a4_last_reset', String(scheduledReset.getTime()));
-        }
-    },
-
-    addPoints(p) {
-        // đảm bảo chỉ team đã chọn mới cộng
+    /***** Firestore-backed addPoints *****/
+    async addPoints(p) {
+        // called when player answers correct in game
         if (!this.team) return;
-        const current = parseInt(localStorage.getItem('score_' + this.team) || '0', 10);
-        localStorage.setItem('score_' + this.team, current + p);
-        // thêm một timestamp để kích hoạt storage event nếu cần
-        localStorage.setItem('7a4_scores_updated_at', Date.now());
-        this.renderRank();
-        this.toast(`+${p} ĐIỂM!`);
+        // map team label to doc id
+        const docId = this.teamToDocId(this.team);
+        if (!docId) return;
+
+        // Increment in Firestore
+        const ref = doc(db, "teams", docId);
+        try {
+            // ensure doc exists
+            const s = await getDoc(ref);
+            if (!s.exists()) {
+                await setDoc(ref, {
+                    name: DOC_TO_TEAM[docId].id,
+                    score: 0,
+                    updatedAt: Date.now()
+                });
+            }
+            await updateDoc(ref, {
+                score: increment(p),
+                updatedAt: Date.now()
+            });
+            this.toast(`+${p} ĐIỂM!`);
+        } catch (e) {
+            console.error("addPoints error:", e);
+            this.toast("Lỗi đồng bộ điểm");
+        }
     },
+
+    // Admin manual adjust requires adminLogged true
+    async adminAdjustPoints(docId, delta) {
+        if (!adminLogged) {
+            this.toast("Cần đăng nhập Admin");
+            return;
+        }
+        const ref = doc(db, "teams", docId);
+        try {
+            const s = await getDoc(ref);
+            if (!s.exists()) {
+                await setDoc(ref, { name: DOC_TO_TEAM[docId].id, score: 0, updatedAt: Date.now() });
+            }
+            await updateDoc(ref, { score: increment(delta), updatedAt: Date.now() });
+            this.toast(`${delta>0? '+'+delta: delta} điểm (Admin)`);
+        } catch (e) {
+            console.error(e);
+            this.toast("Lỗi Admin update");
+        }
+    },
+
     toast(m) {
         const t = document.getElementById('toast');
         t.innerText = m;
@@ -393,13 +464,30 @@ const galaxy = {
         t.style.top = '100px';
         setTimeout(() => { t.style.opacity = '0'; t.style.top = '30px'; }, 1500);
     },
+
+    // renderRank uses realtimeTeams if available, otherwise fallback to localStorage
     renderRank() {
         const list = document.getElementById('ranking-list');
-        const data = TEAMS.map(t => ({
-            ...t,
-            score: parseInt(localStorage.getItem('score_' + t.id) || '0', 10)
-        })).sort((a,b) => b.score - a.score);
+
+        // Build data array
+        let data = [];
+        if (Object.keys(realtimeTeams).length) {
+            data = Object.keys(DOC_TO_TEAM).map(docId => ({
+                id: DOC_TO_TEAM[docId].id,
+                score: realtimeTeams[docId]?.score ?? 0,
+                color: DOC_TO_TEAM[docId].color
+            }));
+        } else {
+            // fallback to localStorage (legacy)
+            data = TEAMS.map(t => ({
+                ...t,
+                score: parseInt(localStorage.getItem('score_' + t.id) || '0', 10)
+            }));
+        }
+
+        data = data.sort((a,b) => b.score - a.score);
         const max = Math.max(...data.map(d => d.score), 10);
+
         list.innerHTML = data.map(d => `
             <div class="rank-item">
                 <div class="rank-label"><span style="color:${d.color}">${d.id}</span><span>${d.score} XP</span></div>
@@ -407,37 +495,58 @@ const galaxy = {
             </div>
         `).join('');
 
-        // Hiển thị vô địch tuần trước (nếu có)
+        // show prev winner stored in Firestore meta if exists, else fallback to localStorage
+        this.renderPrevWinner();
+    },
+
+    async renderPrevWinner() {
+        const prevEl = document.getElementById('prev-winner');
+        try {
+            const metaRef = doc(db, "meta", "weekly");
+            const snap = await getDoc(metaRef);
+            if (snap.exists()) {
+                const data = snap.data();
+                if (data && Array.isArray(data.winners) && data.winners.length) {
+                    if (data.winners.length === 1) {
+                        prevEl.innerText = `🏆 Vô địch tuần trước: ${data.winners[0]} — ${data.maxScore} XP`;
+                    } else {
+                        prevEl.innerText = `🤝 Hòa tuần trước: ${data.winners.join(', ')} — ${data.maxScore} XP`;
+                    }
+                    return;
+                }
+            }
+        } catch(e) {
+            console.warn("renderPrevWinner error", e);
+        }
+
+        // fallback to localStorage
         const prev = localStorage.getItem('7a4_prev_winners');
         const prevScores = JSON.parse(localStorage.getItem('7a4_prev_scores') || '{}');
-        const prevEl = document.getElementById('prev-winner');
         if (prev) {
             try {
                 const obj = JSON.parse(prev);
                 if (obj && Array.isArray(obj.winners) && obj.winners.length) {
                     if (obj.winners.length === 1) {
-                        const winner = obj.winners[0];
-                        prevEl.innerText = `🏆 Vô địch tuần trước: ${winner} — ${obj.maxScore} XP`;
+                        prevEl.innerText = `🏆 Vô địch tuần trước: ${obj.winners[0]} — ${obj.maxScore} XP`;
                     } else {
                         prevEl.innerText = `🤝 Hòa tuần trước: ${obj.winners.join(', ')} — ${obj.maxScore} XP`;
                     }
-                } else {
-                    prevEl.innerText = '';
+                    return;
                 }
-            } catch(e) { prevEl.innerText = ''; }
+            } catch(e) {}
         } else if (Object.keys(prevScores).length) {
-            // fallback - nếu lưu prev_scores nhưng không có prev_winners
             const arr = Object.entries(prevScores);
             if (arr.length) {
                 const maxScore = Math.max(...arr.map(a=>a[1]));
                 const winners = arr.filter(a=>a[1]===maxScore).map(a=>a[0]);
                 if (winners.length === 1) prevEl.innerText = `🏆 Vô địch tuần trước: ${winners[0]} — ${maxScore} XP`;
                 else prevEl.innerText = `🤝 Hòa tuần trước: ${winners.join(', ')} — ${maxScore} XP`;
-            } else prevEl.innerText = '';
-        } else {
-            prevEl.innerText = '';
+                return;
+            }
         }
+        prevEl.innerText = '';
     },
+
     closeGame() {
         document.getElementById('game-overlay').style.display = 'none';
     },
@@ -446,8 +555,115 @@ const galaxy = {
         content.classList.remove('slide-in');
         void content.offsetWidth; 
         content.classList.add('slide-in');
+    },
+
+    teamToDocId(teamLabel) {
+        // convert "Tổ 1" -> to1
+        if (!teamLabel) return null;
+        const num = teamLabel.replace(/\D/g,'');
+        return 'to' + num;
+    },
+
+    // Admin helpers
+    toggleAdminPrompt() {
+        const ok = prompt("Nhập mật khẩu Admin:");
+        if (ok === null) return;
+        if (ok === ADMIN_PASSWORD) {
+            adminLogged = true;
+            document.getElementById('admin-panel').style.display = 'block';
+            this.toast("Đăng nhập Admin thành công");
+        } else {
+            alert("Mật khẩu sai");
+        }
+    },
+    logoutAdmin() {
+        adminLogged = false;
+        document.getElementById('admin-panel').style.display = 'none';
+        this.toast("Đã đăng xuất Admin");
+    },
+
+    /***** Weekly reset in Firestore *****/
+    async checkWeeklyResetFirestore() {
+        try {
+            // compute scheduledReset (Sunday 12:00 local) same logic as before
+            const now = new Date();
+            const sundayThis = new Date(now);
+            const day = sundayThis.getDay(); // 0=Sunday
+            sundayThis.setDate(now.getDate() - day);
+            sundayThis.setHours(12,0,0,0);
+
+            let scheduledReset;
+            if (now >= sundayThis) scheduledReset = sundayThis;
+            else scheduledReset = new Date(sundayThis.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+            const metaRef = doc(db, "meta", "weekly");
+            const metaSnap = await getDoc(metaRef);
+            const lastReset = metaSnap.exists() ? (metaSnap.data().lastReset || 0) : 0;
+
+            if (!lastReset || lastReset < scheduledReset.getTime()) {
+                // get current team scores
+                const colSnap = await getDocs(collection(db, "teams"));
+                const prevScores = {};
+                colSnap.forEach(d => {
+                    prevScores[d.id] = d.data().score || 0;
+                });
+
+                // compute winners
+                const arr = Object.entries(prevScores);
+                const maxScore = arr.length ? Math.max(...arr.map(a=>a[1])) : 0;
+                const winners = arr.filter(a=>a[1]===maxScore).map(a=> DOC_TO_TEAM[a[0]]?.id ?? a[0]);
+
+                // batch reset scores to 0
+                const batch = writeBatch(db);
+                colSnap.forEach(d => {
+                    const ref = doc(db, "teams", d.id);
+                    batch.update(ref, { score: 0, updatedAt: Date.now() });
+                });
+                // update meta doc: lastReset, prevScores, prevWinners
+                batch.set(metaRef, {
+                    lastReset: scheduledReset.getTime(),
+                    prevScores,
+                    winners,
+                    maxScore,
+                    updatedAt: Date.now()
+                }, { merge: true });
+
+                await batch.commit();
+            }
+        } catch (e) {
+            console.error("checkWeeklyResetFirestore error:", e);
+        }
+    },
+
+    /***** realtime listeners for teams collection *****/
+    setupRealtimeListeners() {
+        try {
+            const teamsCol = collection(db, "teams");
+            onSnapshot(teamsCol, (snapshot) => {
+                const tmp = {};
+                snapshot.forEach(d => {
+                    tmp[d.id] = d.data();
+                });
+                realtimeTeams = tmp;
+                this.renderRank();
+            });
+
+            // also listen meta/weekly to update prev winner realtime
+            const metaRef = doc(db, "meta", "weekly");
+            onSnapshot(metaRef, (snap) => {
+                this.renderPrevWinner();
+            });
+        } catch (e) {
+            console.error("setupRealtimeListeners error", e);
+        }
     }
 };
+
+function adminAdjust(docId, delta) {
+    galaxy.adminAdjustPoints(docId, delta);
+}
+
+/***** mathGame, englishGame remain as original but call galaxy.addPoints (which now syncs to Firestore) *****/
 
 const mathGame = {
     ans: 0,
@@ -497,6 +713,7 @@ const mathGame = {
         if (val === this.ans) {
             document.getElementById('q-feedback').innerText = "CHÍNH XÁC! +5 XP";
             document.getElementById('q-feedback').style.color = "var(--success)";
+            // award points to team (will sync to Firestore)
             galaxy.addPoints(5);
             setTimeout(() => this.generate(), 800);
         } else {
