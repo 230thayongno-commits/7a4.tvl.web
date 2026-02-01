@@ -215,7 +215,7 @@
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             padding: 15px 20px;
             background: rgba(255,255,255,0.03);
             border: 1px solid var(--glass-border);
@@ -249,6 +249,28 @@
             width: 100%;
             margin: 0 auto;
             position: relative;
+        }
+
+        /* Mini Scoreboard in Game */
+        .mini-rank-grid {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        .mini-rank-item {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #444;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
         }
 
         /* Make the question area look like a card */
@@ -324,6 +346,14 @@
                 max-height: 60vh; /* Shorter on mobile keyboard */
                 border-radius: 20px;
                 padding: 20px;
+            }
+            
+            .mini-rank-grid {
+                gap: 8px;
+            }
+            .mini-rank-item {
+                font-size: 0.75rem;
+                padding: 6px 10px;
             }
         }
     </style>
@@ -472,6 +502,9 @@
         </div>
         
         <div class="game-container-box">
+            <!-- NEW: Mini Scoreboard inside Game -->
+            <div id="mini-rank-list" class="mini-rank-grid"></div>
+
             <div class="question-card">
                 <div id="q-tag" class="q-tag">Kiến thức HK2</div>
                 <div id="game-content-area" style="width: 100%; display:flex; flex-direction:column; align-items:center;">
@@ -653,8 +686,7 @@
     },
 
     renderRank() {
-      const list = document.getElementById('ranking-list');
-
+      // 1. Prepare Data
       let data = [];
       if (Object.keys(realtimeTeams).length) {
         data = Object.keys(DOC_TO_TEAM).map(docId => ({
@@ -672,12 +704,27 @@
       data = data.sort((a,b) => b.score - a.score);
       const max = Math.max(...data.map(d => d.score), 10);
 
-      list.innerHTML = data.map(d => `
-        <div class="rank-item">
-          <div class="rank-label"><span style="color:${d.color}">${d.id}</span><span>${d.score} XP</span></div>
-          <div class="bar-outer"><div class="bar-inner" style="width:${(d.score/max)*100}%; background:${d.color}"></div></div>
-        </div>
-      `).join('');
+      // 2. Render Main Rank (Dashboard)
+      const list = document.getElementById('ranking-list');
+      if(list) {
+        list.innerHTML = data.map(d => `
+          <div class="rank-item">
+            <div class="rank-label"><span style="color:${d.color}">${d.id}</span><span>${d.score} XP</span></div>
+            <div class="bar-outer"><div class="bar-inner" style="width:${(d.score/max)*100}%; background:${d.color}"></div></div>
+          </div>
+        `).join('');
+      }
+
+      // 3. Render Mini Rank (In-Game Overlay)
+      const miniList = document.getElementById('mini-rank-list');
+      if (miniList) {
+        miniList.innerHTML = data.map(d => `
+          <div class="mini-rank-item" style="border-color:${d.color}">
+            <span style="color:${d.color}">${d.id}</span>
+            <span style="color:#fff">${d.score}</span>
+          </div>
+        `).join('');
+      }
 
       this.renderPrevWinner();
     },
@@ -894,6 +941,10 @@
     generate() {
       this.isProcessing = false;
       galaxy.applyTransition();
+      
+      // ✅ FIX: Update tag specifically for Math
+      document.getElementById('q-tag').innerText = "MATH • HK2";
+      
       const type = Math.floor(Math.random() * 4);
       let q = "";
       document.getElementById('q-feedback').innerText = "";
