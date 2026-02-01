@@ -88,7 +88,7 @@
 
         .rank-card {
             background: var(--card-bg); border-radius: 24px; padding: 25px;
-            margin-bottom: 30px; border: 1px solid var(--glass-border);
+            margin-bottom: 20px; border: 1px solid var(--glass-border);
             position: relative;
         }
 
@@ -145,13 +145,13 @@
         .game-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 600px; margin: 0 auto; width: 100%; }
         
         .q-tag { background: rgba(0, 243, 255, 0.1); color: var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; }
-        .q-text { font-size: clamp(1.1rem, 4vw, 1.7rem); font-weight: 800; text-align: center; margin-bottom: 25px; line-height: 1.3; }
+        .q-text { font-size: clamp(1.1rem, 4vw, 1.7rem); font-weight: 800; text-align: center; margin-bottom: 25px; line-height: 1.4; }
 
-        .option-list { display: grid; gap: 10px; width: 100%; }
+        .option-list { display: grid; gap: 14px; width: 100%; margin-bottom: 10px; }
         .option-item {
             background: var(--card-bg); border: 1px solid var(--glass-border);
-            padding: 15px 20px; border-radius: 12px; color: #fff;
-            text-align: left; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: 0.2s;
+            padding: 16px 20px; border-radius: 12px; color: #fff;
+            text-align: left; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: 0.2s;
         }
         .option-item:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); }
         .option-item:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -159,27 +159,34 @@
         .math-input {
             background: transparent; border: none; border-bottom: 4px solid var(--primary);
             color: #fff; font-size: 3.5rem; width: 100%; text-align: center;
-            font-weight: 900; outline: none; margin-bottom: 30px;
+            font-weight: 900; outline: none; margin-bottom: 20px;
         }
 
         .btn-confirm {
-            background: var(--primary); color: #000; width: 100%; padding: 20px;
-            border-radius: 16px; font-weight: 900; font-size: 1.1rem; margin-top: 20px; border: none; cursor: pointer;
+            background: var(--primary); color: #000; width: 100%; padding: 15px 20px;
+            border-radius: 12px; font-weight: 900; font-size: 1.0rem; margin-top: 10px; border: none; cursor: pointer;
         }
+        .btn-confirm.small { width: auto; padding: 10px 14px; font-size: 0.9rem; border-radius: 10px; }
         .btn-confirm:disabled { background: #555; cursor: not-allowed; }
 
         footer {
-            margin-top: 50px; padding: 30px; text-align: center;
+            margin-top: 30px; padding: 30px; text-align: center;
             border-top: 1px solid var(--glass-border); color: #555; font-size: 0.8rem;
         }
 
         .hidden { display: none !important; }
 
+        .update-card {
+            background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.06);
+            padding: 12px 14px; border-radius: 12px; color: #ddd; font-weight: 700; margin-bottom: 18px;
+        }
+
         @media (max-width: 600px) {
             .mission-grid { grid-template-columns: 1fr; }
             .hero-title { font-size: 2.2rem; }
             .q-text { font-size: 1.2rem; }
-            .option-item { padding: 12px 15px; font-size: 0.9rem; }
+            .option-item { padding: 12px 15px; font-size: 0.95rem; }
+            .math-input { font-size: 2.4rem; }
         }
     </style>
 </head>
@@ -214,14 +221,19 @@
             <div class="rank-card">
                 <h2 style="margin-top: 0; font-size: 1.1rem; text-align: center; color: var(--primary); text-transform: uppercase; letter-spacing: 2px;">Điểm Số Chiến Đội</h2>
                 <div id="ranking-list"></div>
+                <div id="prev-winner" style="margin-top:12px; font-weight:800; text-align:center; color:#ddd;"></div>
                 <div class="reset-notice">
-                    ⏰ Hệ thống sẽ tự động reset điểm vào mỗi tuần (giờ Việt Nam)
+                    ⏰ Hệ thống sẽ tự động reset điểm vào mỗi <strong>Chủ nhật 12:00</strong> (giờ địa phương).
                 </div>
+            </div>
+
+            <div class="update-card">
+                Bản cập nhật 1.1 — Sửa lỗi nhỏ, thêm nút <strong>BỎ QUA</strong> cho Tiếng Anh & Toán, chỉnh sửa bố cục câu hỏi, tối ưu đồng bộ điểm giữa tab.
             </div>
 
             <div class="tiktok-group">
                 <a href="https://www.tiktok.com/@7a4.tvl.2025.2026" target="_blank" class="tiktok-link">TikTok A4 1</a>
-                <a href="https://www.tiktok.com/@7a4.tvl.2025.2026" target="_blank" class="tiktok-link">TikTok A4 2</a>
+                <a href="https://www.tiktok.com/@a4.tvl.2025.2026" target="_blank" class="tiktok-link">TikTok A4 2</a>
             </div>
 
             <div class="mission-grid">
@@ -261,7 +273,7 @@
             <div id="q-tag" class="q-tag">Kiến thức HK2</div>
             <div id="q-text" class="q-text">Đang tải câu hỏi...</div>
             <div id="q-action" style="width: 100%;"></div>
-            <div id="q-feedback" style="margin-top: 20px; font-weight: 800; text-align: center; height: 24px;"></div>
+            <div id="q-feedback" style="margin-top: 16px; font-weight: 800; text-align: center; height: 26px;"></div>
         </div>
     </div>
 
@@ -285,6 +297,14 @@ const galaxy = {
             this.showSelector();
         }
         this.renderRank();
+
+        // Lắng nghe thay đổi localStorage từ tab khác để cập nhật bảng xếp hạng (cơ chế "online" trong cùng domain)
+        window.addEventListener('storage', (e) => {
+            if (!e.key) return;
+            if (e.key.startsWith('score_') || e.key === '7a4_last_reset' || e.key === '7a4_prev_winners') {
+                this.renderRank();
+            }
+        });
     },
     selectTeam(name) {
         this.team = name;
@@ -315,17 +335,54 @@ const galaxy = {
         this.team = null;
         this.showSelector();
     },
+
+    // Reset logic: vào mỗi Chủ nhật 12:00 (giờ local) -> trước khi reset lưu lại điểm tuần trước
     checkWeeklyReset() {
-        const last = localStorage.getItem('7a4_last_reset');
-        const now = Date.now();
-        if (!last || (now - parseInt(last) > 7 * 24 * 60 * 60 * 1000)) {
+        const lastReset = parseInt(localStorage.getItem('7a4_last_reset') || '0', 10);
+        const now = new Date();
+
+        // Tìm Sunday 12:00 của tuần hiện tại
+        const sundayThis = new Date(now);
+        const day = sundayThis.getDay(); // 0=Sunday
+        sundayThis.setDate(now.getDate() - day); // về Chủ nhật tuần này
+        sundayThis.setHours(12,0,0,0);
+
+        // Nếu giờ hiện tại < sundayThis => scheduledReset là sundayThis - 7 ngày (đã xảy ra tuần trước)
+        let scheduledReset;
+        if (now >= sundayThis) {
+            scheduledReset = sundayThis;
+        } else {
+            scheduledReset = new Date(sundayThis.getTime() - 7 * 24 * 60 * 60 * 1000);
+        }
+
+        // Nếu lastReset < scheduledReset => thực hiện reset (bảo lưu điểm tuần trước)
+        if (!lastReset || lastReset < scheduledReset.getTime()) {
+            // Lưu điểm hiện tại làm điểm tuần trước
+            const prevScores = {};
+            TEAMS.forEach(t => {
+                prevScores[t.id] = parseInt(localStorage.getItem('score_' + t.id) || '0', 10);
+            });
+            localStorage.setItem('7a4_prev_scores', JSON.stringify(prevScores));
+
+            // Tính người chiến thắng/tie
+            const scoresArr = TEAMS.map(t => ({ id: t.id, score: prevScores[t.id] }));
+            const maxScore = Math.max(...scoresArr.map(s => s.score));
+            const winners = scoresArr.filter(s => s.score === maxScore).map(s => s.id);
+            localStorage.setItem('7a4_prev_winners', JSON.stringify({ winners, maxScore }));
+
+            // Reset điểm cho tuần mới
             TEAMS.forEach(t => localStorage.setItem('score_' + t.id, 0));
-            localStorage.setItem('7a4_last_reset', now);
+            localStorage.setItem('7a4_last_reset', String(scheduledReset.getTime()));
         }
     },
+
     addPoints(p) {
-        const current = parseInt(localStorage.getItem('score_' + this.team) || 0);
+        // đảm bảo chỉ team đã chọn mới cộng
+        if (!this.team) return;
+        const current = parseInt(localStorage.getItem('score_' + this.team) || '0', 10);
         localStorage.setItem('score_' + this.team, current + p);
+        // thêm một timestamp để kích hoạt storage event nếu cần
+        localStorage.setItem('7a4_scores_updated_at', Date.now());
         this.renderRank();
         this.toast(`+${p} ĐIỂM!`);
     },
@@ -340,7 +397,7 @@ const galaxy = {
         const list = document.getElementById('ranking-list');
         const data = TEAMS.map(t => ({
             ...t,
-            score: parseInt(localStorage.getItem('score_' + t.id) || 0)
+            score: parseInt(localStorage.getItem('score_' + t.id) || '0', 10)
         })).sort((a,b) => b.score - a.score);
         const max = Math.max(...data.map(d => d.score), 10);
         list.innerHTML = data.map(d => `
@@ -349,6 +406,37 @@ const galaxy = {
                 <div class="bar-outer"><div class="bar-inner" style="width:${(d.score/max)*100}%; background:${d.color}"></div></div>
             </div>
         `).join('');
+
+        // Hiển thị vô địch tuần trước (nếu có)
+        const prev = localStorage.getItem('7a4_prev_winners');
+        const prevScores = JSON.parse(localStorage.getItem('7a4_prev_scores') || '{}');
+        const prevEl = document.getElementById('prev-winner');
+        if (prev) {
+            try {
+                const obj = JSON.parse(prev);
+                if (obj && Array.isArray(obj.winners) && obj.winners.length) {
+                    if (obj.winners.length === 1) {
+                        const winner = obj.winners[0];
+                        prevEl.innerText = `🏆 Vô địch tuần trước: ${winner} — ${obj.maxScore} XP`;
+                    } else {
+                        prevEl.innerText = `🤝 Hòa tuần trước: ${obj.winners.join(', ')} — ${obj.maxScore} XP`;
+                    }
+                } else {
+                    prevEl.innerText = '';
+                }
+            } catch(e) { prevEl.innerText = ''; }
+        } else if (Object.keys(prevScores).length) {
+            // fallback - nếu lưu prev_scores nhưng không có prev_winners
+            const arr = Object.entries(prevScores);
+            if (arr.length) {
+                const maxScore = Math.max(...arr.map(a=>a[1]));
+                const winners = arr.filter(a=>a[1]===maxScore).map(a=>a[0]);
+                if (winners.length === 1) prevEl.innerText = `🏆 Vô địch tuần trước: ${winners[0]} — ${maxScore} XP`;
+                else prevEl.innerText = `🤝 Hòa tuần trước: ${winners.join(', ')} — ${maxScore} XP`;
+            } else prevEl.innerText = '';
+        } else {
+            prevEl.innerText = '';
+        }
     },
     closeGame() {
         document.getElementById('game-overlay').style.display = 'none';
@@ -389,16 +477,25 @@ const mathGame = {
             this.ans = Math.pow(b, p); q = `${b}<sup>${p}</sup> = ?`;
         }
         document.getElementById('q-text').innerHTML = q;
-        document.getElementById('q-action').innerHTML = `<input type="number" id="m-input" class="math-input" autofocus><button id="btn-m-confirm" class="btn-confirm" onclick="mathGame.check()">XÁC NHẬN</button>`;
-        document.getElementById('m-input').focus();
+        document.getElementById('q-action').innerHTML = `
+            <input type="number" id="m-input" class="math-input" autofocus>
+            <div style="display:flex; gap:10px; margin-top:6px;">
+                <button id="btn-m-confirm" class="btn-confirm" onclick="mathGame.check()">XÁC NHẬN</button>
+                <button class="btn-confirm small" style="background:#555;" onclick="mathGame.skip()">BỎ QUA</button>
+            </div>
+        `;
+        const input = document.getElementById('m-input');
+        if (input) input.focus();
     },
     check() {
         if (this.isProcessing) return;
         this.isProcessing = true;
-        document.getElementById('btn-m-confirm').disabled = true;
+        const btn = document.getElementById('btn-m-confirm');
+        if (btn) btn.disabled = true;
 
-        if (parseInt(document.getElementById('m-input').value) === this.ans) {
-            document.getElementById('q-feedback').innerText = "CHÍNH XÁC!";
+        const val = parseInt(document.getElementById('m-input').value || '', 10);
+        if (val === this.ans) {
+            document.getElementById('q-feedback').innerText = "CHÍNH XÁC! +5 XP";
             document.getElementById('q-feedback').style.color = "var(--success)";
             galaxy.addPoints(5);
             setTimeout(() => this.generate(), 800);
@@ -407,6 +504,13 @@ const mathGame = {
             document.getElementById('q-feedback').style.color = "var(--accent)";
             setTimeout(() => this.generate(), 1500);
         }
+    },
+    skip() {
+        if (this.isProcessing) return;
+        this.isProcessing = true;
+        document.getElementById('q-feedback').innerText = "ĐÃ BỎ QUA";
+        document.getElementById('q-feedback').style.color = "#ddd";
+        setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
     }
 };
 
@@ -505,6 +609,7 @@ const ENGLISH_BANK = [
 
 const englishGame = {
     curr: null,
+    lastIndex: -1,
     isProcessing: false, // Ngăn chọn nhiều lần
     start() {
         document.getElementById('game-overlay').style.display = 'flex';
@@ -514,14 +619,28 @@ const englishGame = {
     generate() {
         this.isProcessing = false;
         galaxy.applyTransition();
-        this.curr = ENGLISH_BANK[Math.floor(Math.random() * ENGLISH_BANK.length)];
+        // ngăn lặp 2 câu liên tiếp: chọn index khác lastIndex
+        if (ENGLISH_BANK.length === 0) return;
+        let idx = Math.floor(Math.random() * ENGLISH_BANK.length);
+        let attempts = 0;
+        while (idx === this.lastIndex && attempts < 10) {
+            idx = Math.floor(Math.random() * ENGLISH_BANK.length);
+            attempts++;
+        }
+        this.lastIndex = idx;
+        this.curr = ENGLISH_BANK[idx];
         document.getElementById('q-feedback').innerText = "";
+        // Hiển thị câu hỏi và tag
         document.getElementById('q-text').innerText = this.curr.q;
         document.getElementById('q-tag').innerText = this.curr.t + " • HK2";
+        // shuffle options
         const shuffled = [...this.curr.o].sort(() => Math.random() - 0.5);
         document.getElementById('q-action').innerHTML = `
             <div class="option-list">
-                ${shuffled.map(o => `<button class="option-item" onclick="englishGame.check(this, '${o}')">${o}</button>`).join('')}
+                ${shuffled.map(o => `<button class="option-item" onclick="englishGame.check(this, '${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}
+            </div>
+            <div style="width:100%; display:flex; justify-content:center; margin-top:10px;">
+                <button class="btn-confirm small" style="background:#555;" onclick="englishGame.skip()">BỎ QUA</button>
             </div>
         `;
     },
@@ -543,6 +662,13 @@ const englishGame = {
             document.getElementById('q-feedback').style.color = "var(--accent)";
             setTimeout(() => this.generate(), 2000);
         }
+    },
+    skip() {
+        if (this.isProcessing) return;
+        this.isProcessing = true;
+        document.getElementById('q-feedback').innerText = "ĐÃ BỎ QUA";
+        document.getElementById('q-feedback').style.color = "#ddd";
+        setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
     }
 }
 
