@@ -135,39 +135,163 @@
             font-weight: 900; transform: rotate(45deg);
         }
 
-        /* Overlay Game */
-        #game-overlay {
-            position: fixed; inset: 0; background: var(--dark-bg);
-            z-index: 1000; display: none; flex-direction: column; padding: 20px;
+        /* Update Card */
+        .update-card {
+            background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.06);
+            padding: 12px 14px; border-radius: 12px; color: #ddd; font-weight: 700; margin-bottom: 18px;
         }
 
-        .game-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .game-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 600px; margin: 0 auto; width: 100%; }
+        /* =========================================
+           UPDATED: ADMIN PANEL CSS (Optimized)
+           ========================================= */
+        #admin-panel {
+            position: fixed; 
+            right: 20px; 
+            top: 80px; 
+            background: rgba(3, 7, 18, 0.95); /* Darker opacity */
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border); 
+            padding: 15px; 
+            border-radius: 16px;
+            z-index: 1100; 
+            display: none; 
+            width: 300px; /* Slightly wider for grid */
+            font-weight: 700;
+            max-height: 75vh; /* Limit height */
+            overflow-y: auto; /* Enable scroll */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+
+        /* Custom Scrollbar for Admin Panel */
+        #admin-panel::-webkit-scrollbar { width: 6px; }
+        #admin-panel::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+        #admin-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
+        #admin-panel::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        #admin-panel input {
+            width: 100%;
+            padding: 12px 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+            font-weight: 800;
+            outline: none;
+            margin-bottom: 12px;
+        }
+        #admin-panel input:focus { border-color: var(--primary); }
+
+        /* Admin Grid Layout to save space */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 2 columns */
+            gap: 8px;
+            margin-bottom: 8px;
+        }
         
-        .q-tag { background: rgba(0, 243, 255, 0.1); color: var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; }
-        .q-text { font-size: clamp(1.1rem, 4vw, 1.7rem); font-weight: 800; text-align: center; margin-bottom: 25px; line-height: 1.4; }
+        .admin-section-title {
+            font-size: 0.8rem; 
+            color: #888; 
+            margin-bottom: 8px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 4px;
+            margin-top: 10px;
+        }
+
+        /* =========================================
+           UPDATED: GAME OVERLAY CSS (Designed)
+           ========================================= */
+        #game-overlay {
+            position: fixed; inset: 0; 
+            background: rgba(3, 7, 18, 0.98); /* Solid dark background */
+            z-index: 1000; display: none; 
+            flex-direction: column; 
+            padding: 20px;
+        }
+
+        .game-header {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 30px;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+        }
+
+        .btn-exit {
+            background: rgba(255, 50, 50, 0.1);
+            border: 1px solid rgba(255, 50, 50, 0.3);
+            color: #ff5a5a;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-exit:hover { background: #ff5a5a; color: #000; }
+
+        .game-container-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Make the question area look like a card */
+        .question-card {
+            width: 100%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.03) 0%, transparent 70%);
+            padding: 20px;
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .q-tag { background: rgba(0, 243, 255, 0.1); color: var(--primary); padding: 6px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; margin-bottom: 20px; text-transform: uppercase; border: 1px solid rgba(0, 243, 255, 0.2); }
+        .q-text { font-size: clamp(1.3rem, 4vw, 2rem); font-weight: 800; text-align: center; margin-bottom: 30px; line-height: 1.4; text-shadow: 0 0 20px rgba(0,0,0,0.5); }
 
         .option-list { display: grid; gap: 14px; width: 100%; margin-bottom: 10px; }
         .option-item {
             background: var(--card-bg); border: 1px solid var(--glass-border);
-            padding: 16px 20px; border-radius: 12px; color: #fff;
-            text-align: left; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: 0.2s;
+            padding: 18px 20px; border-radius: 16px; color: #fff;
+            text-align: left; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; justify-content: space-between;
         }
-        .option-item:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); }
-        .option-item:disabled { opacity: 0.6; cursor: not-allowed; }
+        .option-item:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); transform: translateX(5px); }
+        .option-item:active { transform: scale(0.98); }
+        .option-item:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
         .math-input {
             background: transparent; border: none; border-bottom: 4px solid var(--primary);
             color: #fff; font-size: 3.5rem; width: 100%; text-align: center;
-            font-weight: 900; outline: none; margin-bottom: 20px;
+            font-weight: 900; outline: none; margin-bottom: 30px;
+            padding-bottom: 10px;
         }
 
         .btn-confirm {
-            background: var(--primary); color: #000; width: 100%; padding: 15px 20px;
-            border-radius: 12px; font-weight: 900; font-size: 1.0rem; margin-top: 10px; border: none; cursor: pointer;
+            background: var(--primary); color: #000; width: 100%; padding: 16px 20px;
+            border-radius: 14px; font-weight: 900; font-size: 1.0rem; margin-top: 10px; border: none; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+            transition: 0.3s;
         }
-        .btn-confirm.small { width: auto; padding: 10px 14px; font-size: 0.9rem; border-radius: 10px; }
-        .btn-confirm:disabled { background: #555; cursor: not-allowed; }
+        .btn-confirm:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 243, 255, 0.5); }
+        .btn-confirm.small { width: auto; padding: 12px 18px; font-size: 0.9rem; border-radius: 12px; box-shadow: none; }
+        .btn-confirm:disabled { background: #555; cursor: not-allowed; box-shadow: none; transform: none; }
 
         footer {
             margin-top: 30px; padding: 30px; text-align: center;
@@ -176,71 +300,30 @@
 
         .hidden { display: none !important; }
 
-        .update-card {
-            background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.06);
-            padding: 12px 14px; border-radius: 12px; color: #ddd; font-weight: 700; margin-bottom: 18px;
-        }
-
-        /* admin panel */
-        #admin-panel {
-            position: fixed; right: 20px; top: 80px; background: rgba(0,0,0,0.6);
-            border: 1px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 10px;
-            z-index: 1100; display:none; width: 240px; font-weight:700;
-        }
-        #admin-panel button { display:block; width:100%; margin:6px 0; }
-
-        /* NEW: admin input */
-        #admin-panel input{
-            width:100%;
-            padding:10px 12px;
-            border-radius:10px;
-            border:1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.06);
-            color:#fff;
-            font-weight:800;
-            outline:none;
-            margin-bottom:8px;
-        }
-
+        /* Admin Mobile Optimization */
         @media (max-width: 600px) {
             .mission-grid { grid-template-columns: 1fr; }
             .hero-title { font-size: 2.2rem; }
             .q-text { font-size: 1.2rem; }
-            .option-item { padding: 12px 15px; font-size: 0.95rem; }
+            .option-item { padding: 14px 15px; font-size: 0.95rem; }
             .math-input { font-size: 2.4rem; }
 
-            /* ✅ FULL FIX: admin panel mobile */
-            header{
-                padding: 14px;
-            }
-            #user-info{
-                gap: 10px !important;
-            }
-            #admin-btn{
-                padding: 8px 10px;
-                border-radius: 10px;
-                background: rgba(255,255,255,0.06);
-            }
-            header button{
-                padding: 8px 10px;
-                border-radius: 10px;
-            }
+            header{ padding: 14px; }
+            #user-info{ gap: 10px !important; }
+            #admin-btn{ padding: 8px 10px; border-radius: 10px; background: rgba(255,255,255,0.06); }
+            header button{ padding: 8px 10px; border-radius: 10px; }
+            
             #admin-panel{
                 left: 50%;
                 right: auto;
                 top: auto;
-                bottom: 18px;
+                bottom: 20px;
                 transform: translateX(-50%);
-                width: calc(100% - 36px);
+                width: 95%; /* Wider on mobile */
                 max-width: 420px;
-                border-radius: 18px;
-                padding: 14px;
-                background: rgba(0,0,0,0.85);
-                backdrop-filter: blur(12px);
-            }
-            #admin-panel button{
-                padding: 12px 12px;
-                font-size: 1rem;
+                max-height: 60vh; /* Shorter on mobile keyboard */
+                border-radius: 20px;
+                padding: 20px;
             }
         }
     </style>
@@ -284,7 +367,7 @@
             </div>
 
             <div class="update-card">
-                Bản cập nhật 1.1 — Sửa lỗi nhỏ, thêm nút <strong>BỎ QUA</strong> cho Tiếng Anh & Toán, chỉnh sửa bố cục câu hỏi, tối ưu đồng bộ điểm sever
+                Bản cập nhật 1.2 — <strong>Tối ưu Admin Panel</strong>, giao diện Game mới hiện đại hơn.
             </div>
 
             <div class="tiktok-group">
@@ -319,67 +402,84 @@
         </div>
     </div>
 
-    <!-- ADMIN PANEL (hidden until login) -->
+    <!-- ADMIN PANEL (Optimized Layout) -->
     <div id="admin-panel">
-        <div style="font-size:0.95rem; margin-bottom:8px;">Admin Tools (đã đăng nhập)</div>
+        <div style="font-size:1.1rem; margin-bottom:15px; text-align:center; color:var(--primary); text-transform:uppercase;">Admin Tools</div>
 
-        <!-- NEW: input points -->
-        <div style="font-size:0.85rem; margin-bottom:6px;">Nhập điểm (+ hoặc -):</div>
+        <!-- Input Section -->
+        <div class="admin-section-title">Nhập điểm (+/-)</div>
         <input id="admin-point-input" type="number" placeholder="Ví dụ: 10 hoặc -5" />
 
-        <div style="font-size:0.85rem; margin-bottom:6px;">Điều chỉnh điểm thủ công:</div>
-
-        <!-- NEW: apply buttons -->
-        <div style="display:flex; gap:6px; margin-bottom:6px;">
-            <button onclick="adminApplyInput('to1')" class="btn-confirm small">ÁP DỤNG TỔ 1</button>
-        </div>
-        <div style="display:flex; gap:6px; margin-bottom:6px;">
-            <button onclick="adminApplyInput('to2')" class="btn-confirm small">ÁP DỤNG TỔ 2</button>
-        </div>
-        <div style="display:flex; gap:6px; margin-bottom:6px;">
-            <button onclick="adminApplyInput('to3')" class="btn-confirm small">ÁP DỤNG TỔ 3</button>
-        </div>
-        <div style="display:flex; gap:6px; margin-bottom:10px;">
-            <button onclick="adminApplyInput('to4')" class="btn-confirm small">ÁP DỤNG TỔ 4</button>
+        <!-- Apply Buttons (Grid 2x2) -->
+        <div class="admin-section-title">Áp dụng cho</div>
+        <div class="admin-grid">
+            <button onclick="adminApplyInput('to1')" class="btn-confirm small" style="background: rgba(0, 243, 255, 0.2); border:1px solid var(--primary); color:var(--primary);">Tổ 1</button>
+            <button onclick="adminApplyInput('to2')" class="btn-confirm small" style="background: rgba(188, 19, 254, 0.2); border:1px solid var(--secondary); color:var(--secondary);">Tổ 2</button>
+            <button onclick="adminApplyInput('to3')" class="btn-confirm small" style="background: rgba(255, 0, 85, 0.2); border:1px solid var(--accent); color:var(--accent);">Tổ 3</button>
+            <button onclick="adminApplyInput('to4')" class="btn-confirm small" style="background: rgba(0, 255, 157, 0.2); border:1px solid var(--success); color:var(--success);">Tổ 4</button>
         </div>
 
-        <!-- keep old +/-1 buttons (DO NOT REMOVE) -->
-        <div style="font-size:0.85rem; margin-bottom:6px;">Nút nhanh:</div>
-        <div style="display:flex; gap:6px; margin-bottom:6px;">
-            <button onclick="adminAdjust('to1',1)" class="btn-confirm small">T+1</button>
-            <button onclick="adminAdjust('to1',-1)" class="btn-confirm small">T-1</button>
-        </div>
-        <div style="display:flex; gap:6px; margin-bottom:6px;">
-            <button onclick="adminAdjust('to2',1)" class="btn-confirm small">T+1</button>
-            <button onclick="adminAdjust('to2',-1)" class="btn-confirm small">T-1</button>
-        </div>
-        <div style="display:flex; gap:6px; margin-bottom:6px;">
-            <button onclick="adminAdjust('to3',1)" class="btn-confirm small">T+1</button>
-            <button onclick="adminAdjust('to3',-1)" class="btn-confirm small">T-1</button>
-        </div>
-        <div style="display:flex; gap:6px; margin-bottom:10px;">
-            <button onclick="adminAdjust('to4',1)" class="btn-confirm small">T+1</button>
-            <button onclick="adminAdjust('to4',-1)" class="btn-confirm small">T-1</button>
+        <!-- Quick Buttons (+/- 1) -->
+        <div class="admin-section-title">Nút nhanh (+/- 1)</div>
+        <div style="display:flex; flex-direction:column; gap:4px; margin-bottom: 15px;">
+            <!-- Grouped by team but compacted -->
+            <div style="display:flex; gap:5px; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); padding:5px 8px; border-radius:8px;">
+                <span style="font-size:0.8rem; color:var(--primary)">Tổ 1</span>
+                <div style="display:flex; gap:4px;">
+                    <button onclick="adminAdjust('to1',1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem;">+1</button>
+                    <button onclick="adminAdjust('to1',-1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem; background:#444;">-1</button>
+                </div>
+            </div>
+            <div style="display:flex; gap:5px; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); padding:5px 8px; border-radius:8px;">
+                <span style="font-size:0.8rem; color:var(--secondary)">Tổ 2</span>
+                <div style="display:flex; gap:4px;">
+                    <button onclick="adminAdjust('to2',1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem;">+1</button>
+                    <button onclick="adminAdjust('to2',-1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem; background:#444;">-1</button>
+                </div>
+            </div>
+            <div style="display:flex; gap:5px; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); padding:5px 8px; border-radius:8px;">
+                <span style="font-size:0.8rem; color:var(--accent)">Tổ 3</span>
+                <div style="display:flex; gap:4px;">
+                    <button onclick="adminAdjust('to3',1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem;">+1</button>
+                    <button onclick="adminAdjust('to3',-1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem; background:#444;">-1</button>
+                </div>
+            </div>
+            <div style="display:flex; gap:5px; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); padding:5px 8px; border-radius:8px;">
+                <span style="font-size:0.8rem; color:var(--success)">Tổ 4</span>
+                <div style="display:flex; gap:4px;">
+                    <button onclick="adminAdjust('to4',1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem;">+1</button>
+                    <button onclick="adminAdjust('to4',-1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem; background:#444;">-1</button>
+                </div>
+            </div>
         </div>
 
-        <!-- NEW: reset + undo -->
-        <button onclick="adminResetScores()" class="btn-confirm" style="background:#febd23;">RESET ĐIỂM (ALL)</button>
-        <button onclick="adminUndo()" class="btn-confirm" style="background:#888;">HOÀN TÁC HÀNH ĐỘNG</button>
-
-        <button onclick="galaxy.logoutAdmin()" style="background:#ff5a5a; color:#000; font-weight:900; border-radius:8px; padding:8px;">Đăng xuất Admin</button>
+        <!-- Dangerous Actions -->
+        <div class="admin-section-title">Hệ thống</div>
+        <div style="display:grid; gap:8px;">
+            <button onclick="adminUndo()" class="btn-confirm small" style="background:#888; width:100%;">↩ HOÀN TÁC</button>
+            <button onclick="adminResetScores()" class="btn-confirm small" style="background:#febd23; color:#000; width:100%;">⚠ RESET ĐIỂM (ALL)</button>
+            <button onclick="galaxy.logoutAdmin()" style="background:#ff5a5a; color:#fff; font-weight:900; border-radius:10px; padding:10px; border:none; width:100%; cursor:pointer;">Đăng xuất</button>
+        </div>
     </div>
 
-    <!-- GAME OVERLAY -->
+    <!-- GAME OVERLAY (Redesigned) -->
     <div id="game-overlay">
-        <div class="game-nav">
-            <div id="game-label" style="font-weight: 900; color: var(--primary); letter-spacing: 2px;">MISSION</div>
-            <button onclick="galaxy.closeGame()" style="background:none; border:none; color:#fff; font-size: 1.5rem; cursor:pointer;">✕</button>
+        <div class="game-header">
+            <div id="game-label" style="font-weight: 900; color: var(--primary); letter-spacing: 2px; font-size: 1.2rem;">MISSION</div>
+            <button class="btn-exit" onclick="galaxy.closeGame()">
+                <span>THOÁT</span> ✕
+            </button>
         </div>
-        <div id="game-content-area" class="game-content">
-            <div id="q-tag" class="q-tag">Kiến thức HK2</div>
-            <div id="q-text" class="q-text">Đang tải câu hỏi...</div>
-            <div id="q-action" style="width: 100%;"></div>
-            <div id="q-feedback" style="margin-top: 16px; font-weight: 800; text-align: center; height: 26px;"></div>
+        
+        <div class="game-container-box">
+            <div class="question-card">
+                <div id="q-tag" class="q-tag">Kiến thức HK2</div>
+                <div id="game-content-area" style="width: 100%; display:flex; flex-direction:column; align-items:center;">
+                    <div id="q-text" class="q-text">Đang tải câu hỏi...</div>
+                    <div id="q-action" style="width: 100%;"></div>
+                </div>
+                <div id="q-feedback" style="margin-top: 20px; font-weight: 800; text-align: center; height: 26px; font-size: 1.1rem;"></div>
+            </div>
         </div>
     </div>
 
@@ -404,7 +504,7 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  const ADMIN_PASSWORD = "emyeudang"; // đổi nếu muốn
+  const ADMIN_PASSWORD = "emyeudang"; 
 
   const DOC_TO_TEAM = {
     to1: { id: "Tổ 1", color: "#00f3ff" },
@@ -512,7 +612,6 @@
     },
 
     async ensureTeamsDocs() {
-      // NEW: ensure 4 team docs always exist (fix reset reliability)
       for (const docId of Object.keys(DOC_TO_TEAM)) {
         const ref = doc(db, "teams", docId);
         const s = await getDoc(ref);
@@ -634,24 +733,19 @@
       this.toast("Đã đăng xuất Admin");
     },
 
-    // ✅ FIX: weekly reset logic (reliable)
     async checkWeeklyResetFirestore() {
       try {
         await this.ensureTeamsDocs();
 
         const now = new Date();
-
-        // Find the most recent Sunday 12:00 (local time) that has passed
         const reset = new Date(now);
         const day = reset.getDay(); // 0=Sun
         reset.setDate(now.getDate() - day);
         reset.setHours(12,0,0,0);
 
-        // If it's Sunday but before 12:00 -> use last week's Sunday 12:00
         if (now.getDay() === 0 && now.getHours() < 12) {
           reset.setDate(reset.getDate() - 7);
         }
-        // If it's not Sunday and reset time is in future due to time shift -> ensure passed
         if (reset.getTime() > now.getTime()) {
           reset.setDate(reset.getDate() - 7);
         }
@@ -673,10 +767,8 @@
 
           const batch = writeBatch(db);
 
-          // reset all scores
           colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
 
-          // store weekly meta
           batch.set(metaRef, {
             lastReset: resetTime,
             prevScores,
@@ -714,7 +806,6 @@
     galaxy.adminAdjustPoints(docId, delta);
   }
 
-  // NEW: apply input points
   async function adminApplyInput(docId){
     if (!adminLogged) {
       galaxy.toast("Cần đăng nhập Admin");
@@ -730,7 +821,6 @@
     input.value = "";
   }
 
-  // NEW: reset scores (admin)
   async function adminResetScores(){
     if (!adminLogged) {
       galaxy.toast("Cần đăng nhập Admin");
@@ -746,7 +836,6 @@
       colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
       await batch.commit();
 
-      // save undo action
       adminLastAction = { type: "reset", before };
 
       galaxy.toast("Đã RESET điểm tất cả tổ");
@@ -756,7 +845,6 @@
     }
   }
 
-  // NEW: undo last admin action
   async function adminUndo(){
     if (!adminLogged) {
       galaxy.toast("Cần đăng nhập Admin");
@@ -825,9 +913,9 @@
       document.getElementById('q-text').innerHTML = q;
       document.getElementById('q-action').innerHTML = `
         <input type="number" id="m-input" class="math-input" autofocus>
-        <div style="display:flex; gap:10px; margin-top:6px;">
+        <div style="display:flex; gap:10px; margin-top:6px; justify-content:center;">
           <button id="btn-m-confirm" class="btn-confirm" onclick="mathGame.check()">XÁC NHẬN</button>
-          <button class="btn-confirm small" style="background:#555;" onclick="mathGame.skip()">BỎ QUA</button>
+          <button class="btn-confirm small" style="background:rgba(255,255,255,0.1); border:1px solid #777;" onclick="mathGame.skip()">BỎ QUA</button>
         </div>
       `;
       const input = document.getElementById('m-input');
@@ -985,7 +1073,7 @@ const ENGLISH_BANK = [
           ${shuffled.map(o => `<button class="option-item" onclick="englishGame.check(this, '${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}
         </div>
         <div style="width:100%; display:flex; justify-content:center; margin-top:10px;">
-          <button class="btn-confirm small" style="background:#555;" onclick="englishGame.skip()">BỎ QUA</button>
+          <button class="btn-confirm small" style="background:rgba(255,255,255,0.1); border:1px solid #777;" onclick="englishGame.skip()">BỎ QUA</button>
         </div>
       `;
     },
@@ -1016,13 +1104,11 @@ const ENGLISH_BANK = [
     }
   };
 
-  // ✅ FULL FIX: expose global so onclick="" works with type="module"
   window.galaxy = galaxy;
   window.englishGame = englishGame;
   window.mathGame = mathGame;
   window.adminAdjust = adminAdjust;
 
-  // NEW expose
   window.adminApplyInput = adminApplyInput;
   window.adminResetScores = adminResetScores;
   window.adminUndo = adminUndo;
