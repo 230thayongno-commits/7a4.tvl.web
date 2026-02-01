@@ -18,12 +18,8 @@
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        /* --- FIX FONT LỖI CHO TOÀN BỘ NÚT VÀ INPUT --- */
-        body, button, input, select, textarea {
-            font-family: 'Montserrat', sans-serif;
-        }
-
         body {
+            font-family: 'Montserrat', sans-serif;
             background: var(--dark-bg);
             color: #fff;
             margin: 0;
@@ -236,6 +232,7 @@
             font-size: 0.9rem;
             cursor: pointer;
             transition: 0.3s;
+            font-family: 'Montserrat', sans-serif;
             display: flex;
             align-items: center;
             gap: 5px;
@@ -313,8 +310,6 @@
             border-radius: 14px; font-weight: 900; font-size: 1.0rem; margin-top: 10px; border: none; cursor: pointer;
             box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
             transition: 0.3s;
-            /* Font family đã được set ở body/button toàn cục, nhưng giữ lại cho chắc chắn */
-            font-family: 'Montserrat', sans-serif;
         }
         .btn-confirm:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 243, 255, 0.5); }
         .btn-confirm.small { width: auto; padding: 12px 18px; font-size: 0.9rem; border-radius: 12px; box-shadow: none; }
@@ -367,6 +362,7 @@
 
     <div id="toast">Thông báo</div>
 
+    <!-- MÀN HÌNH CHỌN TỔ -->
     <div id="selector-screen">
         <div class="hero-title animate-in">7A4 GALAXY<br>COMMAND</div>
         <p class="animate-in" style="color: #aaa; letter-spacing: 2px; font-size: 0.75rem; font-weight: 600;">HỆ THỐNG ÔN TẬP HK2</p>
@@ -379,6 +375,7 @@
         </div>
     </div>
 
+    <!-- APP CHÍNH -->
     <div id="main-app" class="hidden">
         <header>
             <div style="font-weight: 900; letter-spacing: 1px; font-size: 1.1rem;">7A4 COMMAND</div>
@@ -435,12 +432,15 @@
         </div>
     </div>
 
+    <!-- ADMIN PANEL (Optimized Layout) -->
     <div id="admin-panel">
         <div style="font-size:1.1rem; margin-bottom:15px; text-align:center; color:var(--primary); text-transform:uppercase;">Admin Tools</div>
 
+        <!-- Input Section -->
         <div class="admin-section-title">Nhập điểm (+/-)</div>
         <input id="admin-point-input" type="number" placeholder="Ví dụ: 10 hoặc -5" />
 
+        <!-- Apply Buttons (Grid 2x2) -->
         <div class="admin-section-title">Áp dụng cho</div>
         <div class="admin-grid">
             <button onclick="adminApplyInput('to1')" class="btn-confirm small" style="background: rgba(0, 243, 255, 0.2); border:1px solid var(--primary); color:var(--primary);">Tổ 1</button>
@@ -449,8 +449,10 @@
             <button onclick="adminApplyInput('to4')" class="btn-confirm small" style="background: rgba(0, 255, 157, 0.2); border:1px solid var(--success); color:var(--success);">Tổ 4</button>
         </div>
 
+        <!-- Quick Buttons (+/- 1) -->
         <div class="admin-section-title">Nút nhanh (+/- 1)</div>
         <div style="display:flex; flex-direction:column; gap:4px; margin-bottom: 15px;">
+            <!-- Grouped by team but compacted -->
             <div style="display:flex; gap:5px; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); padding:5px 8px; border-radius:8px;">
                 <span style="font-size:0.8rem; color:var(--primary)">Tổ 1</span>
                 <div style="display:flex; gap:4px;">
@@ -481,6 +483,7 @@
             </div>
         </div>
 
+        <!-- Dangerous Actions -->
         <div class="admin-section-title">Hệ thống</div>
         <div style="display:grid; gap:8px;">
             <button onclick="adminUndo()" class="btn-confirm small" style="background:#888; width:100%;">↩ HOÀN TÁC</button>
@@ -489,6 +492,7 @@
         </div>
     </div>
 
+    <!-- GAME OVERLAY (Redesigned) -->
     <div id="game-overlay">
         <div class="game-header">
             <div id="game-label" style="font-weight: 900; color: var(--primary); letter-spacing: 2px; font-size: 1.2rem;">MISSION</div>
@@ -498,6 +502,7 @@
         </div>
         
         <div class="game-container-box">
+            <!-- NEW: Mini Scoreboard inside Game -->
             <div id="mini-rank-list" class="mini-rank-grid"></div>
 
             <div class="question-card">
@@ -506,7 +511,7 @@
                     <div id="q-text" class="q-text">Đang tải câu hỏi...</div>
                     <div id="q-action" style="width: 100%;"></div>
                 </div>
-                <div id="q-feedback" style="margin-top: 20px; font-weight: 900; text-align: center; height: 26px; font-size: 1.1rem; text-transform: uppercase;"></div>
+                <div id="q-feedback" style="margin-top: 20px; font-weight: 800; text-align: center; height: 26px; font-size: 1.1rem;"></div>
             </div>
         </div>
     </div>
@@ -957,9 +962,8 @@
         this.ans = Math.pow(b, p); q = `${b}<sup>${p}</sup> = ?`;
       }
       document.getElementById('q-text').innerHTML = q;
-      // ADDED: onkeydown to handle Enter key automatically
       document.getElementById('q-action').innerHTML = `
-        <input type="number" id="m-input" class="math-input" autofocus onkeydown="if(event.key==='Enter') mathGame.check()">
+        <input type="number" id="m-input" class="math-input" autofocus>
         <div style="display:flex; gap:10px; margin-top:6px; justify-content:center;">
           <button id="btn-m-confirm" class="btn-confirm" onclick="mathGame.check()">XÁC NHẬN</button>
           <button class="btn-confirm small" style="background:rgba(255,255,255,0.1); border:1px solid #777;" onclick="mathGame.skip()">BỎ QUA</button>
@@ -1036,7 +1040,7 @@ const ENGLISH_BANK = [
   { q: "I must ________ permission to leave early.", a: "ask for", o: ["ask", "ask for", "asking"], t: "Phrases" },
 
   // --- TOPIC: ACTION VERBS & PREPOSITIONS ---
-  { q: "The cat tried to ________ the tall tree.", a: "climb up", o: ["climb up", "lie on", "sit on", "Actions" },
+  { q: "The cat tried to ________ the tall tree.", a: "climb up", o: ["climb up", "lie on", "sit on"], t: "Actions" },
   { q: "He was so happy he started to ________.", a: "jump up", o: ["jump up", "lie on", "walk on"], t: "Actions" },
   { q: "I like to ________ the sofa and watch TV.", a: "lie on", o: ["climb up", "lie on", "stand in"], t: "Actions" },
   { q: "Please ________ the queue and wait for your turn.", a: "stand in", o: ["stand in", "walk on", "sit on"], t: "Actions" },
@@ -1164,3 +1168,4 @@ const ENGLISH_BANK = [
 </script>
 </body>
 </html>
+
