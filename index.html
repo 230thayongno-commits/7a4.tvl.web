@@ -4,13 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>7A4 GALAXY COMMAND</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
     <style>
-        /* =========================================
-           CORE VARIABLES (GALAXY - DEFAULT)
-           ========================================= */
         :root {
             --primary: #00f3ff;
             --secondary: #bc13fe;
@@ -19,60 +14,20 @@
             --dark-bg: #030712;
             --card-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --text-main: #fff;
-            --font-main: 'Montserrat', sans-serif;
-            --bg-image: radial-gradient(circle at 20% 30%, rgba(0, 243, 255, 0.05) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.05) 0%, transparent 50%);
-            --toast-bg: rgba(255, 255, 255, 0.95);
-            --toast-text: #000;
         }
 
-        /* =========================================
-           THEME: TẾT (LUNAR NEW YEAR)
-           ========================================= */
-        body.theme-tet {
-            --primary: #FFD700; /* Vàng kim */
-            --secondary: #ff3333; /* Đỏ tươi */
-            --accent: #ff0000;
-            --success: #32CD32;
-            --dark-bg: #2a0202; /* Đỏ đen đậm */
-            --card-bg: rgba(255, 215, 0, 0.05); /* Vàng nhạt */
-            --glass-border: rgba(255, 215, 0, 0.3); /* Viền vàng */
-            --text-main: #fff;
-            --bg-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 215, 0, 0.2) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(255, 0, 0, 0.2) 0%, transparent 40%),
-                url('data:image/svg+xml;utf8,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffd700" fill-opacity="0.1"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
-        }
-        
-        body.theme-tet .hero-title {
-            font-family: 'Dancing Script', cursive; /* Font thư pháp nhẹ */
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-        
-        body.theme-tet .btn-confirm {
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-        }
-        body.theme-tet .q-tag {
-            background: rgba(255, 0, 0, 0.3);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        /* =========================================
-           BASE STYLES
-           ========================================= */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: var(--font-main);
+            font-family: 'Montserrat', sans-serif;
             background: var(--dark-bg);
-            color: var(--text-main);
+            color: #fff;
             margin: 0;
             min-height: 100vh;
             overflow-x: hidden;
-            background-image: var(--bg-image);
-            transition: background 0.5s ease, color 0.5s ease;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 243, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.05) 0%, transparent 50%);
         }
 
         /* Animations */
@@ -86,16 +41,12 @@
         /* UI Components */
         #toast {
             position: fixed; top: 30px; left: 50%; transform: translateX(-50%);
-            background: var(--toast-bg); color: var(--toast-text);
+            background: rgba(255, 255, 255, 0.95); color: #000;
             padding: 12px 25px; border-radius: 50px;
             font-weight: 800; z-index: 10000;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             opacity: 0; pointer-events: none; transition: 0.3s;
-            text-align: center; white-space: nowrap;
         }
-        #toast.success { background: var(--success); color: #000; }
-        #toast.error { background: var(--accent); color: #fff; }
-        #toast.info { background: #555; color: #fff; }
 
         /* Selector Screen */
         #selector-screen {
@@ -184,163 +135,39 @@
             font-weight: 900; transform: rotate(45deg);
         }
 
-        /* Update Card */
-        .update-card {
-            background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.06);
-            padding: 12px 14px; border-radius: 12px; color: #ddd; font-weight: 700; margin-bottom: 18px;
-        }
-
-        /* =========================================
-           SETTINGS MODAL
-           ========================================= */
-        #settings-modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000;
-            display: none; align-items: center; justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-        .settings-content {
-            background: var(--dark-bg); border: 1px solid var(--glass-border);
-            padding: 30px; border-radius: 24px; width: 90%; max-width: 400px;
-            text-align: center;
-        }
-        .theme-btn {
-            width: 100%; padding: 15px; margin-bottom: 10px;
-            border: 1px solid var(--glass-border); border-radius: 12px;
-            font-weight: 800; cursor: pointer; transition: 0.2s;
-            background: rgba(255,255,255,0.05); color: #fff;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
-        .theme-btn:hover { border-color: var(--primary); background: rgba(255,255,255,0.1); }
-        .theme-btn.active { border-color: var(--primary); background: rgba(0, 243, 255, 0.1); color: var(--primary); }
-        
-        /* =========================================
-           ADMIN PANEL
-           ========================================= */
-        #admin-panel {
-            position: fixed; right: 20px; top: 80px; 
-            background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border); padding: 15px; 
-            border-radius: 16px; z-index: 1100; display: none; 
-            width: 300px; font-weight: 700; max-height: 75vh; overflow-y: auto;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-        }
-        #admin-panel::-webkit-scrollbar { width: 6px; }
-        #admin-panel::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
-        #admin-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
-        #admin-panel input {
-            width: 100%; padding: 12px 12px; border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.4);
-            color: #fff; font-weight: 800; outline: none; margin-bottom: 12px;
-        }
-        .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-        .admin-section-title {
-            font-size: 0.8rem; color: #888; margin-bottom: 8px; 
-            text-transform: uppercase; letter-spacing: 1px;
-            border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px; margin-top: 10px;
-        }
-
-        /* =========================================
-           GAME OVERLAY (Redesigned)
-           ========================================= */
+        /* Overlay Game */
         #game-overlay {
-            position: fixed; inset: 0; 
-            background: var(--dark-bg); /* Use theme bg */
-            z-index: 1000; display: none; 
-            flex-direction: column; padding: 20px;
+            position: fixed; inset: 0; background: var(--dark-bg);
+            z-index: 1000; display: none; flex-direction: column; padding: 20px;
         }
 
-        .game-header {
-            display: flex; justify-content: space-between; align-items: center; 
-            margin-bottom: 20px; padding: 15px 20px;
-            background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);
-            border-radius: 20px;
-        }
-
-        .btn-exit {
-            background: rgba(255, 50, 50, 0.1); border: 1px solid rgba(255, 50, 50, 0.3);
-            color: #ff5a5a; padding: 8px 16px; border-radius: 10px;
-            font-weight: 800; font-size: 0.9rem; cursor: pointer; transition: 0.3s;
-            font-family: inherit; display: flex; align-items: center; gap: 5px;
-        }
-        .btn-exit:hover { background: #ff5a5a; color: #000; }
-
-        .game-container-box {
-            flex: 1; display: flex; flex-direction: column;
-            align-items: center; justify-content: flex-start; /* Changed to start to allow scroll if needed */
-            max-width: 600px; width: 100%; margin: 0 auto;
-            position: relative; overflow-y: auto;
-        }
-
-        /* UPDATED: Mini Scoreboard */
-        .mini-rank-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 columns for 4 teams */
-            gap: 10px; width: 100%; margin-bottom: 20px;
-        }
-        .mini-rank-item {
-            background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
-            padding: 8px 5px; border-radius: 12px;
-            font-size: 0.9rem; font-weight: 800;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: 0.3s;
-        }
-        .mini-rank-item span:first-child { font-size: 0.75rem; opacity: 0.8; margin-bottom: 2px; }
-
-        .question-card {
-            width: 100%;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.03) 0%, transparent 70%);
-            padding: 20px; border-radius: 30px;
-            display: flex; flex-direction: column; align-items: center;
-            min-height: 300px;
-        }
-
-        .q-tag { 
-            background: rgba(0, 243, 255, 0.1); color: var(--primary); 
-            padding: 6px 18px; border-radius: 20px; font-size: 0.8rem; 
-            font-weight: 800; margin-bottom: 20px; text-transform: uppercase; 
-            border: 1px solid rgba(0, 243, 255, 0.2); 
-        }
-        .q-text { 
-            font-size: clamp(1.3rem, 4vw, 2rem); font-weight: 800; 
-            text-align: center; margin-bottom: 30px; line-height: 1.4; 
-            text-shadow: 0 0 20px rgba(0,0,0,0.5); 
-        }
+        .game-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .game-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 600px; margin: 0 auto; width: 100%; }
+        
+        .q-tag { background: rgba(0, 243, 255, 0.1); color: var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; }
+        .q-text { font-size: clamp(1.1rem, 4vw, 1.7rem); font-weight: 800; text-align: center; margin-bottom: 25px; line-height: 1.4; }
 
         .option-list { display: grid; gap: 14px; width: 100%; margin-bottom: 10px; }
         .option-item {
             background: var(--card-bg); border: 1px solid var(--glass-border);
-            padding: 18px 20px; border-radius: 16px; color: #fff;
-            text-align: left; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.2s;
-            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 20px; border-radius: 12px; color: #fff;
+            text-align: left; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: 0.2s;
         }
-        .option-item:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); transform: translateX(5px); }
-        .option-item:active { transform: scale(0.98); }
-        .option-item:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .option-item:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); }
+        .option-item:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .math-input {
             background: transparent; border: none; border-bottom: 4px solid var(--primary);
             color: #fff; font-size: 3.5rem; width: 100%; text-align: center;
-            font-weight: 900; outline: none; margin-bottom: 30px;
-            padding-bottom: 10px;
+            font-weight: 900; outline: none; margin-bottom: 20px;
         }
 
         .btn-confirm {
-            background: var(--primary); color: #000; width: 100%; padding: 16px 20px;
-            border-radius: 14px; font-weight: 900; font-size: 1.0rem; margin-top: 10px; border: none; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
-            transition: 0.3s;
+            background: var(--primary); color: #000; width: 100%; padding: 15px 20px;
+            border-radius: 12px; font-weight: 900; font-size: 1.0rem; margin-top: 10px; border: none; cursor: pointer;
         }
-        .btn-confirm:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 243, 255, 0.5); }
-        
-        /* Updated Skip/Small Button Font */
-        .btn-confirm.small { 
-            width: auto; padding: 12px 25px; 
-            font-size: 0.95rem; /* Larger font */
-            font-family: inherit; /* Ensure font matches theme */
-            letter-spacing: 0.5px;
-            border-radius: 12px; box-shadow: none; 
-        }
-        .btn-confirm:disabled { background: #555; cursor: not-allowed; box-shadow: none; transform: none; }
+        .btn-confirm.small { width: auto; padding: 10px 14px; font-size: 0.9rem; border-radius: 10px; }
+        .btn-confirm:disabled { background: #555; cursor: not-allowed; }
 
         footer {
             margin-top: 30px; padding: 30px; text-align: center;
@@ -349,28 +176,72 @@
 
         .hidden { display: none !important; }
 
-        /* Media Queries */
+        .update-card {
+            background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.06);
+            padding: 12px 14px; border-radius: 12px; color: #ddd; font-weight: 700; margin-bottom: 18px;
+        }
+
+        /* admin panel */
+        #admin-panel {
+            position: fixed; right: 20px; top: 80px; background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 10px;
+            z-index: 1100; display:none; width: 240px; font-weight:700;
+        }
+        #admin-panel button { display:block; width:100%; margin:6px 0; }
+
+        /* NEW: admin input */
+        #admin-panel input{
+            width:100%;
+            padding:10px 12px;
+            border-radius:10px;
+            border:1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.06);
+            color:#fff;
+            font-weight:800;
+            outline:none;
+            margin-bottom:8px;
+        }
+
         @media (max-width: 600px) {
             .mission-grid { grid-template-columns: 1fr; }
             .hero-title { font-size: 2.2rem; }
             .q-text { font-size: 1.2rem; }
-            .option-item { padding: 14px 15px; font-size: 0.95rem; }
+            .option-item { padding: 12px 15px; font-size: 0.95rem; }
             .math-input { font-size: 2.4rem; }
 
-            header{ padding: 14px; }
-            #user-info{ gap: 8px !important; }
-            #admin-btn{ padding: 8px 10px; border-radius: 10px; background: rgba(255,255,255,0.06); }
-            header button{ padding: 8px; border-radius: 10px; }
-            
-            #admin-panel{
-                left: 50%; right: auto; top: auto; bottom: 20px;
-                transform: translateX(-50%); width: 95%; max-width: 420px;
-                max-height: 60vh; border-radius: 20px; padding: 20px;
+            /* ✅ FULL FIX: admin panel mobile */
+            header{
+                padding: 14px;
             }
-            
-            .mini-rank-grid { gap: 6px; }
-            .mini-rank-item { padding: 6px 4px; border-radius: 8px; }
-            .mini-rank-item span:last-child { font-size: 0.95rem; }
+            #user-info{
+                gap: 10px !important;
+            }
+            #admin-btn{
+                padding: 8px 10px;
+                border-radius: 10px;
+                background: rgba(255,255,255,0.06);
+            }
+            header button{
+                padding: 8px 10px;
+                border-radius: 10px;
+            }
+            #admin-panel{
+                left: 50%;
+                right: auto;
+                top: auto;
+                bottom: 18px;
+                transform: translateX(-50%);
+                width: calc(100% - 36px);
+                max-width: 420px;
+                border-radius: 18px;
+                padding: 14px;
+                background: rgba(0,0,0,0.85);
+                backdrop-filter: blur(12px);
+            }
+            #admin-panel button{
+                padding: 12px 12px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -378,6 +249,7 @@
 
     <div id="toast">Thông báo</div>
 
+    <!-- MÀN HÌNH CHỌN TỔ -->
     <div id="selector-screen">
         <div class="hero-title animate-in">7A4 GALAXY<br>COMMAND</div>
         <p class="animate-in" style="color: #aaa; letter-spacing: 2px; font-size: 0.75rem; font-weight: 600;">HỆ THỐNG ÔN TẬP HK2</p>
@@ -390,19 +262,12 @@
         </div>
     </div>
 
+    <!-- APP CHÍNH -->
     <div id="main-app" class="hidden">
         <header>
             <div style="font-weight: 900; letter-spacing: 1px; font-size: 1.1rem;">7A4 COMMAND</div>
             <div id="user-info" style="display: flex; align-items: center; gap: 15px;">
                 <span id="team-tag" style="font-weight: 900; background: var(--primary); color: #000; padding: 4px 12px; border-radius: 8px; font-size: 0.8rem;"></span>
-                
-                <button onclick="galaxy.openSettings()" style="background:none; border:none; color:#ddd; cursor:pointer;" title="Cài đặt">
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
-                        <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319z"/>
-                    </svg>
-                </button>
-
                 <button onclick="galaxy.logout()" style="background:none; border:none; color:#555; font-weight:bold; cursor:pointer; font-family:'Montserrat';">THOÁT</button>
                 <button id="admin-btn" onclick="galaxy.toggleAdminPrompt()" style="background:none; border:none; color:#ddd; font-weight:700; cursor:pointer; font-family:'Montserrat';">Admin</button>
             </div>
@@ -419,7 +284,7 @@
             </div>
 
             <div class="update-card">
-                Bản cập nhật 1.3 — <strong>Tối ưu Admin Panel</strong>, thêm giao diện TẾT, sửa lỗi hiển thị Game.
+                Bản cập nhật 1.1 — Sửa lỗi nhỏ, thêm nút <strong>BỎ QUA</strong> cho Tiếng Anh & Toán, chỉnh sửa bố cục câu hỏi, tối ưu đồng bộ điểm sever
             </div>
 
             <div class="tiktok-group">
@@ -454,87 +319,67 @@
         </div>
     </div>
 
-    <div id="settings-modal">
-        <div class="settings-content animate-in">
-            <h3 style="color: var(--primary); text-transform: uppercase; margin-top: 0;">Giao diện</h3>
-            <button class="theme-btn" onclick="galaxy.setTheme('galaxy')">🌌 Galaxy (Mặc định)</button>
-            <button class="theme-btn" onclick="galaxy.setTheme('tet')">🌸 Tết Ất Tỵ (Mới)</button>
-            <button class="btn-confirm small" style="margin-top: 20px; width: 100%;" onclick="galaxy.closeSettings()">Đóng</button>
-        </div>
-    </div>
-
+    <!-- ADMIN PANEL (hidden until login) -->
     <div id="admin-panel">
-        <div style="font-size:1.1rem; margin-bottom:15px; text-align:center; color:var(--primary); text-transform:uppercase;">Admin Tools</div>
+        <div style="font-size:0.95rem; margin-bottom:8px;">Admin Tools (đã đăng nhập)</div>
 
-        <div class="admin-section-title">Nhập điểm (+/-)</div>
+        <!-- NEW: input points -->
+        <div style="font-size:0.85rem; margin-bottom:6px;">Nhập điểm (+ hoặc -):</div>
         <input id="admin-point-input" type="number" placeholder="Ví dụ: 10 hoặc -5" />
 
-        <div class="admin-section-title">Áp dụng cho</div>
-        <div class="admin-grid">
-            <button onclick="adminApplyInput('to1')" class="btn-confirm small" style="background: rgba(0, 243, 255, 0.2); border:1px solid #00f3ff; color:#00f3ff;">Tổ 1</button>
-            <button onclick="adminApplyInput('to2')" class="btn-confirm small" style="background: rgba(188, 19, 254, 0.2); border:1px solid #bc13fe; color:#bc13fe;">Tổ 2</button>
-            <button onclick="adminApplyInput('to3')" class="btn-confirm small" style="background: rgba(255, 0, 85, 0.2); border:1px solid #ff0055; color:#ff0055;">Tổ 3</button>
-            <button onclick="adminApplyInput('to4')" class="btn-confirm small" style="background: rgba(0, 255, 157, 0.2); border:1px solid #00ff9d; color:#00ff9d;">Tổ 4</button>
+        <div style="font-size:0.85rem; margin-bottom:6px;">Điều chỉnh điểm thủ công:</div>
+
+        <!-- NEW: apply buttons -->
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <button onclick="adminApplyInput('to1')" class="btn-confirm small">ÁP DỤNG TỔ 1</button>
+        </div>
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <button onclick="adminApplyInput('to2')" class="btn-confirm small">ÁP DỤNG TỔ 2</button>
+        </div>
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <button onclick="adminApplyInput('to3')" class="btn-confirm small">ÁP DỤNG TỔ 3</button>
+        </div>
+        <div style="display:flex; gap:6px; margin-bottom:10px;">
+            <button onclick="adminApplyInput('to4')" class="btn-confirm small">ÁP DỤNG TỔ 4</button>
         </div>
 
-        <div class="admin-section-title">Nút nhanh (+/- 1)</div>
-        <div style="display:flex; flex-direction:column; gap:4px; margin-bottom: 15px;">
-            <div style="display:flex; gap:5px; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); padding:5px 8px; border-radius:8px;">
-                <span style="font-size:0.8rem; color:#00f3ff">Tổ 1</span>
-                <div style="display:flex; gap:4px;">
-                    <button onclick="adminAdjust('to1',1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem;">+1</button>
-                    <button onclick="adminAdjust('to1',-1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem; background:#444;">-1</button>
-                </div>
-            </div>
-            <div style="display:flex; gap:5px; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); padding:5px 8px; border-radius:8px;">
-                <span style="font-size:0.8rem; color:#bc13fe">Tổ 2</span>
-                <div style="display:flex; gap:4px;">
-                    <button onclick="adminAdjust('to2',1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem;">+1</button>
-                    <button onclick="adminAdjust('to2',-1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem; background:#444;">-1</button>
-                </div>
-            </div>
-            <div style="display:flex; gap:5px; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); padding:5px 8px; border-radius:8px;">
-                <span style="font-size:0.8rem; color:#ff0055">Tổ 3</span>
-                <div style="display:flex; gap:4px;">
-                    <button onclick="adminAdjust('to3',1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem;">+1</button>
-                    <button onclick="adminAdjust('to3',-1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem; background:#444;">-1</button>
-                </div>
-            </div>
-            <div style="display:flex; gap:5px; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); padding:5px 8px; border-radius:8px;">
-                <span style="font-size:0.8rem; color:#00ff9d">Tổ 4</span>
-                <div style="display:flex; gap:4px;">
-                    <button onclick="adminAdjust('to4',1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem;">+1</button>
-                    <button onclick="adminAdjust('to4',-1)" class="btn-confirm small" style="padding:4px 10px; font-size:0.8rem; background:#444;">-1</button>
-                </div>
-            </div>
+        <!-- keep old +/-1 buttons (DO NOT REMOVE) -->
+        <div style="font-size:0.85rem; margin-bottom:6px;">Nút nhanh:</div>
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <button onclick="adminAdjust('to1',1)" class="btn-confirm small">T+1</button>
+            <button onclick="adminAdjust('to1',-1)" class="btn-confirm small">T-1</button>
+        </div>
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <button onclick="adminAdjust('to2',1)" class="btn-confirm small">T+1</button>
+            <button onclick="adminAdjust('to2',-1)" class="btn-confirm small">T-1</button>
+        </div>
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <button onclick="adminAdjust('to3',1)" class="btn-confirm small">T+1</button>
+            <button onclick="adminAdjust('to3',-1)" class="btn-confirm small">T-1</button>
+        </div>
+        <div style="display:flex; gap:6px; margin-bottom:10px;">
+            <button onclick="adminAdjust('to4',1)" class="btn-confirm small">T+1</button>
+            <button onclick="adminAdjust('to4',-1)" class="btn-confirm small">T-1</button>
         </div>
 
-        <div class="admin-section-title">Hệ thống</div>
-        <div style="display:grid; gap:8px;">
-            <button onclick="adminUndo()" class="btn-confirm small" style="background:#888; width:100%;">↩ HOÀN TÁC</button>
-            <button onclick="adminResetScores()" class="btn-confirm small" style="background:#febd23; color:#000; width:100%;">⚠ RESET ĐIỂM (ALL)</button>
-            <button onclick="galaxy.logoutAdmin()" style="background:#ff5a5a; color:#fff; font-weight:900; border-radius:10px; padding:10px; border:none; width:100%; cursor:pointer;">Đăng xuất</button>
-        </div>
+        <!-- NEW: reset + undo -->
+        <button onclick="adminResetScores()" class="btn-confirm" style="background:#febd23;">RESET ĐIỂM (ALL)</button>
+        <button onclick="adminUndo()" class="btn-confirm" style="background:#888;">HOÀN TÁC HÀNH ĐỘNG</button>
+
+        <button onclick="galaxy.logoutAdmin()" style="background:#ff5a5a; color:#000; font-weight:900; border-radius:8px; padding:8px;">Đăng xuất Admin</button>
     </div>
 
+    <!-- GAME OVERLAY -->
     <div id="game-overlay">
-        <div class="game-header">
-            <div id="game-label" style="font-weight: 900; color: var(--primary); letter-spacing: 2px; font-size: 1.2rem;">MISSION</div>
-            <button class="btn-exit" onclick="galaxy.closeGame()">
-                <span>THOÁT</span> ✕
-            </button>
+        <div class="game-nav">
+            <div id="game-label" style="font-weight: 900; color: var(--primary); letter-spacing: 2px;">MISSION</div>
+            <button onclick="galaxy.closeGame()" style="background:none; border:none; color:#fff; font-size: 1.5rem; cursor:pointer;">✕</button>
         </div>
-        
-        <div class="game-container-box">
-            <div id="mini-rank-list" class="mini-rank-grid"></div>
-
-            <div class="question-card">
-                <div id="q-tag" class="q-tag">Kiến thức HK2</div>
-                <div id="game-content-area" style="width: 100%; display:flex; flex-direction:column; align-items:center;">
-                    <div id="q-text" class="q-text">Đang tải câu hỏi...</div>
-                    <div id="q-action" style="width: 100%;"></div>
-                </div>
-                </div>
+        <div id="game-content-area" class="game-content">
+            <div id="q-tag" class="q-tag">Kiến thức HK2</div>
+            <div id="q-text" class="q-text">Đang tải câu hỏi...</div>
+            <div id="q-action" style="width: 100%;"></div>
+            <div id="q-feedback" style="margin-top: 16px; font-weight: 800; text-align: center; height: 26px;"></div>
         </div>
     </div>
 
@@ -559,7 +404,7 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  const ADMIN_PASSWORD = "emyeudang"; 
+  const ADMIN_PASSWORD = "emyeudang"; // đổi nếu muốn
 
   const DOC_TO_TEAM = {
     to1: { id: "Tổ 1", color: "#00f3ff" },
@@ -577,16 +422,14 @@
 
   let realtimeTeams = {};
   let adminLogged = false;
+
+  // NEW: admin undo storage
   let adminLastAction = null;
 
   const galaxy = {
     team: null,
 
     init: async function() {
-      // 1. Load Theme
-      const savedTheme = localStorage.getItem('7a4_theme') || 'galaxy';
-      this.setTheme(savedTheme);
-
       this.setupRealtimeListeners();
       await this.checkWeeklyResetFirestore();
 
@@ -599,6 +442,13 @@
       }
 
       this.renderRank();
+
+      window.addEventListener('storage', (e) => {
+        if (!e.key) return;
+        if (e.key.startsWith('score_') || e.key === '7a4_last_reset' || e.key === '7a4_prev_winners') {
+          this.renderRank();
+        }
+      });
     },
 
     selectTeam(name) {
@@ -608,24 +458,15 @@
     },
 
     showSelector() {
-      const sel = document.getElementById('selector-screen');
-      const main = document.getElementById('main-app');
-      if(sel) sel.style.display = 'flex';
-      if(main) {
-          main.classList.add('hidden');
-          main.style.display = 'none';
-      }
+      document.getElementById('selector-screen').style.display = 'flex';
+      document.getElementById('main-app').classList.add('hidden');
+      document.getElementById('main-app').style.display = 'none';
     },
 
     showMain() {
-      const sel = document.getElementById('selector-screen');
-      const main = document.getElementById('main-app');
-      if(sel) sel.style.display = 'none';
-      if(main) {
-          main.classList.remove('hidden');
-          main.style.display = 'block';
-      }
-      
+      document.getElementById('selector-screen').style.display = 'none';
+      document.getElementById('main-app').classList.remove('hidden');
+      document.getElementById('main-app').style.display = 'block';
       document.getElementById('team-tag').innerText = this.team;
       const color = TEAMS.find(t => t.id === this.team).color;
       document.getElementById('team-tag').style.background = color;
@@ -636,27 +477,6 @@
       localStorage.removeItem('7a4_member');
       this.team = null;
       this.showSelector();
-    },
-
-    // --- THEME SYSTEM ---
-    openSettings() {
-        document.getElementById('settings-modal').style.display = 'flex';
-        // Highlight current
-        const cur = localStorage.getItem('7a4_theme') || 'galaxy';
-        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-        if(cur === 'tet') document.querySelectorAll('.theme-btn')[1].classList.add('active');
-        else document.querySelectorAll('.theme-btn')[0].classList.add('active');
-    },
-    closeSettings() {
-        document.getElementById('settings-modal').style.display = 'none';
-    },
-    setTheme(name) {
-        document.body.classList.remove('theme-tet');
-        if (name === 'tet') {
-            document.body.classList.add('theme-tet');
-        }
-        localStorage.setItem('7a4_theme', name);
-        this.openSettings(); // refresh active state
     },
 
     teamToDocId(teamLabel) {
@@ -684,14 +504,15 @@
           score: increment(p),
           updatedAt: Date.now()
         });
-        // Feedback handled in game check() via Toast
+        this.toast(`+${p} ĐIỂM!`);
       } catch (e) {
         console.error("addPoints error:", e);
-        this.toast("Lỗi đồng bộ điểm", "error");
+        this.toast("Lỗi đồng bộ điểm");
       }
     },
 
     async ensureTeamsDocs() {
+      // NEW: ensure 4 team docs always exist (fix reset reliability)
       for (const docId of Object.keys(DOC_TO_TEAM)) {
         const ref = doc(db, "teams", docId);
         const s = await getDoc(ref);
@@ -703,7 +524,7 @@
 
     async adminAdjustPoints(docId, delta) {
       if (!adminLogged) {
-        this.toast("Cần đăng nhập Admin", "error");
+        this.toast("Cần đăng nhập Admin");
         return;
       }
       const ref = doc(db, "teams", docId);
@@ -714,32 +535,27 @@
         }
         await updateDoc(ref, { score: increment(delta), updatedAt: Date.now() });
 
+        // NEW: save undo action
         adminLastAction = { type: "adjust", docId, delta };
-        this.toast(`${delta>0? '+'+delta: delta} điểm (Admin)`, "success");
+
+        this.toast(`${delta>0? '+'+delta: delta} điểm (Admin)`);
       } catch (e) {
         console.error(e);
-        this.toast("Lỗi Admin update", "error");
+        this.toast("Lỗi Admin update");
       }
     },
 
-    // Updated Toast to support types
-    toast(m, type = 'info') {
+    toast(m) {
       const t = document.getElementById('toast');
       t.innerText = m;
-      t.className = ''; // reset classes
-      t.classList.add(type); // add success/error/info
-      
       t.style.opacity = '1';
-      t.style.top = '80px'; // Lower slightly
-      
-      // Reset after 2s
-      setTimeout(() => { 
-          t.style.opacity = '0'; 
-          t.style.top = '30px'; 
-      }, 2000);
+      t.style.top = '100px';
+      setTimeout(() => { t.style.opacity = '0'; t.style.top = '30px'; }, 1500);
     },
 
     renderRank() {
+      const list = document.getElementById('ranking-list');
+
       let data = [];
       if (Object.keys(realtimeTeams).length) {
         data = Object.keys(DOC_TO_TEAM).map(docId => ({
@@ -757,27 +573,12 @@
       data = data.sort((a,b) => b.score - a.score);
       const max = Math.max(...data.map(d => d.score), 10);
 
-      // Render Dashboard List
-      const list = document.getElementById('ranking-list');
-      if(list) {
-        list.innerHTML = data.map(d => `
-          <div class="rank-item">
-            <div class="rank-label"><span style="color:${d.color}">${d.id}</span><span>${d.score} XP</span></div>
-            <div class="bar-outer"><div class="bar-inner" style="width:${(d.score/max)*100}%; background:${d.color}"></div></div>
-          </div>
-        `).join('');
-      }
-
-      // Render Mini Rank (Responsive)
-      const miniList = document.getElementById('mini-rank-list');
-      if (miniList) {
-        miniList.innerHTML = data.map(d => `
-          <div class="mini-rank-item" style="border-color:${d.color}">
-            <span style="color:${d.color}">${d.id}</span>
-            <span style="color:#fff">${d.score}</span>
-          </div>
-        `).join('');
-      }
+      list.innerHTML = data.map(d => `
+        <div class="rank-item">
+          <div class="rank-label"><span style="color:${d.color}">${d.id}</span><span>${d.score} XP</span></div>
+          <div class="bar-outer"><div class="bar-inner" style="width:${(d.score/max)*100}%; background:${d.color}"></div></div>
+        </div>
+      `).join('');
 
       this.renderPrevWinner();
     },
@@ -821,7 +622,7 @@
       if (ok === ADMIN_PASSWORD) {
         adminLogged = true;
         document.getElementById('admin-panel').style.display = 'block';
-        this.toast("Đăng nhập Admin thành công", "success");
+        this.toast("Đăng nhập Admin thành công");
       } else {
         alert("Mật khẩu sai");
       }
@@ -830,22 +631,27 @@
     logoutAdmin() {
       adminLogged = false;
       document.getElementById('admin-panel').style.display = 'none';
-      this.toast("Đã đăng xuất Admin", "info");
+      this.toast("Đã đăng xuất Admin");
     },
 
+    // ✅ FIX: weekly reset logic (reliable)
     async checkWeeklyResetFirestore() {
       try {
         await this.ensureTeamsDocs();
 
         const now = new Date();
+
+        // Find the most recent Sunday 12:00 (local time) that has passed
         const reset = new Date(now);
-        const day = reset.getDay(); 
+        const day = reset.getDay(); // 0=Sun
         reset.setDate(now.getDate() - day);
         reset.setHours(12,0,0,0);
 
+        // If it's Sunday but before 12:00 -> use last week's Sunday 12:00
         if (now.getDay() === 0 && now.getHours() < 12) {
           reset.setDate(reset.getDate() - 7);
         }
+        // If it's not Sunday and reset time is in future due to time shift -> ensure passed
         if (reset.getTime() > now.getTime()) {
           reset.setDate(reset.getDate() - 7);
         }
@@ -867,8 +673,10 @@
 
           const batch = writeBatch(db);
 
+          // reset all scores
           colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
 
+          // store weekly meta
           batch.set(metaRef, {
             lastReset: resetTime,
             prevScores,
@@ -902,29 +710,30 @@
     }
   };
 
-  // --- GLOBAL FUNCTIONS FOR BUTTONS ---
-  window.adminAdjust = function(docId, delta) {
+  function adminAdjust(docId, delta) {
     galaxy.adminAdjustPoints(docId, delta);
   }
 
-  window.adminApplyInput = async function(docId){
+  // NEW: apply input points
+  async function adminApplyInput(docId){
     if (!adminLogged) {
-      galaxy.toast("Cần đăng nhập Admin", "error");
+      galaxy.toast("Cần đăng nhập Admin");
       return;
     }
     const input = document.getElementById("admin-point-input");
     const val = parseInt((input?.value || "").trim(), 10);
     if (!input || isNaN(val) || val === 0) {
-      galaxy.toast("Nhập số điểm hợp lệ (khác 0)", "error");
+      galaxy.toast("Nhập số điểm hợp lệ (khác 0)");
       return;
     }
     await galaxy.adminAdjustPoints(docId, val);
     input.value = "";
   }
 
-  window.adminResetScores = async function(){
+  // NEW: reset scores (admin)
+  async function adminResetScores(){
     if (!adminLogged) {
-      galaxy.toast("Cần đăng nhập Admin", "error");
+      galaxy.toast("Cần đăng nhập Admin");
       return;
     }
     try{
@@ -937,22 +746,24 @@
       colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
       await batch.commit();
 
+      // save undo action
       adminLastAction = { type: "reset", before };
 
-      galaxy.toast("Đã RESET điểm tất cả tổ", "success");
+      galaxy.toast("Đã RESET điểm tất cả tổ");
     }catch(e){
       console.error(e);
-      galaxy.toast("Lỗi reset điểm", "error");
+      galaxy.toast("Lỗi reset điểm");
     }
   }
 
-  window.adminUndo = async function(){
+  // NEW: undo last admin action
+  async function adminUndo(){
     if (!adminLogged) {
-      galaxy.toast("Cần đăng nhập Admin", "error");
+      galaxy.toast("Cần đăng nhập Admin");
       return;
     }
     if (!adminLastAction){
-      galaxy.toast("Không có hành động để hoàn tác", "info");
+      galaxy.toast("Không có hành động để hoàn tác");
       return;
     }
 
@@ -961,7 +772,7 @@
         const { docId, delta } = adminLastAction;
         await galaxy.adminAdjustPoints(docId, -delta);
         adminLastAction = null;
-        galaxy.toast("Đã hoàn tác điều chỉnh điểm", "success");
+        galaxy.toast("Đã hoàn tác điều chỉnh điểm");
         return;
       }
 
@@ -975,12 +786,12 @@
         }
         await batch.commit();
         adminLastAction = null;
-        galaxy.toast("Đã hoàn tác RESET", "success");
+        galaxy.toast("Đã hoàn tác RESET");
         return;
       }
     }catch(e){
       console.error(e);
-      galaxy.toast("Lỗi hoàn tác", "error");
+      galaxy.toast("Lỗi hoàn tác");
     }
   }
 
@@ -995,12 +806,9 @@
     generate() {
       this.isProcessing = false;
       galaxy.applyTransition();
-      
-      document.getElementById('q-tag').innerText = "MATH • HK2";
-      
       const type = Math.floor(Math.random() * 4);
       let q = "";
-      
+      document.getElementById('q-feedback').innerText = "";
       if (type === 0) {
         const a = Math.floor(Math.random() * 100), b = Math.floor(Math.random() * 50);
         this.ans = a + b; q = `${a} + ${b} = ?`;
@@ -1017,9 +825,9 @@
       document.getElementById('q-text').innerHTML = q;
       document.getElementById('q-action').innerHTML = `
         <input type="number" id="m-input" class="math-input" autofocus>
-        <div style="display:flex; gap:10px; margin-top:6px; justify-content:center;">
+        <div style="display:flex; gap:10px; margin-top:6px;">
           <button id="btn-m-confirm" class="btn-confirm" onclick="mathGame.check()">XÁC NHẬN</button>
-          <button class="btn-confirm small" style="background:rgba(255,255,255,0.1); border:1px solid #777; color:#ddd;" onclick="mathGame.skip()">BỎ QUA</button>
+          <button class="btn-confirm small" style="background:#555;" onclick="mathGame.skip()">BỎ QUA</button>
         </div>
       `;
       const input = document.getElementById('m-input');
@@ -1033,57 +841,116 @@
 
       const val = parseInt(document.getElementById('m-input').value || '', 10);
       if (val === this.ans) {
-        galaxy.toast("CHÍNH XÁC! +5 XP", "success");
+        document.getElementById('q-feedback').innerText = "CHÍNH XÁC! +5 XP";
+        document.getElementById('q-feedback').style.color = "var(--success)";
         galaxy.addPoints(5);
         setTimeout(() => this.generate(), 800);
       } else {
-        galaxy.toast("SAI RỒI!", "error");
-        setTimeout(() => this.generate(), 1000); // Faster retry
+        document.getElementById('q-feedback').innerText = "SAI RỒI!";
+        document.getElementById('q-feedback').style.color = "var(--accent)";
+        setTimeout(() => this.generate(), 1500);
       }
     },
     skip() {
       if (this.isProcessing) return;
       this.isProcessing = true;
-      galaxy.toast("ĐÃ BỎ QUA", "info");
+      document.getElementById('q-feedback').innerText = "ĐÃ BỎ QUA";
+      document.getElementById('q-feedback').style.color = "#ddd";
       setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
     }
   };
 
-  /* ... ENGLISH BANK (UNCHANGED) ... */
-  const ENGLISH_BANK = [
-    { q: "She is a very ________ designer.", a: "creative", o: ["creative", "creatively", "creation"], t: "Adj_Adv" },
-    { q: "He decorated the room ________.", a: "creatively", o: ["creative", "creatively", "create"], t: "Adj_Adv" },
-    { q: "You should be ________ to elderly people.", a: "polite", o: ["polite", "politely", "politeness"], t: "Adj_Adv" },
-    { q: "The boy replied ________ to the teacher.", a: "rudely", o: ["rude", "rudely", "rudeness"], t: "Adj_Adv" },
-    { q: "This sofa is very ________.", a: "comfortable", o: ["comfortable", "comfortably", "comfort"], t: "Adj_Adv" },
-    { q: "She speaks English very ________.", a: "well", o: ["good", "well", "goodness"], t: "Adj_Adv" },
-    { q: "He is a ________ student.", a: "good", o: ["well", "good", "badly"], t: "Adj_Adv" },
-    { q: "The team played ________ yesterday.", a: "badly", o: ["bad", "badly", "worse"], t: "Adj_Adv" },
-    { q: "She passed the exam ________.", a: "easily", o: ["easy", "easily", "easier"], t: "Adj_Adv" },
-    { q: "Please be ________! The baby is sleeping.", a: "quiet", o: ["quiet", "quietly", "quite"], t: "Adj_Adv" },
-    { q: "We need to measure the ________ of the triangle.", a: "angle", o: ["angel", "angle", "angry"], t: "Vocabulary" },
-    { q: "My sister wants to study ________.", a: "photography", o: ["photographer", "photography", "photograph"], t: "Vocabulary" },
-    { q: "The ________ asked us to smile.", a: "photographer", o: ["photography", "photographer", "photographic"], t: "Vocabulary" },
-    { q: "I have a terrible ________.", a: "memory", o: ["memorize", "memory", "memorable"], t: "Vocabulary" },
-    { q: "I need ________ my homework right now.", a: "to finish", o: ["finish", "to finish", "finishing"], t: "Grammar" },
-    { q: "He decided ________ a new car.", a: "to buy", o: ["buy", "to buy", "buying"], t: "Grammar" },
-    { q: "The cat tried to ________ the tall tree.", a: "climb up", o: ["climb up", "lie on", "sit on"], t: "Actions" },
-    { q: "I ________ swim when I was five.", a: "could", o: ["can", "could", "will be able to"], t: "Ability" },
-    { q: "She ________ speak three languages now.", a: "can", o: ["could", "can", "will be able to"], t: "Ability" },
-    { q: "________ is it from your house to school?", a: "How far", o: ["How long", "How far", "How much"], t: "Questions" },
-    { q: "________ does this shirt cost?", a: "How much", o: ["How many", "How much", "How long"], t: "Questions" },
-    { q: "He won a ________ medal (1st place).", a: "gold", o: ["gold", "silver", "bronze"], t: "Vocabulary" },
-    { q: "A person who wins a medal is a ________.", a: "medalist", o: ["medal", "medalist", "medaling"], t: "Vocabulary" },
-    { q: "There are 7 days in a ________.", a: "week", o: ["week", "month", "year"], t: "Units" },
-    { q: "1 kilometre is 1,000 ________.", a: "metres", o: ["metres", "kilos", "tons"], t: "Units" },
-    { q: "The ball is in the ________ of the box.", a: "middle", o: ["middle", "front", "behind"], t: "Positions" },
-    { q: "________ you go to bed, brush your teeth.", a: "Before", o: ["Before", "After", "While"], t: "Linking" },
-    { q: "________ a clever girl!", a: "What", o: ["What", "How", "Which"], t: "Grammar" },
-    { q: "________ clever the girl is!", a: "How", o: ["How", "What", "Where"], t: "Grammar" },
-    { q: "Gold is ________ than silver.", a: "more expensive", o: ["more expensive", "expensive", "most expensive"], t: "Comparative" },
-    { q: "He is the ________ student.", a: "smartest", o: ["smartest", "smarter", "smart"], t: "Superlative" },
-    { q: "He looks ________ his father.", a: "like", o: ["like", "as", "same"], t: "Phrases" }
-  ];
+const ENGLISH_BANK = [
+  // --- TOPIC: ADJECTIVES VS ADVERBS ---
+  { q: "She is a very ________ designer. She always has new ideas.", a: "creative", o: ["creative", "creatively", "creation"], t: "Adj_Adv" },
+  { q: "He decorated the room ________ for the party.", a: "creatively", o: ["creative", "creatively", "create"], t: "Adj_Adv" },
+  { q: "You should be ________ when speaking to elderly people.", a: "polite", o: ["polite", "politely", "politeness"], t: "Adj_Adv" },
+  { q: "The boy replied ________ to the teacher and got into trouble.", a: "rudely", o: ["rude", "rudely", "rudeness"], t: "Adj_Adv" },
+  { q: "It was ________ of him to ignore my question.", a: "rude", o: ["rude", "rudely", "rudest"], t: "Adj_Adv" },
+  { q: "This sofa is very ________. I can sleep on it.", a: "comfortable", o: ["comfortable", "comfortably", "comfort"], t: "Adj_Adv" },
+  { q: "We sat ________ by the fire and drank hot cocoa.", a: "comfortably", o: ["comfortable", "comfortably", "comforting"], t: "Adj_Adv" },
+  { q: "She speaks English very ________.", a: "well", o: ["good", "well", "goodness"], t: "Adj_Adv" },
+  { q: "He is a ________ student. He always gets high marks.", a: "good", o: ["well", "good", "badly"], t: "Adj_Adv" },
+  { q: "The team played ________ yesterday and lost the match.", a: "badly", o: ["bad", "badly", "worse"], t: "Adj_Adv" },
+  { q: "The weather is really ________ today.", a: "bad", o: ["badly", "bad", "worse"], t: "Adj_Adv" },
+  { q: "The test was surprisingly ________.", a: "easy", o: ["easy", "easily", "ease"], t: "Adj_Adv" },
+  { q: "She passed the exam ________.", a: "easily", o: ["easy", "easily", "easier"], t: "Adj_Adv" },
+  { q: "Please be ________! The baby is sleeping.", a: "quiet", o: ["quiet", "quietly", "quite"], t: "Adj_Adv" },
+  { q: "The students worked ________ in the library.", a: "quietly", o: ["quiet", "quietly", "quietness"], t: "Adj_Adv" },
+  { q: "He asked ________ for permission to leave.", a: "politely", o: ["polite", "politely", "politeness"], t: "Adj_Adv" },
+
+  // --- TOPIC: VOCABULARY & WORD FORM ---
+  { q: "That is an ________ painting. I've never seen anything like it.", a: "unusual", o: ["unusual", "usual", "usually"], t: "Vocabulary" },
+  { q: "We need to measure the ________ of the triangle.", a: "angle", o: ["angel", "angle", "angry"], t: "Vocabulary" },
+  { q: "My sister loves taking pictures. She wants to study ________.", a: "photography", o: ["photographer", "photography", "photograph"], t: "Vocabulary" },
+  { q: "The ________ asked us to smile for the picture.", a: "photographer", o: ["photography", "photographer", "photographic"], t: "Vocabulary" },
+  { q: "I have a terrible ________. I always forget names.", a: "memory", o: ["memorize", "memory", "memorable"], t: "Vocabulary" },
+  { q: "Our trip to Paris was truly ________.", a: "memorable", o: ["memory", "memorize", "memorable"], t: "Vocabulary" },
+  { q: "I need to ________ these vocabulary words for the test.", a: "memorize", o: ["memory", "memorize", "memorable"], t: "Vocabulary" },
+  { q: "We watched the amazing ________ on New Year's Eve.", a: "firework display", o: ["firework display", "fire work", "display fire"], t: "Vocabulary" },
+  { q: "When did they ________? - Last year.", a: "get married", o: ["get marry", "get married", "got marry"], t: "Vocabulary" },
+  { q: "What time did you ________ for the party?", a: "arrive", o: ["arrive", "arriving", "arrival"], t: "Vocabulary" },
+
+  // --- TOPIC: VERB PATTERNS (NEED TO / DECIDE TO) ---
+  { q: "I need ________ my homework right now.", a: "to finish", o: ["finish", "to finish", "finishing"], t: "Grammar" },
+  { q: "You need to ________ careful when crossing the street.", a: "be", o: ["be", "is", "being"], t: "Grammar" },
+  { q: "She needs to ________ quiet in the hospital.", a: "be", o: ["do", "be", "make"], t: "Grammar" },
+  { q: "They decided ________ to the beach for their holiday.", a: "to go", o: ["go", "to go", "going"], t: "Grammar" },
+  { q: "He decided ________ a new car.", a: "to buy", o: ["buy", "to buy", "buying"], t: "Grammar" },
+  { q: "Did you ________ permission before using my phone?", a: "ask for", o: ["ask with", "ask for", "ask to"], t: "Phrases" },
+  { q: "I must ________ permission to leave early.", a: "ask for", o: ["ask", "ask for", "asking"], t: "Phrases" },
+
+  // --- TOPIC: ACTION VERBS & PREPOSITIONS ---
+  { q: "The cat tried to ________ the tall tree.", a: "climb up", o: ["climb up", "lie on", "sit on"], t: "Actions" },
+  { q: "He was so happy he started to ________.", a: "jump up", o: ["jump up", "lie on", "walk on"], t: "Actions" },
+  { q: "I like to ________ the sofa and watch TV.", a: "lie on", o: ["climb up", "lie on", "stand in"], t: "Actions" },
+  { q: "Please ________ the queue and wait for your turn.", a: "stand in", o: ["stand in", "walk on", "sit on"], t: "Actions" },
+  { q: "The baby learned to ________ the grass.", a: "walk on", o: ["walk on", "climb up", "stand in"], t: "Actions" },
+  { q: "Come and ________ this chair next to me.", a: "sit on", o: ["sit on", "lie on", "climb up"], t: "Actions" },
+  { q: "Don't ________ the wall, it's dangerous!", a: "climb up", o: ["walk on", "climb up", "stand in"], t: "Actions" },
+  { q: "The floor is wet. Don't ________ it.", a: "walk on", o: ["walk on", "jump up", "lie on"], t: "Actions" },
+  { q: "He likes to ________ the floor to play with his toys.", a: "sit on", o: ["sit on", "climb up", "stand in"], t: "Actions" },
+  { q: "When the teacher entered, the students had to ________ their places.", a: "stand in", o: ["stand in", "jump up", "walk on"], t: "Actions" },
+
+  // --- TOPIC: ABILITY (CAN/COULD/WILL BE ABLE TO) ---
+  { q: "I ________ swim when I was five years old.", a: "could", o: ["can", "could", "will be able to"], t: "Ability" },
+  { q: "She ________ speak three languages now.", a: "can", o: ["could", "can", "will be able to"], t: "Ability" },
+  { q: "I ________ finish this project tomorrow.", a: "will be able to", o: ["could", "can", "will be able to"], t: "Ability" },
+  { q: "Mozart ________ play music when he was very young.", a: "could", o: ["can", "could", "will be able to"], t: "Ability" },
+  { q: "Sorry, I ________ help you right now. I'm busy.", a: "can't", o: ["couldn't", "can't", "won't be able to"], t: "Ability" },
+  { q: "Yesterday, I ________ find my keys anywhere.", a: "couldn't", o: ["can't", "couldn't", "won't be able to"], t: "Ability" },
+  { q: "In the future, robots ________ do all the housework.", a: "will be able to", o: ["can", "could", "will be able to"], t: "Ability" },
+  { q: "________ you ride a bike when you were six?", a: "Could", o: ["Can", "Could", "Will"], t: "Ability" },
+  { q: "I hope I ________ travel to Japan next year.", a: "will be able to", o: ["can", "could", "will be able to"], t: "Ability" },
+  { q: "He ________ run very fast now, he is an athlete.", a: "can", o: ["could", "can", "will be able to"], t: "Ability" },
+  { q: "The text was blurry, so I ________ read it.", a: "couldn't", o: ["can't", "couldn't", "won't be able to"], t: "Ability" },
+  { q: "If you study hard, you ________ pass the exam.", a: "will be able to", o: ["can", "could", "will be able to"], t: "Ability" },
+
+  // --- TOPIC: WH- QUESTIONS (HOW...) ---
+  { q: "________ is it from your house to the school?", a: "How far", o: ["How long", "How far", "How much"], t: "Questions" },
+  { q: "________ does this shirt cost?", a: "How much", o: ["How many", "How much", "How long"], t: "Questions" },
+  { q: "________ students are there in your class?", a: "How many", o: ["How much", "How many", "How often"], t: "Questions" },
+  { q: "________ do you go to the cinema? - Twice a month.", a: "How often", o: ["How long", "How often", "How far"], t: "Questions" },
+  { q: "________ does the movie last? - Two hours.", a: "How long", o: ["How often", "How long", "How tall"], t: "Questions" },
+  { q: "________ is your brother? - He is 1.7 meters.", a: "How tall", o: ["How high", "How tall", "How long"], t: "Questions" },
+  { q: "________ is Mount Everest?", a: "How high", o: ["How tall", "How high", "How long"], t: "Questions" },
+  { q: "________ is your grandmother? - She is 80.", a: "How old", o: ["How many", "How old", "How long"], t: "Questions" },
+
+  // --- TOPIC: QUESTION TRANSFORMATIONS ---
+  { q: "How old are you? -> What is your ________?", a: "age", o: ["old", "age", "birth"], t: "Transformations" },
+  { q: "What is the age of this building? -> How ________ is this building?", a: "old", o: ["long", "old", "age"], t: "Transformations" },
+  { q: "How far is it from A to B? -> What is the ________ between A and B?", a: "distance", o: ["length", "distance", "far"], t: "Transformations" },
+  { q: "What is the distance between Hanoi and Hue? -> How ________ is it from Hanoi to Hue?", a: "far", o: ["long", "far", "distance"], t: "Transformations" },
+  { q: "How long is the river? -> What is the ________ of the river?", a: "length", o: ["long", "length", "distance"], t: "Transformations" },
+  { q: "What is the length of the table? -> How ________ is the table?", a: "long", o: ["far", "long", "tall"], t: "Transformations" },
+  { q: "How high is the wall? -> What is the ________ of the wall?", a: "height", o: ["high", "height", "length"], t: "Transformations" },
+  { q: "What is the height of the mountain? -> How ________ is the mountain?", a: "high", o: ["tall", "high", "height"], t: "Transformations" },
+  { q: "How tall is he? -> What is his ________?", a: "height", o: ["tall", "height", "length"], t: "Transformations" },
+
+  // --- EXTRA ---
+  { q: "A child who is amazingly talented at something is called a ________.", a: "prodigy", o: ["prodigy", "student", "beginner"], t: "Vocabulary" },
+  { q: "To ________ means to keep something in your mind.", a: "memorize", o: ["decide", "memorize", "arrive"], t: "Vocabulary" }
+];
 
   const englishGame = {
     curr: null,
@@ -1108,6 +975,7 @@
       this.lastIndex = idx;
       this.curr = ENGLISH_BANK[idx];
 
+      document.getElementById('q-feedback').innerText = "";
       document.getElementById('q-text').innerText = this.curr.q;
       document.getElementById('q-tag').innerText = this.curr.t + " • HK2";
 
@@ -1117,7 +985,7 @@
           ${shuffled.map(o => `<button class="option-item" onclick="englishGame.check(this, '${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}
         </div>
         <div style="width:100%; display:flex; justify-content:center; margin-top:10px;">
-          <button class="btn-confirm small" style="background:rgba(255,255,255,0.1); border:1px solid #777; color:#ddd;" onclick="englishGame.skip()">BỎ QUA</button>
+          <button class="btn-confirm small" style="background:#555;" onclick="englishGame.skip()">BỎ QUA</button>
         </div>
       `;
     },
@@ -1129,30 +997,37 @@
       allBtns.forEach(b => b.disabled = true);
 
       if (choice === this.curr.a) {
-        galaxy.toast("ĐÚNG RỒI! +10 XP", "success");
+        document.getElementById('q-feedback').innerText = "ĐÚNG RỒI! +10 XP";
+        document.getElementById('q-feedback').style.color = "var(--success)";
         galaxy.addPoints(10);
         setTimeout(() => this.generate(), 800);
       } else {
-        // Show correct answer in Toast
-        galaxy.toast(`SAI! ĐÁP ÁN: ${this.curr.a}`, "error");
-        setTimeout(() => this.generate(), 1500);
+        document.getElementById('q-feedback').innerText = `SAI! ĐÁP ÁN: ${this.curr.a}`;
+        document.getElementById('q-feedback').style.color = "var(--accent)";
+        setTimeout(() => this.generate(), 2000);
       }
     },
     skip() {
       if (this.isProcessing) return;
       this.isProcessing = true;
-      galaxy.toast("ĐÃ BỎ QUA", "info");
+      document.getElementById('q-feedback').innerText = "ĐÃ BỎ QUA";
+      document.getElementById('q-feedback').style.color = "#ddd";
       setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
     }
   };
 
-  // Assign to window AFTER module load to ensure availability
+  // ✅ FULL FIX: expose global so onclick="" works with type="module"
   window.galaxy = galaxy;
   window.englishGame = englishGame;
   window.mathGame = mathGame;
-  
-  // Start init immediately once window loads
-  window.addEventListener('load', () => galaxy.init());
+  window.adminAdjust = adminAdjust;
+
+  // NEW expose
+  window.adminApplyInput = adminApplyInput;
+  window.adminResetScores = adminResetScores;
+  window.adminUndo = adminUndo;
+
+  window.onload = () => galaxy.init();
 </script>
 </body>
 </html>
