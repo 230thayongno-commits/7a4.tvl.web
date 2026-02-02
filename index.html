@@ -85,7 +85,7 @@
         /* Updated Toast Style (Notification) */
         #game-toast, #app-toast {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            background: #030712; color: #000;
+            background: rgba(255, 255, 255, 0.95); color: #000;
             padding: 12px 25px; border-radius: 50px;
             font-weight: 800; z-index: 20000;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -345,7 +345,11 @@
             <div class="team-card" onclick="galaxy.selectTeam('Tổ 4')" style="color: #00ff9d">Tổ 4</div>
         </div>
 
-
+        <div style="margin-top: 30px; display:flex; gap:10px;">
+             <button onclick="galaxy.toggleSettings()" class="icon-btn" style="width:auto; padding:0 20px; font-weight:700; font-size:0.9rem;">
+                ⚙️ Cài đặt
+             </button>
+        </div>
     </div>
 
     <!-- APP CHÍNH -->
@@ -821,7 +825,10 @@
         data.sort((a,b) => a.id.localeCompare(b.id));
 
         board.innerHTML = data.map(d => `
-
+            <div class="mini-score-card">
+                <span class="mini-score-name" style="color:${d.color}">${d.id}</span>
+                <span class="mini-score-val">${d.score}</span>
+            </div>
         `).join('');
     },
 
@@ -1369,8 +1376,4 @@ const ENGLISH_BANK = [
 </script>
 </body>
 </html>
-
-
-
-
 
