@@ -153,7 +153,8 @@
         header {
             padding: 15px 20px; display: flex; justify-content: space-between;
             align-items: center; 
-            background: rgba(0,0,0,0.05); backdrop-filter: blur(10px);
+            background: var(--bg-color);
+            backdrop-filter: none;
             position: sticky; top: 0; z-index: 100;
             border-bottom: 1px solid var(--glass-border);
         }
@@ -461,7 +462,7 @@
 
         <div class="container animate-in">
             <div class="rank-card">
-                <h2 style="margin-top: 0; font-size: 1.1rem; text-align: center; color: var(--primary); text-transform: uppercase; letter-spacing: 2px;">Điểm Số Chiến Đội</h2>
+                <h2 style="margin-top: 0; font-size: 1.1rem; text-align: center; color: var(--primary); text-transform: uppercase; letter-spacing: 2px;">Điểm Số Các Tổ</h2>
                 <div id="ranking-list"></div>
                 <div id="prev-winner" style="margin-top:12px; font-weight:800; text-align:center; opacity: 0.8;"></div>
                 <div class="reset-notice">
@@ -1491,6 +1492,7 @@ const ENGLISH_BANK = [
 </script>
 </body>
 </html>
+
 
 
 
