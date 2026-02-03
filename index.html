@@ -1276,252 +1276,247 @@
     }
   };
 
-/* NEW ANIME BANK */
-/**************************************************************
- * ANIME BANK (200 câu)
- * - Copy paste nguyên khối này vào project
- **************************************************************/
 const ANIME_BANK = [
   // ===== ONE PIECE (10) =====
-  { q: "Luffy ăn trái ác quỷ hệ gì (theo tiết lộ mới nhất)?", o: ["Paramecia", "Logia", "Zoan Thần thoại", "Zoan cổ đại"], a: 2 },
-  { q: "Ai là người đầu tiên gia nhập băng Mũ Rơm?", o: ["Nami", "Zoro", "Usopp", "Sanji"], a: 1 },
-  { q: 'Thanh kiếm "Enma" của Zoro từng thuộc về ai?', o: ["Kozuki Oden", "Shimotsuki Ryuma", "Gol D. Roger", "Mihawk"], a: 0 },
-  { q: "Biệt danh của Sanji là gì?", o: ["Thợ săn hải tặc", "Hắc Cước", "Đứa con của quỷ", "Kẻ háo sắc"], a: 1 },
-  { q: "Thuyền trưởng của băng Hải tặc Râu Trắng là ai?", o: ["Marshall D. Teach", "Edward Newgate", "Portgas D. Ace", "Marco"], a: 1 },
-  { q: "Thành viên nào trong băng Mũ Rơm là một khảo cổ học?", o: ["Robin", "Brook", "Jinbe", "Franky"], a: 0 },
-  { q: "Trận chiến tại Marineford nổ ra để cứu ai?", o: ["Luffy", "Ace", "Sabo", "Garp"], a: 1 },
-  { q: "Ai là người đã tặng chiếc mũ rơm cho Luffy?", o: ["Râu Trắng", "Shanks", "Rayleigh", "Dragon"], a: 1 },
-  { q: "Trái ác quỷ của Nico Robin có tên là gì?", o: ["Hana Hana no Mi", "Yomi Yomi no Mi", "Gomu Gomu no Mi", "Hito Hito no Mi"], a: 0 },
-  { q: "Ngôi làng quê hương của Luffy tên là gì?", o: ["Syrup", "Shimotsuki", "Foosha", "Cocoyasi"], a: 2 },
+  { t: "ONE PIECE", q: "Luffy ăn trái ác quỷ hệ gì (theo tiết lộ mới nhất)?", o: ["Paramecia", "Logia", "Zoan Thần thoại", "Zoan cổ đại"], a: 2 },
+  { t: "ONE PIECE", q: "Ai là người đầu tiên gia nhập băng Mũ Rơm?", o: ["Nami", "Zoro", "Usopp", "Sanji"], a: 1 },
+  { t: "ONE PIECE", q: 'Thanh kiếm "Enma" của Zoro từng thuộc về ai?', o: ["Kozuki Oden", "Shimotsuki Ryuma", "Gol D. Roger", "Mihawk"], a: 0 },
+  { t: "ONE PIECE", q: "Biệt danh của Sanji là gì?", o: ["Thợ săn hải tặc", "Hắc Cước", "Đứa con của quỷ", "Kẻ háo sắc"], a: 1 },
+  { t: "ONE PIECE", q: "Thuyền trưởng của băng Hải tặc Râu Trắng là ai?", o: ["Marshall D. Teach", "Edward Newgate", "Portgas D. Ace", "Marco"], a: 1 },
+  { t: "ONE PIECE", q: "Thành viên nào trong băng Mũ Rơm là một khảo cổ học?", o: ["Robin", "Brook", "Jinbe", "Franky"], a: 0 },
+  { t: "ONE PIECE", q: "Trận chiến tại Marineford nổ ra để cứu ai?", o: ["Luffy", "Ace", "Sabo", "Garp"], a: 1 },
+  { t: "ONE PIECE", q: "Ai là người đã tặng chiếc mũ rơm cho Luffy?", o: ["Râu Trắng", "Shanks", "Rayleigh", "Dragon"], a: 1 },
+  { t: "ONE PIECE", q: "Trái ác quỷ của Nico Robin có tên là gì?", o: ["Hana Hana no Mi", "Yomi Yomi no Mi", "Gomu Gomu no Mi", "Hito Hito no Mi"], a: 0 },
+  { t: "ONE PIECE", q: "Ngôi làng quê hương của Luffy tên là gì?", o: ["Syrup", "Shimotsuki", "Foosha", "Cocoyasi"], a: 2 },
 
   // ===== NARUTO (10) =====
-  { q: "Naruto thuộc về gia tộc nào?", o: ["Uchiha", "Uzumaki", "Hyuga", "Senju"], a: 1 },
-  { q: "Ai là thầy giáo hướng dẫn trực tiếp cho Đội 7?", o: ["Jiraiya", "Iruka", "Kakashi", "Yamato"], a: 2 },
-  { q: "Cửu Vĩ có tên thật là gì?", o: ["Shukaku", "Matatabi", "Kurama", "Gyuki"], a: 2 },
-  { q: "Tuyệt kỹ đặc trưng nhất của Naruto là gì?", o: ["Chidori", "Rasengan", "Amaterasu", "Tsukuyomi"], a: 1 },
-  { q: "Ai là người đã thảm sát gia tộc Uchiha?", o: ["Madara", "Obito", "Itachi", "Sasuke"], a: 2 },
-  { q: "Hokage đệ Tứ có mối quan hệ gì với Naruto?", o: ["Thầy", "Cha", "Anh trai", "Không có quan hệ"], a: 1 },
-  { q: "Tổ chức phản diện chính trong Naruto Shippuden là gì?", o: ["Kara", "Akatsuki", "Orochi", "Root"], a: 1 },
-  { q: "Con mắt của gia tộc Hyuga được gọi là gì?", o: ["Sharingan", "Rinnegan", "Byakugan", "Tenseigan"], a: 2 },
-  { q: 'Ai là "Sannin huyền thoại" đã nhận Naruto làm học trò?', o: ["Tsunade", "Orochimaru", "Jiraiya", "Danzo"], a: 2 },
-  { q: "Làng Lá nằm ở quốc gia nào?", o: ["Thổ Quốc", "Hỏa Quốc", "Thủy Quốc", "Lôi Quốc"], a: 1 },
+  { t: "NARUTO", q: "Naruto thuộc về gia tộc nào?", o: ["Uchiha", "Uzumaki", "Hyuga", "Senju"], a: 1 },
+  { t: "NARUTO", q: "Ai là thầy giáo hướng dẫn trực tiếp cho Đội 7?", o: ["Jiraiya", "Iruka", "Kakashi", "Yamato"], a: 2 },
+  { t: "NARUTO", q: "Cửu Vĩ có tên thật là gì?", o: ["Shukaku", "Matatabi", "Kurama", "Gyuki"], a: 2 },
+  { t: "NARUTO", q: "Tuyệt kỹ đặc trưng nhất của Naruto là gì?", o: ["Chidori", "Rasengan", "Amaterasu", "Tsukuyomi"], a: 1 },
+  { t: "NARUTO", q: "Ai là người đã thảm sát gia tộc Uchiha?", o: ["Madara", "Obito", "Itachi", "Sasuke"], a: 2 },
+  { t: "NARUTO", q: "Hokage đệ Tứ có mối quan hệ gì với Naruto?", o: ["Thầy", "Cha", "Anh trai", "Không có quan hệ"], a: 1 },
+  { t: "NARUTO", q: "Tổ chức phản diện chính trong Naruto Shippuden là gì?", o: ["Kara", "Akatsuki", "Orochi", "Root"], a: 1 },
+  { t: "NARUTO", q: "Con mắt của gia tộc Hyuga được gọi là gì?", o: ["Sharingan", "Rinnegan", "Byakugan", "Tenseigan"], a: 2 },
+  { t: "NARUTO", q: 'Ai là "Sannin huyền thoại" đã nhận Naruto làm học trò?', o: ["Tsunade", "Orochimaru", "Jiraiya", "Danzo"], a: 2 },
+  { t: "NARUTO", q: "Làng Lá nằm ở quốc gia nào?", o: ["Thổ Quốc", "Hỏa Quốc", "Thủy Quốc", "Lôi Quốc"], a: 1 },
 
   // ===== ONE PUNCH MAN (10) =====
-  { q: "Saitama đã tập luyện như thế nào để trở nên mạnh mẽ?", o: ["Ăn trái ác quỷ", "100 cái hít đất, gập bụng, squat và chạy 10km mỗi ngày", "Cấy ghép gen quái vật", "Tu luyện trên núi"], a: 1 },
-  { q: "Đệ tử tự nhận của Saitama là ai?", o: ["Genos", "King", "Mumen Rider", "Bang"], a: 0 },
-  { q: "Xếp hạng anh hùng của Saitama khi mới gia nhập Hiệp hội là gì?", o: ["Lớp S", "Lớp A", "Lớp B", "Lớp C"], a: 3 },
-  { q: 'Anh hùng nào được mệnh danh là "Người đàn ông mạnh nhất thế giới" (nhưng thực tế là hiểu lầm)?', o: ["Saitama", "King", "Blast", "Silver Fang"], a: 1 },
-  { q: "Kẻ thù đầu tiên mà Saitama tiêu diệt trong anime (con cua) tên là gì?", o: ["Boros", "Crablante", "Deep Sea King", "Carnage Kabuto"], a: 1 },
-  { q: "Thành phố nơi Saitama sinh sống là thành phố nào?", o: ["Thành phố A", "Thành phố Z", "Thành phố S", "Thành phố Q"], a: 1 },
-  { q: 'Tatsumaki có biệt danh là gì?', o: ["Đứa con của bão", "Đứa con của quỷ", "Đứa con của bão tố", "Cơn lốc kinh hoàng"], a: 3 },
-  { q: "Ai là lãnh đạo của nhóm quái vật xâm lược Trái đất bằng phi thuyền?", o: ["Orochi", "Garou", "Lord Boros", "Black Sperm"], a: 2 },
-  { q: 'Vũ khí của "Chùy Sắt Hiệp Sĩ" (Metal Bat) là gì?', o: ["Kiếm", "Gậy bóng chày", "Rìu", "Tay không"], a: 1 },
-  { q: '"Thợ săn anh hùng" là biệt danh của ai?', o: ["Speed-o'-Sound Sonic", "Garou", "Suiryu", "Tanktop Master"], a: 1 },
+  { t: "ONE PUNCH MAN", q: "Saitama đã tập luyện như thế nào để trở nên mạnh mẽ?", o: ["Ăn trái ác quỷ", "100 cái hít đất, gập bụng, squat và chạy 10km mỗi ngày", "Cấy ghép gen quái vật", "Tu luyện trên núi"], a: 1 },
+  { t: "ONE PUNCH MAN", q: "Đệ tử tự nhận của Saitama là ai?", o: ["Genos", "King", "Mumen Rider", "Bang"], a: 0 },
+  { t: "ONE PUNCH MAN", q: "Xếp hạng anh hùng của Saitama khi mới gia nhập Hiệp hội là gì?", o: ["Lớp S", "Lớp A", "Lớp B", "Lớp C"], a: 3 },
+  { t: "ONE PUNCH MAN", q: 'Anh hùng nào được mệnh danh là "Người đàn ông mạnh nhất thế giới" (nhưng thực tế là hiểu lầm)?', o: ["Saitama", "King", "Blast", "Silver Fang"], a: 1 },
+  { t: "ONE PUNCH MAN", q: "Kẻ thù đầu tiên mà Saitama tiêu diệt trong anime (con cua) tên là gì?", o: ["Boros", "Crablante", "Deep Sea King", "Carnage Kabuto"], a: 1 },
+  { t: "ONE PUNCH MAN", q: "Thành phố nơi Saitama sinh sống là thành phố nào?", o: ["Thành phố A", "Thành phố Z", "Thành phố S", "Thành phố Q"], a: 1 },
+  { t: "ONE PUNCH MAN", q: 'Tatsumaki có biệt danh là gì?', o: ["Đứa con của bão", "Đứa con của quỷ", "Đứa con của bão tố", "Cơn lốc kinh hoàng"], a: 3 },
+  { t: "ONE PUNCH MAN", q: "Ai là lãnh đạo của nhóm quái vật xâm lược Trái đất bằng phi thuyền?", o: ["Orochi", "Garou", "Lord Boros", "Black Sperm"], a: 2 },
+  { t: "ONE PUNCH MAN", q: 'Vũ khí của "Chùy Sắt Hiệp Sĩ" (Metal Bat) là gì?', o: ["Kiếm", "Gậy bóng chày", "Rìu", "Tay không"], a: 1 },
+  { t: "ONE PUNCH MAN", q: '"Thợ săn anh hùng" là biệt danh của ai?', o: ["Speed-o'-Sound Sonic", "Garou", "Suiryu", "Tanktop Master"], a: 1 },
 
   // ===== THANH GƯƠM DIỆT QUỶ (10) =====
-  { q: "Tanjiro sử dụng hơi thở khởi đầu nào?", o: ["Hơi thở của Nước", "Hơi thở của Lửa", "Hơi thở của Sấm sét", "Hơi thở của Gió"], a: 0 },
-  { q: "Nezuko di chuyển ban ngày bằng cách nào?", o: ["Đeo kính râm", "Trốn trong hộp gỗ", "Che ô", "Uống thuốc"], a: 1 },
-  { q: "Ai là chúa tể của loài quỷ?", o: ["Kokushibo", "Akaza", "Kibutsuji Muzan", "Douma"], a: 2 },
-  { q: "Kiếm sĩ mạnh nhất trong dàn Trụ cột (xét về thể chất) là ai?", o: ["Giyu", "Rengoku", "Gyomei (Nham Trụ)", "Sanemi"], a: 2 },
-  { q: "Người bạn của Tanjiro, thường xuyên đeo đầu heo là ai?", o: ["Zenitsu", "Inosuke", "Genya", "Sabito"], a: 1 },
-  { q: "Thanh kiếm của Tanjiro có màu gì?", o: ["Xanh", "Đỏ", "Đen", "Vàng"], a: 2 },
-  { q: 'Bậc thầy dạy Tanjiro "Hơi thở của Nước" là ai?', o: ["Urokodaki Sakonji", "Jigoro Kuwajima", "Shinjuro Rengoku", "Kagaya Ubuyashiki"], a: 0 },
-  { q: "Kỹ năng đặc biệt của Zenitsu là gì?", o: ["Chạy nhanh", "Chiến đấu khi đang ngủ", "Nhìn xuyên thấu", "Khứu giác nhạy bén"], a: 1 },
-  { q: "Viêm Trụ Rengoku Kyojuro xuất hiện chính trong phần phim nào?", o: ["Phố đèn đỏ", "Làng thợ rèn", "Chuyến tàu vô tận", "Pháo đài vô cực"], a: 2 },
-  { q: "Hoa nào là nỗi sợ hãi của loài quỷ?", o: ["Hoa Anh đào", "Hoa Hồng", "Hoa Tử đằng", "Hoa Hướng dương"], a: 2 },
+  { t: "THANH GƯƠM DIỆT QUỶ", q: "Tanjiro sử dụng hơi thở khởi đầu nào?", o: ["Hơi thở của Nước", "Hơi thở của Lửa", "Hơi thở của Sấm sét", "Hơi thở của Gió"], a: 0 },
+  { t: "THANH GƯƠM DIỆT QUỶ", q: "Nezuko di chuyển ban ngày bằng cách nào?", o: ["Đeo kính râm", "Trốn trong hộp gỗ", "Che ô", "Uống thuốc"], a: 1 },
+  { t: "THANH GƯƠM DIỆT QUỶ", q: "Ai là chúa tể của loài quỷ?", o: ["Kokushibo", "Akaza", "Kibutsuji Muzan", "Douma"], a: 2 },
+  { t: "THANH GƯƠM DIỆT QUỶ", q: "Kiếm sĩ mạnh nhất trong dàn Trụ cột (xét về thể chất) là ai?", o: ["Giyu", "Rengoku", "Gyomei (Nham Trụ)", "Sanemi"], a: 2 },
+  { t: "THANH GƯƠM DIỆT QUỶ", q: "Người bạn của Tanjiro, thường xuyên đeo đầu heo là ai?", o: ["Zenitsu", "Inosuke", "Genya", "Sabito"], a: 1 },
+  { t: "THANH GƯƠM DIỆT QUỶ", q: "Thanh kiếm của Tanjiro có màu gì?", o: ["Xanh", "Đỏ", "Đen", "Vàng"], a: 2 },
+  { t: "THANH GƯƠM DIỆT QUỶ", q: 'Bậc thầy dạy Tanjiro "Hơi thở của Nước" là ai?', o: ["Urokodaki Sakonji", "Jigoro Kuwajima", "Shinjuro Rengoku", "Kagaya Ubuyashiki"], a: 0 },
+  { t: "THANH GƯƠM DIỆT QUỶ", q: "Kỹ năng đặc biệt của Zenitsu là gì?", o: ["Chạy nhanh", "Chiến đấu khi đang ngủ", "Nhìn xuyên thấu", "Khứu giác nhạy bén"], a: 1 },
+  { t: "THANH GƯƠM DIỆT QUỶ", q: "Viêm Trụ Rengoku Kyojuro xuất hiện chính trong phần phim nào?", o: ["Phố đèn đỏ", "Làng thợ rèn", "Chuyến tàu vô tận", "Pháo đài vô cực"], a: 2 },
+  { t: "THANH GƯƠM DIỆT QUỶ", q: "Hoa nào là nỗi sợ hãi của loài quỷ?", o: ["Hoa Anh đào", "Hoa Hồng", "Hoa Tử đằng", "Hoa Hướng dương"], a: 2 },
 
   // ===== CONAN (10) =====
-  { q: "Tên thật của Thám tử lừng danh Conan là gì?", o: ["Ran Mouri", "Heiji Hattori", "Kudo Shinichi", "Saguru Hakuba"], a: 2 },
-  { q: "Tổ chức Áo đen có bí danh lấy cảm hứng từ đâu?", o: ["Tên các loài hoa", "Tên các loại rượu", "Tên các hành tinh", "Tên các con vật"], a: 1 },
-  { q: "Ai là người đã cho Shinichi uống thuốc teo nhỏ APTX 4869?", o: ["Gin", "Vodka", "Vermouth", "Bourbon"], a: 0 },
-  { q: "Cô bé Ai Haibara vốn là thành viên của Tổ chức Áo đen với mật danh là gì?", o: ["Sherry", "Chianti", "Kir", "Tequila"], a: 0 },
-  { q: "Tiến sĩ Agasa đã phát minh ra vật dụng nào giúp Conan giả giọng người khác?", o: ["Giày tăng lực", "Nơ biến đổi giọng nói", "Đồng hồ gây mê", "Ván trượt siêu tốc"], a: 1 },
-  { q: "Thám tử miền Tây, đối thủ và cũng là bạn thân của Conan là ai?", o: ["Hakuba", "Heiji Hattori", "Akai Shuichi", "Amuro Tooru"], a: 1 },
-  { q: '"Siêu đạo chích" thường xuyên đối đầu với Conan là ai?', o: ["Kaitou Kid", "Lupin III", "Jirokichi Suzuki", "Makoto Kyogoku"], a: 0 },
-  { q: "Bố của Shinichi, Kudo Yusaku, làm nghề gì?", o: ["Cảnh sát", "Bác sĩ", "Tiểu thuyết gia trinh thám", "Diễn viên"], a: 2 },
-  { q: "Ran Mouri giỏi môn võ nào nhất?", o: ["Judo", "Aikido", "Karate", "Kendo"], a: 2 },
-  { q: 'Thám tử "ngủ gật" Kogoro Mouri từng làm nghề gì trước khi làm thám tử tư?', o: ["Đầu bếp", "Cảnh sát", "Giáo viên", "Luật sư"], a: 1 },
+  { t: "CONAN", q: "Tên thật của Thám tử lừng danh Conan là gì?", o: ["Ran Mouri", "Heiji Hattori", "Kudo Shinichi", "Saguru Hakuba"], a: 2 },
+  { t: "CONAN", q: "Tổ chức Áo đen có bí danh lấy cảm hứng từ đâu?", o: ["Tên các loài hoa", "Tên các loại rượu", "Tên các hành tinh", "Tên các con vật"], a: 1 },
+  { t: "CONAN", q: "Ai là người đã cho Shinichi uống thuốc teo nhỏ APTX 4869?", o: ["Gin", "Vodka", "Vermouth", "Bourbon"], a: 0 },
+  { t: "CONAN", q: "Cô bé Ai Haibara vốn là thành viên của Tổ chức Áo đen với mật danh là gì?", o: ["Sherry", "Chianti", "Kir", "Tequila"], a: 0 },
+  { t: "CONAN", q: "Tiến sĩ Agasa đã phát minh ra vật dụng nào giúp Conan giả giọng người khác?", o: ["Giày tăng lực", "Nơ biến đổi giọng nói", "Đồng hồ gây mê", "Ván trượt siêu tốc"], a: 1 },
+  { t: "CONAN", q: "Thám tử miền Tây, đối thủ và cũng là bạn thân của Conan là ai?", o: ["Hakuba", "Heiji Hattori", "Akai Shuichi", "Amuro Tooru"], a: 1 },
+  { t: "CONAN", q: '"Siêu đạo chích" thường xuyên đối đầu với Conan là ai?', o: ["Kaitou Kid", "Lupin III", "Jirokichi Suzuki", "Makoto Kyogoku"], a: 0 },
+  { t: "CONAN", q: "Bố của Shinichi, Kudo Yusaku, làm nghề gì?", o: ["Cảnh sát", "Bác sĩ", "Tiểu thuyết gia trinh thám", "Diễn viên"], a: 2 },
+  { t: "CONAN", q: "Ran Mouri giỏi môn võ nào nhất?", o: ["Judo", "Aikido", "Karate", "Kendo"], a: 2 },
+  { t: "CONAN", q: 'Thám tử "ngủ gật" Kogoro Mouri từng làm nghề gì trước khi làm thám tử tư?', o: ["Đầu bếp", "Cảnh sát", "Giáo viên", "Luật sư"], a: 1 },
 
   // ===== ATTACK ON TITAN (10) =====
-  { q: "Bức tường ngoài cùng bảo vệ con người tên là gì?", o: ["Wall Rose", "Wall Maria", "Wall Sina", "Wall Titan"], a: 1 },
-  { q: "Eren Yeager sở hữu sức mạnh của bao nhiêu Titan (tính đến cuối phần 3)?", o: ["1", "2", "3", "4"], a: 1 },
-  { q: 'Đội trưởng Đội Trinh sát được mệnh danh là "Chiến binh mạnh nhất nhân loại" là ai?', o: ["Erwin Smith", "Levi Ackerman", "Jean Kirstein", "Reiner Braun"], a: 1 },
-  { q: "Titan nào đã phá hủy cổng thành Wall Maria ở tập 1?", o: ["Titan Tiến công", "Titan Thiết giáp", "Titan Đại hình", "Titan Nữ hình"], a: 2 },
-  { q: "Mikasa luôn đeo vật phẩm gì mà Eren tặng?", o: ["Nhẫn", "Khăn quàng cổ", "Vòng tay", "Dây chuyền"], a: 1 },
-  { q: "Sở thích đặc biệt nhất của Levi là gì?", o: ["Ngủ", "Ăn", "Dọn dẹp vệ sinh", "Đọc sách"], a: 2 },
-  { q: "Gia tộc nào miễn nhiễm với khả năng xóa trí nhớ của Titan Thủy tổ?", o: ["Braun", "Ackerman", "Smith", "Arlert"], a: 1 },
-  { q: "Người kế thừa Titan Đại hình sau Bertholdt là ai?", o: ["Eren", "Armin", "Connie", "Hange"], a: 1 },
-  { q: "Bên trong các bức tường thực chất là gì?", o: ["Gạch đá", "Các Titan khổng lồ", "Kim loại", "Cây cối"], a: 1 },
-  { q: "Tác giả của bộ truyện Attack on Titan là ai?", o: ["Eiichiro Oda", "Masashi Kishimoto", "Hajime Isayama", "Tite Kubo"], a: 2 },
+  { t: "ATTACK ON TITAN", q: "Bức tường ngoài cùng bảo vệ con người tên là gì?", o: ["Wall Rose", "Wall Maria", "Wall Sina", "Wall Titan"], a: 1 },
+  { t: "ATTACK ON TITAN", q: "Eren Yeager sở hữu sức mạnh của bao nhiêu Titan (tính đến cuối phần 3)?", o: ["1", "2", "3", "4"], a: 1 },
+  { t: "ATTACK ON TITAN", q: 'Đội trưởng Đội Trinh sát được mệnh danh là "Chiến binh mạnh nhất nhân loại" là ai?', o: ["Erwin Smith", "Levi Ackerman", "Jean Kirstein", "Reiner Braun"], a: 1 },
+  { t: "ATTACK ON TITAN", q: "Titan nào đã phá hủy cổng thành Wall Maria ở tập 1?", o: ["Titan Tiến công", "Titan Thiết giáp", "Titan Đại hình", "Titan Nữ hình"], a: 2 },
+  { t: "ATTACK ON TITAN", q: "Mikasa luôn đeo vật phẩm gì mà Eren tặng?", o: ["Nhẫn", "Khăn quàng cổ", "Vòng tay", "Dây chuyền"], a: 1 },
+  { t: "ATTACK ON TITAN", q: "Sở thích đặc biệt nhất của Levi là gì?", o: ["Ngủ", "Ăn", "Dọn dẹp vệ sinh", "Đọc sách"], a: 2 },
+  { t: "ATTACK ON TITAN", q: "Gia tộc nào miễn nhiễm với khả năng xóa trí nhớ của Titan Thủy tổ?", o: ["Braun", "Ackerman", "Smith", "Arlert"], a: 1 },
+  { t: "ATTACK ON TITAN", q: "Người kế thừa Titan Đại hình sau Bertholdt là ai?", o: ["Eren", "Armin", "Connie", "Hange"], a: 1 },
+  { t: "ATTACK ON TITAN", q: "Bên trong các bức tường thực chất là gì?", o: ["Gạch đá", "Các Titan khổng lồ", "Kim loại", "Cây cối"], a: 1 },
+  { t: "ATTACK ON TITAN", q: "Tác giả của bộ truyện Attack on Titan là ai?", o: ["Eiichiro Oda", "Masashi Kishimoto", "Hajime Isayama", "Tite Kubo"], a: 2 },
 
   // ===== HUNTER X HUNTER (10) =====
-  { q: "Gon Freecss đi thi Hunter để tìm ai?", o: ["Mẹ", "Cha", "Chú", "Kẻ thù"], a: 1 },
-  { q: "Bạn thân nhất của Gon, xuất thân từ gia đình sát thủ là ai?", o: ["Kurapika", "Leorio", "Killua", "Hisoka"], a: 2 },
-  { q: "Năng lực đặc biệt mà các Hunter sử dụng được gọi là gì?", o: ["Chakra", "Haki", "Niệm (Nen)", "Ma lực"], a: 2 },
-  { q: "Kurapika thuộc tộc người nào có đôi mắt chuyển đỏ khi xúc động?", o: ["Kurta", "Uchiha", "Zoldyck", "Meteor"], a: 0 },
-  { q: "Vũ khí mà Killua thường sử dụng ở giai đoạn đầu là gì?", o: ["Kiếm", "Yo-yo", "Súng", "Móng tay sắc nhọn"], a: 3 },
-  { q: "Ai là chủ tịch hiệp hội Hunter (đã hy sinh khi đấu với Kiến Vương)?", o: ["Ging Freecss", "Isaac Netero", "Pariston Hill", "Silva Zoldyck"], a: 1 },
-  { q: "Băng nhóm tội phạm khét tiếng mà Kurapika muốn tiêu diệt là?", o: ["Akatsuki", "Phantom Troupe (Băng Nhện)", "Espada", "League of Villains"], a: 1 },
-  { q: "Kiến Vương Chimera tên là gì?", o: ["Meruem", "Pouf", "Youpi", "Pitou"], a: 0 },
-  { q: "Môn cờ mà Meruem chơi cùng Komugi tên là gì?", o: ["Shogi", "Cờ vây", "Gungi", "Cờ tướng"], a: 2 },
-  { q: "Cha của Gon tên là gì?", o: ["Kite", "Ging", "Silva", "Zeno"], a: 1 },
+  { t: "HUNTER X HUNTER", q: "Gon Freecss đi thi Hunter để tìm ai?", o: ["Mẹ", "Cha", "Chú", "Kẻ thù"], a: 1 },
+  { t: "HUNTER X HUNTER", q: "Bạn thân nhất của Gon, xuất thân từ gia đình sát thủ là ai?", o: ["Kurapika", "Leorio", "Killua", "Hisoka"], a: 2 },
+  { t: "HUNTER X HUNTER", q: "Năng lực đặc biệt mà các Hunter sử dụng được gọi là gì?", o: ["Chakra", "Haki", "Niệm (Nen)", "Ma lực"], a: 2 },
+  { t: "HUNTER X HUNTER", q: "Kurapika thuộc tộc người nào có đôi mắt chuyển đỏ khi xúc động?", o: ["Kurta", "Uchiha", "Zoldyck", "Meteor"], a: 0 },
+  { t: "HUNTER X HUNTER", q: "Vũ khí mà Killua thường sử dụng ở giai đoạn đầu là gì?", o: ["Kiếm", "Yo-yo", "Súng", "Móng tay sắc nhọn"], a: 3 },
+  { t: "HUNTER X HUNTER", q: "Ai là chủ tịch hiệp hội Hunter (đã hy sinh khi đấu với Kiến Vương)?", o: ["Ging Freecss", "Isaac Netero", "Pariston Hill", "Silva Zoldyck"], a: 1 },
+  { t: "HUNTER X HUNTER", q: "Băng nhóm tội phạm khét tiếng mà Kurapika muốn tiêu diệt là?", o: ["Akatsuki", "Phantom Troupe (Băng Nhện)", "Espada", "League of Villains"], a: 1 },
+  { t: "HUNTER X HUNTER", q: "Kiến Vương Chimera tên là gì?", o: ["Meruem", "Pouf", "Youpi", "Pitou"], a: 0 },
+  { t: "HUNTER X HUNTER", q: "Môn cờ mà Meruem chơi cùng Komugi tên là gì?", o: ["Shogi", "Cờ vây", "Gungi", "Cờ tướng"], a: 2 },
+  { t: "HUNTER X HUNTER", q: "Cha của Gon tên là gì?", o: ["Kite", "Ging", "Silva", "Zeno"], a: 1 },
 
   // ===== FAIRY TAIL (10) =====
-  { q: "Natsu Dragneel là một Sát Long Nhân hệ gì?", o: ["Hỏa", "Thiết", "Thiên Không", "Lôi"], a: 0 },
-  { q: "Chú mèo biết bay, bạn đồng hành của Natsu tên là gì?", o: ["Carla", "Happy", "Panther Lily", "Lector"], a: 1 },
-  { q: "Pháp sư sử dụng Hoán phục (Thay đổi giáp trụ và vũ khí) mạnh nhất hội là ai?", o: ["Lucy", "Erza Scarlet", "Mirajane", "Wendy"], a: 1 },
-  { q: "Hội trưởng đời thứ 3 của Fairy Tail là ai?", o: ["Makarov", "Gildarts", "Laxus", "Mavis"], a: 0 },
-  { q: "Lucy Heartfilia sử dụng loại ma pháp nào?", o: ["Sát Long Thuật", "Tinh Linh Ma Pháp", "Băng thuật", "Hắc ma pháp"], a: 1 },
-  { q: "Đối thủ truyền kiếp của Natsu trong hội, người sử dụng Băng thuật là ai?", o: ["Lyon", "Gray Fullbuster", "Juvia", "Gajeel"], a: 1 },
-  { q: "Pháp sư đen huyền thoại, kẻ phản diện chính của truyện là ai?", o: ["Acnologia", "Zeref", "Hades", "Mard Geer"], a: 1 },
-  { q: "Con rồng đã nuôi dưỡng Natsu tên là gì?", o: ["Igneel", "Metalicana", "Grandeeney", "Weisslogia"], a: 0 },
-  { q: "Biệt danh của Erza là gì?", o: ["Nữ hoàng băng giá", "Nữ hoàng Tiên (Titania)", "Sát Long Nhân", "Ma nhân"], a: 1 },
-  { q: "Ma pháp mạnh nhất của hội Fairy Tail là gì?", o: ["Fairy Gliter", "Fairy Law", "Fairy Sphere", "Tất cả đều đúng"], a: 3 },
+  { t: "FAIRY TAIL", q: "Natsu Dragneel là một Sát Long Nhân hệ gì?", o: ["Hỏa", "Thiết", "Thiên Không", "Lôi"], a: 0 },
+  { t: "FAIRY TAIL", q: "Chú mèo biết bay, bạn đồng hành của Natsu tên là gì?", o: ["Carla", "Happy", "Panther Lily", "Lector"], a: 1 },
+  { t: "FAIRY TAIL", q: "Pháp sư sử dụng Hoán phục (Thay đổi giáp trụ và vũ khí) mạnh nhất hội là ai?", o: ["Lucy", "Erza Scarlet", "Mirajane", "Wendy"], a: 1 },
+  { t: "FAIRY TAIL", q: "Hội trưởng đời thứ 3 của Fairy Tail là ai?", o: ["Makarov", "Gildarts", "Laxus", "Mavis"], a: 0 },
+  { t: "FAIRY TAIL", q: "Lucy Heartfilia sử dụng loại ma pháp nào?", o: ["Sát Long Thuật", "Tinh Linh Ma Pháp", "Băng thuật", "Hắc ma pháp"], a: 1 },
+  { t: "FAIRY TAIL", q: "Đối thủ truyền kiếp của Natsu trong hội, người sử dụng Băng thuật là ai?", o: ["Lyon", "Gray Fullbuster", "Juvia", "Gajeel"], a: 1 },
+  { t: "FAIRY TAIL", q: "Pháp sư đen huyền thoại, kẻ phản diện chính của truyện là ai?", o: ["Acnologia", "Zeref", "Hades", "Mard Geer"], a: 1 },
+  { t: "FAIRY TAIL", q: "Con rồng đã nuôi dưỡng Natsu tên là gì?", o: ["Igneel", "Metalicana", "Grandeeney", "Weisslogia"], a: 0 },
+  { t: "FAIRY TAIL", q: "Biệt danh của Erza là gì?", o: ["Nữ hoàng băng giá", "Nữ hoàng Tiên (Titania)", "Sát Long Nhân", "Ma nhân"], a: 1 },
+  { t: "FAIRY TAIL", q: "Ma pháp mạnh nhất của hội Fairy Tail là gì?", o: ["Fairy Gliter", "Fairy Law", "Fairy Sphere", "Tất cả đều đúng"], a: 3 },
 
   // ===== BLUE LOCK (10) =====
-  { q: "Mục tiêu của dự án Blue Lock là tạo ra vị trí nào xuất sắc nhất thế giới?", o: ["Thủ môn", "Tiền vệ", "Tiền đạo", "Hậu vệ"], a: 2 },
-  { q: "Nhân vật chính Isagi Yoichi có vũ khí lợi hại nhất là gì?", o: ["Tốc độ", "Sức mạnh cơ bắp", "Nhãn quan chiến thuật (Siêu thị giác)", "Kỹ thuật cá nhân"], a: 2 },
-  { q: "Người đứng đầu và điều hành dự án Blue Lock là ai?", o: ["Anri Teieri", "Ego Jinpachi", "Noel Noa", "Itoshi Sae"], a: 1 },
-  { q: "Thần tượng của Isagi, tiền đạo số 1 thế giới là ai?", o: ["Noel Noa", "Chris Prince", "Lavinho", "Marc Snuffy"], a: 0 },
-  { q: 'Nhân vật được mệnh danh là "Công chúa" với mái tóc dài và tốc độ chạy cực nhanh?', o: ["Bachira", "Chigiri", "Kunigami", "Nagi"], a: 1 },
-  { q: "Cầu thủ thiên tài luôn coi bóng đá là phiền phức nhưng cực giỏi trong việc kiểm soát bóng?", o: ["Reo", "Nagi Seishiro", "Barou", "Rin"], a: 1 },
-  { q: '"Vua" của sân cỏ với lối đá ích kỷ và đầy sức mạnh là ai?', o: ["Isagi", "Barou Shoei", "Niko", "Zantetsu"], a: 1 },
-  { q: "Người anh trai của Itoshi Rin, cũng là một thiên tài bóng đá Nhật Bản là ai?", o: ["Itoshi Sae", "Itoshi Shidou", "Itoshi Kai", "Itoshi Ryosuke"], a: 0 },
-  { q: 'Bachira Meguru luôn tin rằng có một thứ gì đó bên trong mình thôi thúc chơi bóng, đó là gì?', o: ["Thiên thần", "Quái vật (Monster)", "Ngọn lửa", "Áp lực"], a: 1 },
-  { q: "Trong trận đấu với U20 Nhật Bản, Blue Lock đã thắng với tỉ số bao nhiêu?", o: ["3-2", "4-3", "2-1", "5-4"], a: 1 },
+  { t: "BLUE LOCK", q: "Mục tiêu của dự án Blue Lock là tạo ra vị trí nào xuất sắc nhất thế giới?", o: ["Thủ môn", "Tiền vệ", "Tiền đạo", "Hậu vệ"], a: 2 },
+  { t: "BLUE LOCK", q: "Nhân vật chính Isagi Yoichi có vũ khí lợi hại nhất là gì?", o: ["Tốc độ", "Sức mạnh cơ bắp", "Nhãn quan chiến thuật (Siêu thị giác)", "Kỹ thuật cá nhân"], a: 2 },
+  { t: "BLUE LOCK", q: "Người đứng đầu và điều hành dự án Blue Lock là ai?", o: ["Anri Teieri", "Ego Jinpachi", "Noel Noa", "Itoshi Sae"], a: 1 },
+  { t: "BLUE LOCK", q: "Thần tượng của Isagi, tiền đạo số 1 thế giới là ai?", o: ["Noel Noa", "Chris Prince", "Lavinho", "Marc Snuffy"], a: 0 },
+  { t: "BLUE LOCK", q: 'Nhân vật được mệnh danh là "Công chúa" với mái tóc dài và tốc độ chạy cực nhanh?', o: ["Bachira", "Chigiri", "Kunigami", "Nagi"], a: 1 },
+  { t: "BLUE LOCK", q: "Cầu thủ thiên tài luôn coi bóng đá là phiền phức nhưng cực giỏi trong việc kiểm soát bóng?", o: ["Reo", "Nagi Seishiro", "Barou", "Rin"], a: 1 },
+  { t: "BLUE LOCK", q: '"Vua" của sân cỏ với lối đá ích kỷ và đầy sức mạnh là ai?', o: ["Isagi", "Barou Shoei", "Niko", "Zantetsu"], a: 1 },
+  { t: "BLUE LOCK", q: "Người anh trai của Itoshi Rin, cũng là một thiên tài bóng đá Nhật Bản là ai?", o: ["Itoshi Sae", "Itoshi Shidou", "Itoshi Kai", "Itoshi Ryosuke"], a: 0 },
+  { t: "BLUE LOCK", q: 'Bachira Meguru luôn tin rằng có một thứ gì đó bên trong mình thôi thúc chơi bóng, đó là gì?', o: ["Thiên thần", "Quái vật (Monster)", "Ngọn lửa", "Áp lực"], a: 1 },
+  { t: "BLUE LOCK", q: "Trong trận đấu với U20 Nhật Bản, Blue Lock đã thắng với tỉ số bao nhiêu?", o: ["3-2", "4-3", "2-1", "5-4"], a: 1 },
 
   // ===== JUJUTSU KAISEN (10) =====
-  { q: "Itadori Yuji đã nuốt vật thể nguyền chú nào ở tập 1?", o: ["Ngón tay của Sukuna", "Con mắt của Sukuna", "Tim của Sukuna", "Xương của Sukuna"], a: 0 },
-  { q: "Chú thuật sư mạnh nhất thời đại hiện nay là ai?", o: ["Nanami", "Gojo Satoru", "Geto Suguru", "Megumi"], a: 1 },
-  { q: "Kỹ thuật nguyền chú của Fushiguro Megumi là gì?", o: ["Xích huyết thao thuật", "Thập chủng ảnh pháp thuật", "Băng thuật", "Vô hạ hạn"], a: 1 },
-  { q: "Nữ chính trong nhóm của Yuji, sử dụng búa và đinh là ai?", o: ["Maki", "Nobara Kugisaki", "Miwa", "Mai"], a: 1 },
-  { q: "Ai là người luôn đeo băng bịt mắt (hoặc kính râm)?", o: ["Inumaki", "Gojo", "Panda", "Toji"], a: 1 },
-  { q: 'Vật chứa của "Vua lời nguyền" Ryomen Sukuna là ai?', o: ["Megumi", "Yuji", "Yuta", "Mahito"], a: 1 },
-  { q: "Tình trạng của Inumaki Toge là gì khi anh ấy sử dụng ngôn từ?", o: ["Chỉ nói tên các thành phần cơm nắm", "Không bao giờ nói", "Chỉ nói tiếng Anh", "Chỉ nói thầm"], a: 0 },
-  { q: "Chú linh đặc cấp luôn muốn thay thế con người, có khả năng biến đổi linh hồn là ai?", o: ["Jogo", "Hanami", "Mahito", "Dagon"], a: 2 },
-  { q: "Người bạn thân nhất của Gojo Satoru, người sau này trở thành phản diện là ai?", o: ["Toji Fushiguro", "Suguru Geto", "Kento Nanami", "Choso"], a: 1 },
-  { q: "Bành trướng lãnh địa của Gojo Satoru có tên là gì?", o: ["Phục ma ngự điện", "Vô lượng không xứ", "Khảm hợp ế đình", "Tự bế viên đốn khỏa"], a: 1 },
+  { t: "JUJUTSU KAISEN", q: "Itadori Yuji đã nuốt vật thể nguyền chú nào ở tập 1?", o: ["Ngón tay của Sukuna", "Con mắt của Sukuna", "Tim của Sukuna", "Xương của Sukuna"], a: 0 },
+  { t: "JUJUTSU KAISEN", q: "Chú thuật sư mạnh nhất thời đại hiện nay là ai?", o: ["Nanami", "Gojo Satoru", "Geto Suguru", "Megumi"], a: 1 },
+  { t: "JUJUTSU KAISEN", q: "Kỹ thuật nguyền chú của Fushiguro Megumi là gì?", o: ["Xích huyết thao thuật", "Thập chủng ảnh pháp thuật", "Băng thuật", "Vô hạ hạn"], a: 1 },
+  { t: "JUJUTSU KAISEN", q: "Nữ chính trong nhóm của Yuji, sử dụng búa và đinh là ai?", o: ["Maki", "Nobara Kugisaki", "Miwa", "Mai"], a: 1 },
+  { t: "JUJUTSU KAISEN", q: "Ai là người luôn đeo băng bịt mắt (hoặc kính râm)?", o: ["Inumaki", "Gojo", "Panda", "Toji"], a: 1 },
+  { t: "JUJUTSU KAISEN", q: 'Vật chứa của "Vua lời nguyền" Ryomen Sukuna là ai?', o: ["Megumi", "Yuji", "Yuta", "Mahito"], a: 1 },
+  { t: "JUJUTSU KAISEN", q: "Tình trạng của Inumaki Toge là gì khi anh ấy sử dụng ngôn từ?", o: ["Chỉ nói tên các thành phần cơm nắm", "Không bao giờ nói", "Chỉ nói tiếng Anh", "Chỉ nói thầm"], a: 0 },
+  { t: "JUJUTSU KAISEN", q: "Chú linh đặc cấp luôn muốn thay thế con người, có khả năng biến đổi linh hồn là ai?", o: ["Jogo", "Hanami", "Mahito", "Dagon"], a: 2 },
+  { t: "JUJUTSU KAISEN", q: "Người bạn thân nhất của Gojo Satoru, người sau này trở thành phản diện là ai?", o: ["Toji Fushiguro", "Suguru Geto", "Kento Nanami", "Choso"], a: 1 },
+  { t: "JUJUTSU KAISEN", q: "Bành trướng lãnh địa của Gojo Satoru có tên là gì?", o: ["Phục ma ngự điện", "Vô lượng không xứ", "Khảm hợp ế đình", "Tự bế viên đốn khỏa"], a: 1 },
 
   // ====== 100 CÂU VÒNG 2 ======
   // ===== DRAGON BALL (10) =====
-  { q: "Goku thuộc tộc người nào?", o: ["Namek", "Saiyan", "Trái Đất", "Frieza"], a: 1 },
-  { q: 'Ai là người đã dạy Goku kỹ thuật "Kamehameha"?', o: ["Quy Lão (Thần Rùa)", "Thượng Đế", "King Kai", "Whis"], a: 0 },
-  { q: "Vợ của Vegeta là ai?", o: ["Chi-Chi", "Bulma", "Videl", "18"], a: 1 },
-  { q: "Hành tinh quê hương của Goku tên là gì?", o: ["Namek", "Vegeta", "Sadala", "Earth"], a: 1 },
-  { q: "Kẻ thù nào đã khiến Goku lần đầu tiên biến thành Super Saiyan?", o: ["Vegeta", "Cell", "Frieza", "Buu"], a: 2 },
-  { q: "Tên thật của Android 18 là gì?", o: ["Lapis", "Lazuli", "Marron", "Videl"], a: 1 },
-  { q: "Hợp thể giữa Goku và Vegeta bằng bông tai Potara tên là gì?", o: ["Gogeta", "Vegito", "Gotenks", "Veku"], a: 1 },
-  { q: "Ai là vị Thần Hủy Diệt của Vũ trụ 7?", o: ["Champa", "Beerus", "Belmod", "Heles"], a: 1 },
-  { q: "Rồng thần Trái Đất có tên là gì?", o: ["Porunga", "Shenron", "Super Shenron", "Zalama"], a: 1 },
-  { q: "Con trai đầu lòng của Goku tên là gì?", o: ["Goten", "Gohan", "Trunks", "Pan"], a: 1 },
+  { t: "DRAGON BALL", q: "Goku thuộc tộc người nào?", o: ["Namek", "Saiyan", "Trái Đất", "Frieza"], a: 1 },
+  { t: "DRAGON BALL", q: 'Ai là người đã dạy Goku kỹ thuật "Kamehameha"?', o: ["Quy Lão (Thần Rùa)", "Thượng Đế", "King Kai", "Whis"], a: 0 },
+  { t: "DRAGON BALL", q: "Vợ của Vegeta là ai?", o: ["Chi-Chi", "Bulma", "Videl", "18"], a: 1 },
+  { t: "DRAGON BALL", q: "Hành tinh quê hương của Goku tên là gì?", o: ["Namek", "Vegeta", "Sadala", "Earth"], a: 1 },
+  { t: "DRAGON BALL", q: "Kẻ thù nào đã khiến Goku lần đầu tiên biến thành Super Saiyan?", o: ["Vegeta", "Cell", "Frieza", "Buu"], a: 2 },
+  { t: "DRAGON BALL", q: "Tên thật của Android 18 là gì?", o: ["Lapis", "Lazuli", "Marron", "Videl"], a: 1 },
+  { t: "DRAGON BALL", q: "Hợp thể giữa Goku và Vegeta bằng bông tai Potara tên là gì?", o: ["Gogeta", "Vegito", "Gotenks", "Veku"], a: 1 },
+  { t: "DRAGON BALL", q: "Ai là vị Thần Hủy Diệt của Vũ trụ 7?", o: ["Champa", "Beerus", "Belmod", "Heles"], a: 1 },
+  { t: "DRAGON BALL", q: "Rồng thần Trái Đất có tên là gì?", o: ["Porunga", "Shenron", "Super Shenron", "Zalama"], a: 1 },
+  { t: "DRAGON BALL", q: "Con trai đầu lòng của Goku tên là gì?", o: ["Goten", "Gohan", "Trunks", "Pan"], a: 1 },
 
   // ===== DEATH NOTE (10) =====
-  { q: "Tử thần đánh rơi cuốn sổ xuống nhân gian tên là gì?", o: ["Rem", "Ryuk", "Sidoh", "Gelus"], a: 1 },
-  { q: "Ryuk thích ăn loại quả nào nhất?", o: ["Chuối", "Cam", "Táo", "Dâu tây"], a: 2 },
-  { q: "Biệt danh mà thế giới đặt cho kẻ sát nhân dùng sổ tử thần là gì?", o: ["L", "Kira", "Near", "Mello"], a: 1 },
-  { q: "Thám tử thiên tài L có tên thật là gì?", o: ["Nate River", "Mihael Keehl", "L Lawliet", "Quillsh Wammy"], a: 2 },
-  { q: "Misa Amane sở hữu đôi mắt của ai để thấy được tên người khác?", o: ["Thần linh", "Ác quỷ", "Tử thần", "Không có"], a: 2 },
-  { q: 'Vật tế lễ để đổi lấy "Đôi mắt Tử thần" là gì?', o: ["Một bàn tay", "Một nửa tuổi thọ", "Linh hồn", "Ký ức"], a: 1 },
-  { q: "Ai là người kế vị chính thức của L?", o: ["Mello", "Near", "Light", "Watari"], a: 1 },
-  { q: "Light Yagami đã giấu cuốn sổ trong vật dụng nào để tránh bị phát hiện?", o: ["Ngăn kéo bàn có bẫy", "Trong gối", "Dưới sàn nhà", "Trong két sắt"], a: 0 },
-  { q: "Tổ chức nào được thành lập để truy bắt Kira?", o: ["CIA", "FBI", "NPA (Cảnh sát Nhật)", "SPK"], a: 2 },
-  { q: "Cuốn sổ Death Note có màu gì?", o: ["Trắng", "Đỏ", "Đen", "Xanh lá"], a: 2 },
+  { t: "DEATH NOTE", q: "Tử thần đánh rơi cuốn sổ xuống nhân gian tên là gì?", o: ["Rem", "Ryuk", "Sidoh", "Gelus"], a: 1 },
+  { t: "DEATH NOTE", q: "Ryuk thích ăn loại quả nào nhất?", o: ["Chuối", "Cam", "Táo", "Dâu tây"], a: 2 },
+  { t: "DEATH NOTE", q: "Biệt danh mà thế giới đặt cho kẻ sát nhân dùng sổ tử thần là gì?", o: ["L", "Kira", "Near", "Mello"], a: 1 },
+  { t: "DEATH NOTE", q: "Thám tử thiên tài L có tên thật là gì?", o: ["Nate River", "Mihael Keehl", "L Lawliet", "Quillsh Wammy"], a: 2 },
+  { t: "DEATH NOTE", q: "Misa Amane sở hữu đôi mắt của ai để thấy được tên người khác?", o: ["Thần linh", "Ác quỷ", "Tử thần", "Không có"], a: 2 },
+  { t: "DEATH NOTE", q: 'Vật tế lễ để đổi lấy "Đôi mắt Tử thần" là gì?', o: ["Một bàn tay", "Một nửa tuổi thọ", "Linh hồn", "Ký ức"], a: 1 },
+  { t: "DEATH NOTE", q: "Ai là người kế vị chính thức của L?", o: ["Mello", "Near", "Light", "Watari"], a: 1 },
+  { t: "DEATH NOTE", q: "Light Yagami đã giấu cuốn sổ trong vật dụng nào để tránh bị phát hiện?", o: ["Ngăn kéo bàn có bẫy", "Trong gối", "Dưới sàn nhà", "Trong két sắt"], a: 0 },
+  { t: "DEATH NOTE", q: "Tổ chức nào được thành lập để truy bắt Kira?", o: ["CIA", "FBI", "NPA (Cảnh sát Nhật)", "SPK"], a: 2 },
+  { t: "DEATH NOTE", q: "Cuốn sổ Death Note có màu gì?", o: ["Trắng", "Đỏ", "Đen", "Xanh lá"], a: 2 },
 
   // ===== MY HERO ACADEMIA (10) =====
-  { q: "Năng lực (Quirk) của nhân vật chính Izuku Midoriya tên là gì?", o: ["Explosion", "One For All", "All For One", "Half-Cold Half-Hot"], a: 1 },
-  { q: "Bakugo Katsuki có năng lực tạo ra vụ nổ từ đâu?", o: ["Mắt", "Mồ hôi tay", "Miệng", "Chân"], a: 1 },
-  { q: "Tên anh hùng của Midoriya là gì?", o: ["Deku", "Ground Zero", "Shoto", "Ingenium"], a: 0 },
-  { q: "Trường trung học đào tạo anh hùng hàng đầu là gì?", o: ["Shiketsu", "U.A.", "Ketsubutsu", "Seiai"], a: 1 },
-  { q: "Kẻ thù truyền kiếp của All Might là ai?", o: ["Tomura Shigaraki", "All For One", "Dabi", "Stain"], a: 1 },
-  { q: "Shoto Todoroki sở hữu năng lực gì?", o: ["Chỉ có Băng", "Chỉ có Lửa", "Nửa Băng Nửa Lửa", "Bay lượn"], a: 2 },
-  { q: "Ai là lớp trưởng lớp 1-A?", o: ["Midoriya", "Iida Tenya", "Momo Yaoyorozu", "Bakugo"], a: 1 },
-  { q: "Thầy chủ nhiệm của lớp 1-A là ai?", o: ["Present Mic", "Eraser Head (Aizawa)", "Midnight", "Endeavor"], a: 1 },
-  { q: "Anh hùng số 2 (sau này là số 1) có năng lực điều khiển lửa là ai?", o: ["Endeavor", "Hawks", "Best Jeanist", "Kamui Woods"], a: 0 },
-  { q: "Sức mạnh One For All được truyền lại qua hình thức nào?", o: ["Chạm tay", "Ăn sợi tóc", "Suy nghĩ", "Chiến đấu"], a: 1 },
+  { t: "MY HERO ACADEMIA", q: "Năng lực (Quirk) của nhân vật chính Izuku Midoriya tên là gì?", o: ["Explosion", "One For All", "All For One", "Half-Cold Half-Hot"], a: 1 },
+  { t: "MY HERO ACADEMIA", q: "Bakugo Katsuki có năng lực tạo ra vụ nổ từ đâu?", o: ["Mắt", "Mồ hôi tay", "Miệng", "Chân"], a: 1 },
+  { t: "MY HERO ACADEMIA", q: "Tên anh hùng của Midoriya là gì?", o: ["Deku", "Ground Zero", "Shoto", "Ingenium"], a: 0 },
+  { t: "MY HERO ACADEMIA", q: "Trường trung học đào tạo anh hùng hàng đầu là gì?", o: ["Shiketsu", "U.A.", "Ketsubutsu", "Seiai"], a: 1 },
+  { t: "MY HERO ACADEMIA", q: "Kẻ thù truyền kiếp của All Might là ai?", o: ["Tomura Shigaraki", "All For One", "Dabi", "Stain"], a: 1 },
+  { t: "MY HERO ACADEMIA", q: "Shoto Todoroki sở hữu năng lực gì?", o: ["Chỉ có Băng", "Chỉ có Lửa", "Nửa Băng Nửa Lửa", "Bay lượn"], a: 2 },
+  { t: "MY HERO ACADEMIA", q: "Ai là lớp trưởng lớp 1-A?", o: ["Midoriya", "Iida Tenya", "Momo Yaoyorozu", "Bakugo"], a: 1 },
+  { t: "MY HERO ACADEMIA", q: "Thầy chủ nhiệm của lớp 1-A là ai?", o: ["Present Mic", "Eraser Head (Aizawa)", "Midnight", "Endeavor"], a: 1 },
+  { t: "MY HERO ACADEMIA", q: "Anh hùng số 2 (sau này là số 1) có năng lực điều khiển lửa là ai?", o: ["Endeavor", "Hawks", "Best Jeanist", "Kamui Woods"], a: 0 },
+  { t: "MY HERO ACADEMIA", q: "Sức mạnh One For All được truyền lại qua hình thức nào?", o: ["Chạm tay", "Ăn sợi tóc", "Suy nghĩ", "Chiến đấu"], a: 1 },
 
   // ===== BLACK CLOVER (10) =====
-  { q: "Asta sinh ra không có ma lực, nhưng sở hữu cuốn sách ma pháp gì?", o: ["Cỏ 3 lá", "Cỏ 4 lá", "Cỏ 5 lá", "Không có cỏ nào"], a: 2 },
-  { q: "Yuno sở hữu tinh linh nguyên tố nào?", o: ["Hỏa", "Thủy", "Phong", "Thổ"], a: 2 },
-  { q: "Đội kỵ sĩ ma pháp mà Asta gia nhập tên là gì?", o: ["Kim Sắc Bình Minh", "Hắc Bộc Ngưu (Black Bulls)", "Ngân Dực Đại Ưng", "Hồng Liên Sư Tử"], a: 1 },
-  { q: "Ai là đoàn trưởng của đội Hắc Bộc Ngưu?", o: ["Yami Sukehiro", "William Vangeance", "Nozel Silva", "Fuegoleon"], a: 0 },
-  { q: "Ước mơ của cả Asta và Yuno là trở thành gì?", o: ["Vua Hải Tặc", "Ma Pháp Vương", "Đội trưởng", "Hiệp sĩ thánh"], a: 1 },
-  { q: "Noelle Silva thuộc hoàng tộc nhưng ban đầu gặp khó khăn gì?", o: ["Không có ma lực", "Không kiểm soát được ma pháp", "Sợ nước", "Không có chổi bay"], a: 1 },
-  { q: "Thanh kiếm đầu tiên Asta rút ra từ cuốn sách có tên là gì?", o: ["Đoạn Ma Kiếm", "Trảm Ma Kiếm", "Diệt Ma Kiếm", "Ngự Ma Kiếm"], a: 0 },
-  { q: "Ma Pháp Vương hiện tại (đời thứ 28) là ai?", o: ["Lumiere", "Julius Novachrono", "Marx", "Patolli"], a: 1 },
-  { q: "Linh vật (con chim) luôn đi theo Asta tên là gì?", o: ["Nero", "Happy", "Puck", "Akamaru"], a: 0 },
-  { q: "Kẻ thù chính trong phần đầu của phim là tổ chức nào?", o: ["Akatsuki", "Bạch Dạ Ma Nhãn", "Spade Kingdom", "Eye of the Midnight Sun"], a: 1 },
+  { t: "BLACK CLOVER", q: "Asta sinh ra không có ma lực, nhưng sở hữu cuốn sách ma pháp gì?", o: ["Cỏ 3 lá", "Cỏ 4 lá", "Cỏ 5 lá", "Không có cỏ nào"], a: 2 },
+  { t: "BLACK CLOVER", q: "Yuno sở hữu tinh linh nguyên tố nào?", o: ["Hỏa", "Thủy", "Phong", "Thổ"], a: 2 },
+  { t: "BLACK CLOVER", q: "Đội kỵ sĩ ma pháp mà Asta gia nhập tên là gì?", o: ["Kim Sắc Bình Minh", "Hắc Bộc Ngưu (Black Bulls)", "Ngân Dực Đại Ưng", "Hồng Liên Sư Tử"], a: 1 },
+  { t: "BLACK CLOVER", q: "Ai là đoàn trưởng của đội Hắc Bộc Ngưu?", o: ["Yami Sukehiro", "William Vangeance", "Nozel Silva", "Fuegoleon"], a: 0 },
+  { t: "BLACK CLOVER", q: "Ước mơ của cả Asta và Yuno là trở thành gì?", o: ["Vua Hải Tặc", "Ma Pháp Vương", "Đội trưởng", "Hiệp sĩ thánh"], a: 1 },
+  { t: "BLACK CLOVER", q: "Noelle Silva thuộc hoàng tộc nhưng ban đầu gặp khó khăn gì?", o: ["Không có ma lực", "Không kiểm soát được ma pháp", "Sợ nước", "Không có chổi bay"], a: 1 },
+  { t: "BLACK CLOVER", q: "Thanh kiếm đầu tiên Asta rút ra từ cuốn sách có tên là gì?", o: ["Đoạn Ma Kiếm", "Trảm Ma Kiếm", "Diệt Ma Kiếm", "Ngự Ma Kiếm"], a: 0 },
+  { t: "BLACK CLOVER", q: "Ma Pháp Vương hiện tại (đời thứ 28) là ai?", o: ["Lumiere", "Julius Novachrono", "Marx", "Patolli"], a: 1 },
+  { t: "BLACK CLOVER", q: "Linh vật (con chim) luôn đi theo Asta tên là gì?", o: ["Nero", "Happy", "Puck", "Akamaru"], a: 0 },
+  { t: "BLACK CLOVER", q: "Kẻ thù chính trong phần đầu của phim là tổ chức nào?", o: ["Akatsuki", "Bạch Dạ Ma Nhãn", "Spade Kingdom", "Eye of the Midnight Sun"], a: 1 },
 
   // ===== SAO (10) =====
-  { q: "Tên thật của nhân vật chính Kirito là gì?", o: ["Kirigaya Kazuto", "Yuuki Asuna", "Kayaba Akihiko", "Tsuboi Ryotaro"], a: 0 },
-  { q: "Vũ khí đặc trưng của Kirito trong SAO là gì?", o: ["Thương", "Cung", "Song kiếm", "Rìu"], a: 2 },
-  { q: "Tên của tòa tháp khổng lồ nơi diễn ra trò chơi SAO?", o: ["Aincrad", "Alfheim", "Gun Gale", "Underworld"], a: 0 },
-  { q: "Biệt danh của Asuna trong SAO là gì?", o: ["Tia chớp (The Flash)", "Hắc kiếm sĩ", "Nữ vương băng giá", "Tiên mẫu"], a: 0 },
-  { q: "Nếu người chơi chết trong game SAO, điều gì sẽ xảy ra ở thế giới thực?", o: ["Bị thương", "Bị ngất", "Bị chết", "Không sao cả"], a: 2 },
-  { q: "Thanh kiếm màu đen của Kirito tên là gì?", o: ["Elucidator", "Dark Repulser", "Lambent Light", "Blue Rose"], a: 0 },
-  { q: "Ai là người tạo ra trò chơi sinh tử SAO?", o: ["Sugou Nobuyuki", "Kayaba Akihiko", "Kikuoka Seijirou", "Kirito"], a: 1 },
-  { q: "Trong phần GGO, Kirito sử dụng vũ khí nào kết hợp với súng?", o: ["Khiên", "Kiếm ánh sáng", "Lựu đạn", "Dao găm"], a: 1 },
-  { q: "Con gái (AI) của Kirito và Asuna tên là gì?", o: ["Suguha", "Yui", "Sinon", "Alice"], a: 1 },
-  { q: "Kỹ năng tối thượng giúp Kirito chiến thắng boss tầng 74 là gì?", o: ["Tinh Quế", "Starburst Stream", "Mother's Rosario", "Sonic Leap"], a: 1 },
+  { t: "SAO", q: "Tên thật của nhân vật chính Kirito là gì?", o: ["Kirigaya Kazuto", "Yuuki Asuna", "Kayaba Akihiko", "Tsuboi Ryotaro"], a: 0 },
+  { t: "SAO", q: "Vũ khí đặc trưng của Kirito trong SAO là gì?", o: ["Thương", "Cung", "Song kiếm", "Rìu"], a: 2 },
+  { t: "SAO", q: "Tên của tòa tháp khổng lồ nơi diễn ra trò chơi SAO?", o: ["Aincrad", "Alfheim", "Gun Gale", "Underworld"], a: 0 },
+  { t: "SAO", q: "Biệt danh của Asuna trong SAO là gì?", o: ["Tia chớp (The Flash)", "Hắc kiếm sĩ", "Nữ vương băng giá", "Tiên mẫu"], a: 0 },
+  { t: "SAO", q: "Nếu người chơi chết trong game SAO, điều gì sẽ xảy ra ở thế giới thực?", o: ["Bị thương", "Bị ngất", "Bị chết", "Không sao cả"], a: 2 },
+  { t: "SAO", q: "Thanh kiếm màu đen của Kirito tên là gì?", o: ["Elucidator", "Dark Repulser", "Lambent Light", "Blue Rose"], a: 0 },
+  { t: "SAO", q: "Ai là người tạo ra trò chơi sinh tử SAO?", o: ["Sugou Nobuyuki", "Kayaba Akihiko", "Kikuoka Seijirou", "Kirito"], a: 1 },
+  { t: "SAO", q: "Trong phần GGO, Kirito sử dụng vũ khí nào kết hợp với súng?", o: ["Khiên", "Kiếm ánh sáng", "Lựu đạn", "Dao găm"], a: 1 },
+  { t: "SAO", q: "Con gái (AI) của Kirito và Asuna tên là gì?", o: ["Suguha", "Yui", "Sinon", "Alice"], a: 1 },
+  { t: "SAO", q: "Kỹ năng tối thượng giúp Kirito chiến thắng boss tầng 74 là gì?", o: ["Tinh Quế", "Starburst Stream", "Mother's Rosario", "Sonic Leap"], a: 1 },
 
   // ===== SPY X FAMILY (10) =====
-  { q: "Mật danh của Loid Forger (người cha) là gì?", o: ["Thorn Princess", "Twilight", "Daybreak", "Fullmetal"], a: 1 },
-  { q: "Anya Forger có năng lực siêu nhiên nào?", o: ["Tàng hình", "Đọc suy nghĩ", "Nhìn thấy tương lai", "Siêu sức mạnh"], a: 1 },
-  { q: "Yor Forger (người mẹ) làm nghề sát thủ với biệt danh là gì?", o: ["Công chúa Gai", "Góa phụ đen", "Sát thủ hoa hồng", "Nữ hoàng bóng đêm"], a: 0 },
-  { q: "Con chó của gia đình Forger tên là gì?", o: ["Bond", "Max", "Lucky", "Rex"], a: 0 },
-  { q: 'Anya phải thu thập bao nhiêu "Sao Stella" để trở thành Học sinh ưu tú?', o: ["5", "7", "8", "10"], a: 2 },
-  { q: "Mục tiêu của Chiến dịch Strix là tiếp cận ai?", o: ["Damian Desmond", "Donovan Desmond", "Yuri Briar", "Franky"], a: 1 },
-  { q: "Em trai của Yor, Yuri, làm việc cho tổ chức nào?", o: ["WISE", "Cảnh sát mật (SSS)", "Garden", "CIA"], a: 1 },
-  { q: "Anya cực kỳ thích ăn món gì?", o: ["Bánh ngọt", "Lạc (Đậu phộng)", "Cà rốt", "Xúc xích"], a: 1 },
-  { q: "Tên ngôi trường mà Anya theo học là gì?", o: ["Eden Academy", "U.A. High", "PK Academy", "Loretto"], a: 0 },
-  { q: "Màu tóc của Anya là màu gì?", o: ["Vàng", "Hồng", "Xanh", "Đen"], a: 1 },
+  { t: "SPY X FAMILY", q: "Mật danh của Loid Forger (người cha) là gì?", o: ["Thorn Princess", "Twilight", "Daybreak", "Fullmetal"], a: 1 },
+  { t: "SPY X FAMILY", q: "Anya Forger có năng lực siêu nhiên nào?", o: ["Tàng hình", "Đọc suy nghĩ", "Nhìn thấy tương lai", "Siêu sức mạnh"], a: 1 },
+  { t: "SPY X FAMILY", q: "Yor Forger (người mẹ) làm nghề sát thủ với biệt danh là gì?", o: ["Công chúa Gai", "Góa phụ đen", "Sát thủ hoa hồng", "Nữ hoàng bóng đêm"], a: 0 },
+  { t: "SPY X FAMILY", q: "Con chó của gia đình Forger tên là gì?", o: ["Bond", "Max", "Lucky", "Rex"], a: 0 },
+  { t: "SPY X FAMILY", q: 'Anya phải thu thập bao nhiêu "Sao Stella" để trở thành Học sinh ưu tú?', o: ["5", "7", "8", "10"], a: 2 },
+  { t: "SPY X FAMILY", q: "Mục tiêu của Chiến dịch Strix là tiếp cận ai?", o: ["Damian Desmond", "Donovan Desmond", "Yuri Briar", "Franky"], a: 1 },
+  { t: "SPY X FAMILY", q: "Em trai của Yor, Yuri, làm việc cho tổ chức nào?", o: ["WISE", "Cảnh sát mật (SSS)", "Garden", "CIA"], a: 1 },
+  { t: "SPY X FAMILY", q: "Anya cực kỳ thích ăn món gì?", o: ["Bánh ngọt", "Lạc (Đậu phộng)", "Cà rốt", "Xúc xích"], a: 1 },
+  { t: "SPY X FAMILY", q: "Tên ngôi trường mà Anya theo học là gì?", o: ["Eden Academy", "U.A. High", "PK Academy", "Loretto"], a: 0 },
+  { t: "SPY X FAMILY", q: "Màu tóc của Anya là màu gì?", o: ["Vàng", "Hồng", "Xanh", "Đen"], a: 1 },
 
   // ===== TOKYO GHOUL (10) =====
-  { q: "Nhân vật chính Kaneki Ken bị biến thành bán ngạ quỷ sau khi nhận nội tạng từ ai?", o: ["Touka", "Rize", "Hinami", "Jason"], a: 1 },
-  { q: "Ngạ quỷ (Ghoul) chỉ có thể tiêu hóa được thứ gì của con người?", o: ["Bánh mì", "Thịt", "Rau củ", "Trái cây"], a: 1 },
-  { q: "Đồ uống duy nhất mà Ghoul có thể thưởng thức như người bình thường là gì?", o: ["Trà", "Rượu", "Cà phê", "Sữa"], a: 2 },
-  { q: "Vũ khí sinh học mà các thanh tra CCG sử dụng để đấu với Ghoul gọi là gì?", o: ["Kagune", "Quinque", "Arata", "Kakuja"], a: 1 },
-  { q: "Bộ phận chiến đấu phát ra từ cơ thể Ghoul gọi là gì?", o: ["Quinque", "Kagune", "Kakuja", "Rc Cells"], a: 1 },
-  { q: "Quán cà phê nơi Kaneki làm việc tên là gì?", o: ["Anteiku", "Helter Skelter", "Re:", "Ghoul Coffee"], a: 0 },
-  { q: "Biệt danh của Kaneki sau khi tóc chuyển sang màu trắng là gì?", o: ["Thỏ đen", "Băng ngạ quỷ", "Ngạ quỷ Độc nhãn", "Rết"], a: 3 },
-  { q: "Mặt nạ của Kaneki có đặc điểm gì nổi bật?", o: ["Hình đầu lâu", "Có khóa kéo ở miệng", "Hình con thỏ", "Hình hề"], a: 1 },
-  { q: "Ai là thanh tra CCG đã tra tấn Kaneki khiến anh thay đổi tâm tính?", o: ["Amon", "Mado", "Jason (Yakumo Oomori)", "Arima"], a: 2 },
-  { q: "Tác giả của bộ truyện Tokyo Ghoul là ai?", o: ["Sui Ishida", "Tatsuki Fujimoto", "Gege Akutami", "Tite Kubo"], a: 0 },
+  { t: "TOKYO GHOUL", q: "Nhân vật chính Kaneki Ken bị biến thành bán ngạ quỷ sau khi nhận nội tạng từ ai?", o: ["Touka", "Rize", "Hinami", "Jason"], a: 1 },
+  { t: "TOKYO GHOUL", q: "Ngạ quỷ (Ghoul) chỉ có thể tiêu hóa được thứ gì của con người?", o: ["Bánh mì", "Thịt", "Rau củ", "Trái cây"], a: 1 },
+  { t: "TOKYO GHOUL", q: "Đồ uống duy nhất mà Ghoul có thể thưởng thức như người bình thường là gì?", o: ["Trà", "Rượu", "Cà phê", "Sữa"], a: 2 },
+  { t: "TOKYO GHOUL", q: "Vũ khí sinh học mà các thanh tra CCG sử dụng để đấu với Ghoul gọi là gì?", o: ["Kagune", "Quinque", "Arata", "Kakuja"], a: 1 },
+  { t: "TOKYO GHOUL", q: "Bộ phận chiến đấu phát ra từ cơ thể Ghoul gọi là gì?", o: ["Quinque", "Kagune", "Kakuja", "Rc Cells"], a: 1 },
+  { t: "TOKYO GHOUL", q: "Quán cà phê nơi Kaneki làm việc tên là gì?", o: ["Anteiku", "Helter Skelter", "Re:", "Ghoul Coffee"], a: 0 },
+  { t: "TOKYO GHOUL", q: "Biệt danh của Kaneki sau khi tóc chuyển sang màu trắng là gì?", o: ["Thỏ đen", "Băng ngạ quỷ", "Ngạ quỷ Độc nhãn", "Rết"], a: 3 },
+  { t: "TOKYO GHOUL", q: "Mặt nạ của Kaneki có đặc điểm gì nổi bật?", o: ["Hình đầu lâu", "Có khóa kéo ở miệng", "Hình con thỏ", "Hình hề"], a: 1 },
+  { t: "TOKYO GHOUL", q: "Ai là thanh tra CCG đã tra tấn Kaneki khiến anh thay đổi tâm tính?", o: ["Amon", "Mado", "Jason (Yakumo Oomori)", "Arima"], a: 2 },
+  { t: "TOKYO GHOUL", q: "Tác giả của bộ truyện Tokyo Ghoul là ai?", o: ["Sui Ishida", "Tatsuki Fujimoto", "Gege Akutami", "Tite Kubo"], a: 0 },
 
   // ===== HAIKYUU!! (10) =====
-  { q: "Hinata Shoyo có biệt danh là gì trên sân đấu?", o: ["Vua sân đấu", "Người khổng lồ tí hon", "Quái vật bay", "Mồi nhử vĩ đại"], a: 3 },
-  { q: "Kageyama Tobio chơi ở vị trí nào?", o: ["Chủ công", "Chuyền hai (Setter)", "Libero", "Phụ công"], a: 1 },
-  { q: "Trường trung học của Hinata và Kageyama tên là gì?", o: ["Nekoma", "Aoba Johsai", "Karasuno", "Shiratorizawa"], a: 2 },
-  { q: "Linh vật biểu tượng của trường Karasuno là con vật nào?", o: ["Mèo", "Quạ", "Cú", "Đại bàng"], a: 1 },
-  { q: "Vị trí chuyên về phòng thủ, mặc áo khác màu với đồng đội gọi là gì?", o: ["Ace", "Libero", "Blocker", "Server"], a: 1 },
-  { q: "Ai là đội trưởng của đội bóng chuyền Karasuno?", o: ["Sugawara", "Daichi Sawamura", "Tanaka", "Nishinoya"], a: 1 },
-  { q: '"Vua sân đấu" là biệt danh ban đầu của ai?', o: ["Hinata", "Kageyama", "Oikawa", "Ushijima"], a: 1 },
-  { q: "Đội bóng đối thủ truyền kiếp của Karasuno, biểu tượng là con mèo?", o: ["Inarizaki", "Nekoma", "Date Tech", "Fukurodani"], a: 1 },
-  { q: "Nishinoya Yu chơi ở vị trí nào?", o: ["Libero", "Chuyền hai", "Chủ công", "Phụ công"], a: 0 },
-  { q: "Cú đập bóng nhanh của Hinata và Kageyama được gọi là gì?", o: ["Minus Tempo", "God-like Quick", "Normal Quick", "Rolling Thunder"], a: 1 },
+  { t: "HAIKYUU!!", q: "Hinata Shoyo có biệt danh là gì trên sân đấu?", o: ["Vua sân đấu", "Người khổng lồ tí hon", "Quái vật bay", "Mồi nhử vĩ đại"], a: 3 },
+  { t: "HAIKYUU!!", q: "Kageyama Tobio chơi ở vị trí nào?", o: ["Chủ công", "Chuyền hai (Setter)", "Libero", "Phụ công"], a: 1 },
+  { t: "HAIKYUU!!", q: "Trường trung học của Hinata và Kageyama tên là gì?", o: ["Nekoma", "Aoba Johsai", "Karasuno", "Shiratorizawa"], a: 2 },
+  { t: "HAIKYUU!!", q: "Linh vật biểu tượng của trường Karasuno là con vật nào?", o: ["Mèo", "Quạ", "Cú", "Đại bàng"], a: 1 },
+  { t: "HAIKYUU!!", q: "Vị trí chuyên về phòng thủ, mặc áo khác màu với đồng đội gọi là gì?", o: ["Ace", "Libero", "Blocker", "Server"], a: 1 },
+  { t: "HAIKYUU!!", q: "Ai là đội trưởng của đội bóng chuyền Karasuno?", o: ["Sugawara", "Daichi Sawamura", "Tanaka", "Nishinoya"], a: 1 },
+  { t: "HAIKYUU!!", q: '"Vua sân đấu" là biệt danh ban đầu của ai?', o: ["Hinata", "Kageyama", "Oikawa", "Ushijima"], a: 1 },
+  { t: "HAIKYUU!!", q: "Đội bóng đối thủ truyền kiếp của Karasuno, biểu tượng là con mèo?", o: ["Inarizaki", "Nekoma", "Date Tech", "Fukurodani"], a: 1 },
+  { t: "HAIKYUU!!", q: "Nishinoya Yu chơi ở vị trí nào?", o: ["Libero", "Chuyền hai", "Chủ công", "Phụ công"], a: 0 },
+  { t: "HAIKYUU!!", q: "Cú đập bóng nhanh của Hinata và Kageyama được gọi là gì?", o: ["Minus Tempo", "God-like Quick", "Normal Quick", "Rolling Thunder"], a: 1 },
 
   // ===== BLEACH (10) =====
-  { q: "Vũ khí của các Tử thần (Shinigami) gọi là gì?", o: ["Katana", "Zanpakuto", "Kunai", "Nichirin"], a: 1 },
-  { q: "Dạng giải phóng thứ hai của Zanpakuto gọi là gì?", o: ["Shikai", "Bankai", "Resurrección", "Vollständig"], a: 1 },
-  { q: "Ichigo Kurosaki biến thành Tử thần sau khi nhận sức mạnh từ ai?", o: ["Rukia Kuchiki", "Renji Abarai", "Byakuya Kuchiki", "Urahara Kisuke"], a: 0 },
-  { q: "Tổ chức của các Tử thần bảo vệ Linh giới tên là gì?", o: ["Akatsuki", "Gotei 13", "Espada", "Sternritter"], a: 1 },
-  { q: "Kẻ phản diện đã phản bội Gotei 13 và đánh cắp khối Hogyoku là ai?", o: ["Gin Ichimaru", "Sosuke Aizen", "Kaname Tosen", "Grimmjow"], a: 1 },
-  { q: "Thanh kiếm của Ichigo có tên là gì?", o: ["Senbonzakura", "Zangetsu", "Hyorinmaru", "Zabimaru"], a: 1 },
-  { q: "Espada là nhóm 10 Arrancar mạnh nhất dưới trướng ai?", o: ["Yhwach", "Aizen", "Ulquiorra", "Barragan"], a: 1 },
-  { q: "Thành phố nơi Ichigo sinh sống tên là gì?", o: ["Karakura", "Naruki", "Soul Society", "Hueco Mundo"], a: 0 },
-  { q: "Đội trưởng đội 6, anh trai của Rukia là ai?", o: ["Kenpachi", "Byakuya Kuchiki", "Shunsui", "Jushiro"], a: 1 },
-  { q: "Chủng tộc đối địch với Tử thần, sử dụng cung tên bằng linh lực gọi là gì?", o: ["Hollow", "Quincy", "Fullbringer", "Bount"], a: 1 },
+  { t: "BLEACH", q: "Vũ khí của các Tử thần (Shinigami) gọi là gì?", o: ["Katana", "Zanpakuto", "Kunai", "Nichirin"], a: 1 },
+  { t: "BLEACH", q: "Dạng giải phóng thứ hai của Zanpakuto gọi là gì?", o: ["Shikai", "Bankai", "Resurrección", "Vollständig"], a: 1 },
+  { t: "BLEACH", q: "Ichigo Kurosaki biến thành Tử thần sau khi nhận sức mạnh từ ai?", o: ["Rukia Kuchiki", "Renji Abarai", "Byakuya Kuchiki", "Urahara Kisuke"], a: 0 },
+  { t: "BLEACH", q: "Tổ chức của các Tử thần bảo vệ Linh giới tên là gì?", o: ["Akatsuki", "Gotei 13", "Espada", "Sternritter"], a: 1 },
+  { t: "BLEACH", q: "Kẻ phản diện đã phản bội Gotei 13 và đánh cắp khối Hogyoku là ai?", o: ["Gin Ichimaru", "Sosuke Aizen", "Kaname Tosen", "Grimmjow"], a: 1 },
+  { t: "BLEACH", q: "Thanh kiếm của Ichigo có tên là gì?", o: ["Senbonzakura", "Zangetsu", "Hyorinmaru", "Zabimaru"], a: 1 },
+  { t: "BLEACH", q: "Espada là nhóm 10 Arrancar mạnh nhất dưới trướng ai?", o: ["Yhwach", "Aizen", "Ulquiorra", "Barragan"], a: 1 },
+  { t: "BLEACH", q: "Thành phố nơi Ichigo sinh sống tên là gì?", o: ["Karakura", "Naruki", "Soul Society", "Hueco Mundo"], a: 0 },
+  { t: "BLEACH", q: "Đội trưởng đội 6, anh trai của Rukia là ai?", o: ["Kenpachi", "Byakuya Kuchiki", "Shunsui", "Jushiro"], a: 1 },
+  { t: "BLEACH", q: "Chủng tộc đối địch với Tử thần, sử dụng cung tên bằng linh lực gọi là gì?", o: ["Hollow", "Quincy", "Fullbringer", "Bount"], a: 1 },
 
   // ===== CHAINSAW MAN (10) =====
-  { q: "Con quỷ cưa nhỏ bé, bạn thân của Denji tên là gì?", o: ["Power", "Pochita", "Aki", "Makima"], a: 1 },
-  { q: "Denji lập khế ước với Pochita để trở thành người cưa bằng cách nào?", o: ["Ăn thịt", "Thay thế trái tim", "Bắt tay", "Uống máu"], a: 1 },
-  { q: "Món ăn mơ ước của Denji ở đầu phim là gì?", o: ["Ramen", "Sushi", "Bánh mì phết mứt", "Bít tết"], a: 2 },
-  { q: "Nữ quỷ máu, cộng sự hay gây rắc rối của Denji tên là gì?", o: ["Makima", "Power", "Reze", "Himeno"], a: 1 },
-  { q: "Aki Hayakawa sử dụng khế ước với quỷ nào để triệu hồi cái đầu cáo?", o: ["Quỷ Cáo (Kon)", "Quỷ Tương Lai", "Quỷ Kiếm", "Quỷ Nguyền Rủa"], a: 0 },
-  { q: "Cấp trên bí ẩn mà Denji thầm yêu là ai?", o: ["Power", "Makima", "Kobeni", "Himeno"], a: 1 },
-  { q: "Vật nuôi của Power là một con gì?", o: ["Chó", "Mèo (Nyako)", "Chim", "Chuột"], a: 1 },
-  { q: "Tiếng động phát ra khi Denji biến hình thành Người Cưa là gì?", o: ["Tiếng nổ", "Tiếng kéo dây khởi động", "Tiếng hét", "Tiếng sấm"], a: 1 },
-  { q: "Kẻ thù mà Aki căm ghét nhất vì đã giết gia đình anh là quỷ gì?", o: ["Quỷ Cưa", "Quỷ Súng", "Quỷ Dơi", "Quỷ Vĩnh Cửu"], a: 1 },
-  { q: "Denji làm việc cho tổ chức nào?", o: ["Cảnh sát", "Trị an dân sự (Public Safety)", "Mafia", "Thợ săn tự do"], a: 1 },
+  { t: "CHAINSAW MAN", q: "Con quỷ cưa nhỏ bé, bạn thân của Denji tên là gì?", o: ["Power", "Pochita", "Aki", "Makima"], a: 1 },
+  { t: "CHAINSAW MAN", q: "Denji lập khế ước với Pochita để trở thành người cưa bằng cách nào?", o: ["Ăn thịt", "Thay thế trái tim", "Bắt tay", "Uống máu"], a: 1 },
+  { t: "CHAINSAW MAN", q: "Món ăn mơ ước của Denji ở đầu phim là gì?", o: ["Ramen", "Sushi", "Bánh mì phết mứt", "Bít tết"], a: 2 },
+  { t: "CHAINSAW MAN", q: "Nữ quỷ máu, cộng sự hay gây rắc rối của Denji tên là gì?", o: ["Makima", "Power", "Reze", "Himeno"], a: 1 },
+  { t: "CHAINSAW MAN", q: "Aki Hayakawa sử dụng khế ước với quỷ nào để triệu hồi cái đầu cáo?", o: ["Quỷ Cáo (Kon)", "Quỷ Tương Lai", "Quỷ Kiếm", "Quỷ Nguyền Rủa"], a: 0 },
+  { t: "CHAINSAW MAN", q: "Cấp trên bí ẩn mà Denji thầm yêu là ai?", o: ["Power", "Makima", "Kobeni", "Himeno"], a: 1 },
+  { t: "CHAINSAW MAN", q: "Vật nuôi của Power là một con gì?", o: ["Chó", "Mèo (Nyako)", "Chim", "Chuột"], a: 1 },
+  { t: "CHAINSAW MAN", q: "Tiếng động phát ra khi Denji biến hình thành Người Cưa là gì?", o: ["Tiếng nổ", "Tiếng kéo dây khởi động", "Tiếng hét", "Tiếng sấm"], a: 1 },
+  { t: "CHAINSAW MAN", q: "Kẻ thù mà Aki căm ghét nhất vì đã giết gia đình anh là quỷ gì?", o: ["Quỷ Cưa", "Quỷ Súng", "Quỷ Dơi", "Quỷ Vĩnh Cửu"], a: 1 },
+  { t: "CHAINSAW MAN", q: "Denji làm việc cho tổ chức nào?", o: ["Cảnh sát", "Trị an dân sự (Public Safety)", "Mafia", "Thợ săn tự do"], a: 1 },
 ];
 const animeGame = {
   curr: null,
@@ -1536,9 +1531,34 @@ const animeGame = {
     galaxy.renderGameScoreboard();
     this.generate();
   },
+
+  // lấy tag tên anime
+  getTag() {
+    // ưu tiên dùng t trong bank
+    if (this.curr && this.curr.t && String(this.curr.t).trim() !== "") {
+      return String(this.curr.t).trim();
+    }
+    return "ANIME";
+  },
+
+  // lấy đáp án đúng (a là index)
+  getCorrectText() {
+    if (!this.curr) return null;
+    if (!Array.isArray(this.curr.o)) return null;
+    if (typeof this.curr.a !== "number") return null;
+    return this.curr.o[this.curr.a];
+  },
+
   generate() {
     this.isProcessing = false;
     galaxy.applyTransition();
+
+    if (!Array.isArray(ANIME_BANK) || ANIME_BANK.length === 0) {
+      document.getElementById('q-text').innerText = "Chưa có câu hỏi Anime!";
+      document.getElementById('q-tag').innerText = "ANIME";
+      document.getElementById('q-action').innerHTML = "";
+      return;
+    }
 
     // random chống lặp
     let idx = Math.floor(Math.random() * ANIME_BANK.length);
@@ -1552,12 +1572,14 @@ const animeGame = {
     this.lastIndex = idx;
     this.curr = ANIME_BANK[idx];
 
-    document.getElementById('q-text').innerText = this.curr.q;
-    document.getElementById('q-tag').innerText = this.curr.t || "ANIME";
+    // render câu hỏi + tag tên anime
+    document.getElementById('q-text').innerText = this.curr.q || "(Câu hỏi lỗi)";
+    document.getElementById('q-tag').innerText = this.getTag();
 
-    const shuffled = [...this.curr.o].sort(() => Math.random() - 0.5);
+    // trộn đáp án
+    const shuffled = [...(this.curr.o || [])].sort(() => Math.random() - 0.5);
 
-    // render nút KHÔNG onclick
+    // render nút KHÔNG onclick để tránh lỗi dấu nháy
     document.getElementById('q-action').innerHTML = `
       <div class="option-list" id="anime-option-list"></div>
       <div style="width:100%; display:flex; justify-content:center; margin-top:10px;">
@@ -1572,6 +1594,7 @@ const animeGame = {
       b.className = "option-item";
       b.type = "button";
       b.textContent = opt;
+
       b.addEventListener("click", () => this.check(b, opt));
       list.appendChild(b);
     });
@@ -1582,17 +1605,26 @@ const animeGame = {
   check(btn, choice) {
     if (this.isProcessing) return;
     this.isProcessing = true;
+
+    // khóa nút sau khi bấm
     document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
 
-    // ⚠️ Sửa luôn lỗi đáp án: a đang là số index
-    const correct = this.curr.o[this.curr.a];
+    const correct = this.getCorrectText();
 
     if (choice === correct) {
       galaxy.showGameToast("CHUẨN OTAKU! +10 XP", "success");
       galaxy.addPoints(10);
+
+      // hiệu ứng đúng (nếu muốn)
+      if (btn) btn.classList.add("correct");
+
       setTimeout(() => this.generate(), 800);
     } else {
       galaxy.showGameToast(`SAI RỒI! ĐÁP ÁN: ${correct}`, "error");
+
+      // hiệu ứng sai (nếu muốn)
+      if (btn) btn.classList.add("wrong");
+
       setTimeout(() => this.generate(), 1500);
     }
   },
@@ -1601,9 +1633,13 @@ const animeGame = {
     if (this.isProcessing) return;
     this.isProcessing = true;
     galaxy.showGameToast("ĐÃ BỎ QUA", "info");
-    setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
+    setTimeout(() => {
+      this.isProcessing = false;
+      this.generate();
+    }, 600);
   }
 };
+
   /* GIỮ NGUYÊN ENGLISH_BANK KHÔNG THAY ĐỔI */
 const ENGLISH_BANK = [
   // --- TOPIC: ADJECTIVES VS ADVERBS ---
@@ -1927,5 +1963,6 @@ const ENGLISH_BANK = [
 </script>
 </body>
 </html>
+
 
 
