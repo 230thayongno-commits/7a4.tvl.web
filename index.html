@@ -1536,94 +1536,63 @@ const animeGame = {
     galaxy.renderGameScoreboard();
     this.generate();
   },
+  generate() {
+    this.isProcessing = false;
+    galaxy.applyTransition();
 
-generate() {
-  this.isProcessing = false;
-  galaxy.applyTransition();
-
-  // random chống lặp
-  let idx = Math.floor(Math.random() * ANIME_BANK.length);
-  if (ANIME_BANK.length > 1) {
-    let safe = 0;
-    while (idx === this.lastIndex && safe < 30) {
-      idx = Math.floor(Math.random() * ANIME_BANK.length);
-      safe++;
+    // random chống lặp
+    let idx = Math.floor(Math.random() * ANIME_BANK.length);
+    if (ANIME_BANK.length > 1) {
+      let safe = 0;
+      while (idx === this.lastIndex && safe < 30) {
+        idx = Math.floor(Math.random() * ANIME_BANK.length);
+        safe++;
+      }
     }
-  }
-  this.lastIndex = idx;
-  this.curr = ANIME_BANK[idx];
-
-  document.getElementById('q-text').innerText = this.curr.q;
-  document.getElementById('q-tag').innerText = this.curr.t || "ANIME";
-
-  const shuffled = [...this.curr.o].sort(() => Math.random() - 0.5);
-
-  // render nút KHÔNG onclick
-  document.getElementById('q-action').innerHTML = `
-    <div class="option-list" id="anime-option-list"></div>
-    <div style="width:100%; display:flex; justify-content:center; margin-top:10px;">
-      <button class="btn-confirm small" style="background:#555;" id="anime-skip-btn">BỎ QUA</button>
-    </div>
-  `;
-
-  const list = document.getElementById("anime-option-list");
-
-  shuffled.forEach(opt => {
-    const b = document.createElement("button");
-    b.className = "option-item";
-    b.type = "button";
-    b.textContent = opt;
-    b.addEventListener("click", () => this.check(b, opt));
-    list.appendChild(b);
-  });
-
-  document.getElementById("anime-skip-btn").onclick = () => this.skip();
-},
-
     this.lastIndex = idx;
-
     this.curr = ANIME_BANK[idx];
 
-    // render câu hỏi
     document.getElementById('q-text').innerText = this.curr.q;
-
-    // tag không bị undefined
     document.getElementById('q-tag').innerText = this.curr.t || "ANIME";
 
-    // shuffle options
     const shuffled = [...this.curr.o].sort(() => Math.random() - 0.5);
 
-    // render options
+    // render nút KHÔNG onclick
     document.getElementById('q-action').innerHTML = `
-      <div class="option-list">
-        ${shuffled.map(o => `
-          <button class="option-item" onclick="animeGame.check(this, ${JSON.stringify(o)})">
-            ${o}
-          </button>
-        `).join('')}
-      </div>
+      <div class="option-list" id="anime-option-list"></div>
       <div style="width:100%; display:flex; justify-content:center; margin-top:10px;">
-        <button class="btn-confirm small" style="background:#555;" onclick="animeGame.skip()">BỎ QUA</button>
+        <button class="btn-confirm small" style="background:#555;" id="anime-skip-btn">BỎ QUA</button>
       </div>
     `;
+
+    const list = document.getElementById("anime-option-list");
+
+    shuffled.forEach(opt => {
+      const b = document.createElement("button");
+      b.className = "option-item";
+      b.type = "button";
+      b.textContent = opt;
+      b.addEventListener("click", () => this.check(b, opt));
+      list.appendChild(b);
+    });
+
+    document.getElementById("anime-skip-btn").onclick = () => this.skip();
   },
 
   check(btn, choice) {
     if (this.isProcessing) return;
     this.isProcessing = true;
-
-    // disable hết button
     document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
 
-    // đáp án đúng theo index a
-    const correctText = this.curr.o[this.curr.a];
+    // ⚠️ Sửa luôn lỗi đáp án: a đang là số index
+    const correct = this.curr.o[this.curr.a];
 
-    if (choice === correctText) {
+    if (choice === correct) {
       galaxy.showGameToast("CHUẨN OTAKU! +10 XP", "success");
       galaxy.addPoints(10);
       setTimeout(() => this.generate(), 800);
     } else {
-      galaxy.showGameToast(`SAI RỒI! ĐÁP ÁN: ${correctText}`, "error");
+      galaxy.showGameToast(`SAI RỒI! ĐÁP ÁN: ${correct}`, "error");
       setTimeout(() => this.generate(), 1500);
     }
   },
@@ -1958,4 +1927,5 @@ const ENGLISH_BANK = [
 </script>
 </body>
 </html>
+
 
