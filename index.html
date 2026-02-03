@@ -1,1176 +1,836 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>7A4 GALAXY COMMAND</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
-    <style>
-        /* --- CORE VARIABLES & THEMING --- */
-        :root {
-            /* 1. GALAXY THEME (DEFAULT) */
-            --bg-color: #030712;
-            --text-color: #fff;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --primary: #00f3ff; 
-            
-            /* Team Colors - Galaxy (Neon) */
-            --t1: #00f3ff;
-            --t2: #bc13fe;
-            --t3: #ff0055;
-            --t4: #00ff9d;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>7A4 GALAXY COMMAND — 3.0</title>
 
-            --bg-image: 
-                radial-gradient(circle at 20% 30%, rgba(0, 243, 255, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.05) 0%, transparent 50%);
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
 
-        /* 2. TET THEME */
-        body.tet-theme {
-            --bg-color: #3e0000;
-            --text-color: #fffaf0;
-            --card-bg: rgba(255, 215, 0, 0.1);
-            --glass-border: rgba(255, 215, 0, 0.3);
-            --primary: #ffd700;
+  <style>
+    :root{
+      --bg1:#0a0f1a;
+      --bg2:#101a33;
+      --glass: rgba(255,255,255,.08);
+      --glass2: rgba(0,0,0,.25);
+      --border: rgba(255,255,255,.14);
+      --txt:#eaf1ff;
+      --muted: rgba(234,241,255,.7);
+      --good: rgba(0,255,120,.9);
+      --bad: rgba(255,80,80,.95);
+      --accent:#6ae4ff;
+      --accent2:#a855f7;
+    }
 
-            /* Team Colors - Tet (Warm/Festive) */
-            --t1: #ffd700; /* Vàng kim */
-            --t2: #ff4d4d; /* Đỏ tươi */
-            --t3: #ff9900; /* Cam */
-            --t4: #00ff00; /* Lộc biếc */
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:"Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--txt);
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(106,228,255,.12), transparent 60%),
+                  radial-gradient(1000px 700px at 80% 30%, rgba(168,85,247,.12), transparent 55%),
+                  linear-gradient(180deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+      overflow-x:hidden;
+    }
 
-            --bg-image: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.15) 0%, transparent 60%);
-        }
-        /* Decoration pattern for Tet */
-        body.tet-theme::before {
-            content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1;
-            background-image: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0L25 15L40 20L25 25L20 40L15 25L0 20L15 15Z" fill="rgba(255,215,0,0.05)"/></svg>');
-        }
+    /* Header */
+    header{
+      position: sticky;
+      top:0;
+      z-index:100;
+      padding: 14px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      backdrop-filter: blur(14px);
+      background: rgba(0,0,0,.22);
+      border-bottom: 1px solid var(--border);
+    }
+    .brand{
+      display:flex; flex-direction:column; gap:2px;
+      line-height:1.1;
+    }
+    .brand .title{
+      font-weight:800; letter-spacing:.3px;
+      font-size:1.05rem;
+    }
+    .brand .sub{
+      font-size:.78rem; color:var(--muted);
+    }
 
-        /* 3. SCHOOL THEME (NEW) */
-        body.school-theme {
-            --bg-color: #f4f7f6; /* Giấy trắng xanh nhạt */
-            --text-color: #2c3e50; /* Màu mực xanh đen */
-            --card-bg: rgba(255, 255, 255, 0.6);
-            --glass-border: rgba(0, 0, 0, 0.05);
-            --primary: #3498db; /* Xanh dương bút mực */
+    .header-right{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
 
-            /* Team Colors - School (Pastel/Crayon) */
-            --t1: #3498db; /* Xanh mực */
-            --t2: #9b59b6; /* Tím bằng lăng */
-            --t3: #e74c3c; /* Đỏ điểm 10 */
-            --t4: #2ecc71; /* Xanh bảng */
+    .chip{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size:.8rem;
+      color:var(--muted);
+      display:flex; align-items:center; gap:8px;
+      user-select:none;
+    }
 
-            --bg-image: 
-                linear-gradient(#e1e8ed 1px, transparent 1px),
-                linear-gradient(90deg, #e1e8ed 1px, transparent 1px);
-            background-size: 20px 20px !important; /* Grid paper effect */
-        }
+    .btn{
+      border:none;
+      cursor:pointer;
+      padding:10px 12px;
+      border-radius: 14px;
+      font-weight:700;
+      color:#001018;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      transition: transform .15s ease, filter .15s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+    .btn:active{ transform: translateY(1px) scale(.99); }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    .btn.ghost{
+      background: rgba(255,255,255,.06);
+      color: var(--txt);
+      border:1px solid var(--border);
+      box-shadow:none;
+    }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            min-height: 100vh;
-            overflow-x: hidden;
-            background-image: var(--bg-image);
-            transition: background 0.5s ease, color 0.5s ease;
-        }
+    /* Layout */
+    .container{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px;
+    }
 
-        /* Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes floating { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes slideDownToast { from { top: -50px; opacity: 0; } to { top: 20px; opacity: 1; } }
+    /* Update note */
+    .update-note{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      border-radius: 18px;
+      padding: 14px 14px;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      box-shadow: 0 18px 45px rgba(0,0,0,.25);
+      margin-bottom: 14px;
+    }
+    .update-note .badge{
+      width:42px; height:42px; border-radius:14px;
+      display:grid; place-items:center;
+      background: rgba(106,228,255,.12);
+      border:1px solid rgba(106,228,255,.25);
+      flex:0 0 auto;
+      font-size:1.2rem;
+    }
+    .update-note .txt b{ font-weight:800; }
+    .update-note .txt{
+      font-size:.92rem; color:var(--muted);
+      line-height:1.45;
+    }
 
-        /* Firework Particles (Tet Theme) */
-        .firework-particle {
-            position: fixed; width: 6px; height: 6px; border-radius: 50%;
-            pointer-events: none; z-index: 99999;
-            animation: fireworkPop 1s ease-out forwards;
-        }
-        @keyframes fireworkPop {
-            0% { transform: translate(0, 0) scale(1); opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
-        }
+    /* Theme selector */
+    .theme-row{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin: 12px 0 18px;
+    }
+    .theme{
+      flex:1 1 220px;
+      border-radius: 20px;
+      padding: 14px 14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+      transition: transform .18s ease, border-color .18s ease;
+      min-height: 90px;
+    }
+    .theme:hover{ transform: translateY(-2px); border-color: rgba(255,255,255,.22); }
+    .theme.active{ border-color: rgba(106,228,255,.45); }
+    .theme .tname{ font-weight:800; font-size:1rem; }
+    .theme .tdesc{ font-size:.82rem; color:var(--muted); margin-top:6px; }
 
-        .animate-in { animation: fadeIn 0.5s ease forwards; }
-        .slide-in { animation: slideIn 0.3s ease-out forwards; }
+    /* Menu cards */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px){
+      .grid{ grid-template-columns: 1fr; }
+    }
 
-        /* UI Components */
-        #game-toast, #app-toast {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.95); color: #000;
-            padding: 12px 25px; border-radius: 50px;
-            font-weight: 800; z-index: 20000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            display: none; width: max-content; max-width: 90%;
-            text-align: center; border: 2px solid transparent;
-        }
-        #game-toast.success { background: #e6fffa; color: #00a152; border-color: #00ff9d; }
-        #game-toast.error { background: #ffe6e6; color: #d32f2f; border-color: #ff0055; }
-        #game-toast.info { background: #f0f0f0; color: #555; border-color: #aaa; }
+    .mission-card{
+      border-radius: 22px;
+      padding: 16px 16px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 18px 45px rgba(0,0,0,.28);
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+      min-height: 140px;
+      transition: transform .18s ease, border-color .18s ease;
+    }
+    .mission-card:hover{
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,.22);
+    }
 
-        /* Selector Screen */
-        #selector-screen {
-            position: fixed; inset: 0; background: var(--bg-color);
-            background-image: var(--bg-image);
-            z-index: 9999; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; padding: 20px;
-            text-align: center; transition: background 0.5s;
-        }
+    .mission-icon{
+      font-size: 2rem;
+      display:inline-block;
+      margin-bottom: 10px;
+    }
+    .mission-name{
+      font-weight:800;
+      font-size:1.05rem;
+      margin-bottom: 6px;
+    }
+    .mission-desc{
+      font-size:.85rem;
+      color: var(--muted);
+      line-height: 1.35;
+    }
 
-        .hero-title {
-            font-size: clamp(2rem, 8vw, 3.5rem); font-weight: 900;
-            background: linear-gradient(45deg, var(--t1), var(--t2));
-            -webkit-background-clip: text; color: transparent;
-            margin-bottom: 10px; letter-spacing: -1px;
-        }
-        /* School theme title override to be solid color if gradient looks bad on light */
-        body.school-theme .hero-title {
-            background: none; color: #2c3e50;
-        }
+    /* Overlay game */
+    .overlay{
+      position:fixed; inset:0;
+      display:none;
+      z-index:200;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(10px);
+      align-items:center;
+      justify-content:center;
+      padding: 16px;
+    }
+    .panel{
+      width:min(920px, 100%);
+      border-radius: 26px;
+      border:1px solid var(--border);
+      background: rgba(10,14,25,.88);
+      box-shadow: 0 30px 70px rgba(0,0,0,.55);
+      overflow:hidden;
+    }
 
-        .team-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr);
-            gap: 15px; width: 100%; max-width: 500px; margin-top: 40px;
-        }
+    .panel-head{
+      padding: 14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    }
+    .panel-title{
+      font-weight:900; letter-spacing:.3px;
+      font-size:1rem;
+    }
+    .panel-tag{
+      font-size:.78rem; color:var(--muted);
+      margin-top:4px;
+    }
+    .panel-body{
+      padding: 16px;
+      display:grid;
+      grid-template-columns: 1fr 340px;
+      gap: 14px;
+    }
+    @media (max-width: 860px){
+      .panel-body{ grid-template-columns: 1fr; }
+    }
 
-        .team-card {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
-            padding: 30px 10px; border-radius: 20px; font-weight: 800;
-            cursor: pointer; transition: 0.3s; text-transform: uppercase;
-            color: var(--text-color); /* Fallback */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        .team-card:hover { transform: scale(1.05); border-color: var(--primary); }
+    .card{
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      padding: 14px;
+    }
 
-        /* App Layout */
-        header {
-            padding: 15px 20px; display: flex; justify-content: space-between;
-            align-items: center; 
-            background: var(--bg-color);
-            backdrop-filter: none;
-            position: sticky; top: 0; z-index: 100;
-            border-bottom: 1px solid var(--glass-border);
-        }
-        body.school-theme header { background: rgba(255,255,255,0.8); border-bottom: 1px solid #ddd; }
+    .q-title{
+      font-weight:900;
+      font-size:1.1rem;
+      margin: 0 0 10px;
+    }
+    .q-text{
+      font-size:1rem;
+      line-height:1.5;
+      color: rgba(234,241,255,.95);
+      margin: 0;
+    }
 
-        .container { max-width: 1000px; margin: 0 auto; padding: 20px; padding-bottom: 100px; }
+    .answer-wrap{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top: 12px;
+    }
+    .answer-input{
+      width:min(320px, 84vw);
+      padding:12px 14px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.20);
+      background:rgba(0,0,0,.22);
+      color:#fff;
+      outline:none;
+      font-size:1.05rem;
+      text-align:center;
+    }
+    .answer-input.ok{
+      border-color: rgba(0,255,120,.55);
+      box-shadow: 0 0 0 4px rgba(0,255,120,.12);
+    }
+    .answer-input.bad{
+      border-color: rgba(255,80,80,.55);
+      box-shadow: 0 0 0 4px rgba(255,80,80,.12);
+    }
 
-        .rank-card {
-            background: var(--card-bg); border-radius: 24px; padding: 25px;
-            margin-bottom: 20px; border: 1px solid var(--glass-border);
-            position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        }
+    .btn-confirm{
+      border:none;
+      cursor:pointer;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-weight:900;
+      letter-spacing:.3px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color:#001018;
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      transition: transform .15s ease;
+    }
+    .btn-confirm:active{ transform: scale(.98); }
+    .btn-confirm.small{
+      padding: 10px 12px;
+      font-weight:800;
+      border-radius: 14px;
+      font-size:.9rem;
+    }
 
-        .rank-item { margin-bottom: 15px; }
-        .rank-label { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 700; font-size: 0.9rem; }
-        .bar-outer { background: rgba(128,128,128,0.1); height: 14px; border-radius: 10px; overflow: hidden; }
-        .bar-inner { height: 100%; border-radius: 10px; transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    /* Scoreboard */
+    .score-title{
+      font-weight:900;
+      margin:0 0 10px;
+      font-size:1rem;
+    }
+    .score-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 10px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      margin-bottom: 8px;
+    }
+    .score-left{
+      display:flex; align-items:center; gap:10px;
+    }
+    .dot{
+      width:12px; height:12px; border-radius:999px;
+      background: rgba(255,255,255,.25);
+      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
+    }
+    .team-name{ font-weight:900; font-size:.92rem; }
+    .team-score{ font-weight:900; font-size:1rem; }
 
-        .reset-notice {
-            text-align: center; font-size: 0.75rem; color: #888; margin-top: 15px; font-weight: 600;
-            border-top: 1px dashed var(--glass-border); padding-top: 10px;
-        }
+    /* Toast */
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      z-index:999;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(10px);
+      color: rgba(234,241,255,.95);
+      font-weight:800;
+      font-size:.9rem;
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateX(-50%) translateY(-4px);
+    }
 
-        .tiktok-group { display: flex; gap: 12px; margin-bottom: 30px; }
-        .tiktok-link {
-            flex: 1; display: flex; align-items: center; justify-content: center;
-            gap: 10px; background: var(--card-bg); padding: 15px; border-radius: 16px;
-            text-decoration: none; color: var(--text-color); font-weight: 800; font-size: 0.85rem;
-            border: 1px solid var(--glass-border); transition: 0.3s;
-        }
-        body.galaxy-theme .tiktok-link { background: #000; color: #fff; } /* Keep original for galaxy */
-        
-        .tiktok-link:hover { transform: translateY(-3px); border-color: var(--primary); }
+    /* Background decorations container */
+    .decor{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:-1;
+      overflow:hidden;
+    }
 
-        .mission-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
+    /* Galaxy decorations */
+    .galaxy-star{
+      position:absolute;
+      width:2px; height:2px;
+      border-radius:999px;
+      background: rgba(255,255,255,.75);
+      opacity:.55;
+      animation: twinkle 2.2s infinite ease-in-out;
+    }
+    @keyframes twinkle{
+      0%,100%{ transform:scale(1); opacity:.45; }
+      50%{ transform:scale(1.8); opacity:.95; }
+    }
+    .galaxy-ring{
+      position:absolute;
+      border-radius:999px;
+      border:1px solid rgba(106,228,255,.12);
+      filter: blur(.2px);
+      opacity:.55;
+    }
 
-        .mission-card {
-            background: var(--card-bg); padding: 30px; border-radius: 24px;
-            border: 1px solid var(--glass-border); cursor: pointer;
-            transition: 0.3s; position: relative; overflow: hidden;
-            animation: floating 4s ease-in-out infinite;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        .mission-card:hover { background: rgba(255,255,255,0.08); border-color: var(--primary); }
-        body.school-theme .mission-card:hover { background: #fff; }
-        .mission-card.locked { opacity: 0.5; cursor: not-allowed; animation: none; }
+    /* School decorations */
+    .school-item{
+      position:absolute;
+      font-size: 22px;
+      opacity:.12;
+      filter: blur(.1px);
+      transform: rotate(var(--r));
+    }
 
-        .mission-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
-        .mission-name { font-size: 1.4rem; font-weight: 900; margin-bottom: 8px; color: var(--primary); }
-        .mission-desc { font-size: 0.9rem; opacity: 0.7; line-height: 1.4; }
+    /* Tet decorations */
+    .tet-item{
+      position:absolute;
+      font-size: 22px;
+      opacity:.14;
+      transform: rotate(var(--r));
+    }
 
-        .badge-soon {
-            position: absolute; top: 12px; right: -30px; background: #febd23;
-            color: #000; padding: 4px 35px; font-size: 0.65rem;
-            font-weight: 900; transform: rotate(45deg);
-        }
+    /* Click effects */
+    .click-fx{
+      position:fixed;
+      pointer-events:none;
+      z-index:500;
+      left:0; top:0;
+      width:1px; height:1px;
+    }
+    .planet{
+      position:absolute;
+      width: 18px; height: 18px;
+      border-radius:999px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.35);
+      animation: flyPlanet .9s ease-out forwards;
+      border: 1px solid rgba(255,255,255,.22);
+    }
+    @keyframes flyPlanet{
+      from{ transform: translate(0,0) scale(.7); opacity:1; }
+      to{ transform: translate(var(--dx), var(--dy)) scale(1.4); opacity:0; }
+    }
 
-        /* Overlay Game */
-        #game-overlay {
-            position: fixed; inset: 0; background: var(--bg-color);
-            background-image: var(--bg-image);
-            z-index: 1000; display: none; flex-direction: column; padding: 20px;
-            overflow-y: auto; color: var(--text-color);
-        }
+    .school-ring{
+      position:absolute;
+      width: 18px; height: 18px;
+      border-radius:999px;
+      border: 2px solid rgba(180,180,180,.75);
+      animation: ringPop .7s ease-out forwards;
+    }
+    @keyframes ringPop{
+      from{ transform: translate(-50%,-50%) scale(.4); opacity:.95; }
+      to{ transform: translate(-50%,-50%) scale(3.4); opacity:0; }
+    }
 
-        /* LIVE SCOREBOARD */
-        #game-scoreboard {
-            display: flex; justify-content: center; gap: 10px;
-            margin-bottom: 15px; padding: 10px;
-            background: var(--card-bg); border-radius: 15px;
-            flex-wrap: wrap; border: 1px solid var(--glass-border);
-        }
-        .mini-score-card {
-            display: flex; flex-direction: column; align-items: center;
-            padding: 5px 10px;
-            border-radius: 8px; min-width: 60px;
-        }
-        .mini-score-name { font-size: 0.7rem; font-weight: 700; margin-bottom: 2px; }
-        .mini-score-val { font-size: 0.9rem; font-weight: 900; }
-
-        .game-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .game-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 600px; margin: 0 auto; width: 100%; padding-bottom: 40px; }
-        
-        .q-tag { background: rgba(0, 243, 255, 0.1); color: var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; }
-        body.school-theme .q-tag { background: rgba(52, 152, 219, 0.1); }
-
-        .q-text { font-size: clamp(1.1rem, 4vw, 1.7rem); font-weight: 800; text-align: center; margin-bottom: 25px; line-height: 1.4; }
-
-        .option-list { display: grid; gap: 14px; width: 100%; margin-bottom: 10px; }
-        .option-item {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
-            padding: 16px 20px; border-radius: 12px; color: var(--text-color);
-            text-align: left; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: 0.2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .option-item:hover { transform: scale(1.02); border-color: var(--primary); }
-        body.school-theme .option-item { background: #fff; border: 1px solid #ddd; }
-        body.school-theme .option-item:hover { background: #f0f9ff; }
-        
-        .option-item:disabled { opacity: 0.6; cursor: not-allowed; }
-
-        .math-input {
-            background: transparent; border: none; border-bottom: 4px solid var(--primary);
-            color: var(--text-color); font-size: 3.5rem; width: 100%; text-align: center;
-            font-weight: 900; outline: none; margin-bottom: 20px;
-        }
-
-        .btn-confirm {
-            background: var(--primary); color: #000; width: 100%; padding: 15px 20px;
-            border-radius: 12px; font-weight: 900; font-size: 1.0rem; margin-top: 10px; border: none; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        body.school-theme .btn-confirm { color: #fff; } /* White text on blue for school */
-        
-        .btn-confirm.small { width: auto; padding: 10px 14px; font-size: 0.9rem; border-radius: 10px; }
-        .btn-confirm:disabled { background: #555; cursor: not-allowed; }
-
-        footer {
-            margin-top: 30px; padding: 30px; text-align: center;
-            border-top: 1px solid var(--glass-border); color: #888; font-size: 0.8rem;
-        }
-
-        .hidden { display: none !important; }
-
-        .update-card {
-            background: rgba(255,255,255,0.03); border: 1px dashed var(--glass-border);
-            padding: 12px 14px; border-radius: 12px; font-weight: 700; margin-bottom: 18px; color: var(--text-color); opacity: 0.9;
-        }
-        body.school-theme .update-card { background: #fff; border: 1px dashed #bbb; color: #555; }
-
-        /* --- ADMIN PAGE REDESIGN --- */
-        #admin-screen {
-            display: none; position: fixed; inset: 0; background: var(--bg-color);
-            background-image: var(--bg-image);
-            z-index: 2000; flex-direction: column; overflow-y: auto;
-            padding: 20px; color: var(--text-color);
-        }
-        .admin-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--glass-border);
-        }
-        
-        /* New Admin Login Card */
-        #admin-login-area {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100%; width: 100%;
-        }
-        .admin-login-card {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
-            padding: 40px 30px;
-            border-radius: 24px;
-            width: 100%; max-width: 400px;
-            text-align: center;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        }
-        body.school-theme .admin-login-card { background: rgba(255,255,255,0.9); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-
-        .lock-icon {
-            font-size: 3rem; margin-bottom: 15px;
-            background: var(--glass-border);
-            width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; margin: 0 auto 20px auto;
-        }
-
-        .admin-input-styled {
-            width: 100%; padding: 16px; border-radius: 12px;
-            border: 2px solid var(--glass-border); 
-            background: rgba(0,0,0,0.1);
-            color: var(--text-color); font-weight: 800; font-size: 1.1rem;
-            outline: none; margin-bottom: 20px; text-align: center;
-            transition: 0.3s;
-        }
-        .admin-input-styled:focus { border-color: var(--primary); background: rgba(0,0,0,0.05); }
-        body.school-theme .admin-input-styled { background: #f9f9f9; border-color: #ddd; }
-        
-        .admin-section {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
-            padding: 20px; border-radius: 16px; margin-bottom: 20px;
-        }
-        body.school-theme .admin-section { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-
-        .admin-section h3 { margin-top: 0; color: var(--primary); font-size: 1rem; text-transform: uppercase; }
-        .admin-input {
-            width: 100%; padding: 12px; border-radius: 10px;
-            border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05);
-            color: var(--text-color); font-weight: 800; outline: none; margin-bottom: 15px;
-        }
-        body.school-theme .admin-input { background: #f9f9f9; border-color: #ddd; }
-
-        /* --- SETTINGS MODAL --- */
-        #settings-modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
-            z-index: 3000; display: none; justify-content: center; align-items: center;
-        }
-        .settings-content {
-            background: #1a1a1a; padding: 25px; border-radius: 20px;
-            width: 90%; max-width: 350px; border: 1px solid var(--glass-border);
-        }
-        body.school-theme .settings-content { background: #fff; border: 1px solid #ddd; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-
-        .theme-option {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 15px; background: rgba(255,255,255,0.05); color: #fff;
-            border-radius: 12px; margin-bottom: 10px; cursor: pointer; border: 1px solid transparent;
-        }
-        body.school-theme .theme-option { background: #f4f7f6; color: #333; }
-        
-        .theme-option.active { border-color: var(--primary); background: rgba(0, 243, 255, 0.1); }
-        body.school-theme .theme-option.active { background: rgba(52, 152, 219, 0.1); }
-        
-        .theme-option:hover { opacity: 0.8; }
-
-        /* Header Buttons */
-        .icon-btn {
-            background: var(--card-bg); border: none; color: var(--text-color);
-            width: 36px; height: 36px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.2s; font-size: 1.2rem;
-            border: 1px solid transparent;
-        }
-        body.school-theme .icon-btn { border: 1px solid #ddd; background: #fff; }
-        .icon-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
-
-        @media (max-width: 600px) {
-            .mission-grid { grid-template-columns: 1fr; }
-            .hero-title { font-size: 2.2rem; }
-            .q-text { font-size: 1.2rem; }
-            .option-item { padding: 12px 15px; font-size: 0.95rem; }
-            .math-input { font-size: 2.4rem; }
-            header { padding: 12px; }
-            #user-info { gap: 8px !important; }
-        }
-    </style>
+  </style>
 </head>
-<body class="galaxy-theme"> <!-- Default Class -->
 
-    <!-- NOTIFICATION TOASTS -->
-    <div id="app-toast">Thông báo</div>
-    <div id="game-toast">Kết quả</div>
+<body>
+  <div class="decor" id="decor"></div>
 
-    <!-- SETTINGS MODAL -->
-    <div id="settings-modal" onclick="if(event.target === this) galaxy.toggleSettings()">
-        <div class="settings-content">
-            <h3 style="margin-top:0; text-align:center; color: var(--primary);">CÀI ĐẶT GIAO DIỆN</h3>
-            
-            <div class="theme-option" id="theme-galaxy" onclick="galaxy.setTheme('galaxy')">
-                <span style="font-weight:700;">🌌 Galaxy (Mặc định)</span>
-                <span style="display:inline-block; width:15px; height:15px; background:#00f3ff; border-radius:50%;"></span>
-            </div>
-            
-            <div class="theme-option" id="theme-tet" onclick="galaxy.setTheme('tet')">
-                <span style="font-weight:700;">🧧 Tết Nguyên Đán</span>
-                <div style="display:flex; gap:5px;">
-                    <span style="display:inline-block; width:15px; height:15px; background:#ff0000; border-radius:50%;"></span>
-                    <span style="display:inline-block; width:15px; height:15px; background:#ffd700; border-radius:50%;"></span>
-                </div>
-            </div>
+  <header>
+    <div class="brand">
+      <div class="title">7A4 GALAXY COMMAND</div>
+      <div class="sub">Bản cập nhật 3.0 — Giao diện đẹp hơn, thêm hiệu ứng click chuột cho mỗi giao diện, tạo mục Anime</div>
+    </div>
+    <div class="header-right">
+      <div class="chip" id="themeChip">🎨 Giao diện: Galaxy</div>
+      <button class="btn ghost" onclick="openAdmin()">🔐 Admin</button>
+    </div>
+  </header>
 
-            <div class="theme-option" id="theme-school" onclick="galaxy.setTheme('school')">
-                <span style="font-weight:700;">🏫 Trường Học (School)</span>
-                <div style="display:flex; gap:5px;">
-                    <span style="display:inline-block; width:15px; height:15px; background:#f4f7f6; border-radius:50%;"></span>
-                    <span style="display:inline-block; width:15px; height:15px; background:#3498db; border-radius:50%;"></span>
-                </div>
-            </div>
+  <div class="container">
 
-            <button onclick="galaxy.toggleSettings()" class="btn-confirm" style="margin-top:15px; padding:12px;">ĐÓNG</button>
-        </div>
+    <div class="update-note">
+      <div class="badge">✨</div>
+      <div class="txt">
+        <b>Update 3.0</b><br/>
+        Giao diện đẹp hơn + hiệu ứng click riêng cho từng giao diện + thêm mục Anime.
+      </div>
     </div>
 
-    <!-- MÀN HÌNH CHỌN TỔ -->
-    <div id="selector-screen">
-        <div class="hero-title animate-in">7A4 GALAXY<br>COMMAND</div>
-        <p class="animate-in" style="color: #888; letter-spacing: 2px; font-size: 0.75rem; font-weight: 600;">HỆ THỐNG ÔN TẬP HK2</p>
-        
-        <div class="team-grid animate-in" style="animation-delay: 0.2s;">
-            <div class="team-card" onclick="galaxy.selectTeam('Tổ 1')" style="color: var(--t1)">Tổ 1</div>
-            <div class="team-card" onclick="galaxy.selectTeam('Tổ 2')" style="color: var(--t2)">Tổ 2</div>
-            <div class="team-card" onclick="galaxy.selectTeam('Tổ 3')" style="color: var(--t3)">Tổ 3</div>
-            <div class="team-card" onclick="galaxy.selectTeam('Tổ 4')" style="color: var(--t4)">Tổ 4</div>
-        </div>
-        
-        <!-- REMOVED SETTINGS BUTTON HERE AS REQUESTED -->
+    <div class="theme-row">
+      <div class="theme active" id="th-galaxy" onclick="setTheme('galaxy')">
+        <div class="tname">🌌 Galaxy</div>
+        <div class="tdesc">Không gian ngân hà, hành tinh + click effect.</div>
+      </div>
+      <div class="theme" id="th-school" onclick="setTheme('school')">
+        <div class="tname">🏫 Trường học</div>
+        <div class="tdesc">Bút vở nhẹ nhàng + vòng tròn xám khi click.</div>
+      </div>
+      <div class="theme" id="th-tet" onclick="setTheme('tet')">
+        <div class="tname">🧧 Tết</div>
+        <div class="tdesc">Pháo hoa, lì xì — click bình thường.</div>
+      </div>
     </div>
 
-    <!-- APP CHÍNH -->
-    <div id="main-app" class="hidden">
-        <header>
-            <div style="font-weight: 900; letter-spacing: 1px; font-size: 1.1rem; display:flex; align-items:center; gap:10px;">
-                7A4 COMMAND
-            </div>
-            <div id="user-info" style="display: flex; align-items: center; gap: 10px;">
-                <span id="team-tag" style="font-weight: 900; background: var(--primary); color: #fff; padding: 4px 12px; border-radius: 8px; font-size: 0.8rem;"></span>
-                
-                <button onclick="galaxy.toggleSettings()" class="icon-btn">⚙️</button>
-                <button id="admin-entry-btn" onclick="galaxy.openAdminPage()" class="icon-btn">👑</button>
-                <button onclick="galaxy.logout()" class="icon-btn" style="color:#ff5a5a;">🔄</button>
-            </div>
-        </header>
+    <div class="grid">
+      <div class="mission-card" onclick="englishGame.start()">
+        <span class="mission-icon">🇬🇧</span>
+        <div class="mission-name">English</div>
+        <div class="mission-desc">Ngân hàng tiếng Anh (học kì 2) — random câu hỏi.</div>
+      </div>
 
-        <div class="container animate-in">
-            <div class="rank-card">
-                <h2 style="margin-top: 0; font-size: 1.1rem; text-align: center; color: var(--primary); text-transform: uppercase; letter-spacing: 2px;">Điểm Số Các Tổ</h2>
-                <div id="ranking-list"></div>
-                <div id="prev-winner" style="margin-top:12px; font-weight:800; text-align:center; opacity: 0.8;"></div>
-                <div class="reset-notice">
-                    ⏰ Hệ thống sẽ tự động reset điểm vào mỗi <strong>Chủ nhật 12:00</strong>.
-                </div>
-            </div>
+      <div class="mission-card" onclick="mathGame.start()">
+        <span class="mission-icon">🧮</span>
+        <div class="mission-name">Toán</div>
+        <div class="mission-desc">Random câu hỏi + tự nhập đáp án (tính nhẩm).</div>
+      </div>
 
-            <div class="update-card">
-                Bản cập nhật 3.0 — Giao diện Trường Học mới! Màu sắc các tổ thay đổi theo giao diện. Đã thêm phím Enter cho game Toán.
-            </div>
+      <div class="mission-card" onclick="animeGame.start()">
+        <span class="mission-icon">🎌</span>
+        <div class="mission-name">Anime</div>
+        <div class="mission-desc">200 câu hỏi Anime (bạn sẽ dán bank vào).</div>
+      </div>
 
-            <div class="tiktok-group">
-                <a href="https://www.tiktok.com/@7a4.tvl.2025.2026" target="_blank" class="tiktok-link">TikTok A4 1</a>
-                <a href="https://www.tiktok.com/@a4.tvl.2025.2026" target="_blank" class="tiktok-link">TikTok A4 2</a>
-            </div>
+      <div class="mission-card" onclick="toast('⚙️ Bạn có thể thêm mục khác sau nhé!')">
+        <span class="mission-icon">🛰️</span>
+        <div class="mission-name">Chế độ khác</div>
+        <div class="mission-desc">Bạn có thể mở rộng thêm mini-game khác sau.</div>
+      </div>
 
-            <div class="mission-grid">
-                <div class="mission-card" onclick="englishGame.start()">
-                    <span class="mission-icon">🇬🇧</span>
-                    <div class="mission-name">Tiếng Anh HK2</div>
-                    <div class="mission-desc">100+ câu hỏi Vocabulary, Adverbs, How structure, Ability...</div>
-                </div>
+      <div class="mission-card" onclick="toast('📌 Tip: Bấm Admin để chỉnh điểm nhanh!')">
+        <span class="mission-icon">📌</span>
+        <div class="mission-name">Tip</div>
+        <div class="mission-desc">Đúng +10, Sai -5. Toán/Anime/English đều tính điểm.</div>
+      </div>
 
-                <div class="mission-card" onclick="mathGame.start()">
-                    <span class="mission-icon">📐</span>
-                    <div class="mission-name">Toán Học</div>
-                    <div class="mission-desc">Cộng trừ, nhân chia, tìm x, số mũ. (Có phím Enter)</div>
-                </div>
-
-                <div class="mission-card locked">
-                    <span class="badge-soon">SẮP CÓ</span>
-                    <span class="mission-icon">🧪</span>
-                    <div class="mission-name">KHTN</div>
-                    <div class="mission-desc">Hệ thống câu hỏi ôn tập Khoa học tự nhiên.</div>
-                </div>
-            </div>
-
-            <footer>
-                *Nếu web có lỗi gì hay các câu hỏi sai xin liên hệ admin tại 2 trang tik tok của lớp.
-            </footer>
-        </div>
+      <div class="mission-card" onclick="toast('7A4 cố lên 💪')">
+        <span class="mission-icon">🚀</span>
+        <div class="mission-name">7A4</div>
+        <div class="mission-desc">Cùng nhau leo rank nào!</div>
+      </div>
     </div>
+  </div>
 
-    <!-- TRANG ADMIN RIÊNG BIỆT -->
-    <div id="admin-screen">
-        <div class="admin-header">
-            <h2 class="hero-title" style="font-size:1.8rem; margin:0;">ADMIN CONTROL</h2>
-            <button onclick="galaxy.closeAdminPage()" class="btn-confirm small" style="background:#7f8c8d; color:#fff;">QUAY LẠI</button>
+  <!-- GAME OVERLAY -->
+  <div class="overlay" id="game-overlay">
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title" id="game-label">MISSION</div>
+          <div class="panel-tag" id="q-tag">Tag</div>
+        </div>
+        <button class="btn ghost" onclick="closeGame()">✖</button>
+      </div>
+
+      <div class="panel-body">
+        <div class="card">
+          <h3 class="q-title" id="q-title">Câu hỏi</h3>
+          <p class="q-text" id="q-text">...</p>
+          <div id="q-action"></div>
         </div>
 
-        <div id="admin-login-area">
-            <div class="admin-login-card animate-in">
-                <div class="lock-icon">🔒</div>
-                <h3 style="margin-bottom: 20px; font-size: 1.2rem; color: var(--primary);">ĐĂNG NHẬP QUẢN TRỊ</h3>
-                <input type="password" id="admin-password-input" class="admin-input-styled" placeholder="Nhập mật mã...">
-                <button onclick="galaxy.checkAdminLogin()" class="btn-confirm" style="width:100%;">MỞ KHÓA HỆ THỐNG</button>
+        <div class="card">
+          <div class="score-title">📊 LIVE SCOREBOARD</div>
+          <div id="scoreboard"></div>
+
+          <div style="margin-top:12px;">
+            <div class="chip" style="justify-content:space-between;">
+              <span>👥 Team đang chơi</span>
+              <b id="teamNow">Tổ 1</b>
             </div>
+            <div style="margin-top:10px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+              <button class="btn ghost" onclick="switchTeam()">Đổi tổ</button>
+              <button class="btn" onclick="toast('🔥 Keep going!')">Boost</button>
+            </div>
+          </div>
         </div>
-
-        <div id="admin-controls-area" class="hidden animate-in">
-            <div class="admin-section">
-                <h3>Thêm/Trừ Điểm Thủ Công</h3>
-                <input id="admin-point-input" type="number" class="admin-input" placeholder="Nhập số điểm (VD: 10 hoặc -5)" />
-                
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <button onclick="adminApplyInput('to1')" class="btn-confirm small">ÁP DỤNG TỔ 1</button>
-                    <button onclick="adminApplyInput('to2')" class="btn-confirm small">ÁP DỤNG TỔ 2</button>
-                    <button onclick="adminApplyInput('to3')" class="btn-confirm small">ÁP DỤNG TỔ 3</button>
-                    <button onclick="adminApplyInput('to4')" class="btn-confirm small">ÁP DỤNG TỔ 4</button>
-                </div>
-            </div>
-
-            <div class="admin-section">
-                <h3>Điều Chỉnh Nhanh (+/- 1)</h3>
-                <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; text-align:center;">
-                    <div>
-                        <div style="margin-bottom:5px; color:var(--t1)">Tổ 1</div>
-                        <button onclick="adminAdjust('to1',1)" class="btn-confirm small" style="margin-bottom:5px;">+1</button>
-                        <button onclick="adminAdjust('to1',-1)" class="btn-confirm small">-1</button>
-                    </div>
-                    <div>
-                        <div style="margin-bottom:5px; color:var(--t2)">Tổ 2</div>
-                        <button onclick="adminAdjust('to2',1)" class="btn-confirm small" style="margin-bottom:5px;">+1</button>
-                        <button onclick="adminAdjust('to2',-1)" class="btn-confirm small">-1</button>
-                    </div>
-                    <div>
-                        <div style="margin-bottom:5px; color:var(--t3)">Tổ 3</div>
-                        <button onclick="adminAdjust('to3',1)" class="btn-confirm small" style="margin-bottom:5px;">+1</button>
-                        <button onclick="adminAdjust('to3',-1)" class="btn-confirm small">-1</button>
-                    </div>
-                    <div>
-                        <div style="margin-bottom:5px; color:var(--t4)">Tổ 4</div>
-                        <button onclick="adminAdjust('to4',1)" class="btn-confirm small" style="margin-bottom:5px;">+1</button>
-                        <button onclick="adminAdjust('to4',-1)" class="btn-confirm small">-1</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="admin-section" style="border-color:#ff5a5a;">
-                <h3 style="color:#ff5a5a;">Vùng Nguy Hiểm</h3>
-                <div style="display:flex; gap:10px;">
-                    <button onclick="adminResetScores()" class="btn-confirm" style="background:#febd23; color:#000;">RESET TOÀN BỘ ĐIỂM</button>
-                    <button onclick="adminUndo()" class="btn-confirm" style="background:#888; color:#fff;">HOÀN TÁC (UNDO)</button>
-                </div>
-            </div>
-
-             <button onclick="galaxy.logoutAdmin()" style="width:100%; padding:15px; background:transparent; border:1px solid #ff5a5a; color:#ff5a5a; border-radius:12px; font-weight:bold; cursor:pointer;">ĐĂNG XUẤT ADMIN</button>
-        </div>
+      </div>
     </div>
+  </div>
 
-    <!-- GAME OVERLAY -->
-    <div id="game-overlay">
-        <!-- LIVE SCOREBOARD -->
-        <div id="game-scoreboard">
-            <!-- Will be filled by JS -->
+  <!-- ADMIN OVERLAY -->
+  <div class="overlay" id="admin-overlay">
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">🔐 ADMIN PANEL</div>
+          <div class="panel-tag">Cộng/trừ điểm nhanh</div>
         </div>
+        <button class="btn ghost" onclick="closeAdmin()">✖</button>
+      </div>
 
-        <div class="game-nav">
-            <div id="game-label" style="font-weight: 900; color: var(--primary); letter-spacing: 2px;">MISSION</div>
-            <button onclick="galaxy.closeGame()" style="background:none; border:none; color:var(--text-color); font-size: 1.5rem; cursor:pointer;">✕</button>
+      <div class="panel-body" style="grid-template-columns:1fr;">
+        <div class="card">
+          <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:space-between; align-items:center;">
+            <div class="chip">Team hiện tại: <b id="adminTeam">Tổ 1</b></div>
+            <button class="btn ghost" onclick="switchTeam(true)">Đổi tổ</button>
+          </div>
+
+          <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+            <input id="adminDelta" class="answer-input" type="number" inputmode="numeric" placeholder="Nhập điểm (+/-)" style="max-width:260px;">
+            <button class="btn-confirm" onclick="adminApply()">ÁP DỤNG</button>
+          </div>
+
+          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+            <button class="btn ghost" onclick="adminReset()">RESET ĐIỂM</button>
+          </div>
+
+          <div style="margin-top:12px; color:var(--muted); font-size:.85rem; text-align:center;">
+            * Bạn có thể nâng cấp Admin Undo sau.
+          </div>
         </div>
-        <div id="game-content-area" class="game-content">
-            <div id="q-tag" class="q-tag">Kiến thức HK2</div>
-            <div id="q-text" class="q-text">Đang tải câu hỏi...</div>
-            <div id="q-action" style="width: 100%;"></div>
-        </div>
+      </div>
     </div>
+  </div>
 
-<script type="module">
-  /***** Firebase setup *****/
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-  import {
-    getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, collection, getDocs,
-    writeBatch, increment
-  } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+  <div class="toast" id="toast">...</div>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBtdoU4bzBVsXXvYswbUf0smAuYIq9rxlM",
-    authDomain: "a4-galaxy-command.firebaseapp.com",
-    projectId: "a4-galaxy-command",
-    storageBucket: "a4-galaxy-command.firebasestorage.app",
-    messagingSenderId: "147400399283",
-    appId: "1:147400399283:web:6d470d3e02a94e01f053c6",
-    measurementId: "G-678SMH2ND5"
-  };
+  <div class="click-fx" id="clickFx"></div>
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  <script>
+    /**************************************************************
+     * UPDATE NOTE (Bản cập nhật 3.0)
+     * - Giao diện đẹp hơn
+     * - Hiệu ứng click chuột theo từng giao diện
+     * - Tạo mục Anime
+     **************************************************************/
 
-  const ADMIN_PASSWORD = "emyeudang"; 
+    // ========================= THEME =========================
+    let CURRENT_THEME = "galaxy";
 
-  // Use CSS Variables for Colors now!
-  const DOC_TO_TEAM = {
-    to1: { id: "Tổ 1", color: "var(--t1)" },
-    to2: { id: "Tổ 2", color: "var(--t2)" },
-    to3: { id: "Tổ 3", color: "var(--t3)" },
-    to4: { id: "Tổ 4", color: "var(--t4)" }
-  };
+    function setTheme(theme){
+      CURRENT_THEME = theme;
 
-  const TEAMS = [
-    { id: "Tổ 1", color: "var(--t1)" },
-    { id: "Tổ 2", color: "var(--t2)" },
-    { id: "Tổ 3", color: "var(--t3)" },
-    { id: "Tổ 4", color: "var(--t4)" }
-  ];
+      document.getElementById("th-galaxy").classList.toggle("active", theme==="galaxy");
+      document.getElementById("th-school").classList.toggle("active", theme==="school");
+      document.getElementById("th-tet").classList.toggle("active", theme==="tet");
 
-  let realtimeTeams = {};
-  let adminLogged = false;
-  let adminLastAction = null;
+      document.getElementById("themeChip").innerText =
+        theme==="galaxy" ? "🎨 Giao diện: Galaxy" :
+        theme==="school" ? "🎨 Giao diện: Trường học" :
+        "🎨 Giao diện: Tết";
 
-  const galaxy = {
-    team: null,
-    currentTheme: 'galaxy',
+      buildDecor();
+      toast("Đã đổi giao diện!");
+    }
 
-    init: async function() {
-      // Theme Init
-      const savedTheme = localStorage.getItem('7a4_theme') || 'galaxy';
-      this.setTheme(savedTheme);
+    // ========================= DECOR =========================
+    function buildDecor(){
+      const decor = document.getElementById("decor");
+      decor.innerHTML = "";
 
-      // Firework listener
-      document.body.addEventListener('click', (e) => {
-        if(this.currentTheme === 'tet') {
-            this.spawnFirework(e.clientX, e.clientY);
+      if (CURRENT_THEME === "galaxy"){
+        // stars
+        for (let i=0;i<60;i++){
+          const s = document.createElement("div");
+          s.className="galaxy-star";
+          s.style.left = Math.random()*100 + "vw";
+          s.style.top = Math.random()*100 + "vh";
+          s.style.animationDelay = (Math.random()*2)+"s";
+          decor.appendChild(s);
         }
+        // rings
+        for (let i=0;i<6;i++){
+          const r = document.createElement("div");
+          r.className="galaxy-ring";
+          const size = 180 + Math.random()*420;
+          r.style.width = size+"px";
+          r.style.height = size+"px";
+          r.style.left = (Math.random()*100)+"vw";
+          r.style.top = (Math.random()*100)+"vh";
+          r.style.transform = `translate(-50%,-50%) rotate(${Math.random()*180}deg)`;
+          decor.appendChild(r);
+        }
+      }
+
+      if (CURRENT_THEME === "school"){
+        const icons = ["📘","📗","📕","📒","✏️","🖊️","📐","📏","🧠","📝"];
+        for (let i=0;i<18;i++){
+          const it = document.createElement("div");
+          it.className="school-item";
+          it.innerText = icons[Math.floor(Math.random()*icons.length)];
+          it.style.left = Math.random()*100 + "vw";
+          it.style.top = Math.random()*100 + "vh";
+          it.style.setProperty("--r", (Math.random()*60-30)+"deg");
+          decor.appendChild(it);
+        }
+      }
+
+      if (CURRENT_THEME === "tet"){
+        const icons = ["🧧","🎆","✨","🧨","🌸","🏮"];
+        for (let i=0;i<18;i++){
+          const it = document.createElement("div");
+          it.className="tet-item";
+          it.innerText = icons[Math.floor(Math.random()*icons.length)];
+          it.style.left = Math.random()*100 + "vw";
+          it.style.top = Math.random()*100 + "vh";
+          it.style.setProperty("--r", (Math.random()*60-30)+"deg");
+          decor.appendChild(it);
+        }
+      }
+    }
+
+    buildDecor();
+
+    // ========================= CLICK EFFECT =========================
+    document.addEventListener("click", (e)=>{
+      // tránh click trong overlay button bị spam
+      if (e.target.closest(".panel")) return;
+
+      if (CURRENT_THEME === "galaxy"){
+        spawnPlanet(e.clientX, e.clientY);
+      } else if (CURRENT_THEME === "school"){
+        spawnSchoolRing(e.clientX, e.clientY);
+      } else {
+        // tet: bình thường
+      }
+    });
+
+    function spawnPlanet(x,y){
+      const fx = document.getElementById("clickFx");
+      const p = document.createElement("div");
+      p.className="planet";
+      p.style.left = x + "px";
+      p.style.top = y + "px";
+
+      // màu planet random nhẹ
+      const colors = [
+        "rgba(106,228,255,.95)",
+        "rgba(168,85,247,.95)",
+        "rgba(255,255,255,.92)",
+        "rgba(255,170,80,.92)"
+      ];
+      p.style.background = colors[Math.floor(Math.random()*colors.length)];
+
+      // hướng bay random
+      const dx = (Math.random()*220 - 110) + "px";
+      const dy = (Math.random()*220 - 160) + "px";
+      p.style.setProperty("--dx", dx);
+      p.style.setProperty("--dy", dy);
+
+      fx.appendChild(p);
+      setTimeout(()=>p.remove(), 900);
+    }
+
+    function spawnSchoolRing(x,y){
+      const fx = document.getElementById("clickFx");
+      const r = document.createElement("div");
+      r.className="school-ring";
+      r.style.left = x + "px";
+      r.style.top = y + "px";
+      fx.appendChild(r);
+      setTimeout(()=>r.remove(), 700);
+    }
+
+    // ========================= TOAST =========================
+    let toastTimer = null;
+    function toast(msg){
+      const t = document.getElementById("toast");
+      t.innerText = msg;
+      t.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>t.classList.remove("show"), 1600);
+    }
+
+    // ========================= GAME UI HELPERS =========================
+    function openGame(title, tag){
+      document.getElementById("game-overlay").style.display="flex";
+      document.getElementById("game-label").innerText = title;
+      document.getElementById("q-tag").innerText = tag;
+    }
+    function closeGame(){
+      document.getElementById("game-overlay").style.display="none";
+    }
+    function setQuestionText(text){
+      document.getElementById("q-title").innerText = "Câu hỏi";
+      document.getElementById("q-text").innerText = text;
+    }
+
+    // ========================= SCORE SYSTEM (LOCAL) =========================
+    // Bạn có thể thay phần này bằng Firestore sau.
+    const TEAMS = [
+      { name:"Tổ 1", score:0 },
+      { name:"Tổ 2", score:0 },
+      { name:"Tổ 3", score:0 },
+      { name:"Tổ 4", score:0 },
+    ];
+    let teamIndex = 0;
+
+    function renderScoreboard(){
+      const el = document.getElementById("scoreboard");
+      el.innerHTML = "";
+
+      // sort rank
+      const ranked = [...TEAMS].sort((a,b)=>b.score-a.score);
+
+      ranked.forEach(t=>{
+        const row = document.createElement("div");
+        row.className="score-row";
+        row.innerHTML = `
+          <div class="score-left">
+            <div class="dot"></div>
+            <div class="team-name">${t.name}</div>
+          </div>
+          <div class="team-score">${t.score}</div>
+        `;
+        el.appendChild(row);
       });
 
-      this.setupRealtimeListeners();
-      await this.checkWeeklyResetFirestore();
-
-      const saved = localStorage.getItem('7a4_member');
-      if (saved) {
-        this.team = saved;
-        this.showMain();
-      } else {
-        this.showSelector();
-      }
-
-      this.renderRank();
-
-      window.addEventListener('storage', (e) => {
-        if (!e.key) return;
-        if (e.key.startsWith('score_') || e.key === '7a4_last_reset' || e.key === '7a4_prev_winners') {
-          this.renderRank();
-        }
-      });
-    },
-
-    // --- THEME FUNCTIONS ---
-    setTheme(themeName) {
-        this.currentTheme = themeName;
-        localStorage.setItem('7a4_theme', themeName);
-        
-        // Remove all theme classes first
-        document.body.classList.remove('galaxy-theme', 'tet-theme', 'school-theme');
-        
-        // Remove active from all options
-        document.querySelectorAll('.theme-option').forEach(el => el.classList.remove('active'));
-
-        // Apply new theme
-        if (themeName === 'tet') {
-            document.body.classList.add('tet-theme');
-            document.getElementById('theme-tet').classList.add('active');
-        } else if (themeName === 'school') {
-            document.body.classList.add('school-theme');
-            document.getElementById('theme-school').classList.add('active');
-        } else {
-            document.body.classList.add('galaxy-theme');
-            document.getElementById('theme-galaxy').classList.add('active');
-        }
-        
-        // Re-render rank to update colors if needed (though they are variables now)
-        this.renderRank();
-    },
-
-    toggleSettings() {
-        const el = document.getElementById('settings-modal');
-        if(el.style.display === 'flex') el.style.display = 'none';
-        else el.style.display = 'flex';
-    },
-
-    spawnFirework(x, y) {
-        const colors = ['#ff0000', '#ffd700', '#ff0055', '#ffffff'];
-        for(let i=0; i<10; i++) {
-            const p = document.createElement('div');
-            p.className = 'firework-particle';
-            p.style.left = x + 'px';
-            p.style.top = y + 'px';
-            p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
-            
-            // Random direction
-            const angle = Math.random() * Math.PI * 2;
-            const velocity = 20 + Math.random() * 50;
-            const tx = Math.cos(angle) * velocity;
-            const ty = Math.sin(angle) * velocity;
-            
-            p.style.setProperty('--tx', `${tx}px`);
-            p.style.setProperty('--ty', `${ty}px`);
-            
-            document.body.appendChild(p);
-            setTimeout(() => p.remove(), 1000);
-        }
-    },
-    // -----------------------
-
-    selectTeam(name) {
-      this.team = name;
-      localStorage.setItem('7a4_member', name);
-      this.showMain();
-    },
-
-    showSelector() {
-      document.getElementById('selector-screen').style.display = 'flex';
-      document.getElementById('main-app').classList.add('hidden');
-      document.getElementById('main-app').style.display = 'none';
-    },
-
-    showMain() {
-      document.getElementById('selector-screen').style.display = 'none';
-      document.getElementById('main-app').classList.remove('hidden');
-      document.getElementById('main-app').style.display = 'block';
-      document.getElementById('team-tag').innerText = this.team;
-      
-      const t = TEAMS.find(t => t.id === this.team);
-      // Wait for DOM to apply style if variable
-      // Just set backgroundColor to a transparent fallback or handle via CSS class? 
-      // Actually directly setting variable is fine, browser handles it.
-      if(t) {
-        document.getElementById('team-tag').style.background = `var(--primary)`; // Uniform tag color or team specific? Let's use primary for consistency
-      }
-      this.renderRank();
-    },
-
-    logout() {
-      localStorage.removeItem('7a4_member');
-      this.team = null;
-      this.showSelector();
-    },
-
-    teamToDocId(teamLabel) {
-      if (!teamLabel) return null;
-      const num = teamLabel.replace(/\D/g,'');
-      return 'to' + num;
-    },
-
-    async addPoints(p) {
-      if (!this.team) return;
-      const docId = this.teamToDocId(this.team);
-      if (!docId) return;
-
-      const ref = doc(db, "teams", docId);
-      try {
-        const s = await getDoc(ref);
-        if (!s.exists()) {
-          await setDoc(ref, {
-            name: DOC_TO_TEAM[docId].id,
-            score: 0,
-            updatedAt: Date.now()
-          });
-        }
-        await updateDoc(ref, {
-          score: increment(p),
-          updatedAt: Date.now()
-        });
-      } catch (e) {
-        console.error("addPoints error:", e);
-      }
-    },
-
-    async ensureTeamsDocs() {
-      for (const docId of Object.keys(DOC_TO_TEAM)) {
-        const ref = doc(db, "teams", docId);
-        const s = await getDoc(ref);
-        if (!s.exists()) {
-          await setDoc(ref, { name: DOC_TO_TEAM[docId].id, score: 0, updatedAt: Date.now() });
-        }
-      }
-    },
-
-    // --- ADMIN PAGE LOGIC ---
-    openAdminPage() {
-        document.getElementById('main-app').style.display = 'none';
-        document.getElementById('admin-screen').style.display = 'flex';
-        
-        if (adminLogged) {
-            document.getElementById('admin-login-area').style.display = 'none';
-            document.getElementById('admin-controls-area').classList.remove('hidden');
-            document.getElementById('admin-controls-area').style.display = 'block';
-        } else {
-            document.getElementById('admin-login-area').style.display = 'flex';
-            document.getElementById('admin-controls-area').classList.add('hidden');
-            document.getElementById('admin-controls-area').style.display = 'none';
-        }
-    },
-
-    closeAdminPage() {
-        document.getElementById('admin-screen').style.display = 'none';
-        if (this.team) {
-            document.getElementById('main-app').style.display = 'block';
-        } else {
-            document.getElementById('selector-screen').style.display = 'flex';
-        }
-    },
-
-    checkAdminLogin() {
-        const input = document.getElementById('admin-password-input');
-        if (input.value === ADMIN_PASSWORD) {
-            adminLogged = true;
-            input.value = "";
-            this.toast("Đăng nhập Admin thành công!");
-            this.openAdminPage(); // Refresh view
-        } else {
-            alert("Mật khẩu sai");
-        }
-    },
-    
-    logoutAdmin() {
-        adminLogged = false;
-        this.toast("Đã đăng xuất Admin");
-        this.closeAdminPage();
-    },
-
-    async adminAdjustPoints(docId, delta) {
-      if (!adminLogged) return;
-      const ref = doc(db, "teams", docId);
-      try {
-        const s = await getDoc(ref);
-        if (!s.exists()) {
-          await setDoc(ref, { name: DOC_TO_TEAM[docId].id, score: 0, updatedAt: Date.now() });
-        }
-        await updateDoc(ref, { score: increment(delta), updatedAt: Date.now() });
-
-        adminLastAction = { type: "adjust", docId, delta };
-        this.toast(`${delta>0? '+'+delta: delta} điểm (Admin)`);
-      } catch (e) {
-        console.error(e);
-        this.toast("Lỗi Admin update");
-      }
-    },
-    // ------------------------
-
-    toast(m) {
-      const t = document.getElementById('app-toast');
-      t.innerText = m;
-      t.style.display = 'block';
-      t.style.animation = 'slideDownToast 0.3s forwards';
-      setTimeout(() => { t.style.display = 'none'; }, 2000);
-    },
-
-    showGameToast(msg, type) {
-        const t = document.getElementById('game-toast');
-        t.innerText = msg;
-        t.className = type; // success, error, info
-        t.style.display = 'block';
-        t.style.animation = 'slideDownToast 0.3s forwards';
-        
-        // Hide after some time
-        setTimeout(() => { 
-            t.style.display = 'none'; 
-        }, type === 'error' ? 2000 : 1500);
-    },
-
-    renderRank() {
-      const list = document.getElementById('ranking-list');
-      
-      let data = [];
-      if (Object.keys(realtimeTeams).length) {
-        data = Object.keys(DOC_TO_TEAM).map(docId => ({
-          id: DOC_TO_TEAM[docId].id,
-          score: realtimeTeams[docId]?.score ?? 0,
-          color: DOC_TO_TEAM[docId].color
-        }));
-      } else {
-        // Fallback or init
-        data = TEAMS.map(t => ({...t, score: 0}));
-      }
-
-      data = data.sort((a,b) => b.score - a.score);
-      const max = Math.max(...data.map(d => d.score), 10);
-
-      list.innerHTML = data.map(d => `
-        <div class="rank-item">
-          <div class="rank-label"><span style="color:${d.color}">${d.id}</span><span>${d.score} XP</span></div>
-          <div class="bar-outer"><div class="bar-inner" style="width:${(d.score/max)*100}%; background:${d.color}"></div></div>
-        </div>
-      `).join('');
-
-      this.renderPrevWinner();
-      this.renderGameScoreboard(); // Also update in-game board
-    },
-
-    // NEW: In-Game Scoreboard Render
-    renderGameScoreboard() {
-        const board = document.getElementById('game-scoreboard');
-        if (!board) return;
-
-        let data = [];
-        if (Object.keys(realtimeTeams).length) {
-            data = Object.keys(DOC_TO_TEAM).map(docId => ({
-                id: DOC_TO_TEAM[docId].id,
-                score: realtimeTeams[docId]?.score ?? 0,
-                color: DOC_TO_TEAM[docId].color
-            }));
-        } else {
-            data = TEAMS.map(t => ({...t, score: 0}));
-        }
-
-        // Sort by ID to keep position fixed (easier to read while playing)
-        data.sort((a,b) => a.id.localeCompare(b.id));
-
-        board.innerHTML = data.map(d => `
-            <div class="mini-score-card">
-                <span class="mini-score-name" style="color:${d.color}">${d.id}</span>
-                <span class="mini-score-val">${d.score}</span>
-            </div>
-        `).join('');
-    },
-
-    async renderPrevWinner() {
-      const prevEl = document.getElementById('prev-winner');
-      try {
-        const metaRef = doc(db, "meta", "weekly");
-        const snap = await getDoc(metaRef);
-        if (snap.exists()) {
-          const data = snap.data();
-          if (data && Array.isArray(data.winners) && data.winners.length) {
-            if (data.winners.length === 1) {
-              prevEl.innerText = `🏆 Vô địch tuần trước: ${data.winners[0]} — ${data.maxScore} XP`;
-            } else {
-              prevEl.innerText = `🤝 Hòa tuần trước: ${data.winners.join(', ')} — ${data.maxScore} XP`;
-            }
-            return;
-          }
-        }
-      } catch(e) { console.warn(e); }
-      prevEl.innerText = '';
-    },
-
-    closeGame() {
-      document.getElementById('game-overlay').style.display = 'none';
-      document.getElementById('game-toast').style.display = 'none';
-    },
-
-    applyTransition() {
-      const content = document.getElementById('game-content-area');
-      content.classList.remove('slide-in');
-      void content.offsetWidth; 
-      content.classList.add('slide-in');
-    },
-
-    async checkWeeklyResetFirestore() {
-      try {
-        await this.ensureTeamsDocs();
-        const now = new Date();
-        const reset = new Date(now);
-        const day = reset.getDay(); 
-        reset.setDate(now.getDate() - day);
-        reset.setHours(12,0,0,0);
-
-        if (now.getDay() === 0 && now.getHours() < 12) reset.setDate(reset.getDate() - 7);
-        if (reset.getTime() > now.getTime()) reset.setDate(reset.getDate() - 7);
-
-        const resetTime = reset.getTime();
-        const metaRef = doc(db, "meta", "weekly");
-        const metaSnap = await getDoc(metaRef);
-        const lastReset = metaSnap.exists() ? (metaSnap.data().lastReset || 0) : 0;
-
-        if (!lastReset || lastReset < resetTime) {
-          const colSnap = await getDocs(collection(db, "teams"));
-          const prevScores = {};
-          colSnap.forEach(d => prevScores[d.id] = d.data().score || 0);
-
-          const arr = Object.entries(prevScores);
-          const maxScore = arr.length ? Math.max(...arr.map(a=>a[1])) : 0;
-          const winners = arr.filter(a=>a[1]===maxScore).map(a=> DOC_TO_TEAM[a[0]]?.id ?? a[0]);
-
-          const batch = writeBatch(db);
-          colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
-
-          batch.set(metaRef, {
-            lastReset: resetTime,
-            prevScores,
-            winners,
-            maxScore,
-            updatedAt: Date.now()
-          }, { merge: true });
-
-          await batch.commit();
-        }
-      } catch (e) { console.error(e); }
-    },
-
-    setupRealtimeListeners() {
-      try {
-        onSnapshot(collection(db, "teams"), (snapshot) => {
-          const tmp = {};
-          snapshot.forEach(d => tmp[d.id] = d.data());
-          realtimeTeams = tmp;
-          this.renderRank();
-        });
-
-        onSnapshot(doc(db, "meta", "weekly"), () => {
-          this.renderPrevWinner();
-        });
-      } catch (e) { console.error(e); }
+      document.getElementById("teamNow").innerText = TEAMS[teamIndex].name;
+      const adminTeam = document.getElementById("adminTeam");
+      if (adminTeam) adminTeam.innerText = TEAMS[teamIndex].name;
     }
-  };
 
-  function adminAdjust(docId, delta) {
-    galaxy.adminAdjustPoints(docId, delta);
-  }
-
-  async function adminApplyInput(docId){
-    if (!adminLogged) return;
-    const input = document.getElementById("admin-point-input");
-    const val = parseInt((input?.value || "").trim(), 10);
-    if (!input || isNaN(val) || val === 0) {
-      galaxy.toast("Nhập số điểm hợp lệ");
-      return;
+    function addScore(delta){
+      TEAMS[teamIndex].score += delta;
+      if (TEAMS[teamIndex].score < 0) TEAMS[teamIndex].score = 0;
     }
-    await galaxy.adminAdjustPoints(docId, val);
-    input.value = "";
-  }
 
-  async function adminResetScores(){
-    if (!adminLogged) return;
-    if(!confirm("Bạn có chắc chắn muốn RESET điểm về 0?")) return;
-    try{
-      await galaxy.ensureTeamsDocs();
-      const colSnap = await getDocs(collection(db, "teams"));
-      const before = {};
-      colSnap.forEach(d => before[d.id] = d.data().score || 0);
-
-      const batch = writeBatch(db);
-      colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
-      await batch.commit();
-
-      adminLastAction = { type: "reset", before };
-      galaxy.toast("Đã RESET điểm tất cả tổ");
-    }catch(e){
-      console.error(e);
-      galaxy.toast("Lỗi reset điểm");
+    function switchTeam(fromAdmin=false){
+      teamIndex = (teamIndex + 1) % TEAMS.length;
+      renderScoreboard();
+      toast("Đã đổi team!");
     }
-  }
 
-  async function adminUndo(){
-    if (!adminLogged || !adminLastAction){
-      galaxy.toast("Không có gì để hoàn tác");
-      return;
+    renderScoreboard();
+
+    // ========================= ADMIN =========================
+    function openAdmin(){
+      document.getElementById("admin-overlay").style.display="flex";
+      document.getElementById("adminTeam").innerText = TEAMS[teamIndex].name;
+      document.getElementById("adminDelta").value = "";
     }
-    try{
-      if (adminLastAction.type === "adjust"){
-        const { docId, delta } = adminLastAction;
-        await galaxy.adminAdjustPoints(docId, -delta);
-        adminLastAction = null;
-        galaxy.toast("Đã hoàn tác");
+    function closeAdmin(){
+      document.getElementById("admin-overlay").style.display="none";
+    }
+    function adminApply(){
+      const v = Number(document.getElementById("adminDelta").value || 0);
+      if (!v){
+        toast("⚠️ Nhập điểm trước!");
         return;
       }
-      if (adminLastAction.type === "reset"){
-        const before = adminLastAction.before || {};
-        const batch = writeBatch(db);
-        for (const docId of Object.keys(DOC_TO_TEAM)){
-          const ref = doc(db, "teams", docId);
-          const score = before[docId] ?? 0;
-          batch.update(ref, { score, updatedAt: Date.now() });
-        }
-        await batch.commit();
-        adminLastAction = null;
-        galaxy.toast("Đã hoàn tác RESET");
-        return;
-      }
-    }catch(e){
-      console.error(e);
-      galaxy.toast("Lỗi hoàn tác");
+      addScore(v);
+      renderScoreboard();
+      toast("Đã cập nhật điểm!");
     }
-  }
-
-  const mathGame = {
-    ans: 0,
-    isProcessing: false,
-    start() {
-      document.getElementById('game-overlay').style.display = 'flex';
-      document.getElementById('game-label').innerText = "MATH MISSION";
-      galaxy.renderGameScoreboard();
-      this.generate();
-    },
-    generate() {
-      this.isProcessing = false;
-      galaxy.applyTransition();
-      const type = Math.floor(Math.random() * 4);
-      let q = "";
-      
-      if (type === 0) {
-        const a = Math.floor(Math.random() * 100), b = Math.floor(Math.random() * 50);
-        this.ans = a + b; q = `${a} + ${b} = ?`;
-      } else if (type === 1) {
-        const a = Math.floor(Math.random() * 12) + 2, b = Math.floor(Math.random() * 11) + 2;
-        this.ans = a * b; q = `${a} × ${b} = ?`;
-      } else if (type === 2) {
-        const x = Math.floor(Math.random() * 30), a = Math.floor(Math.random() * 20);
-        this.ans = x; q = `Tìm x: x + ${a} = ${x + a}`;
-      } else {
-        const b = Math.floor(Math.random() * 5) + 2, p = Math.floor(Math.random() * 2) + 2;
-        this.ans = Math.pow(b, p); q = `${b}<sup>${p}</sup> = ?`;
-      }
-      document.getElementById('q-text').innerHTML = q;
-      document.getElementById('q-action').innerHTML = `
-        <input type="number" id="m-input" class="math-input" autofocus>
-        <div style="display:flex; gap:10px; margin-top:6px;">
-          <button id="btn-m-confirm" class="btn-confirm" onclick="mathGame.check()">XÁC NHẬN</button>
-          <button class="btn-confirm small" style="background:#555; color:#fff;" onclick="mathGame.skip()">BỎ QUA</button>
-        </div>
-      `;
-      const input = document.getElementById('m-input');
-      if (input) {
-        input.focus();
-        // ADDED ENTER KEY SUPPORT
-        input.addEventListener('keydown', (e) => {
-            if(e.key === "Enter") {
-                mathGame.check();
-            }
-        });
-      }
-    },
-    check() {
-      if (this.isProcessing) return;
-      this.isProcessing = true;
-      const btn = document.getElementById('btn-m-confirm');
-      if (btn) btn.disabled = true;
-
-      const val = parseInt(document.getElementById('m-input').value || '', 10);
-      if (val === this.ans) {
-        galaxy.showGameToast("ĐÚNG RỒI! +5 XP", "success");
-        galaxy.addPoints(5);
-        setTimeout(() => this.generate(), 800);
-      } else {
-        galaxy.showGameToast(`SAI RỒI!`, "error");
-        setTimeout(() => this.generate(), 1500);
-      }
-    },
-    skip() {
-      if (this.isProcessing) return;
-      this.isProcessing = true;
-      galaxy.showGameToast("ĐÃ BỎ QUA", "info");
-      setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
+    function adminReset(){
+      TEAMS.forEach(t=>t.score=0);
+      renderScoreboard();
+      toast("Đã reset điểm!");
     }
-  };
 
-  /* GIỮ NGUYÊN ENGLISH_BANK KHÔNG THAY ĐỔI */
 const ENGLISH_BANK = [
   // --- TOPIC: ADJECTIVES VS ADVERBS ---
   { q: "She is a very ________ designer. She always has new ideas.", a: "creative", o: ["creative", "creatively", "creation"], t: "Adj_Adv" },
@@ -1261,6 +921,7 @@ const ENGLISH_BANK = [
   // --- EXTRA ---
   { q: "A child who is amazingly talented at something is called a ________.", a: "prodigy", o: ["prodigy", "student", "beginner"], t: "Vocabulary" },
 
+  // ❗FIX: thêm dấu phẩy ở đây
   { q: "To ________ means to keep something in your mind.", a: "memorize", o: ["decide", "memorize", "arrive"], t: "Vocabulary" },
 
   // --- TOPIC: MEDALS & SPORTS ---
@@ -1418,82 +1079,521 @@ const ENGLISH_BANK = [
 ];
 
 
-  const englishGame = {
-    curr: null,
-    lastIndex: -1,
-    isProcessing: false,
-    start() {
-      document.getElementById('game-overlay').style.display = 'flex';
-      document.getElementById('game-label').innerText = "ENGLISH COMMAND";
-      galaxy.renderGameScoreboard();
-      this.generate();
-    },
-    generate() {
-      this.isProcessing = false;
-      galaxy.applyTransition();
-      if (ENGLISH_BANK.length === 0) return;
+    const englishGame = {
+      _current: null,
+      _used: new Set(),
 
-      let idx = Math.floor(Math.random() * ENGLISH_BANK.length);
-      let attempts = 0;
-      while (idx === this.lastIndex && attempts < 10) {
-        idx = Math.floor(Math.random() * ENGLISH_BANK.length);
-        attempts++;
+      start(){
+        openGame("ENGLISH MISSION", "English • Học kì 2");
+        renderScoreboard();
+        this._used.clear();
+        this.nextQuestion();
+      },
+
+      nextQuestion(){
+        if (!ENGLISH_BANK.length){
+          setQuestionText("⚠️ Bạn chưa dán ENGLISH_BANK vào code.");
+          document.getElementById("q-action").innerHTML = `
+            <div style="margin-top:12px; color:var(--muted); text-align:center;">
+              Dán ENGLISH_BANK vào đúng vị trí NOTE trong code.
+            </div>
+          `;
+          return;
+        }
+
+        if (this._used.size >= ENGLISH_BANK.length) this._used.clear();
+
+        let idx=-1, safety=0;
+        do{
+          idx = Math.floor(Math.random()*ENGLISH_BANK.length);
+          safety++;
+          if (safety>2000) break;
+        } while(this._used.has(idx));
+
+        this._used.add(idx);
+        this._current = ENGLISH_BANK[idx];
+
+        setQuestionText(this._current.q);
+
+        const opts = (this._current.o || []).map((text, i)=>{
+          return `<button class="btn-confirm small" style="background:rgba(255,255,255,.08); color:var(--txt); border:1px solid rgba(255,255,255,.14); box-shadow:none;" onclick="englishGame.choose('${escapeQuotes(text)}')">${text}</button>`;
+        }).join("");
+
+        document.getElementById("q-action").innerHTML = `
+          <div style="margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            ${opts}
+          </div>
+          <div style="margin-top:12px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+            <button class="btn-confirm small" onclick="englishGame.nextQuestion()">CÂU KHÁC</button>
+            <button class="btn-confirm small" style="background:#444;" onclick="closeGame()">ĐÓNG</button>
+          </div>
+        `;
+      },
+
+      choose(text){
+        const correct = (String(text).trim().toLowerCase() === String(this._current.a).trim().toLowerCase());
+        const delta = correct ? 10 : -5;
+        addScore(delta);
+        renderScoreboard();
+        toast(correct ? "✅ Đúng! +10 điểm" : `❌ Sai! Đáp án: ${this._current.a} (-5 điểm)`);
+        setTimeout(()=>this.nextQuestion(), 850);
       }
-      this.lastIndex = idx;
-      this.curr = ENGLISH_BANK[idx];
+    };
 
-      document.getElementById('q-text').innerText = this.curr.q;
-      document.getElementById('q-tag').innerText = this.curr.t + " • HK2";
-
-      const shuffled = [...this.curr.o].sort(() => Math.random() - 0.5);
-      document.getElementById('q-action').innerHTML = `
-        <div class="option-list">
-          ${shuffled.map(o => `<button class="option-item" onclick="englishGame.check(this, '${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}
-        </div>
-        <div style="width:100%; display:flex; justify-content:center; margin-top:10px;">
-          <button class="btn-confirm small" style="background:#555;" onclick="englishGame.skip()">BỎ QUA</button>
-        </div>
-      `;
-    },
-    check(btn, choice) {
-      if (this.isProcessing) return;
-      this.isProcessing = true;
-
-      const allBtns = document.querySelectorAll('.option-item');
-      allBtns.forEach(b => b.disabled = true);
-
-      if (choice === this.curr.a) {
-        galaxy.showGameToast("ĐÚNG RỒI! +10 XP", "success");
-        galaxy.addPoints(10);
-        setTimeout(() => this.generate(), 800);
-      } else {
-        galaxy.showGameToast(`SAI! ĐÁP ÁN: ${this.curr.a}`, "error");
-        setTimeout(() => this.generate(), 2000);
-      }
-    },
-    skip() {
-      if (this.isProcessing) return;
-      this.isProcessing = true;
-      galaxy.showGameToast("ĐÃ BỎ QUA", "info");
-      setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
+    function escapeQuotes(s){
+      return String(s).replaceAll("\\","\\\\").replaceAll("'","\\'");
     }
-  };
 
-  window.galaxy = galaxy;
-  window.englishGame = englishGame;
-  window.mathGame = mathGame;
-  window.adminAdjust = adminAdjust;
+    // ========================= MATH GAME (INPUT RANDOM) =========================
+    const mathGame = {
+      _currentAnswer: null,
+      _lock:false,
 
-  window.adminApplyInput = adminApplyInput;
-  window.adminResetScores = adminResetScores;
-  window.adminUndo = adminUndo;
+      start(){
+        openGame("TOÁN MISSION", "Math • Random");
+        renderScoreboard();
+        this.nextQuestion();
+      },
 
-  window.onload = () => galaxy.init();
-</script>
+      nextQuestion(){
+        this._lock=false;
+
+        const item = this.generateQuestion();
+        this._currentAnswer = item.answer;
+
+        setQuestionText(item.q);
+
+        document.getElementById("q-action").innerHTML = `
+          <div class="answer-wrap">
+            <input id="math-input" class="answer-input" type="number" inputmode="numeric"
+                   placeholder="Nhập đáp án..." autocomplete="off" />
+            <button class="btn-confirm" onclick="mathGame.submit()">TRẢ LỜI</button>
+          </div>
+
+          <div style="margin-top:10px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+            <button class="btn-confirm small" onclick="mathGame.nextQuestion()">BỎ QUA</button>
+            <button class="btn-confirm small" style="background:#444;" onclick="closeGame()">ĐÓNG</button>
+          </div>
+        `;
+
+        const inp = document.getElementById("math-input");
+        inp.focus();
+        inp.addEventListener("keydown", (e)=>{
+          if (e.key === "Enter") this.submit();
+        });
+      },
+
+      submit(){
+        if (this._lock) return;
+        this._lock=true;
+
+        const inp = document.getElementById("math-input");
+        const raw = (inp.value || "").trim();
+
+        if (raw === ""){
+          toast("⚠️ Bạn chưa nhập đáp án!");
+          this._lock=false;
+          inp.focus();
+          return;
+        }
+
+        const userAns = Number(raw);
+        const correct = (userAns === this._currentAnswer);
+
+        addScore(correct ? 10 : -5);
+        renderScoreboard();
+
+        inp.classList.add(correct ? "ok" : "bad");
+        toast(correct ? "✅ Chính xác! +10 điểm" : `❌ Sai! Đáp án: ${this._currentAnswer} (-5 điểm)`);
+
+        setTimeout(()=>this.nextQuestion(), 900);
+      },
+
+      generateQuestion(){
+        const r = Math.random();
+        if (r < 0.45) return this.genFindX();
+        if (r < 0.75) return this.genPercent();
+        return this.genPower();
+      },
+
+      genFindX(){
+        const type = randInt(0, 3);
+        let x, a, b, q;
+
+        if (type === 0){
+          x = randInt(1, 25);
+          a = randInt(1, 25);
+          b = x + a;
+          q = `Tìm x: x + ${a} = ${b}`;
+          return { q, answer: x };
+        }
+        if (type === 1){
+          a = randInt(1, 18);
+          b = randInt(0, 25);
+          x = a + b;
+          q = `Tìm x: x - ${a} = ${b}`;
+          return { q, answer: x };
+        }
+        if (type === 2){
+          x = randInt(1, 12);
+          a = randInt(2, 9);
+          b = x * a;
+          q = `Tìm x: x × ${a} = ${b}`;
+          return { q, answer: x };
+        }
+
+        a = randInt(2, 9);
+        b = randInt(1, 12);
+        x = a * b;
+        q = `Tìm x: x ÷ ${a} = ${b}`;
+        return { q, answer: x };
+      },
+
+      genPercent(){
+        const pick = Math.random() < 0.5 ? 25 : 50;
+        let n;
+
+        if (pick === 50){
+          n = randInt(2, 80);
+          if (n % 2 !== 0) n += 1;
+          return { q: `Tính: 50% của ${n} bằng bao nhiêu?`, answer: n/2 };
+        } else {
+          n = randInt(4, 120);
+          n = n - (n % 4);
+          if (n < 4) n = 4;
+          return { q: `Tính: 25% của ${n} bằng bao nhiêu?`, answer: n/4 };
+        }
+      },
+
+      genPower(){
+        const pow = randInt(1, 3);
+
+        if (pow === 1){
+          const n = randInt(1, 35);
+          return { q: `Tính: ${n}^1 = ?`, answer: n };
+        }
+        if (pow === 2){
+          const n = randInt(2, 12);
+          return { q: `Tính: ${n}^2 = ?`, answer: n*n };
+        }
+        const n = randInt(2, 6);
+        return { q: `Tính: ${n}^3 = ?`, answer: n*n*n };
+      }
+    };
+
+    function randInt(min, max){
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+/**************************************************************
+ * ANIME BANK (200 câu)
+ * - Copy paste nguyên khối này vào project
+ **************************************************************/
+const ANIME_BANK = [
+  // ===== ONE PIECE (10) =====
+  { q: "Luffy ăn trái ác quỷ hệ gì (theo tiết lộ mới nhất)?", o: ["Paramecia", "Logia", "Zoan Thần thoại", "Zoan cổ đại"], a: 2 },
+  { q: "Ai là người đầu tiên gia nhập băng Mũ Rơm?", o: ["Nami", "Zoro", "Usopp", "Sanji"], a: 1 },
+  { q: 'Thanh kiếm "Enma" của Zoro từng thuộc về ai?', o: ["Kozuki Oden", "Shimotsuki Ryuma", "Gol D. Roger", "Mihawk"], a: 0 },
+  { q: "Biệt danh của Sanji là gì?", o: ["Thợ săn hải tặc", "Hắc Cước", "Đứa con của quỷ", "Kẻ háo sắc"], a: 1 },
+  { q: "Thuyền trưởng của băng Hải tặc Râu Trắng là ai?", o: ["Marshall D. Teach", "Edward Newgate", "Portgas D. Ace", "Marco"], a: 1 },
+  { q: "Thành viên nào trong băng Mũ Rơm là một khảo cổ học?", o: ["Robin", "Brook", "Jinbe", "Franky"], a: 0 },
+  { q: "Trận chiến tại Marineford nổ ra để cứu ai?", o: ["Luffy", "Ace", "Sabo", "Garp"], a: 1 },
+  { q: "Ai là người đã tặng chiếc mũ rơm cho Luffy?", o: ["Râu Trắng", "Shanks", "Rayleigh", "Dragon"], a: 1 },
+  { q: "Trái ác quỷ của Nico Robin có tên là gì?", o: ["Hana Hana no Mi", "Yomi Yomi no Mi", "Gomu Gomu no Mi", "Hito Hito no Mi"], a: 0 },
+  { q: "Ngôi làng quê hương của Luffy tên là gì?", o: ["Syrup", "Shimotsuki", "Foosha", "Cocoyasi"], a: 2 },
+
+  // ===== NARUTO (10) =====
+  { q: "Naruto thuộc về gia tộc nào?", o: ["Uchiha", "Uzumaki", "Hyuga", "Senju"], a: 1 },
+  { q: "Ai là thầy giáo hướng dẫn trực tiếp cho Đội 7?", o: ["Jiraiya", "Iruka", "Kakashi", "Yamato"], a: 2 },
+  { q: "Cửu Vĩ có tên thật là gì?", o: ["Shukaku", "Matatabi", "Kurama", "Gyuki"], a: 2 },
+  { q: "Tuyệt kỹ đặc trưng nhất của Naruto là gì?", o: ["Chidori", "Rasengan", "Amaterasu", "Tsukuyomi"], a: 1 },
+  { q: "Ai là người đã thảm sát gia tộc Uchiha?", o: ["Madara", "Obito", "Itachi", "Sasuke"], a: 2 },
+  { q: "Hokage đệ Tứ có mối quan hệ gì với Naruto?", o: ["Thầy", "Cha", "Anh trai", "Không có quan hệ"], a: 1 },
+  { q: "Tổ chức phản diện chính trong Naruto Shippuden là gì?", o: ["Kara", "Akatsuki", "Orochi", "Root"], a: 1 },
+  { q: "Con mắt của gia tộc Hyuga được gọi là gì?", o: ["Sharingan", "Rinnegan", "Byakugan", "Tenseigan"], a: 2 },
+  { q: 'Ai là "Sannin huyền thoại" đã nhận Naruto làm học trò?', o: ["Tsunade", "Orochimaru", "Jiraiya", "Danzo"], a: 2 },
+  { q: "Làng Lá nằm ở quốc gia nào?", o: ["Thổ Quốc", "Hỏa Quốc", "Thủy Quốc", "Lôi Quốc"], a: 1 },
+
+  // ===== ONE PUNCH MAN (10) =====
+  { q: "Saitama đã tập luyện như thế nào để trở nên mạnh mẽ?", o: ["Ăn trái ác quỷ", "100 cái hít đất, gập bụng, squat và chạy 10km mỗi ngày", "Cấy ghép gen quái vật", "Tu luyện trên núi"], a: 1 },
+  { q: "Đệ tử tự nhận của Saitama là ai?", o: ["Genos", "King", "Mumen Rider", "Bang"], a: 0 },
+  { q: "Xếp hạng anh hùng của Saitama khi mới gia nhập Hiệp hội là gì?", o: ["Lớp S", "Lớp A", "Lớp B", "Lớp C"], a: 3 },
+  { q: 'Anh hùng nào được mệnh danh là "Người đàn ông mạnh nhất thế giới" (nhưng thực tế là hiểu lầm)?', o: ["Saitama", "King", "Blast", "Silver Fang"], a: 1 },
+  { q: "Kẻ thù đầu tiên mà Saitama tiêu diệt trong anime (con cua) tên là gì?", o: ["Boros", "Crablante", "Deep Sea King", "Carnage Kabuto"], a: 1 },
+  { q: "Thành phố nơi Saitama sinh sống là thành phố nào?", o: ["Thành phố A", "Thành phố Z", "Thành phố S", "Thành phố Q"], a: 1 },
+  { q: 'Tatsumaki có biệt danh là gì?', o: ["Đứa con của bão", "Đứa con của quỷ", "Đứa con của bão tố", "Cơn lốc kinh hoàng"], a: 3 },
+  { q: "Ai là lãnh đạo của nhóm quái vật xâm lược Trái đất bằng phi thuyền?", o: ["Orochi", "Garou", "Lord Boros", "Black Sperm"], a: 2 },
+  { q: 'Vũ khí của "Chùy Sắt Hiệp Sĩ" (Metal Bat) là gì?', o: ["Kiếm", "Gậy bóng chày", "Rìu", "Tay không"], a: 1 },
+  { q: '"Thợ săn anh hùng" là biệt danh của ai?', o: ["Speed-o'-Sound Sonic", "Garou", "Suiryu", "Tanktop Master"], a: 1 },
+
+  // ===== THANH GƯƠM DIỆT QUỶ (10) =====
+  { q: "Tanjiro sử dụng hơi thở khởi đầu nào?", o: ["Hơi thở của Nước", "Hơi thở của Lửa", "Hơi thở của Sấm sét", "Hơi thở của Gió"], a: 0 },
+  { q: "Nezuko di chuyển ban ngày bằng cách nào?", o: ["Đeo kính râm", "Trốn trong hộp gỗ", "Che ô", "Uống thuốc"], a: 1 },
+  { q: "Ai là chúa tể của loài quỷ?", o: ["Kokushibo", "Akaza", "Kibutsuji Muzan", "Douma"], a: 2 },
+  { q: "Kiếm sĩ mạnh nhất trong dàn Trụ cột (xét về thể chất) là ai?", o: ["Giyu", "Rengoku", "Gyomei (Nham Trụ)", "Sanemi"], a: 2 },
+  { q: "Người bạn của Tanjiro, thường xuyên đeo đầu heo là ai?", o: ["Zenitsu", "Inosuke", "Genya", "Sabito"], a: 1 },
+  { q: "Thanh kiếm của Tanjiro có màu gì?", o: ["Xanh", "Đỏ", "Đen", "Vàng"], a: 2 },
+  { q: 'Bậc thầy dạy Tanjiro "Hơi thở của Nước" là ai?', o: ["Urokodaki Sakonji", "Jigoro Kuwajima", "Shinjuro Rengoku", "Kagaya Ubuyashiki"], a: 0 },
+  { q: "Kỹ năng đặc biệt của Zenitsu là gì?", o: ["Chạy nhanh", "Chiến đấu khi đang ngủ", "Nhìn xuyên thấu", "Khứu giác nhạy bén"], a: 1 },
+  { q: "Viêm Trụ Rengoku Kyojuro xuất hiện chính trong phần phim nào?", o: ["Phố đèn đỏ", "Làng thợ rèn", "Chuyến tàu vô tận", "Pháo đài vô cực"], a: 2 },
+  { q: "Hoa nào là nỗi sợ hãi của loài quỷ?", o: ["Hoa Anh đào", "Hoa Hồng", "Hoa Tử đằng", "Hoa Hướng dương"], a: 2 },
+
+  // ===== CONAN (10) =====
+  { q: "Tên thật của Thám tử lừng danh Conan là gì?", o: ["Ran Mouri", "Heiji Hattori", "Kudo Shinichi", "Saguru Hakuba"], a: 2 },
+  { q: "Tổ chức Áo đen có bí danh lấy cảm hứng từ đâu?", o: ["Tên các loài hoa", "Tên các loại rượu", "Tên các hành tinh", "Tên các con vật"], a: 1 },
+  { q: "Ai là người đã cho Shinichi uống thuốc teo nhỏ APTX 4869?", o: ["Gin", "Vodka", "Vermouth", "Bourbon"], a: 0 },
+  { q: "Cô bé Ai Haibara vốn là thành viên của Tổ chức Áo đen với mật danh là gì?", o: ["Sherry", "Chianti", "Kir", "Tequila"], a: 0 },
+  { q: "Tiến sĩ Agasa đã phát minh ra vật dụng nào giúp Conan giả giọng người khác?", o: ["Giày tăng lực", "Nơ biến đổi giọng nói", "Đồng hồ gây mê", "Ván trượt siêu tốc"], a: 1 },
+  { q: "Thám tử miền Tây, đối thủ và cũng là bạn thân của Conan là ai?", o: ["Hakuba", "Heiji Hattori", "Akai Shuichi", "Amuro Tooru"], a: 1 },
+  { q: '"Siêu đạo chích" thường xuyên đối đầu với Conan là ai?', o: ["Kaitou Kid", "Lupin III", "Jirokichi Suzuki", "Makoto Kyogoku"], a: 0 },
+  { q: "Bố của Shinichi, Kudo Yusaku, làm nghề gì?", o: ["Cảnh sát", "Bác sĩ", "Tiểu thuyết gia trinh thám", "Diễn viên"], a: 2 },
+  { q: "Ran Mouri giỏi môn võ nào nhất?", o: ["Judo", "Aikido", "Karate", "Kendo"], a: 2 },
+  { q: 'Thám tử "ngủ gật" Kogoro Mouri từng làm nghề gì trước khi làm thám tử tư?', o: ["Đầu bếp", "Cảnh sát", "Giáo viên", "Luật sư"], a: 1 },
+
+  // ===== ATTACK ON TITAN (10) =====
+  { q: "Bức tường ngoài cùng bảo vệ con người tên là gì?", o: ["Wall Rose", "Wall Maria", "Wall Sina", "Wall Titan"], a: 1 },
+  { q: "Eren Yeager sở hữu sức mạnh của bao nhiêu Titan (tính đến cuối phần 3)?", o: ["1", "2", "3", "4"], a: 1 },
+  { q: 'Đội trưởng Đội Trinh sát được mệnh danh là "Chiến binh mạnh nhất nhân loại" là ai?', o: ["Erwin Smith", "Levi Ackerman", "Jean Kirstein", "Reiner Braun"], a: 1 },
+  { q: "Titan nào đã phá hủy cổng thành Wall Maria ở tập 1?", o: ["Titan Tiến công", "Titan Thiết giáp", "Titan Đại hình", "Titan Nữ hình"], a: 2 },
+  { q: "Mikasa luôn đeo vật phẩm gì mà Eren tặng?", o: ["Nhẫn", "Khăn quàng cổ", "Vòng tay", "Dây chuyền"], a: 1 },
+  { q: "Sở thích đặc biệt nhất của Levi là gì?", o: ["Ngủ", "Ăn", "Dọn dẹp vệ sinh", "Đọc sách"], a: 2 },
+  { q: "Gia tộc nào miễn nhiễm với khả năng xóa trí nhớ của Titan Thủy tổ?", o: ["Braun", "Ackerman", "Smith", "Arlert"], a: 1 },
+  { q: "Người kế thừa Titan Đại hình sau Bertholdt là ai?", o: ["Eren", "Armin", "Connie", "Hange"], a: 1 },
+  { q: "Bên trong các bức tường thực chất là gì?", o: ["Gạch đá", "Các Titan khổng lồ", "Kim loại", "Cây cối"], a: 1 },
+  { q: "Tác giả của bộ truyện Attack on Titan là ai?", o: ["Eiichiro Oda", "Masashi Kishimoto", "Hajime Isayama", "Tite Kubo"], a: 2 },
+
+  // ===== HUNTER X HUNTER (10) =====
+  { q: "Gon Freecss đi thi Hunter để tìm ai?", o: ["Mẹ", "Cha", "Chú", "Kẻ thù"], a: 1 },
+  { q: "Bạn thân nhất của Gon, xuất thân từ gia đình sát thủ là ai?", o: ["Kurapika", "Leorio", "Killua", "Hisoka"], a: 2 },
+  { q: "Năng lực đặc biệt mà các Hunter sử dụng được gọi là gì?", o: ["Chakra", "Haki", "Niệm (Nen)", "Ma lực"], a: 2 },
+  { q: "Kurapika thuộc tộc người nào có đôi mắt chuyển đỏ khi xúc động?", o: ["Kurta", "Uchiha", "Zoldyck", "Meteor"], a: 0 },
+  { q: "Vũ khí mà Killua thường sử dụng ở giai đoạn đầu là gì?", o: ["Kiếm", "Yo-yo", "Súng", "Móng tay sắc nhọn"], a: 3 },
+  { q: "Ai là chủ tịch hiệp hội Hunter (đã hy sinh khi đấu với Kiến Vương)?", o: ["Ging Freecss", "Isaac Netero", "Pariston Hill", "Silva Zoldyck"], a: 1 },
+  { q: "Băng nhóm tội phạm khét tiếng mà Kurapika muốn tiêu diệt là?", o: ["Akatsuki", "Phantom Troupe (Băng Nhện)", "Espada", "League of Villains"], a: 1 },
+  { q: "Kiến Vương Chimera tên là gì?", o: ["Meruem", "Pouf", "Youpi", "Pitou"], a: 0 },
+  { q: "Môn cờ mà Meruem chơi cùng Komugi tên là gì?", o: ["Shogi", "Cờ vây", "Gungi", "Cờ tướng"], a: 2 },
+  { q: "Cha của Gon tên là gì?", o: ["Kite", "Ging", "Silva", "Zeno"], a: 1 },
+
+  // ===== FAIRY TAIL (10) =====
+  { q: "Natsu Dragneel là một Sát Long Nhân hệ gì?", o: ["Hỏa", "Thiết", "Thiên Không", "Lôi"], a: 0 },
+  { q: "Chú mèo biết bay, bạn đồng hành của Natsu tên là gì?", o: ["Carla", "Happy", "Panther Lily", "Lector"], a: 1 },
+  { q: "Pháp sư sử dụng Hoán phục (Thay đổi giáp trụ và vũ khí) mạnh nhất hội là ai?", o: ["Lucy", "Erza Scarlet", "Mirajane", "Wendy"], a: 1 },
+  { q: "Hội trưởng đời thứ 3 của Fairy Tail là ai?", o: ["Makarov", "Gildarts", "Laxus", "Mavis"], a: 0 },
+  { q: "Lucy Heartfilia sử dụng loại ma pháp nào?", o: ["Sát Long Thuật", "Tinh Linh Ma Pháp", "Băng thuật", "Hắc ma pháp"], a: 1 },
+  { q: "Đối thủ truyền kiếp của Natsu trong hội, người sử dụng Băng thuật là ai?", o: ["Lyon", "Gray Fullbuster", "Juvia", "Gajeel"], a: 1 },
+  { q: "Pháp sư đen huyền thoại, kẻ phản diện chính của truyện là ai?", o: ["Acnologia", "Zeref", "Hades", "Mard Geer"], a: 1 },
+  { q: "Con rồng đã nuôi dưỡng Natsu tên là gì?", o: ["Igneel", "Metalicana", "Grandeeney", "Weisslogia"], a: 0 },
+  { q: "Biệt danh của Erza là gì?", o: ["Nữ hoàng băng giá", "Nữ hoàng Tiên (Titania)", "Sát Long Nhân", "Ma nhân"], a: 1 },
+  { q: "Ma pháp mạnh nhất của hội Fairy Tail là gì?", o: ["Fairy Gliter", "Fairy Law", "Fairy Sphere", "Tất cả đều đúng"], a: 3 },
+
+  // ===== BLUE LOCK (10) =====
+  { q: "Mục tiêu của dự án Blue Lock là tạo ra vị trí nào xuất sắc nhất thế giới?", o: ["Thủ môn", "Tiền vệ", "Tiền đạo", "Hậu vệ"], a: 2 },
+  { q: "Nhân vật chính Isagi Yoichi có vũ khí lợi hại nhất là gì?", o: ["Tốc độ", "Sức mạnh cơ bắp", "Nhãn quan chiến thuật (Siêu thị giác)", "Kỹ thuật cá nhân"], a: 2 },
+  { q: "Người đứng đầu và điều hành dự án Blue Lock là ai?", o: ["Anri Teieri", "Ego Jinpachi", "Noel Noa", "Itoshi Sae"], a: 1 },
+  { q: "Thần tượng của Isagi, tiền đạo số 1 thế giới là ai?", o: ["Noel Noa", "Chris Prince", "Lavinho", "Marc Snuffy"], a: 0 },
+  { q: 'Nhân vật được mệnh danh là "Công chúa" với mái tóc dài và tốc độ chạy cực nhanh?', o: ["Bachira", "Chigiri", "Kunigami", "Nagi"], a: 1 },
+  { q: "Cầu thủ thiên tài luôn coi bóng đá là phiền phức nhưng cực giỏi trong việc kiểm soát bóng?", o: ["Reo", "Nagi Seishiro", "Barou", "Rin"], a: 1 },
+  { q: '"Vua" của sân cỏ với lối đá ích kỷ và đầy sức mạnh là ai?', o: ["Isagi", "Barou Shoei", "Niko", "Zantetsu"], a: 1 },
+  { q: "Người anh trai của Itoshi Rin, cũng là một thiên tài bóng đá Nhật Bản là ai?", o: ["Itoshi Sae", "Itoshi Shidou", "Itoshi Kai", "Itoshi Ryosuke"], a: 0 },
+  { q: 'Bachira Meguru luôn tin rằng có một thứ gì đó bên trong mình thôi thúc chơi bóng, đó là gì?', o: ["Thiên thần", "Quái vật (Monster)", "Ngọn lửa", "Áp lực"], a: 1 },
+  { q: "Trong trận đấu với U20 Nhật Bản, Blue Lock đã thắng với tỉ số bao nhiêu?", o: ["3-2", "4-3", "2-1", "5-4"], a: 1 },
+
+  // ===== JUJUTSU KAISEN (10) =====
+  { q: "Itadori Yuji đã nuốt vật thể nguyền chú nào ở tập 1?", o: ["Ngón tay của Sukuna", "Con mắt của Sukuna", "Tim của Sukuna", "Xương của Sukuna"], a: 0 },
+  { q: "Chú thuật sư mạnh nhất thời đại hiện nay là ai?", o: ["Nanami", "Gojo Satoru", "Geto Suguru", "Megumi"], a: 1 },
+  { q: "Kỹ thuật nguyền chú của Fushiguro Megumi là gì?", o: ["Xích huyết thao thuật", "Thập chủng ảnh pháp thuật", "Băng thuật", "Vô hạ hạn"], a: 1 },
+  { q: "Nữ chính trong nhóm của Yuji, sử dụng búa và đinh là ai?", o: ["Maki", "Nobara Kugisaki", "Miwa", "Mai"], a: 1 },
+  { q: "Ai là người luôn đeo băng bịt mắt (hoặc kính râm)?", o: ["Inumaki", "Gojo", "Panda", "Toji"], a: 1 },
+  { q: 'Vật chứa của "Vua lời nguyền" Ryomen Sukuna là ai?', o: ["Megumi", "Yuji", "Yuta", "Mahito"], a: 1 },
+  { q: "Tình trạng của Inumaki Toge là gì khi anh ấy sử dụng ngôn từ?", o: ["Chỉ nói tên các thành phần cơm nắm", "Không bao giờ nói", "Chỉ nói tiếng Anh", "Chỉ nói thầm"], a: 0 },
+  { q: "Chú linh đặc cấp luôn muốn thay thế con người, có khả năng biến đổi linh hồn là ai?", o: ["Jogo", "Hanami", "Mahito", "Dagon"], a: 2 },
+  { q: "Người bạn thân nhất của Gojo Satoru, người sau này trở thành phản diện là ai?", o: ["Toji Fushiguro", "Suguru Geto", "Kento Nanami", "Choso"], a: 1 },
+  { q: "Bành trướng lãnh địa của Gojo Satoru có tên là gì?", o: ["Phục ma ngự điện", "Vô lượng không xứ", "Khảm hợp ế đình", "Tự bế viên đốn khỏa"], a: 1 },
+
+  // ====== 100 CÂU VÒNG 2 (Anime 2.txt) ======
+  // ===== DRAGON BALL (10) =====
+  { q: "Goku thuộc tộc người nào?", o: ["Namek", "Saiyan", "Trái Đất", "Frieza"], a: 1 },
+  { q: 'Ai là người đã dạy Goku kỹ thuật "Kamehameha"?', o: ["Quy Lão (Thần Rùa)", "Thượng Đế", "King Kai", "Whis"], a: 0 },
+  { q: "Vợ của Vegeta là ai?", o: ["Chi-Chi", "Bulma", "Videl", "18"], a: 1 },
+  { q: "Hành tinh quê hương của Goku tên là gì?", o: ["Namek", "Vegeta", "Sadala", "Earth"], a: 1 },
+  { q: "Kẻ thù nào đã khiến Goku lần đầu tiên biến thành Super Saiyan?", o: ["Vegeta", "Cell", "Frieza", "Buu"], a: 2 },
+  { q: "Tên thật của Android 18 là gì?", o: ["Lapis", "Lazuli", "Marron", "Videl"], a: 1 },
+  { q: "Hợp thể giữa Goku và Vegeta bằng bông tai Potara tên là gì?", o: ["Gogeta", "Vegito", "Gotenks", "Veku"], a: 1 },
+  { q: "Ai là vị Thần Hủy Diệt của Vũ trụ 7?", o: ["Champa", "Beerus", "Belmod", "Heles"], a: 1 },
+  { q: "Rồng thần Trái Đất có tên là gì?", o: ["Porunga", "Shenron", "Super Shenron", "Zalama"], a: 1 },
+  { q: "Con trai đầu lòng của Goku tên là gì?", o: ["Goten", "Gohan", "Trunks", "Pan"], a: 1 },
+
+  // ===== DEATH NOTE (10) =====
+  { q: "Tử thần đánh rơi cuốn sổ xuống nhân gian tên là gì?", o: ["Rem", "Ryuk", "Sidoh", "Gelus"], a: 1 },
+  { q: "Ryuk thích ăn loại quả nào nhất?", o: ["Chuối", "Cam", "Táo", "Dâu tây"], a: 2 },
+  { q: "Biệt danh mà thế giới đặt cho kẻ sát nhân dùng sổ tử thần là gì?", o: ["L", "Kira", "Near", "Mello"], a: 1 },
+  { q: "Thám tử thiên tài L có tên thật là gì?", o: ["Nate River", "Mihael Keehl", "L Lawliet", "Quillsh Wammy"], a: 2 },
+  { q: "Misa Amane sở hữu đôi mắt của ai để thấy được tên người khác?", o: ["Thần linh", "Ác quỷ", "Tử thần", "Không có"], a: 2 },
+  { q: 'Vật tế lễ để đổi lấy "Đôi mắt Tử thần" là gì?', o: ["Một bàn tay", "Một nửa tuổi thọ", "Linh hồn", "Ký ức"], a: 1 },
+  { q: "Ai là người kế vị chính thức của L?", o: ["Mello", "Near", "Light", "Watari"], a: 1 },
+  { q: "Light Yagami đã giấu cuốn sổ trong vật dụng nào để tránh bị phát hiện?", o: ["Ngăn kéo bàn có bẫy", "Trong gối", "Dưới sàn nhà", "Trong két sắt"], a: 0 },
+  { q: "Tổ chức nào được thành lập để truy bắt Kira?", o: ["CIA", "FBI", "NPA (Cảnh sát Nhật)", "SPK"], a: 2 },
+  { q: "Cuốn sổ Death Note có màu gì?", o: ["Trắng", "Đỏ", "Đen", "Xanh lá"], a: 2 },
+
+  // ===== MY HERO ACADEMIA (10) =====
+  { q: "Năng lực (Quirk) của nhân vật chính Izuku Midoriya tên là gì?", o: ["Explosion", "One For All", "All For One", "Half-Cold Half-Hot"], a: 1 },
+  { q: "Bakugo Katsuki có năng lực tạo ra vụ nổ từ đâu?", o: ["Mắt", "Mồ hôi tay", "Miệng", "Chân"], a: 1 },
+  { q: "Tên anh hùng của Midoriya là gì?", o: ["Deku", "Ground Zero", "Shoto", "Ingenium"], a: 0 },
+  { q: "Trường trung học đào tạo anh hùng hàng đầu là gì?", o: ["Shiketsu", "U.A.", "Ketsubutsu", "Seiai"], a: 1 },
+  { q: "Kẻ thù truyền kiếp của All Might là ai?", o: ["Tomura Shigaraki", "All For One", "Dabi", "Stain"], a: 1 },
+  { q: "Shoto Todoroki sở hữu năng lực gì?", o: ["Chỉ có Băng", "Chỉ có Lửa", "Nửa Băng Nửa Lửa", "Bay lượn"], a: 2 },
+  { q: "Ai là lớp trưởng lớp 1-A?", o: ["Midoriya", "Iida Tenya", "Momo Yaoyorozu", "Bakugo"], a: 1 },
+  { q: "Thầy chủ nhiệm của lớp 1-A là ai?", o: ["Present Mic", "Eraser Head (Aizawa)", "Midnight", "Endeavor"], a: 1 },
+  { q: "Anh hùng số 2 (sau này là số 1) có năng lực điều khiển lửa là ai?", o: ["Endeavor", "Hawks", "Best Jeanist", "Kamui Woods"], a: 0 },
+  { q: "Sức mạnh One For All được truyền lại qua hình thức nào?", o: ["Chạm tay", "Ăn sợi tóc", "Suy nghĩ", "Chiến đấu"], a: 1 },
+
+  // ===== BLACK CLOVER (10) =====
+  { q: "Asta sinh ra không có ma lực, nhưng sở hữu cuốn sách ma pháp gì?", o: ["Cỏ 3 lá", "Cỏ 4 lá", "Cỏ 5 lá", "Không có cỏ nào"], a: 2 },
+  { q: "Yuno sở hữu tinh linh nguyên tố nào?", o: ["Hỏa", "Thủy", "Phong", "Thổ"], a: 2 },
+  { q: "Đội kỵ sĩ ma pháp mà Asta gia nhập tên là gì?", o: ["Kim Sắc Bình Minh", "Hắc Bộc Ngưu (Black Bulls)", "Ngân Dực Đại Ưng", "Hồng Liên Sư Tử"], a: 1 },
+  { q: "Ai là đoàn trưởng của đội Hắc Bộc Ngưu?", o: ["Yami Sukehiro", "William Vangeance", "Nozel Silva", "Fuegoleon"], a: 0 },
+  { q: "Ước mơ của cả Asta và Yuno là trở thành gì?", o: ["Vua Hải Tặc", "Ma Pháp Vương", "Đội trưởng", "Hiệp sĩ thánh"], a: 1 },
+  { q: "Noelle Silva thuộc hoàng tộc nhưng ban đầu gặp khó khăn gì?", o: ["Không có ma lực", "Không kiểm soát được ma pháp", "Sợ nước", "Không có chổi bay"], a: 1 },
+  { q: "Thanh kiếm đầu tiên Asta rút ra từ cuốn sách có tên là gì?", o: ["Đoạn Ma Kiếm", "Trảm Ma Kiếm", "Diệt Ma Kiếm", "Ngự Ma Kiếm"], a: 0 },
+  { q: "Ma Pháp Vương hiện tại (đời thứ 28) là ai?", o: ["Lumiere", "Julius Novachrono", "Marx", "Patolli"], a: 1 },
+  { q: "Linh vật (con chim) luôn đi theo Asta tên là gì?", o: ["Nero", "Happy", "Puck", "Akamaru"], a: 0 },
+  { q: "Kẻ thù chính trong phần đầu của phim là tổ chức nào?", o: ["Akatsuki", "Bạch Dạ Ma Nhãn", "Spade Kingdom", "Eye of the Midnight Sun"], a: 1 },
+
+  // ===== SAO (10) =====
+  { q: "Tên thật của nhân vật chính Kirito là gì?", o: ["Kirigaya Kazuto", "Yuuki Asuna", "Kayaba Akihiko", "Tsuboi Ryotaro"], a: 0 },
+  { q: "Vũ khí đặc trưng của Kirito trong SAO là gì?", o: ["Thương", "Cung", "Song kiếm", "Rìu"], a: 2 },
+  { q: "Tên của tòa tháp khổng lồ nơi diễn ra trò chơi SAO?", o: ["Aincrad", "Alfheim", "Gun Gale", "Underworld"], a: 0 },
+  { q: "Biệt danh của Asuna trong SAO là gì?", o: ["Tia chớp (The Flash)", "Hắc kiếm sĩ", "Nữ vương băng giá", "Tiên mẫu"], a: 0 },
+  { q: "Nếu người chơi chết trong game SAO, điều gì sẽ xảy ra ở thế giới thực?", o: ["Bị thương", "Bị ngất", "Bị chết", "Không sao cả"], a: 2 },
+  { q: "Thanh kiếm màu đen của Kirito tên là gì?", o: ["Elucidator", "Dark Repulser", "Lambent Light", "Blue Rose"], a: 0 },
+  { q: "Ai là người tạo ra trò chơi sinh tử SAO?", o: ["Sugou Nobuyuki", "Kayaba Akihiko", "Kikuoka Seijirou", "Kirito"], a: 1 },
+  { q: "Trong phần GGO, Kirito sử dụng vũ khí nào kết hợp với súng?", o: ["Khiên", "Kiếm ánh sáng", "Lựu đạn", "Dao găm"], a: 1 },
+  { q: "Con gái (AI) của Kirito và Asuna tên là gì?", o: ["Suguha", "Yui", "Sinon", "Alice"], a: 1 },
+  { q: "Kỹ năng tối thượng giúp Kirito chiến thắng boss tầng 74 là gì?", o: ["Tinh Quế", "Starburst Stream", "Mother's Rosario", "Sonic Leap"], a: 1 },
+
+  // ===== SPY X FAMILY (10) =====
+  { q: "Mật danh của Loid Forger (người cha) là gì?", o: ["Thorn Princess", "Twilight", "Daybreak", "Fullmetal"], a: 1 },
+  { q: "Anya Forger có năng lực siêu nhiên nào?", o: ["Tàng hình", "Đọc suy nghĩ", "Nhìn thấy tương lai", "Siêu sức mạnh"], a: 1 },
+  { q: "Yor Forger (người mẹ) làm nghề sát thủ với biệt danh là gì?", o: ["Công chúa Gai", "Góa phụ đen", "Sát thủ hoa hồng", "Nữ hoàng bóng đêm"], a: 0 },
+  { q: "Con chó của gia đình Forger tên là gì?", o: ["Bond", "Max", "Lucky", "Rex"], a: 0 },
+  { q: 'Anya phải thu thập bao nhiêu "Sao Stella" để trở thành Học sinh ưu tú?', o: ["5", "7", "8", "10"], a: 2 },
+  { q: "Mục tiêu của Chiến dịch Strix là tiếp cận ai?", o: ["Damian Desmond", "Donovan Desmond", "Yuri Briar", "Franky"], a: 1 },
+  { q: "Em trai của Yor, Yuri, làm việc cho tổ chức nào?", o: ["WISE", "Cảnh sát mật (SSS)", "Garden", "CIA"], a: 1 },
+  { q: "Anya cực kỳ thích ăn món gì?", o: ["Bánh ngọt", "Lạc (Đậu phộng)", "Cà rốt", "Xúc xích"], a: 1 },
+  { q: "Tên ngôi trường mà Anya theo học là gì?", o: ["Eden Academy", "U.A. High", "PK Academy", "Loretto"], a: 0 },
+  { q: "Màu tóc của Anya là màu gì?", o: ["Vàng", "Hồng", "Xanh", "Đen"], a: 1 },
+
+  // ===== TOKYO GHOUL (10) =====
+  { q: "Nhân vật chính Kaneki Ken bị biến thành bán ngạ quỷ sau khi nhận nội tạng từ ai?", o: ["Touka", "Rize", "Hinami", "Jason"], a: 1 },
+  { q: "Ngạ quỷ (Ghoul) chỉ có thể tiêu hóa được thứ gì của con người?", o: ["Bánh mì", "Thịt", "Rau củ", "Trái cây"], a: 1 },
+  { q: "Đồ uống duy nhất mà Ghoul có thể thưởng thức như người bình thường là gì?", o: ["Trà", "Rượu", "Cà phê", "Sữa"], a: 2 },
+  { q: "Vũ khí sinh học mà các thanh tra CCG sử dụng để đấu với Ghoul gọi là gì?", o: ["Kagune", "Quinque", "Arata", "Kakuja"], a: 1 },
+  { q: "Bộ phận chiến đấu phát ra từ cơ thể Ghoul gọi là gì?", o: ["Quinque", "Kagune", "Kakuja", "Rc Cells"], a: 1 },
+  { q: "Quán cà phê nơi Kaneki làm việc tên là gì?", o: ["Anteiku", "Helter Skelter", "Re:", "Ghoul Coffee"], a: 0 },
+  { q: "Biệt danh của Kaneki sau khi tóc chuyển sang màu trắng là gì?", o: ["Thỏ đen", "Băng ngạ quỷ", "Ngạ quỷ Độc nhãn", "Rết"], a: 3 },
+  { q: "Mặt nạ của Kaneki có đặc điểm gì nổi bật?", o: ["Hình đầu lâu", "Có khóa kéo ở miệng", "Hình con thỏ", "Hình hề"], a: 1 },
+  { q: "Ai là thanh tra CCG đã tra tấn Kaneki khiến anh thay đổi tâm tính?", o: ["Amon", "Mado", "Jason (Yakumo Oomori)", "Arima"], a: 2 },
+  { q: "Tác giả của bộ truyện Tokyo Ghoul là ai?", o: ["Sui Ishida", "Tatsuki Fujimoto", "Gege Akutami", "Tite Kubo"], a: 0 },
+
+  // ===== HAIKYUU!! (10) =====
+  { q: "Hinata Shoyo có biệt danh là gì trên sân đấu?", o: ["Vua sân đấu", "Người khổng lồ tí hon", "Quái vật bay", "Mồi nhử vĩ đại"], a: 3 },
+  { q: "Kageyama Tobio chơi ở vị trí nào?", o: ["Chủ công", "Chuyền hai (Setter)", "Libero", "Phụ công"], a: 1 },
+  { q: "Trường trung học của Hinata và Kageyama tên là gì?", o: ["Nekoma", "Aoba Johsai", "Karasuno", "Shiratorizawa"], a: 2 },
+  { q: "Linh vật biểu tượng của trường Karasuno là con vật nào?", o: ["Mèo", "Quạ", "Cú", "Đại bàng"], a: 1 },
+  { q: "Vị trí chuyên về phòng thủ, mặc áo khác màu với đồng đội gọi là gì?", o: ["Ace", "Libero", "Blocker", "Server"], a: 1 },
+  { q: "Ai là đội trưởng của đội bóng chuyền Karasuno?", o: ["Sugawara", "Daichi Sawamura", "Tanaka", "Nishinoya"], a: 1 },
+  { q: '"Vua sân đấu" là biệt danh ban đầu của ai?', o: ["Hinata", "Kageyama", "Oikawa", "Ushijima"], a: 1 },
+  { q: "Đội bóng đối thủ truyền kiếp của Karasuno, biểu tượng là con mèo?", o: ["Inarizaki", "Nekoma", "Date Tech", "Fukurodani"], a: 1 },
+  { q: "Nishinoya Yu chơi ở vị trí nào?", o: ["Libero", "Chuyền hai", "Chủ công", "Phụ công"], a: 0 },
+  { q: "Cú đập bóng nhanh của Hinata và Kageyama được gọi là gì?", o: ["Minus Tempo", "God-like Quick", "Normal Quick", "Rolling Thunder"], a: 1 },
+
+  // ===== BLEACH (10) =====
+  { q: "Vũ khí của các Tử thần (Shinigami) gọi là gì?", o: ["Katana", "Zanpakuto", "Kunai", "Nichirin"], a: 1 },
+  { q: "Dạng giải phóng thứ hai của Zanpakuto gọi là gì?", o: ["Shikai", "Bankai", "Resurrección", "Vollständig"], a: 1 },
+  { q: "Ichigo Kurosaki biến thành Tử thần sau khi nhận sức mạnh từ ai?", o: ["Rukia Kuchiki", "Renji Abarai", "Byakuya Kuchiki", "Urahara Kisuke"], a: 0 },
+  { q: "Tổ chức của các Tử thần bảo vệ Linh giới tên là gì?", o: ["Akatsuki", "Gotei 13", "Espada", "Sternritter"], a: 1 },
+  { q: "Kẻ phản diện đã phản bội Gotei 13 và đánh cắp khối Hogyoku là ai?", o: ["Gin Ichimaru", "Sosuke Aizen", "Kaname Tosen", "Grimmjow"], a: 1 },
+  { q: "Thanh kiếm của Ichigo có tên là gì?", o: ["Senbonzakura", "Zangetsu", "Hyorinmaru", "Zabimaru"], a: 1 },
+  { q: "Espada là nhóm 10 Arrancar mạnh nhất dưới trướng ai?", o: ["Yhwach", "Aizen", "Ulquiorra", "Barragan"], a: 1 },
+  { q: "Thành phố nơi Ichigo sinh sống tên là gì?", o: ["Karakura", "Naruki", "Soul Society", "Hueco Mundo"], a: 0 },
+  { q: "Đội trưởng đội 6, anh trai của Rukia là ai?", o: ["Kenpachi", "Byakuya Kuchiki", "Shunsui", "Jushiro"], a: 1 },
+  { q: "Chủng tộc đối địch với Tử thần, sử dụng cung tên bằng linh lực gọi là gì?", o: ["Hollow", "Quincy", "Fullbringer", "Bount"], a: 1 },
+
+  // ===== CHAINSAW MAN (10) =====
+  { q: "Con quỷ cưa nhỏ bé, bạn thân của Denji tên là gì?", o: ["Power", "Pochita", "Aki", "Makima"], a: 1 },
+  { q: "Denji lập khế ước với Pochita để trở thành người cưa bằng cách nào?", o: ["Ăn thịt", "Thay thế trái tim", "Bắt tay", "Uống máu"], a: 1 },
+  { q: "Món ăn mơ ước của Denji ở đầu phim là gì?", o: ["Ramen", "Sushi", "Bánh mì phết mứt", "Bít tết"], a: 2 },
+  { q: "Nữ quỷ máu, cộng sự hay gây rắc rối của Denji tên là gì?", o: ["Makima", "Power", "Reze", "Himeno"], a: 1 },
+  { q: "Aki Hayakawa sử dụng khế ước với quỷ nào để triệu hồi cái đầu cáo?", o: ["Quỷ Cáo (Kon)", "Quỷ Tương Lai", "Quỷ Kiếm", "Quỷ Nguyền Rủa"], a: 0 },
+  { q: "Cấp trên bí ẩn mà Denji thầm yêu là ai?", o: ["Power", "Makima", "Kobeni", "Himeno"], a: 1 },
+  { q: "Vật nuôi của Power là một con gì?", o: ["Chó", "Mèo (Nyako)", "Chim", "Chuột"], a: 1 },
+  { q: "Tiếng động phát ra khi Denji biến hình thành Người Cưa là gì?", o: ["Tiếng nổ", "Tiếng kéo dây khởi động", "Tiếng hét", "Tiếng sấm"], a: 1 },
+  { q: "Kẻ thù mà Aki căm ghét nhất vì đã giết gia đình anh là quỷ gì?", o: ["Quỷ Cưa", "Quỷ Súng", "Quỷ Dơi", "Quỷ Vĩnh Cửu"], a: 1 },
+  { q: "Denji làm việc cho tổ chức nào?", o: ["Cảnh sát", "Trị an dân sự (Public Safety)", "Mafia", "Thợ săn tự do"], a: 1 },
+];
+
+    const animeGame = {
+      _current: null,
+      _used: new Set(),
+
+      start(){
+        openGame("ANIME MISSION", "Anime • 200 câu");
+        renderScoreboard();
+        this._used.clear();
+        this.nextQuestion();
+      },
+
+      nextQuestion(){
+        if (!ANIME_BANK.length){
+          setQuestionText("⚠️ Bạn chưa dán ANIME_BANK 200 câu vào code.");
+          document.getElementById("q-action").innerHTML = `
+            <div style="margin-top:12px; color:var(--muted); text-align:center;">
+              Dán ANIME_BANK vào đúng vị trí NOTE trong code.
+            </div>
+            <div style="margin-top:12px; display:flex; justify-content:center;">
+              <button class="btn-confirm small" style="background:#444;" onclick="closeGame()">ĐÓNG</button>
+            </div>
+          `;
+          return;
+        }
+
+        if (this._used.size >= ANIME_BANK.length) this._used.clear();
+
+        let idx=-1, safety=0;
+        do{
+          idx = Math.floor(Math.random()*ANIME_BANK.length);
+          safety++;
+          if (safety>2000) break;
+        } while(this._used.has(idx));
+
+        this._used.add(idx);
+        this._current = ANIME_BANK[idx];
+
+        setQuestionText(this._current.q);
+
+        const opts = (this._current.o || []).map((text, i)=>{
+          return `<button class="btn-confirm small" style="background:rgba(255,255,255,.08); color:var(--txt); border:1px solid rgba(255,255,255,.14); box-shadow:none;" onclick="animeGame.choose(${i})">${text}</button>`;
+        }).join("");
+
+        document.getElementById("q-action").innerHTML = `
+          <div style="margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            ${opts}
+          </div>
+          <div style="margin-top:12px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+            <button class="btn-confirm small" onclick="animeGame.nextQuestion()">CÂU KHÁC</button>
+            <button class="btn-confirm small" style="background:#444;" onclick="closeGame()">ĐÓNG</button>
+          </div>
+        `;
+      },
+
+      choose(i){
+        const correct = (i === this._current.a);
+        addScore(correct ? 10 : -5);
+        renderScoreboard();
+        toast(correct ? "✅ Đúng! +10 điểm" : `❌ Sai! (-5 điểm)`);
+        setTimeout(()=>this.nextQuestion(), 850);
+      }
+    };
+  </script>
 </body>
 </html>
-
-
-
-
-
