@@ -1276,7 +1276,7 @@
     }
   };
 
-  /* NEW ANIME BANK */
+/* NEW ANIME BANK */
 /**************************************************************
  * ANIME BANK (200 câu)
  * - Copy paste nguyên khối này vào project
@@ -1402,7 +1402,7 @@ const ANIME_BANK = [
   { q: "Người bạn thân nhất của Gojo Satoru, người sau này trở thành phản diện là ai?", o: ["Toji Fushiguro", "Suguru Geto", "Kento Nanami", "Choso"], a: 1 },
   { q: "Bành trướng lãnh địa của Gojo Satoru có tên là gì?", o: ["Phục ma ngự điện", "Vô lượng không xứ", "Khảm hợp ế đình", "Tự bế viên đốn khỏa"], a: 1 },
 
-  // ====== 100 CÂU VÒNG 2 (Anime 2.txt) ======
+  // ====== 100 CÂU VÒNG 2 ======
   // ===== DRAGON BALL (10) =====
   { q: "Goku thuộc tộc người nào?", o: ["Namek", "Saiyan", "Trái Đất", "Frieza"], a: 1 },
   { q: 'Ai là người đã dạy Goku kỹ thuật "Kamehameha"?', o: ["Quy Lão (Thần Rùa)", "Thượng Đế", "King Kai", "Whis"], a: 0 },
@@ -1523,58 +1523,89 @@ const ANIME_BANK = [
   { q: "Kẻ thù mà Aki căm ghét nhất vì đã giết gia đình anh là quỷ gì?", o: ["Quỷ Cưa", "Quỷ Súng", "Quỷ Dơi", "Quỷ Vĩnh Cửu"], a: 1 },
   { q: "Denji làm việc cho tổ chức nào?", o: ["Cảnh sát", "Trị an dân sự (Public Safety)", "Mafia", "Thợ săn tự do"], a: 1 },
 ];
+const animeGame = {
+  curr: null,
+  isProcessing: false,
 
+  // chống lặp
+  lastIndex: -1,
 
-  const animeGame = {
-    curr: null,
-    isProcessing: false,
-    start() {
-      document.getElementById('game-overlay').style.display = 'flex';
-      document.getElementById('game-label').innerText = "ANIME ZONE";
-      galaxy.renderGameScoreboard();
-      this.generate();
-    },
-    generate() {
-      this.isProcessing = false;
-      galaxy.applyTransition();
-      const idx = Math.floor(Math.random() * ANIME_BANK.length);
-      this.curr = ANIME_BANK[idx];
+  start() {
+    document.getElementById('game-overlay').style.display = 'flex';
+    document.getElementById('game-label').innerText = "ANIME ZONE";
+    galaxy.renderGameScoreboard();
+    this.generate();
+  },
 
-      document.getElementById('q-text').innerText = this.curr.q;
-      document.getElementById('q-tag').innerText = this.curr.t;
+  generate() {
+    this.isProcessing = false;
+    galaxy.applyTransition();
 
-      const shuffled = [...this.curr.o].sort(() => Math.random() - 0.5);
-      document.getElementById('q-action').innerHTML = `
-        <div class="option-list">
-          ${shuffled.map(o => `<button class="option-item" onclick="animeGame.check(this, '${o}')">${o}</button>`).join('')}
-        </div>
-        <div style="width:100%; display:flex; justify-content:center; margin-top:10px;">
-          <button class="btn-confirm small" style="background:#555;" onclick="animeGame.skip()">BỎ QUA</button>
-        </div>
-      `;
-    },
-    check(btn, choice) {
-      if (this.isProcessing) return;
-      this.isProcessing = true;
-      document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
+    // --- random nhưng không trùng câu vừa nãy ---
+    let idx = Math.floor(Math.random() * ANIME_BANK.length);
 
-      if (choice === this.curr.a) {
-        galaxy.showGameToast("CHUẨN OTAKU! +10 XP", "success");
-        galaxy.addPoints(10);
-        setTimeout(() => this.generate(), 800);
-      } else {
-        galaxy.showGameToast(`SAI RỒI! ĐÁP ÁN: ${this.curr.a}`, "error");
-        setTimeout(() => this.generate(), 1500);
+    if (ANIME_BANK.length > 1) {
+      let safe = 0;
+      while (idx === this.lastIndex && safe < 30) {
+        idx = Math.floor(Math.random() * ANIME_BANK.length);
+        safe++;
       }
-    },
-    skip() {
-      if (this.isProcessing) return;
-      this.isProcessing = true;
-      galaxy.showGameToast("ĐÃ BỎ QUA", "info");
-      setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
     }
-  };
+    this.lastIndex = idx;
 
+    this.curr = ANIME_BANK[idx];
+
+    // render câu hỏi
+    document.getElementById('q-text').innerText = this.curr.q;
+
+    // tag không bị undefined
+    document.getElementById('q-tag').innerText = this.curr.t || "ANIME";
+
+    // shuffle options
+    const shuffled = [...this.curr.o].sort(() => Math.random() - 0.5);
+
+    // render options
+    document.getElementById('q-action').innerHTML = `
+      <div class="option-list">
+        ${shuffled.map(o => `
+          <button class="option-item" onclick="animeGame.check(this, ${JSON.stringify(o)})">
+            ${o}
+          </button>
+        `).join('')}
+      </div>
+      <div style="width:100%; display:flex; justify-content:center; margin-top:10px;">
+        <button class="btn-confirm small" style="background:#555;" onclick="animeGame.skip()">BỎ QUA</button>
+      </div>
+    `;
+  },
+
+  check(btn, choice) {
+    if (this.isProcessing) return;
+    this.isProcessing = true;
+
+    // disable hết button
+    document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
+
+    // đáp án đúng theo index a
+    const correctText = this.curr.o[this.curr.a];
+
+    if (choice === correctText) {
+      galaxy.showGameToast("CHUẨN OTAKU! +10 XP", "success");
+      galaxy.addPoints(10);
+      setTimeout(() => this.generate(), 800);
+    } else {
+      galaxy.showGameToast(`SAI RỒI! ĐÁP ÁN: ${correctText}`, "error");
+      setTimeout(() => this.generate(), 1500);
+    }
+  },
+
+  skip() {
+    if (this.isProcessing) return;
+    this.isProcessing = true;
+    galaxy.showGameToast("ĐÃ BỎ QUA", "info");
+    setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
+  }
+};
   /* GIỮ NGUYÊN ENGLISH_BANK KHÔNG THAY ĐỔI */
 const ENGLISH_BANK = [
   // --- TOPIC: ADJECTIVES VS ADVERBS ---
@@ -1898,5 +1929,3 @@ const ENGLISH_BANK = [
 </script>
 </body>
 </html>
-
-
