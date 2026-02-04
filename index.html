@@ -597,7 +597,7 @@
             </div>
 
             <div class="update-card">
-                Bản cập nhật 4.2 — Giao diện chọn Anime mới (tối thiểu 15 bộ), phần thưởng Anime tăng lên +15 điểm, sữa lỗi!
+                Bản cập nhật 4.2 — Giao diện chọn Anime mới (tối thiểu 15 bộ), phần thưởng Anime tăng lên +15 điểm, sửa lỗi!
             </div>
 
             <div class="tiktok-group">
@@ -2826,7 +2826,50 @@ const ENGLISH_BANK = [
       setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
     }
   };
+function formatTime(ms){
+  if (ms < 0) ms = 0;
+  const totalSec = Math.floor(ms / 1000);
+  const h = String(Math.floor(totalSec / 3600)).padStart(2,'0');
+  const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2,'0');
+  const s = String(totalSec % 60).padStart(2,'0');
+  return `${h}:${m}:${s}`;
+}
 
+function getNextSundayNoon(){
+  const now = new Date();
+  const target = new Date(now);
+
+  // getDay(): CN=0 ... T7=6
+  const day = now.getDay();
+  let daysUntilSunday = (7 - day) % 7;
+
+  target.setDate(now.getDate() + daysUntilSunday);
+  target.setHours(12,0,0,0);
+
+  // Nếu hôm nay là CN và đã qua 12:00 -> chuyển sang CN tuần sau
+  if (day === 0 && now.getTime() >= target.getTime()){
+    target.setDate(target.getDate() + 7);
+  }
+
+  return target;
+}
+
+function startWeeklyResetCountdown(){
+  const el = document.getElementById("weekly-reset-countdown");
+  if (!el) return;
+
+  const tick = () => {
+    const now = new Date();
+    const nextReset = getNextSundayNoon();
+    const diff = nextReset.getTime() - now.getTime();
+    el.innerText = formatTime(diff);
+  };
+
+  tick();
+  setInterval(tick, 1000);
+}
+
+startWeeklyResetCountdown();
   window.galaxy = galaxy;
   window.englishGame = englishGame;
   window.mathGame = mathGame;
@@ -2841,6 +2884,7 @@ const ENGLISH_BANK = [
 </script>
 </body>
 </html>
+
 
 
 
