@@ -13,8 +13,7 @@
             --text-color: #fff;
             --card-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --primary: #00f3ff; 
-            
+            --primary: #00f3ff;
             /* Team Colors - Galaxy (Neon) */
             --t1: #00f3ff;
             --t2: #bc13fe;
@@ -33,7 +32,6 @@
             --card-bg: rgba(255, 215, 0, 0.1);
             --glass-border: rgba(255, 215, 0, 0.3);
             --primary: #ffd700;
-
             /* Team Colors - Tet (Warm/Festive) */
             --t1: #ffd700; /* Vàng kim */
             --t2: #ff4d4d; /* Đỏ tươi */
@@ -45,7 +43,8 @@
         
         /* Decoration pattern for Tet (Lì xì, Đồng xu) */
         body.tet-theme::before {
-            content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+            content: "";
+            position: fixed; inset: 0; pointer-events: none; z-index: -1;
             background-image: url('data:image/svg+xml;utf8,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><circle cx="30" cy="30" r="10" stroke="rgba(255,215,0,0.1)" stroke-width="2" fill="none"/><path d="M10 10 L20 10 L20 25 L10 25 Z" fill="rgba(255,0,0,0.05)"/></svg>');
             background-size: 60px 60px;
         }
@@ -72,7 +71,8 @@
         
         /* Decoration pattern for School (Bút, Thước) */
         body.school-theme::before {
-            content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+            content: "";
+            position: fixed; inset: 0; pointer-events: none; z-index: -1;
             /* Simple SVG pattern of a pencil tip and a ruler line */
             background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 L20 20 L15 25 L5 15 Z" fill="rgba(44,62,80,0.05)"/><rect x="40" y="40" width="40" height="5" fill="rgba(44,62,80,0.03)"/></svg>');
             background-size: 100px 100px;
@@ -80,7 +80,8 @@
 
         /* Decoration pattern for Galaxy (Planets) */
         body.galaxy-theme::before {
-            content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+            content: "";
+            position: fixed; inset: 0; pointer-events: none; z-index: -1;
             /* Simple planets */
             background-image: url('data:image/svg+xml;utf8,<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="5" fill="rgba(255,255,255,0.1)"/><circle cx="150" cy="150" r="10" stroke="rgba(0,243,255,0.05)" stroke-width="2" fill="none"/><circle cx="160" cy="50" r="2" fill="rgba(255,255,255,0.2)"/></svg>');
             animation: floating 20s linear infinite;
@@ -110,7 +111,8 @@
         
         /* 1. Tet Firework (Existing) */
         .firework-particle {
-            position: fixed; width: 6px; height: 6px; border-radius: 50%;
+            position: fixed;
+            width: 6px; height: 6px; border-radius: 50%;
             pointer-events: none; z-index: 99999;
             animation: fireworkPop 1s ease-out forwards;
         }
@@ -121,7 +123,8 @@
 
         /* 2. Galaxy Planet Click */
         .galaxy-click-particle {
-            position: fixed; width: 20px; height: 20px;
+            position: fixed;
+            width: 20px; height: 20px;
             border-radius: 50%;
             border: 2px solid var(--primary);
             box-shadow: 0 0 10px var(--primary);
@@ -130,7 +133,8 @@
             animation: planetExpand 0.6s ease-out forwards;
         }
         .galaxy-click-ring {
-            position: fixed; width: 40px; height: 10px;
+            position: fixed;
+            width: 40px; height: 10px;
             border-radius: 50%;
             border: 1px solid rgba(255,255,255,0.5);
             pointer-events: none; z-index: 99998;
@@ -148,7 +152,8 @@
 
         /* 3. School Ripple Click */
         .school-click-ripple {
-            position: fixed; width: 20px; height: 20px;
+            position: fixed;
+            width: 20px; height: 20px;
             background: rgba(100, 100, 100, 0.2);
             border-radius: 50%;
             pointer-events: none; z-index: 99999;
@@ -166,10 +171,12 @@
 
         /* UI Components */
         #game-toast, #app-toast {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            position: fixed;
+            top: 20px; left: 50%; transform: translateX(-50%);
             background: rgba(255, 255, 255, 0.95); color: #000;
             padding: 12px 25px; border-radius: 50px;
-            font-weight: 800; z-index: 20000;
+            font-weight: 800;
+            z-index: 20000;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             display: none; width: max-content; max-width: 90%;
             text-align: center; border: 2px solid transparent;
@@ -180,41 +187,48 @@
 
         /* Selector Screen */
         #selector-screen {
-            position: fixed; inset: 0; background: var(--bg-color);
+            position: fixed;
+            inset: 0; background: var(--bg-color);
             background-image: var(--bg-image);
             z-index: 9999; display: flex; flex-direction: column;
             justify-content: center; align-items: center; padding: 20px;
-            text-align: center; transition: background 0.5s;
+            text-align: center;
+            transition: background 0.5s;
         }
 
         .hero-title {
-            font-size: clamp(2rem, 8vw, 3.5rem); font-weight: 900;
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-weight: 900;
             background: linear-gradient(45deg, var(--t1), var(--t2));
             -webkit-background-clip: text; color: transparent;
             margin-bottom: 10px; letter-spacing: -1px;
         }
         /* School theme title override to be solid color if gradient looks bad on light */
         body.school-theme .hero-title {
-            background: none; color: #2c3e50;
+            background: none;
+            color: #2c3e50;
         }
 
         .team-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr);
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px; width: 100%; max-width: 500px; margin-top: 40px;
         }
 
         .team-card {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
             padding: 30px 10px; border-radius: 20px; font-weight: 800;
             cursor: pointer; transition: 0.3s; text-transform: uppercase;
-            color: var(--text-color); /* Fallback */
+            color: var(--text-color);
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
         .team-card:hover { transform: scale(1.05); border-color: var(--primary); }
 
         /* App Layout */
         header {
-            padding: 15px 20px; display: flex; justify-content: space-between;
+            padding: 15px 20px;
+            display: flex; justify-content: space-between;
             align-items: center; 
             background: var(--bg-color);
             backdrop-filter: none;
@@ -226,7 +240,8 @@
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; padding-bottom: 100px; }
 
         .rank-card {
-            background: var(--card-bg); border-radius: 24px; padding: 25px;
+            background: var(--card-bg);
+            border-radius: 24px; padding: 25px;
             margin-bottom: 20px; border: 1px solid var(--glass-border);
             position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
@@ -237,15 +252,18 @@
         .bar-inner { height: 100%; border-radius: 10px; transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
         .reset-notice {
-            text-align: center; font-size: 0.75rem; color: #888; margin-top: 15px; font-weight: 600;
+            text-align: center;
+            font-size: 0.75rem; color: #888; margin-top: 15px; font-weight: 600;
             border-top: 1px dashed var(--glass-border); padding-top: 10px;
         }
 
         .tiktok-group { display: flex; gap: 12px; margin-bottom: 30px; }
         .tiktok-link {
-            flex: 1; display: flex; align-items: center; justify-content: center;
+            flex: 1;
+            display: flex; align-items: center; justify-content: center;
             gap: 10px; background: var(--card-bg); padding: 15px; border-radius: 16px;
-            text-decoration: none; color: var(--text-color); font-weight: 800; font-size: 0.85rem;
+            text-decoration: none; color: var(--text-color); font-weight: 800;
+            font-size: 0.85rem;
             border: 1px solid var(--glass-border); transition: 0.3s;
         }
         body.galaxy-theme .tiktok-link { background: #000; color: #fff; } /* Keep original for galaxy */
@@ -253,12 +271,14 @@
         .tiktok-link:hover { transform: translateY(-3px); border-color: var(--primary); }
 
         .mission-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
 
         .mission-card {
-            background: var(--card-bg); padding: 30px; border-radius: 24px;
+            background: var(--card-bg);
+            padding: 30px; border-radius: 24px;
             border: 1px solid var(--glass-border); cursor: pointer;
             transition: 0.3s; position: relative; overflow: hidden;
             animation: floating 4s ease-in-out infinite;
@@ -273,19 +293,22 @@
         .mission-desc { font-size: 0.9rem; opacity: 0.7; line-height: 1.4; }
 
         .badge-soon {
-            position: absolute; top: 12px; right: -30px; background: #febd23;
+            position: absolute;
+            top: 12px; right: -30px; background: #febd23;
             color: #000; padding: 4px 35px; font-size: 0.65rem;
             font-weight: 900; transform: rotate(45deg);
         }
         .badge-new {
-            position: absolute; top: 12px; right: -30px; background: #ff0055;
+            position: absolute;
+            top: 12px; right: -30px; background: #ff0055;
             color: #fff; padding: 4px 35px; font-size: 0.65rem;
             font-weight: 900; transform: rotate(45deg);
         }
 
         /* Overlay Game */
         #game-overlay {
-            position: fixed; inset: 0; background: var(--bg-color);
+            position: fixed;
+            inset: 0; background: var(--bg-color);
             background-image: var(--bg-image);
             z-index: 1000; display: none; flex-direction: column; padding: 20px;
             overflow-y: auto; color: var(--text-color);
@@ -293,13 +316,15 @@
 
         /* LIVE SCOREBOARD */
         #game-scoreboard {
-            display: flex; justify-content: center; gap: 10px;
+            display: flex;
+            justify-content: center; gap: 10px;
             margin-bottom: 15px; padding: 10px;
             background: var(--card-bg); border-radius: 15px;
             flex-wrap: wrap; border: 1px solid var(--glass-border);
         }
         .mini-score-card {
-            display: flex; flex-direction: column; align-items: center;
+            display: flex;
+            flex-direction: column; align-items: center;
             padding: 5px 10px;
             border-radius: 8px; min-width: 60px;
         }
@@ -307,18 +332,23 @@
         .mini-score-val { font-size: 0.9rem; font-weight: 900; }
 
         .game-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .game-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 600px; margin: 0 auto; width: 100%; padding-bottom: 40px; }
+        .game-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            max-width: 600px; margin: 0 auto; width: 100%; padding-bottom: 40px; }
         
-        .q-tag { background: rgba(0, 243, 255, 0.1); color: var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; }
+        .q-tag { background: rgba(0, 243, 255, 0.1);
+            color: var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase;
+        }
         body.school-theme .q-tag { background: rgba(52, 152, 219, 0.1); }
 
         .q-text { font-size: clamp(1.1rem, 4vw, 1.7rem); font-weight: 800; text-align: center; margin-bottom: 25px; line-height: 1.4; }
 
         .option-list { display: grid; gap: 14px; width: 100%; margin-bottom: 10px; }
         .option-item {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
             padding: 16px 20px; border-radius: 12px; color: var(--text-color);
-            text-align: left; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: 0.2s;
+            text-align: left; font-weight: 700; font-size: 0.95rem; cursor: pointer;
+            transition: 0.2s;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         .option-item:hover { transform: scale(1.02); border-color: var(--primary); }
@@ -328,13 +358,15 @@
         .option-item:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .math-input {
-            background: transparent; border: none; border-bottom: 4px solid var(--primary);
+            background: transparent;
+            border: none; border-bottom: 4px solid var(--primary);
             color: var(--text-color); font-size: 3.5rem; width: 100%; text-align: center;
             font-weight: 900; outline: none; margin-bottom: 20px;
         }
 
         .btn-confirm {
-            background: var(--primary); color: #000; width: 100%; padding: 15px 20px;
+            background: var(--primary);
+            color: #000; width: 100%; padding: 15px 20px;
             border-radius: 12px; font-weight: 900; font-size: 1.0rem; margin-top: 10px; border: none; cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
@@ -344,33 +376,38 @@
         .btn-confirm:disabled { background: #555; cursor: not-allowed; }
 
         footer {
-            margin-top: 30px; padding: 30px; text-align: center;
+            margin-top: 30px;
+            padding: 30px; text-align: center;
             border-top: 1px solid var(--glass-border); color: #888; font-size: 0.8rem;
         }
 
         .hidden { display: none !important; }
 
         .update-card {
-            background: rgba(255,255,255,0.03); border: 1px dashed var(--glass-border);
+            background: rgba(255,255,255,0.03);
+            border: 1px dashed var(--glass-border);
             padding: 12px 14px; border-radius: 12px; font-weight: 700; margin-bottom: 18px; color: var(--text-color); opacity: 0.9;
         }
         body.school-theme .update-card { background: #fff; border: 1px dashed #bbb; color: #555; }
 
         /* --- ADMIN PAGE REDESIGN --- */
         #admin-screen {
-            display: none; position: fixed; inset: 0; background: var(--bg-color);
+            display: none;
+            position: fixed; inset: 0; background: var(--bg-color);
             background-image: var(--bg-image);
             z-index: 2000; flex-direction: column; overflow-y: auto;
             padding: 20px; color: var(--text-color);
         }
         .admin-header {
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex;
+            justify-content: space-between; align-items: center;
             margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--glass-border);
         }
         
         /* New Admin Login Card */
         #admin-login-area {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            display: flex;
+            flex-direction: column; align-items: center; justify-content: center;
             height: 100%; width: 100%;
         }
         .admin-login-card {
@@ -386,32 +423,38 @@
         body.school-theme .admin-login-card { background: rgba(255,255,255,0.9); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
 
         .lock-icon {
-            font-size: 3rem; margin-bottom: 15px;
+            font-size: 3rem;
+            margin-bottom: 15px;
             background: var(--glass-border);
             width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; margin: 0 auto 20px auto;
+            border-radius: 50%;
+            margin: 0 auto 20px auto;
         }
 
         .admin-input-styled {
-            width: 100%; padding: 16px; border-radius: 12px;
+            width: 100%;
+            padding: 16px; border-radius: 12px;
             border: 2px solid var(--glass-border); 
             background: rgba(0,0,0,0.1);
             color: var(--text-color); font-weight: 800; font-size: 1.1rem;
-            outline: none; margin-bottom: 20px; text-align: center;
+            outline: none; margin-bottom: 20px;
+            text-align: center;
             transition: 0.3s;
         }
         .admin-input-styled:focus { border-color: var(--primary); background: rgba(0,0,0,0.05); }
         body.school-theme .admin-input-styled { background: #f9f9f9; border-color: #ddd; }
         
         .admin-section {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
             padding: 20px; border-radius: 16px; margin-bottom: 20px;
         }
         body.school-theme .admin-section { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
 
         .admin-section h3 { margin-top: 0; color: var(--primary); font-size: 1rem; text-transform: uppercase; }
         .admin-input {
-            width: 100%; padding: 12px; border-radius: 10px;
+            width: 100%;
+            padding: 12px; border-radius: 10px;
             border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05);
             color: var(--text-color); font-weight: 800; outline: none; margin-bottom: 15px;
         }
@@ -419,17 +462,20 @@
 
         /* --- SETTINGS MODAL --- */
         #settings-modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+            position: fixed;
+            inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
             z-index: 3000; display: none; justify-content: center; align-items: center;
         }
         .settings-content {
-            background: #1a1a1a; padding: 25px; border-radius: 20px;
+            background: #1a1a1a;
+            padding: 25px; border-radius: 20px;
             width: 90%; max-width: 350px; border: 1px solid var(--glass-border);
         }
         body.school-theme .settings-content { background: #fff; border: 1px solid #ddd; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
 
         .theme-option {
-            display: flex; align-items: center; justify-content: space-between;
+            display: flex;
+            align-items: center; justify-content: space-between;
             padding: 15px; background: rgba(255,255,255,0.05); color: #fff;
             border-radius: 12px; margin-bottom: 10px; cursor: pointer; border: 1px solid transparent;
         }
@@ -442,14 +488,34 @@
 
         /* Header Buttons */
         .icon-btn {
-            background: var(--card-bg); border: none; color: var(--text-color);
+            background: var(--card-bg);
+            border: none; color: var(--text-color);
             width: 36px; height: 36px; border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.2s; font-size: 1.2rem;
+            cursor: pointer; transition: 0.2s;
+            font-size: 1.2rem;
             border: 1px solid transparent;
         }
         body.school-theme .icon-btn { border: 1px solid #ddd; background: #fff; }
         .icon-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+        /* NEW 4.1: Anime Selector Styles */
+        .anime-tag-grid {
+            display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; 
+            margin-bottom: 20px; max-height: 350px; overflow-y: auto; padding: 5px;
+        }
+        .anime-tag-item {
+            background: var(--card-bg); border: 1px solid var(--glass-border);
+            padding: 8px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 700;
+            cursor: pointer; color: var(--text-color); opacity: 0.7; transition: 0.2s;
+        }
+        .anime-tag-item.active {
+            opacity: 1; border-color: var(--primary); background: rgba(0, 243, 255, 0.1);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+        }
+        body.school-theme .anime-tag-item.active {
+            background: rgba(52, 152, 219, 0.1); box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
 
         @media (max-width: 600px) {
             .mission-grid { grid-template-columns: 1fr; }
@@ -462,13 +528,9 @@
         }
     </style>
 </head>
-<body class="galaxy-theme"> <!-- Default Class -->
-
-    <!-- NOTIFICATION TOASTS -->
-    <div id="app-toast">Thông báo</div>
+<body class="galaxy-theme"> <div id="app-toast">Thông báo</div>
     <div id="game-toast">Kết quả</div>
 
-    <!-- SETTINGS MODAL -->
     <div id="settings-modal" onclick="if(event.target === this) galaxy.toggleSettings()">
         <div class="settings-content">
             <h3 style="margin-top:0; text-align:center; color: var(--primary);">CÀI ĐẶT GIAO DIỆN</h3>
@@ -498,7 +560,6 @@
         </div>
     </div>
 
-    <!-- MÀN HÌNH CHỌN TỔ -->
     <div id="selector-screen">
         <div class="hero-title animate-in">7A4 GALAXY<br>COMMAND</div>
         <p class="animate-in" style="color: #888; letter-spacing: 2px; font-size: 0.75rem; font-weight: 600;">HỆ THỐNG ÔN TẬP HK2</p>
@@ -511,7 +572,6 @@
         </div>
     </div>
 
-    <!-- APP CHÍNH -->
     <div id="main-app" class="hidden">
         <header>
             <div style="font-weight: 900; letter-spacing: 1px; font-size: 1.1rem; display:flex; align-items:center; gap:10px;">
@@ -537,7 +597,7 @@
             </div>
 
             <div class="update-card">
-                 Bản cập nhật 4.0 — Giao diện đẹp hơn, thêm hiệu ứng click chuột cho mỗi giao diện, tạo mục Anime.
+                Bản cập nhật 4.1 — Giao diện chọn Anime mới (tối thiểu 10 bộ), phần thưởng Anime tăng lên +15 điểm!
             </div>
 
             <div class="tiktok-group">
@@ -558,12 +618,11 @@
                     <div class="mission-desc">Cộng trừ, nhân chia, tìm x, số mũ. (Có phím Enter)</div>
                 </div>
 
-                <!-- NEW ANIME ZONE -->
                 <div class="mission-card" onclick="animeGame.start()">
-                    <span class="badge-new">MỚI</span>
-                    <span class="mission-icon">🇯🇵</span>
+                    <span class="badge-new">4.1</span>
+                    <span class="mission-icon">🎎</span>
                     <div class="mission-name">Anime Zone</div>
-                    <div class="mission-desc">Thử thách kiến thức về các bộ Anime nổi tiếng.</div>
+                    <div class="mission-desc">Thử thách kiến thức về các bộ Anime. Trả lời đúng +15 XP.</div>
                 </div>
 
                 <div class="mission-card locked">
@@ -580,7 +639,6 @@
         </div>
     </div>
 
-    <!-- TRANG ADMIN RIÊNG BIỆT -->
     <div id="admin-screen">
         <div class="admin-header">
             <h2 class="hero-title" style="font-size:1.8rem; margin:0;">ADMIN CONTROL</h2>
@@ -647,17 +705,25 @@
         </div>
     </div>
 
-    <!-- GAME OVERLAY -->
     <div id="game-overlay">
-        <!-- LIVE SCOREBOARD -->
         <div id="game-scoreboard">
-            <!-- Will be filled by JS -->
-        </div>
+            </div>
 
         <div class="game-nav">
             <div id="game-label" style="font-weight: 900; color: var(--primary); letter-spacing: 2px;">MISSION</div>
             <button onclick="galaxy.closeGame()" style="background:none; border:none; color:var(--text-color); font-size: 1.5rem; cursor:pointer;">✕</button>
         </div>
+        
+        <div id="anime-selection-screen" class="hidden" style="width:100%; max-width:600px; text-align:center; margin: 0 auto;">
+            <h3 style="color:var(--primary); margin-top:0;">CHỌN ÍT NHẤT 10 BỘ ANIME</h3>
+            <div style="font-size:0.8rem; margin-bottom:15px; opacity:0.8;">Các câu hỏi sẽ chỉ xuất hiện trong các bộ bạn đã chọn.</div>
+            
+            <div id="anime-checkbox-grid" class="anime-tag-grid"></div>
+            
+            <div id="anime-select-count" style="margin-bottom:15px; font-weight:bold; color:var(--primary);">Đã chọn: 0</div>
+            <button id="btn-start-anime" class="btn-confirm" disabled onclick="animeGame.confirmSelection()">BẮT ĐẦU</button>
+        </div>
+
         <div id="game-content-area" class="game-content">
             <div id="q-tag" class="q-tag">Kiến thức HK2</div>
             <div id="q-text" class="q-text">Đang tải câu hỏi...</div>
@@ -682,7 +748,6 @@
     appId: "1:147400399283:web:6d470d3e02a94e01f053c6",
     measurementId: "G-678SMH2ND5"
   };
-
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
@@ -695,18 +760,15 @@
     to3: { id: "Tổ 3", color: "var(--t3)" },
     to4: { id: "Tổ 4", color: "var(--t4)" }
   };
-
   const TEAMS = [
     { id: "Tổ 1", color: "var(--t1)" },
     { id: "Tổ 2", color: "var(--t2)" },
     { id: "Tổ 3", color: "var(--t3)" },
     { id: "Tổ 4", color: "var(--t4)" }
   ];
-
   let realtimeTeams = {};
   let adminLogged = false;
   let adminLastAction = null;
-
   const galaxy = {
     team: null,
     currentTheme: 'galaxy',
@@ -730,7 +792,6 @@
 
       this.setupRealtimeListeners();
       await this.checkWeeklyResetFirestore();
-
       const saved = localStorage.getItem('7a4_member');
       if (saved) {
         this.team = saved;
@@ -740,7 +801,6 @@
       }
 
       this.renderRank();
-
       window.addEventListener('storage', (e) => {
         if (!e.key) return;
         if (e.key.startsWith('score_') || e.key === '7a4_last_reset' || e.key === '7a4_prev_winners') {
@@ -756,10 +816,8 @@
         
         // Remove all theme classes first
         document.body.classList.remove('galaxy-theme', 'tet-theme', 'school-theme');
-        
         // Remove active from all options
         document.querySelectorAll('.theme-option').forEach(el => el.classList.remove('active'));
-
         // Apply new theme
         if (themeName === 'tet') {
             document.body.classList.add('tet-theme');
@@ -790,7 +848,6 @@
             p.style.left = x + 'px';
             p.style.top = y + 'px';
             p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
-            
             const angle = Math.random() * Math.PI * 2;
             const velocity = 20 + Math.random() * 50;
             const tx = Math.cos(angle) * velocity;
@@ -810,7 +867,6 @@
         p.className = 'galaxy-click-particle';
         p.style.left = x + 'px';
         p.style.top = y + 'px';
-        
         // Create ring
         const r = document.createElement('div');
         r.className = 'galaxy-click-ring';
@@ -819,7 +875,6 @@
 
         document.body.appendChild(p);
         document.body.appendChild(r);
-        
         setTimeout(() => {
             p.remove();
             r.remove();
@@ -959,7 +1014,6 @@
           await setDoc(ref, { name: DOC_TO_TEAM[docId].id, score: 0, updatedAt: Date.now() });
         }
         await updateDoc(ref, { score: increment(delta), updatedAt: Date.now() });
-
         adminLastAction = { type: "adjust", docId, delta };
         this.toast(`${delta>0? '+'+delta: delta} điểm (Admin)`);
       } catch (e) {
@@ -1007,14 +1061,12 @@
 
       data = data.sort((a,b) => b.score - a.score);
       const max = Math.max(...data.map(d => d.score), 10);
-
       list.innerHTML = data.map(d => `
         <div class="rank-item">
           <div class="rank-label"><span style="color:${d.color}">${d.id}</span><span>${d.score} XP</span></div>
           <div class="bar-outer"><div class="bar-inner" style="width:${(d.score/max)*100}%; background:${d.color}"></div></div>
         </div>
       `).join('');
-
       this.renderPrevWinner();
       this.renderGameScoreboard(); // Also update in-game board
     },
@@ -1037,7 +1089,6 @@
 
         // Sort by ID to keep position fixed (easier to read while playing)
         data.sort((a,b) => a.id.localeCompare(b.id));
-
         board.innerHTML = data.map(d => `
             <div class="mini-score-card">
                 <span class="mini-score-name" style="color:${d.color}">${d.id}</span>
@@ -1069,6 +1120,10 @@
     closeGame() {
       document.getElementById('game-overlay').style.display = 'none';
       document.getElementById('game-toast').style.display = 'none';
+      // Reset logic for anime selector
+      document.getElementById('anime-selection-screen').classList.add('hidden');
+      document.getElementById('game-content-area').classList.remove('hidden');
+      document.getElementById('game-content-area').style.display = 'flex';
     },
 
     applyTransition() {
@@ -1086,10 +1141,8 @@
         const day = reset.getDay(); 
         reset.setDate(now.getDate() - day);
         reset.setHours(12,0,0,0);
-
         if (now.getDay() === 0 && now.getHours() < 12) reset.setDate(reset.getDate() - 7);
         if (reset.getTime() > now.getTime()) reset.setDate(reset.getDate() - 7);
-
         const resetTime = reset.getTime();
         const metaRef = doc(db, "meta", "weekly");
         const metaSnap = await getDoc(metaRef);
@@ -1106,7 +1159,6 @@
 
           const batch = writeBatch(db);
           colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
-
           batch.set(metaRef, {
             lastReset: resetTime,
             prevScores,
@@ -1114,7 +1166,6 @@
             maxScore,
             updatedAt: Date.now()
           }, { merge: true });
-
           await batch.commit();
         }
       } catch (e) { console.error(e); }
@@ -1128,14 +1179,12 @@
           realtimeTeams = tmp;
           this.renderRank();
         });
-
         onSnapshot(doc(db, "meta", "weekly"), () => {
           this.renderPrevWinner();
         });
       } catch (e) { console.error(e); }
     }
   };
-
   function adminAdjust(docId, delta) {
     galaxy.adminAdjustPoints(docId, delta);
   }
@@ -1160,11 +1209,9 @@
       const colSnap = await getDocs(collection(db, "teams"));
       const before = {};
       colSnap.forEach(d => before[d.id] = d.data().score || 0);
-
       const batch = writeBatch(db);
       colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
       await batch.commit();
-
       adminLastAction = { type: "reset", before };
       galaxy.toast("Đã RESET điểm tất cả tổ");
     }catch(e){
@@ -1211,6 +1258,12 @@
     start() {
       document.getElementById('game-overlay').style.display = 'flex';
       document.getElementById('game-label').innerText = "MATH MISSION";
+      
+      // Ensure Game Content is visible (might be hidden by anime selection previously)
+      document.getElementById('anime-selection-screen').classList.add('hidden');
+      document.getElementById('game-content-area').classList.remove('hidden');
+      document.getElementById('game-content-area').style.display = 'flex';
+
       galaxy.renderGameScoreboard();
       this.generate();
     },
@@ -1219,7 +1272,6 @@
       galaxy.applyTransition();
       const type = Math.floor(Math.random() * 4);
       let q = "";
-      
       if (type === 0) {
         const a = Math.floor(Math.random() * 100), b = Math.floor(Math.random() * 50);
         this.ans = a + b; q = `${a} + ${b} = ?`;
@@ -1275,7 +1327,8 @@
       setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
     }
   };
-
+  
+  /* UPDATED ANIME BANK (Added more to ensure >10 unique titles for testing) */
 const ANIME_BANK = [
   // ===== ONE PIECE (10) =====
   { t: "ONE PIECE", q: "Luffy ăn trái ác quỷ hệ gì (theo tiết lộ mới nhất)?", o: ["Paramecia", "Logia", "Zoan Thần thoại", "Zoan cổ đại"], a: 2 },
@@ -1518,30 +1571,120 @@ const ANIME_BANK = [
   { t: "CHAINSAW MAN", q: "Kẻ thù mà Aki căm ghét nhất vì đã giết gia đình anh là quỷ gì?", o: ["Quỷ Cưa", "Quỷ Súng", "Quỷ Dơi", "Quỷ Vĩnh Cửu"], a: 1 },
   { t: "CHAINSAW MAN", q: "Denji làm việc cho tổ chức nào?", o: ["Cảnh sát", "Trị an dân sự (Public Safety)", "Mafia", "Thợ săn tự do"], a: 1 },
 ];
+
+/* NEW 4.1 LOGIC: ANIME GAME (TAG + FILTER + ANTI-REPEAT + FIX ANSWER) */
 const animeGame = {
   curr: null,
   isProcessing: false,
 
-  // chống lặp
+  selectedTags: [],
+  filteredBank: [],
+
+  // chống lặp câu hỏi
   lastIndex: -1,
 
   start() {
+    // 1. Show overlay
     document.getElementById('game-overlay').style.display = 'flex';
     document.getElementById('game-label').innerText = "ANIME ZONE";
     galaxy.renderGameScoreboard();
+
+    // 2. Hide game content, Show selection screen
+    document.getElementById('game-content-area').classList.add('hidden');
+    document.getElementById('game-content-area').style.display = 'none';
+
+    const selScreen = document.getElementById('anime-selection-screen');
+    selScreen.classList.remove('hidden');
+    selScreen.style.display = 'block';
+
+    // 3. Reset state
+    this.selectedTags = [];
+    this.filteredBank = [];
+    this.lastIndex = -1;
+    this.updateSelectionUI();
+
+    // 4. Render Tags (lọc tag rỗng/undefined)
+    const uniqueTags = [...new Set(
+      ANIME_BANK
+        .map(item => (item.t ? String(item.t).trim() : "ANIME"))
+        .filter(Boolean)
+    )];
+
+    const grid = document.getElementById('anime-checkbox-grid');
+
+    // ❗ Không dùng onclick="... '${tag}'" để tránh lỗi dấu nháy
+    grid.innerHTML = "";
+    uniqueTags.forEach(tag => {
+      const div = document.createElement("div");
+      div.className = "anime-tag-item";
+      div.textContent = tag;
+      div.addEventListener("click", () => this.toggleTag(div, tag));
+      grid.appendChild(div);
+    });
+  },
+
+  toggleTag(el, tag) {
+    if (this.selectedTags.includes(tag)) {
+      this.selectedTags = this.selectedTags.filter(t => t !== tag);
+      el.classList.remove('active');
+    } else {
+      this.selectedTags.push(tag);
+      el.classList.add('active');
+    }
+    this.updateSelectionUI();
+  },
+
+  updateSelectionUI() {
+    const count = this.selectedTags.length;
+    document.getElementById('anime-select-count').innerText = `Đã chọn: ${count}`;
+    const btn = document.getElementById('btn-start-anime');
+
+    // REQUIREMENT: Must select at least 10
+    if (count >= 10) {
+      btn.disabled = false;
+      btn.innerText = "BẮT ĐẦU";
+    } else {
+      btn.disabled = true;
+      btn.innerText = `CẦN CHỌN THÊM ${10 - count}`;
+    }
+  },
+
+  confirmSelection() {
+    if (this.selectedTags.length < 10) return;
+
+    // Filter Bank
+    this.filteredBank = ANIME_BANK.filter(item => {
+      const tag = item.t ? String(item.t).trim() : "ANIME";
+      return this.selectedTags.includes(tag);
+    });
+
+    if (this.filteredBank.length === 0) {
+      galaxy.showGameToast("Không có câu hỏi nào!", "error");
+      return;
+    }
+
+    // Switch to Game View
+    document.getElementById('anime-selection-screen').classList.add('hidden');
+    document.getElementById('anime-selection-screen').style.display = 'none';
+
+    document.getElementById('game-content-area').classList.remove('hidden');
+    document.getElementById('game-content-area').style.display = 'flex';
+
+    // reset chống lặp khi bắt đầu game
+    this.lastIndex = -1;
+
     this.generate();
   },
 
-  // lấy tag tên anime
+  // helper lấy tag hiển thị
   getTag() {
-    // ưu tiên dùng t trong bank
     if (this.curr && this.curr.t && String(this.curr.t).trim() !== "") {
       return String(this.curr.t).trim();
     }
     return "ANIME";
   },
 
-  // lấy đáp án đúng (a là index)
+  // helper lấy đáp án đúng (a là index)
   getCorrectText() {
     if (!this.curr) return null;
     if (!Array.isArray(this.curr.o)) return null;
@@ -1553,33 +1696,29 @@ const animeGame = {
     this.isProcessing = false;
     galaxy.applyTransition();
 
-    if (!Array.isArray(ANIME_BANK) || ANIME_BANK.length === 0) {
-      document.getElementById('q-text').innerText = "Chưa có câu hỏi Anime!";
-      document.getElementById('q-tag').innerText = "ANIME";
-      document.getElementById('q-action').innerHTML = "";
-      return;
-    }
+    // Use filteredBank instead of full ANIME_BANK
+    if (!Array.isArray(this.filteredBank) || this.filteredBank.length === 0) return;
 
     // random chống lặp
-    let idx = Math.floor(Math.random() * ANIME_BANK.length);
-    if (ANIME_BANK.length > 1) {
+    let idx = Math.floor(Math.random() * this.filteredBank.length);
+    if (this.filteredBank.length > 1) {
       let safe = 0;
       while (idx === this.lastIndex && safe < 30) {
-        idx = Math.floor(Math.random() * ANIME_BANK.length);
+        idx = Math.floor(Math.random() * this.filteredBank.length);
         safe++;
       }
     }
     this.lastIndex = idx;
-    this.curr = ANIME_BANK[idx];
+
+    this.curr = this.filteredBank[idx];
 
     // render câu hỏi + tag tên anime
     document.getElementById('q-text').innerText = this.curr.q || "(Câu hỏi lỗi)";
     document.getElementById('q-tag').innerText = this.getTag();
 
-    // trộn đáp án
     const shuffled = [...(this.curr.o || [])].sort(() => Math.random() - 0.5);
 
-    // render nút KHÔNG onclick để tránh lỗi dấu nháy
+    // render nút KHÔNG onclick để tránh lỗi click do ký tự đặc biệt
     document.getElementById('q-action').innerHTML = `
       <div class="option-list" id="anime-option-list"></div>
       <div style="width:100%; display:flex; justify-content:center; margin-top:10px;">
@@ -1588,13 +1727,11 @@ const animeGame = {
     `;
 
     const list = document.getElementById("anime-option-list");
-
     shuffled.forEach(opt => {
       const b = document.createElement("button");
       b.className = "option-item";
       b.type = "button";
       b.textContent = opt;
-
       b.addEventListener("click", () => this.check(b, opt));
       list.appendChild(b);
     });
@@ -1605,26 +1742,17 @@ const animeGame = {
   check(btn, choice) {
     if (this.isProcessing) return;
     this.isProcessing = true;
-
-    // khóa nút sau khi bấm
     document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
 
     const correct = this.getCorrectText();
 
+    // NEW REWARD: +15 XP
     if (choice === correct) {
-      galaxy.showGameToast("CHUẨN OTAKU! +10 XP", "success");
-      galaxy.addPoints(10);
-
-      // hiệu ứng đúng (nếu muốn)
-      if (btn) btn.classList.add("correct");
-
+      galaxy.showGameToast("CHUẨN OTAKU! +15 XP", "success");
+      galaxy.addPoints(15);
       setTimeout(() => this.generate(), 800);
     } else {
       galaxy.showGameToast(`SAI RỒI! ĐÁP ÁN: ${correct}`, "error");
-
-      // hiệu ứng sai (nếu muốn)
-      if (btn) btn.classList.add("wrong");
-
       setTimeout(() => this.generate(), 1500);
     }
   },
@@ -1640,7 +1768,7 @@ const animeGame = {
   }
 };
 
-  /* GIỮ NGUYÊN ENGLISH_BANK KHÔNG THAY ĐỔI */
+
 const ENGLISH_BANK = [
   // --- TOPIC: ADJECTIVES VS ADVERBS ---
   { q: "She is a very ________ designer. She always has new ideas.", a: "creative", o: ["creative", "creatively", "creation"], t: "Adj_Adv" },
@@ -1731,6 +1859,7 @@ const ENGLISH_BANK = [
   // --- EXTRA ---
   { q: "A child who is amazingly talented at something is called a ________.", a: "prodigy", o: ["prodigy", "student", "beginner"], t: "Vocabulary" },
 
+  // ❗FIX: thêm dấu phẩy ở đây
   { q: "To ________ means to keep something in your mind.", a: "memorize", o: ["decide", "memorize", "arrive"], t: "Vocabulary" },
 
   // --- TOPIC: MEDALS & SPORTS ---
@@ -1895,6 +2024,12 @@ const ENGLISH_BANK = [
     start() {
       document.getElementById('game-overlay').style.display = 'flex';
       document.getElementById('game-label').innerText = "ENGLISH COMMAND";
+      
+      // Ensure Game Content is visible (might be hidden by anime selection previously)
+      document.getElementById('anime-selection-screen').classList.add('hidden');
+      document.getElementById('game-content-area').classList.remove('hidden');
+      document.getElementById('game-content-area').style.display = 'flex';
+      
       galaxy.renderGameScoreboard();
       this.generate();
     },
@@ -1928,7 +2063,6 @@ const ENGLISH_BANK = [
     check(btn, choice) {
       if (this.isProcessing) return;
       this.isProcessing = true;
-
       const allBtns = document.querySelectorAll('.option-item');
       allBtns.forEach(b => b.disabled = true);
 
@@ -1963,6 +2097,3 @@ const ENGLISH_BANK = [
 </script>
 </body>
 </html>
-
-
-
