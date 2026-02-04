@@ -592,12 +592,12 @@
                 <div id="ranking-list"></div>
                 <div id="prev-winner" style="margin-top:12px; font-weight:800; text-align:center; opacity: 0.8;"></div>
                 <div class="reset-notice">
-                    ⏰ Hệ thống sẽ tự động reset điểm vào mỗi <strong>Chủ nhật 12:00</strong>.
+                    ⏰ Còn <strong id="weekly-reset-countdown">--:--:--</strong> hệ thống sẽ tự động xếp hạng và reset điểm.
                 </div>
             </div>
 
             <div class="update-card">
-                Bản cập nhật 4.1 — Giao diện chọn Anime mới (tối thiểu 10 bộ), phần thưởng Anime tăng lên +15 điểm!
+                Bản cập nhật 4.2 — Giao diện chọn Anime mới (tối thiểu 15 bộ), phần thưởng Anime tăng lên +15 điểm, sữa lỗi!
             </div>
 
             <div class="tiktok-group">
@@ -1312,8 +1312,8 @@
 
       const val = parseInt(document.getElementById('m-input').value || '', 10);
       if (val === this.ans) {
-        galaxy.showGameToast("ĐÚNG RỒI! +5 XP", "success");
-        galaxy.addPoints(5);
+        galaxy.showGameToast("ĐÚNG RỒI! +10 XP", "success");
+        galaxy.addPoints(10);
         setTimeout(() => this.generate(), 800);
       } else {
         galaxy.showGameToast(`SAI RỒI!`, "error");
@@ -2841,6 +2841,7 @@ const ENGLISH_BANK = [
 </script>
 </body>
 </html>
+
 
 
 
