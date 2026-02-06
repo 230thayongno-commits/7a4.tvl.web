@@ -732,14 +732,6 @@
     </div>
 
 <script type="module">
-    import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
-    
   /***** Firebase setup *****/
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
   import {
@@ -758,78 +750,8 @@
   };
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-// ===== FIREBASE AUTH INIT =====
-const auth = getAuth(app);
 
-// load user profile từ Firestore
-async function loadCurrentUser() {
-  const u = auth.currentUser;
-
-  // nếu chưa login → xoá profile global
-  if (!u) {
-    window.currentUserProfile = null;
-    return;
-  }
-
-  const snap = await getDoc(doc(db, "users", u.uid));
-  if (snap.exists()) {
-    // lưu tạm vào global an toàn (không phụ thuộc galaxy)
-    window.currentUserProfile = { uid: u.uid, ...snap.data() };
-
-    // nếu galaxy đã tồn tại thì đồng bộ + render
-    if (typeof galaxy !== "undefined") {
-      galaxy.currentUser = window.currentUserProfile;
-      galaxy.renderUserHeader?.();
-    }
-  }
-}
-
-// theo dõi đăng nhập / đăng xuất
-onAuthStateChanged(auth, loadCurrentUser);
-
-
-// ===== USER AUTH FUNCTIONS =====
-
-// ĐĂNG KÝ
-async function registerAccount(email, password, username) {
-  try {
-    const cred = await createUserWithEmailAndPassword(auth, email, password);
-
-    await setDoc(doc(db, "users", cred.user.uid), {
-      username,
-      xp: 0,
-      level: 1,
-      consecutive: 0,
-      longestStreak: 0,
-      createdAt: Date.now()
-    });
-
-    galaxy.toast("Đăng ký thành công!");
-  } catch (err) {
-    console.error(err);
-    galaxy.toast("Lỗi đăng ký: " + err.message);
-  }
-}
-
-// ĐĂNG NHẬP
-async function loginAccount(email, password) {
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-    galaxy.toast("Đăng nhập thành công!");
-  } catch (err) {
-    console.error(err);
-    galaxy.toast("Sai tài khoản hoặc mật khẩu");
-  }
-}
-
-// ĐĂNG XUẤT
-async function logoutAccount() {
-  await signOut(auth);
-  galaxy.toast("Đã đăng xuất");
-}
-
-    
-  const ADMIN_PASSWORD = "emyeuDang"; 
+  const ADMIN_PASSWORD = "emyeudang"; 
 
   // Use CSS Variables for Colors now!
   const DOC_TO_TEAM = {
@@ -848,8 +770,6 @@ async function logoutAccount() {
   let adminLogged = false;
   let adminLastAction = null;
   const galaxy = {
-    currentUser: null,
-    selectedTeam: null,
     team: null,
     currentTheme: 'galaxy',
 
@@ -3308,14 +3228,3 @@ startWeeklyResetCountdown();
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
