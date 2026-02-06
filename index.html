@@ -761,31 +761,34 @@
 // ===== FIREBASE AUTH INIT =====
 const auth = getAuth(app);
 
-// user hiện tại (global)
-galaxy.currentUser = null;
-
 // load user profile từ Firestore
 async function loadCurrentUser() {
   const u = auth.currentUser;
 
+  // nếu chưa login → xoá profile global
   if (!u) {
-    galaxy.currentUser = null;
-    galaxy.renderUserHeader?.();
+    window.currentUserProfile = null;
     return;
   }
 
   const snap = await getDoc(doc(db, "users", u.uid));
   if (snap.exists()) {
-    galaxy.currentUser = { uid: u.uid, ...snap.data() };
-  }
+    // lưu tạm vào global an toàn (không phụ thuộc galaxy)
+    window.currentUserProfile = { uid: u.uid, ...snap.data() };
 
-  galaxy.renderUserHeader?.();
+    // nếu galaxy đã tồn tại thì đồng bộ + render
+    if (typeof galaxy !== "undefined") {
+      galaxy.currentUser = window.currentUserProfile;
+      galaxy.renderUserHeader?.();
+    }
+  }
 }
 
 // theo dõi đăng nhập / đăng xuất
 onAuthStateChanged(auth, loadCurrentUser);
 
-    // ===== USER AUTH FUNCTIONS =====
+
+// ===== USER AUTH FUNCTIONS =====
 
 // ĐĂNG KÝ
 async function registerAccount(email, password, username) {
@@ -825,6 +828,7 @@ async function logoutAccount() {
   galaxy.toast("Đã đăng xuất");
 }
 
+    
   const ADMIN_PASSWORD = "emyeuDang"; 
 
   // Use CSS Variables for Colors now!
@@ -844,6 +848,8 @@ async function logoutAccount() {
   let adminLogged = false;
   let adminLastAction = null;
   const galaxy = {
+    currentUser: null,
+    selectedTeam: null,
     team: null,
     currentTheme: 'galaxy',
 
@@ -3302,6 +3308,7 @@ startWeeklyResetCountdown();
 </script>
 </body>
 </html>
+
 
 
 
