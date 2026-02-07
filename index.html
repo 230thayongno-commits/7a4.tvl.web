@@ -73,7 +73,6 @@
         body.school-theme::before {
             content: "";
             position: fixed; inset: 0; pointer-events: none; z-index: -1;
-            /* Simple SVG pattern of a pencil tip and a ruler line */
             background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 L20 20 L15 25 L5 15 Z" fill="rgba(44,62,80,0.05)"/><rect x="40" y="40" width="40" height="5" fill="rgba(44,62,80,0.03)"/></svg>');
             background-size: 100px 100px;
         }
@@ -82,7 +81,6 @@
         body.galaxy-theme::before {
             content: "";
             position: fixed; inset: 0; pointer-events: none; z-index: -1;
-            /* Simple planets */
             background-image: url('data:image/svg+xml;utf8,<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="5" fill="rgba(255,255,255,0.1)"/><circle cx="150" cy="150" r="10" stroke="rgba(0,243,255,0.05)" stroke-width="2" fill="none"/><circle cx="160" cy="50" r="2" fill="rgba(255,255,255,0.2)"/></svg>');
             animation: floating 20s linear infinite;
         }
@@ -106,11 +104,10 @@
         @keyframes floating { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
         @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes slideDownToast { from { top: -50px; opacity: 0; } to { top: 20px; opacity: 1; } }
+        @keyframes slideUpBroadcast { from { bottom: -100px; opacity: 0; } to { bottom: 20px; opacity: 1; } }
         @keyframes fireBurn { 0% { transform: scale(1) rotate(-5deg); filter: brightness(1); } 50% { transform: scale(1.2) rotate(5deg); filter: brightness(1.3); } 100% { transform: scale(1) rotate(-5deg); filter: brightness(1); } }
 
         /* --- CLICK EFFECTS --- */
-        
-        /* 1. Tet Firework (Existing) */
         .firework-particle {
             position: fixed;
             width: 6px; height: 6px; border-radius: 50%;
@@ -118,11 +115,10 @@
             animation: fireworkPop 1s ease-out forwards;
         }
         @keyframes fireworkPop {
-            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            0% { transform: translate(var(--tx), var(--ty)) scale(1); opacity: 1; }
             100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
         }
 
-        /* 2. Galaxy Planet Click */
         .galaxy-click-particle {
             position: fixed;
             width: 20px; height: 20px;
@@ -151,7 +147,6 @@
             100% { transform: translate(-50%, -50%) rotate(-30deg) scale(2); opacity: 0; }
         }
 
-        /* 3. School Ripple Click */
         .school-click-ripple {
             position: fixed;
             width: 20px; height: 20px;
@@ -186,6 +181,25 @@
         #game-toast.error { background: #ffe6e6; color: #d32f2f; border-color: #ff0055; }
         #game-toast.info { background: #f0f0f0; color: #555; border-color: #aaa; }
 
+        /* NEW: Broadcast Toast (Bottom Left) */
+        #broadcast-toast {
+            position: fixed;
+            bottom: 20px; left: 20px;
+            max-width: 300px;
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 15px; border-radius: 12px;
+            font-weight: 600; font-size: 0.9rem;
+            z-index: 10000;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            display: none;
+            line-height: 1.4;
+        }
+        body.school-theme #broadcast-toast {
+            background: #fff; color: #333; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
         /* Selector Screen */
         #selector-screen {
             position: fixed;
@@ -204,7 +218,6 @@
             -webkit-background-clip: text; color: transparent;
             margin-bottom: 10px; letter-spacing: -1px;
         }
-        /* School theme title override */
         body.school-theme .hero-title { background: none; color: #2c3e50; }
 
         .team-grid {
@@ -230,10 +243,10 @@
             align-items: center; 
             background: var(--bg-color);
             backdrop-filter: none;
-            position: sticky; top: 0; z-index: 100;
+            position: sticky; top: 0; z-index: 200; /* Increased z-index */
             border-bottom: 1px solid var(--glass-border);
         }
-        body.school-theme header { background: rgba(255,255,255,0.8); border-bottom: 1px solid #ddd; }
+        body.school-theme header { background: rgba(255,255,255,0.95); border-bottom: 1px solid #ddd; }
 
         /* Level Bar in Header */
         .user-level-info {
@@ -254,6 +267,7 @@
             margin-bottom: 20px; border: 1px solid var(--glass-border);
             position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
+        body.school-theme .rank-card { background: #fff; border: 1px solid #ddd; }
 
         .rank-item { margin-bottom: 15px; }
         .rank-label { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 700; font-size: 0.9rem; }
@@ -338,14 +352,13 @@
         }
         .mini-score-name { font-size: 0.7rem; font-weight: 700; margin-bottom: 2px; }
         .mini-score-val { font-size: 0.9rem; font-weight: 900; }
+
+        /* STREAK DISPLAY */
         #streak-display {
-            text-align: center; 
-            margin-bottom: 10px; 
-            font-size: 1.5rem; 
-            font-weight: 900;
-            color: #ff9900; 
-            text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
-            display: none; /* Ẩn mặc định */
+            text-align: center; margin-bottom: 10px; font-size: 1.5rem; font-weight: 900;
+            color: #ff9900; text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+            animation: fireBurn 1s infinite;
+            display: none; /* Hidden by default */
         }
 
         .game-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -407,7 +420,7 @@
         body.school-theme .update-card { background: #fff; border: 1px dashed #bbb; color: #555; }
 
         /* --- AUTH & ADMIN STYLES --- */
-        #auth-modal, #admin-screen {
+        #auth-modal, #admin-screen, #user-profile-modal, #user-search-modal {
             display: none;
             position: fixed; inset: 0; background: var(--bg-color);
             background-image: var(--bg-image);
@@ -494,7 +507,7 @@
         }
         body.school-theme .admin-input { background: #f9f9f9; border-color: #ddd; }
 
-        /* --- SETTINGS MODAL --- */
+        /* --- SETTINGS MODAL (For Guest) --- */
         #settings-modal {
             position: fixed;
             inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
@@ -555,6 +568,96 @@
             background: rgba(52, 152, 219, 0.1); box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
         }
 
+        /* --- AVATAR & USER MENU STYLES --- */
+        .avatar-container {
+            position: relative;
+        }
+        .avatar-circle {
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            overflow: hidden; cursor: pointer;
+            background: #000;
+            position: relative;
+        }
+        .avatar-circle img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        /* MODIFIED: Solid background for better visibility */
+        .avatar-menu {
+            position: absolute;
+            top: 55px; right: 0;
+            width: 280px;
+            background: var(--bg-color); /* Changed from card-bg to solid bg-color */
+            border: 1px solid var(--primary); /* Stronger border */
+            border-radius: 20px;
+            padding: 15px;
+            z-index: 5000;
+            display: none;
+            /* Removed backdrop-filter to avoid blur issues */
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            flex-direction: column;
+            gap: 10px;
+        }
+        body.school-theme .avatar-menu { 
+            background: #ffffff; /* Solid White */
+            color: #000;
+            border: 1px solid #ddd;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+        }
+
+        .avatar-menu.active { display: flex; animation: slideDownToast 0.3s ease; }
+        
+        .user-menu-header {
+            display: flex; flex-direction: column; align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 15px; margin-bottom: 5px;
+        }
+        .menu-user-name { font-weight: 900; font-size: 1.2rem; color: var(--primary); margin-top: 10px; }
+        
+        .menu-btn {
+            background: rgba(255,255,255,0.05);
+            border: none; color: var(--text-color);
+            padding: 12px; border-radius: 12px;
+            text-align: left; font-weight: 700; cursor: pointer;
+            transition: 0.2s; font-size: 0.9rem;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        body.school-theme .menu-btn { background: #f4f7f6; color: #333; }
+        .menu-btn:hover { background: var(--primary); color: #000; }
+        body.school-theme .menu-btn:hover { color: #fff; }
+        
+        .best-stat-box {
+            background: linear-gradient(45deg, rgba(0,243,255,0.1), rgba(188,19,254,0.1));
+            padding: 10px; border-radius: 12px;
+            text-align: center; font-size: 0.8rem; margin-bottom: 10px;
+            border: 1px dashed var(--glass-border);
+        }
+        body.school-theme .best-stat-box { background: #f0f9ff; color: #2c3e50; border: 1px dashed #3498db; }
+
+        /* USER RANKING STYLES */
+        .user-rank-list {
+            margin-top: 10px;
+            display: flex; flex-direction: column; gap: 8px;
+            /* Scrollable support */
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        /* Custom scrollbar */
+        .user-rank-list::-webkit-scrollbar { width: 5px; }
+        .user-rank-list::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+        
+        .user-rank-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px; background: rgba(255,255,255,0.03);
+            border-radius: 10px; border: 1px solid transparent;
+        }
+        body.school-theme .user-rank-item { background: #f9f9f9; color: #333; }
+        .user-rank-item:first-child { border-color: #ffd700; background: rgba(255, 215, 0, 0.1); }
+        .user-rank-name { font-weight: 700; font-size: 0.9rem; }
+        .user-rank-xp { font-weight: 900; color: var(--primary); }
+
         @media (max-width: 600px) {
             .mission-grid { grid-template-columns: 1fr; }
             .hero-title { font-size: 2.2rem; }
@@ -566,9 +669,15 @@
         }
     </style>
 </head>
-<body class="galaxy-theme"> <div id="app-toast">Thông báo</div>
+<body class="galaxy-theme"> 
+    <div id="app-toast">Thông báo</div>
     <div id="game-toast">Kết quả</div>
+    <div id="broadcast-toast"></div> <!-- NEW BROADCAST TOAST -->
 
+    <!-- Hidden file input for avatar upload -->
+    <input type="file" id="avatar-upload" accept="image/*" style="display: none;" onchange="galaxy.handleAvatarUpload(this)">
+
+    <!-- Guest Settings Modal -->
     <div id="settings-modal" onclick="if(event.target === this) galaxy.toggleSettings()">
         <div class="settings-content">
             <h3 style="margin-top:0; text-align:center; color: var(--primary);">CÀI ĐẶT GIAO DIỆN</h3>
@@ -656,23 +765,70 @@
             <div style="font-weight: 900; letter-spacing: 1px; font-size: 1.1rem; display:flex; align-items:center; gap:10px;">
                 7A4 COMMAND
             </div>
+
+            <!-- RIGHT HEADER AREA -->
             <div id="user-info" style="display: flex; align-items: center; gap: 10px;">
-                <div class="user-level-info" id="level-ui">
+                
+                <!-- LEVEL (Shared) -->
+                <div class="user-level-info" id="level-ui" style="display:none;">
                     <span class="level-text" id="level-text">LV.1</span>
                     <div class="level-progress-bg">
                         <div class="level-progress-fill" id="level-bar"></div>
                     </div>
                 </div>
 
-                <span id="team-tag" style="font-weight: 900; background: var(--primary); color: #fff; padding: 4px 12px; border-radius: 8px; font-size: 0.8rem;"></span>
-                
-                <button onclick="galaxy.toggleSettings()" class="icon-btn">⚙️</button>
-                <button id="admin-entry-btn" onclick="galaxy.openAdminPage()" class="icon-btn">👑</button>
-                <button onclick="galaxy.logout()" class="icon-btn" style="color:#ff5a5a;">🔄</button>
+                <!-- GUEST CONTROLS (Only visible if Guest) -->
+                <div id="guest-controls" style="display: flex; align-items: center; gap: 8px;">
+                    <span id="team-tag" style="font-weight: 900; background: var(--primary); color: #fff; padding: 4px 12px; border-radius: 8px; font-size: 0.8rem;"></span>
+                    <button onclick="galaxy.toggleSettings()" class="icon-btn">⚙️</button>
+                    <button onclick="galaxy.logout()" class="icon-btn" style="color:#ff5a5a;">🔄</button>
+                </div>
+
+                <!-- LOGGED IN CONTROLS (Avatar) -->
+                <div id="logged-in-controls" style="display: none; align-items: center;">
+                    <div class="avatar-container">
+                        <!-- Fix click event: stopPropagation to prevent immediate body click closing it -->
+                        <div class="avatar-circle" onclick="event.stopPropagation(); galaxy.toggleAvatarMenu()">
+                            <img id="user-avatar-img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>" alt="Avatar">
+                        </div>
+                        
+                        <!-- DROP DOWN MENU -->
+                        <div class="avatar-menu" id="avatar-menu" onclick="event.stopPropagation();">
+                            <div class="user-menu-header">
+                                <div class="avatar-circle" style="width:70px; height:70px; margin-bottom:10px; pointer-events:none;">
+                                    <img id="menu-avatar-img" src="" alt="Avatar">
+                                </div>
+                                <div class="menu-user-name" id="menu-user-name">User</div>
+                                <!-- RANK DISPLAY IN MENU -->
+                                <div id="menu-user-rank" style="font-size: 0.9rem; font-weight: 700; color: #febd23; margin-bottom: 5px;">Hạng: --</div>
+                                <button onclick="document.getElementById('avatar-upload').click()" style="margin-top:10px; font-size:0.7rem; background:transparent; border:1px solid var(--primary); color:var(--primary); padding:4px 10px; border-radius:20px; cursor:pointer;">Đổi Avatar</button>
+                            </div>
+
+                            <div class="best-stat-box" id="best-stat-box">
+                                Đang tính toán thống kê...
+                            </div>
+
+                            <button class="menu-btn" onclick="galaxy.cycleThemeInMenu()">
+                                <span>🎨 Đổi Giao diện</span>
+                                <span style="font-size:0.8rem; opacity:0.7;" id="current-theme-name">Galaxy</span>
+                            </button>
+
+                            <button class="menu-btn" onclick="galaxy.openAdminPage()">
+                                <span>👑 Admin Login</span>
+                            </button>
+
+                            <button class="menu-btn" onclick="galaxy.logout()" style="color:#ff5a5a;">
+                                <span>🚪 Đăng xuất</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </header>
 
         <div class="container animate-in">
+            <!-- Team Ranking -->
             <div class="rank-card">
                 <h2 style="margin-top: 0; font-size: 1.1rem; text-align: center; color: var(--primary); text-transform: uppercase; letter-spacing: 2px;">Điểm Số Các Tổ</h2>
                 <div id="ranking-list"></div>
@@ -682,8 +838,20 @@
                 </div>
             </div>
 
+            <!-- NEW: USER RANKING CARD -->
+            <div class="rank-card" id="user-ranking-card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h2 style="margin: 0; font-size: 1rem; color: #febd23; text-transform: uppercase;">Cao Thủ 7A4</h2>
+                    <button onclick="galaxy.openUserSearch()" style="background:transparent; border:1px solid var(--glass-border); color:var(--text-color); padding:5px 10px; border-radius:12px; cursor:pointer; font-size:0.8rem;">🔍 Tìm kiếm</button>
+                </div>
+                <div id="prev-user-winner" style="margin-top:10px; font-weight:bold; color:#febd23; text-align:center; font-size:0.9rem;"></div>
+                <div id="user-rank-list" class="user-rank-list">
+                    <div style="text-align:center; opacity:0.7;">Đang tải danh sách...</div>
+                </div>
+            </div>
+
             <div class="update-card">
-                 Bản cập nhật 4.3 — Hệ thống Tài khoản & Level! Trả lời đúng liên tiếp để giữ chuỗi 🔥.
+                 Bản cập nhật 4.4 — Bảng xếp hạng thành viên & Thông báo tức thì.
             </div>
 
             <div class="tiktok-group">
@@ -725,6 +893,40 @@
         </div>
     </div>
 
+    <!-- NEW: USER SEARCH MODAL -->
+    <div id="user-search-modal" onclick="if(event.target === this) document.getElementById('user-search-modal').style.display='none'">
+        <div class="auth-card" style="margin:auto; height:80vh; display:flex; flex-direction:column;">
+            <h3 style="margin-top:0; color:var(--primary);">TÌM KIẾM THÀNH VIÊN</h3>
+            <input type="text" id="user-search-input" class="auth-input" placeholder="Nhập tên..." onkeyup="galaxy.searchUsers(this.value)">
+            <div id="user-search-results" style="flex:1; overflow-y:auto; text-align:left;"></div>
+            <button onclick="document.getElementById('user-search-modal').style.display='none'" class="btn-confirm small" style="margin-top:10px;">ĐÓNG</button>
+        </div>
+    </div>
+
+    <!-- NEW: USER PROFILE MODAL -->
+    <div id="user-profile-modal" onclick="if(event.target === this) document.getElementById('user-profile-modal').style.display='none'">
+        <div class="auth-card" style="margin:auto;">
+            <div class="avatar-circle" style="width:100px; height:100px; margin:0 auto 20px auto;">
+                <img id="profile-modal-img" src="" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <h2 id="profile-modal-name" style="margin:0; color:var(--primary); text-transform: uppercase;">USER</h2>
+            <div id="profile-modal-team" style="font-weight:bold; margin-bottom:15px; opacity:0.8;">Tổ ?</div>
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px;">
+                <div class="update-card" style="margin:0; text-align:center;">
+                    <div style="font-size:0.8rem;">LEVEL</div>
+                    <div id="profile-modal-level" style="font-size:1.5rem; font-weight:900;">1</div>
+                </div>
+                <div class="update-card" style="margin:0; text-align:center;">
+                    <div style="font-size:0.8rem;">MÔN TỦ</div>
+                    <div id="profile-modal-best" style="font-size:1rem; font-weight:900; margin-top:5px;">---</div>
+                </div>
+            </div>
+            
+            <button onclick="document.getElementById('user-profile-modal').style.display='none'" class="btn-confirm">ĐÓNG</button>
+        </div>
+    </div>
+
     <div id="admin-screen">
         <div class="admin-header">
             <h2 class="hero-title" style="font-size:1.8rem; margin:0;">ADMIN CONTROL</h2>
@@ -741,6 +943,13 @@
         </div>
 
         <div id="admin-controls-area" class="hidden animate-in">
+            <!-- NEW: BROADCAST SECTION -->
+            <div class="admin-section" style="border-color: #00ff9d;">
+                <h3 style="color:#00ff9d;">📢 THÔNG BÁO TỨC THÌ (BROADCAST)</h3>
+                <input id="admin-broadcast-input" type="text" class="admin-input" placeholder="Nhập thông báo gửi tới toàn server...">
+                <button onclick="galaxy.sendBroadcast()" class="btn-confirm small" style="width:100%; background:#00ff9d; color:#000;">GỬI THÔNG BÁO</button>
+            </div>
+
             <div class="admin-section">
                 <h3>Thêm/Trừ Điểm Thủ Công</h3>
                 <input id="admin-point-input" type="number" class="admin-input" placeholder="Nhập số điểm (VD: 10 hoặc -5)" />
@@ -822,7 +1031,7 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
   import {
     getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, collection, getDocs,
-    writeBatch, increment
+    writeBatch, increment, query, orderBy, limit
   } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -852,20 +1061,20 @@
     { id: "Tổ 4", color: "var(--t4)" }
   ];
   let realtimeTeams = {};
+  let cachedUsers = []; // Cache for search
   let adminLogged = false;
   let adminLastAction = null;
 
   /* --- AUTH & LEVEL SYSTEM --- */
-  // Quản lý trạng thái người dùng hiện tại
   const currentUser = {
-    id: null,      // username nếu đã login, null nếu khách
-    team: null,    // Tổ 1, Tổ 2...
+    id: null,      
+    team: null,    
     level: 1,
     xp: 0,
-    isGuest: true
+    isGuest: true,
+    stats: { math: 0, english: 0, anime: 0 }
   };
 
-  // Hệ thống chuỗi (Streak)
   const streakSystem = {
     current: 0,
     updateUI() {
@@ -887,40 +1096,24 @@
     }
   };
 
-  // Hệ thống Level Logic
   const levelSystem = {
-    // XP cần để lên level tiếp theo = Level hiện tại * 100
-    // VD: Lv1 -> Lv2 cần 100 XP. Lv2 -> Lv3 cần 200 XP.
     getXpForNextLevel(lvl) {
         return lvl * 100;
     },
-    
-    // Xử lý khi trả lời đúng
     async addXp(amount) {
-        // Cập nhật điểm cho TEAM (luôn thực hiện)
         await galaxy.addPointsToTeam(amount);
-
-        // Nếu là Guest, chỉ có điểm Team, không có Level cá nhân
         if (currentUser.isGuest) return;
 
-        // Xử lý Level cho User thật
         currentUser.xp += amount;
         let needed = this.getXpForNextLevel(currentUser.level);
-        
-        // Check Level Up
         if (currentUser.xp >= needed) {
             currentUser.xp -= needed;
             currentUser.level++;
             galaxy.showGameToast(`LEVEL UP! -> ${currentUser.level}`, "success");
         }
-
-        // Cập nhật UI
         this.renderLevelUI();
-
-        // Lưu vào Firebase
         this.saveUserProgress();
     },
-
     renderLevelUI() {
         if (currentUser.isGuest) {
             document.getElementById('level-ui').style.display = 'none';
@@ -928,12 +1121,10 @@
         }
         document.getElementById('level-ui').style.display = 'flex';
         document.getElementById('level-text').innerText = `LV.${currentUser.level}`;
-        
         const needed = this.getXpForNextLevel(currentUser.level);
         const percent = (currentUser.xp / needed) * 100;
         document.getElementById('level-bar').style.width = `${percent}%`;
     },
-
     async saveUserProgress() {
         if (!currentUser.id) return;
         const ref = doc(db, "users", currentUser.id);
@@ -941,6 +1132,7 @@
             await updateDoc(ref, {
                 xp: currentUser.xp,
                 level: currentUser.level,
+                stats: currentUser.stats, // Save stats too
                 lastActive: Date.now()
             });
         } catch (e) { console.error("Save User Err", e); }
@@ -960,7 +1152,6 @@
     switchTab(tab) {
         document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
         document.getElementById(`tab-${tab}`).classList.add('active');
-        
         if (tab === 'login') {
             document.getElementById('form-login').classList.remove('hidden');
             document.getElementById('form-register').classList.add('hidden');
@@ -969,8 +1160,6 @@
             document.getElementById('form-register').classList.remove('hidden');
         }
     },
-    
-    // ĐĂNG NHẬP
     async doLogin() {
         const u = document.getElementById('login-user').value.trim().toLowerCase();
         const p = document.getElementById('login-pass').value.trim();
@@ -988,16 +1177,12 @@
                 alert("Mật khẩu sai!");
                 return;
             }
-
-            // Login Success
             this.setSession(u, data);
         } catch(e) {
             console.error(e);
             alert("Lỗi đăng nhập");
         }
     },
-
-    // ĐĂNG KÝ
     async doRegister() {
         const u = document.getElementById('reg-user').value.trim().toLowerCase();
         const p = document.getElementById('reg-pass').value.trim();
@@ -1013,16 +1198,15 @@
                 alert("Tên đăng nhập đã tồn tại!");
                 return;
             }
-
             const newUser = {
                 username: u,
-                password: p, // Lưu text thường (đơn giản cho lớp học)
+                password: p, 
                 team: t,
                 level: 1,
                 xp: 0,
+                stats: { math: 0, english: 0, anime: 0 },
                 createdAt: Date.now()
             };
-
             await setDoc(ref, newUser);
             alert("Đăng ký thành công! Hãy đăng nhập ngay.");
             this.switchTab('login');
@@ -1031,47 +1215,46 @@
             alert("Lỗi tạo tài khoản");
         }
     },
-
     setSession(username, data) {
         currentUser.id = username;
         currentUser.team = data.team;
         currentUser.level = data.level || 1;
         currentUser.xp = data.xp || 0;
+        currentUser.stats = data.stats || { math: 0, english: 0, anime: 0 };
         currentUser.isGuest = false;
 
         localStorage.setItem('7a4_user_id', username);
+        galaxy.loadAvatar(username); // Load local avatar
         
         document.getElementById('auth-modal').style.display = 'none';
         galaxy.showMain();
     },
-
-    // Auto login check
     async checkAutoLogin() {
-        const savedId = localStorage.getItem('7a4_user_id');
-        if (savedId) {
-            try {
-                const snap = await getDoc(doc(db, "users", savedId));
-                if (snap.exists()) {
-                    this.setSession(savedId, snap.data());
-                    return true;
-                }
-            } catch (e) { console.log("Auto login failed"); }
-        }
+        const uid = localStorage.getItem('7a4_user_id');
+        if (!uid) return false;
+        try {
+            const ref = doc(db, "users", uid);
+            const snap = await getDoc(ref);
+            if (snap.exists()) {
+                this.setSession(uid, snap.data());
+                return true;
+            }
+        } catch(e) { console.error(e); }
         return false;
     }
-  };
-
+  }; 
 
   const galaxy = {
     currentTheme: 'galaxy',
 
     init: async function() {
-      // Theme Init
       const savedTheme = localStorage.getItem('7a4_theme') || 'galaxy';
       this.setTheme(savedTheme);
 
-      // CLICK EFFECT LISTENER
       document.addEventListener('click', (e) => {
+        // Only spawn if not clicking interactive elements
+        if (e.target.closest('button') || e.target.closest('.mission-card') || e.target.closest('.option-item') || e.target.closest('input')) return;
+
         if(this.currentTheme === 'tet') {
             this.spawnFirework(e.clientX, e.clientY);
         } else if (this.currentTheme === 'school') {
@@ -1079,19 +1262,23 @@
         } else {
             this.spawnPlanetClick(e.clientX, e.clientY);
         }
+        
+        // Click outside to close avatar menu (handled via stopPropagation in HTML but here as backup)
+        const menu = document.getElementById('avatar-menu');
+        const avt = document.querySelector('.avatar-circle');
+        if (menu.classList.contains('active') && !menu.contains(e.target) && !avt.contains(e.target)) {
+            menu.classList.remove('active');
+        }
       });
-
       this.setupRealtimeListeners();
       await this.checkWeeklyResetFirestore();
-
-      // Check login
+      
       const autoLogged = await authSystem.checkAutoLogin();
       if (!autoLogged) {
           this.showSelector();
       }
     },
-
-    // --- THEME FUNCTIONS ---
+    
     setTheme(themeName) {
         this.currentTheme = themeName;
         localStorage.setItem('7a4_theme', themeName);
@@ -1108,7 +1295,17 @@
             document.body.classList.add('galaxy-theme');
             document.getElementById('theme-galaxy').classList.add('active');
         }
-        this.renderRank();
+        // Update menu text
+        const themeText = {galaxy: "Galaxy", tet: "Tết", school: "Trường học"};
+        const el = document.getElementById('current-theme-name');
+        if(el) el.innerText = themeText[themeName];
+    },
+    
+    cycleThemeInMenu() {
+        const order = ['galaxy', 'tet', 'school'];
+        let idx = order.indexOf(this.currentTheme);
+        idx = (idx + 1) % order.length;
+        this.setTheme(order[idx]);
     },
 
     toggleSettings() {
@@ -1136,7 +1333,6 @@
             setTimeout(() => p.remove(), 1000);
         }
     },
-
     spawnPlanetClick(x, y) {
         const p = document.createElement('div');
         p.className = 'galaxy-click-particle';
@@ -1146,12 +1342,10 @@
         r.className = 'galaxy-click-ring';
         r.style.left = x + 'px';
         r.style.top = y + 'px';
-
         document.body.appendChild(p);
         document.body.appendChild(r);
         setTimeout(() => { p.remove(); r.remove(); }, 600);
     },
-
     spawnSchoolRipple(x, y) {
         const r = document.createElement('div');
         r.className = 'school-click-ripple';
@@ -1161,10 +1355,7 @@
         setTimeout(() => r.remove(), 500);
     },
 
-    // --- CORE LOGIC ---
-
     selectTeamGuest(name) {
-        // Chế độ khách
         currentUser.isGuest = true;
         currentUser.team = name;
         currentUser.id = null;
@@ -1182,26 +1373,136 @@
       document.getElementById('main-app').classList.remove('hidden');
       document.getElementById('main-app').style.display = 'block';
       
-      let displayName = currentUser.team;
-      if (!currentUser.isGuest) {
-          displayName = `${currentUser.id} (${currentUser.team})`;
-      }
-      
-      document.getElementById('team-tag').innerText = displayName;
-      
-      const t = TEAMS.find(t => t.id === currentUser.team);
-      if(t) {
-        document.getElementById('team-tag').style.background = `var(--primary)`;
+      if (currentUser.isGuest) {
+          // GUEST MODE UI
+          document.getElementById('logged-in-controls').style.display = 'none';
+          document.getElementById('guest-controls').style.display = 'flex';
+          
+          document.getElementById('team-tag').innerText = currentUser.team;
+          document.getElementById('team-tag').style.background = TEAMS.find(t => t.id === currentUser.team)?.color || 'var(--primary)';
+          
+          // Guests don't see level bar in header
+          document.getElementById('level-ui').style.display = 'none';
+      } else {
+          // LOGGED IN MODE UI
+          document.getElementById('guest-controls').style.display = 'none';
+          document.getElementById('logged-in-controls').style.display = 'flex';
+          
+          // Setup menu info
+          document.getElementById('menu-user-name').innerText = currentUser.id;
+          
+          // Calc best stats
+          this.calculateBestStat();
+          
+          levelSystem.renderLevelUI();
       }
       
       this.renderRank();
-      levelSystem.renderLevelUI();
+    },
+
+    // AVATAR LOGIC
+    toggleAvatarMenu() {
+        document.getElementById('avatar-menu').classList.toggle('active');
+        if (document.getElementById('avatar-menu').classList.contains('active')) {
+             this.updateMenuRank();
+        }
+    },
+    
+    async handleAvatarUpload(input) {
+      const file = input.files[0];
+      if (!file || !currentUser.id) return;
+
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const avatarBase64 = e.target.result;
+
+        // 1️⃣ Update UI ngay lập tức
+        document.getElementById('user-avatar-img').src = avatarBase64;
+        document.getElementById('menu-avatar-img').src = avatarBase64;
+
+        // 2️⃣ LƯU LÊN FIRESTORE (QUAN TRỌNG NHẤT)
+        await updateDoc(doc(db, "users", currentUser.id), {
+          avatar: avatarBase64,
+          avatarUpdatedAt: Date.now()
+        });
+
+        galaxy.showGameToast("Đã cập nhật avatar!", "success");
+      };
+      reader.readAsDataURL(file);
+    },
+
+    async loadAvatar(userId, imgId = 'user-avatar-img') {
+        try {
+            const snap = await getDoc(doc(db, "users", userId));
+            // Default robust fallback SVG
+            const fallbackAvatar = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>";
+            
+            let finalUrl = fallbackAvatar;
+            if (snap.exists()) {
+                finalUrl = snap.data().avatar || fallbackAvatar;
+            }
+
+            const el = document.getElementById(imgId);
+            if (el) el.src = finalUrl;
+
+            if (userId === currentUser.id && imgId === 'user-avatar-img') {
+                const menuImg = document.getElementById('menu-avatar-img');
+                if (menuImg) menuImg.src = finalUrl;
+            }
+        } catch (e) {
+            console.error("loadAvatar error:", e);
+        }
+    },
+    
+    updateGameStats(type) {
+        if (currentUser.isGuest) return;
+        if (!currentUser.stats) currentUser.stats = { math: 0, english: 0, anime: 0 };
+        if (!currentUser.stats[type]) currentUser.stats[type] = 0;
+        
+        currentUser.stats[type]++;
+        
+        // Save silently
+        const ref = doc(db, "users", currentUser.id);
+        updateDoc(ref, { stats: currentUser.stats }).catch(e => console.log(e));
+        
+        // Update UI if menu is open
+        this.calculateBestStat();
+    },
+    
+    calculateBestStat() {
+        if (!currentUser.stats) return;
+        const s = currentUser.stats;
+        let max = 0;
+        let best = "Chưa chơi nhiều";
+        
+        if (s.math > max) { max = s.math; best = "📐 Toán Học"; }
+        if (s.english > max) { max = s.english; best = "🇬🇧 Tiếng Anh"; }
+        if (s.anime > max) { max = s.anime; best = "🇯🇵 Anime"; }
+        
+        document.getElementById('best-stat-box').innerHTML = `
+            <div style="font-size:0.7rem; opacity:0.8;">MÔN TỦ CỦA BẠN</div>
+            <div style="font-size:1.1rem; font-weight:900; color:var(--primary); margin-top:2px;">${best}</div>
+            <div style="font-size:0.65rem; margin-top:2px;">(Dựa trên tần suất chơi)</div>
+        `;
+    },
+    
+    updateMenuRank() {
+        if (!currentUser.id || currentUser.isGuest) return;
+        const index = cachedUsers.findIndex(u => u.username === currentUser.id);
+        const el = document.getElementById('menu-user-rank');
+        if(index !== -1) {
+            el.innerText = `Hạng: #${index + 1}`;
+        } else {
+            el.innerText = `Hạng: --`;
+        }
     },
 
     logout() {
-      localStorage.removeItem('7a4_user_id'); // Clear session
+      localStorage.removeItem('7a4_user_id'); 
       currentUser.id = null;
       currentUser.team = null;
+      currentUser.isGuest = true;
+      document.getElementById('user-avatar-img').src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>"; // reset avatar
       this.showSelector();
     },
 
@@ -1211,29 +1512,18 @@
       return 'to' + num;
     },
 
-    // Gộp hàm cũ addPoints thành hàm mới xử lý XP
     async addPointsToTeam(p) {
       if (!currentUser.team) return;
       const docId = this.teamToDocId(currentUser.team);
       if (!docId) return;
-
       const ref = doc(db, "teams", docId);
       try {
         const s = await getDoc(ref);
         if (!s.exists()) {
-          await setDoc(ref, {
-            name: DOC_TO_TEAM[docId].id,
-            score: 0,
-            updatedAt: Date.now()
-          });
+          await setDoc(ref, { name: DOC_TO_TEAM[docId].id, score: 0, updatedAt: Date.now() });
         }
-        await updateDoc(ref, {
-          score: increment(p),
-          updatedAt: Date.now()
-        });
-      } catch (e) {
-        console.error("addPointsToTeam error:", e);
-      }
+        await updateDoc(ref, { score: increment(p), updatedAt: Date.now() });
+      } catch (e) { console.error("addPointsToTeam error:", e); }
     },
 
     async ensureTeamsDocs() {
@@ -1246,10 +1536,72 @@
       }
     },
 
+    async renderUserLeaderboard() {
+      const listEl = document.getElementById('user-rank-list');
+      // Render from cachedUsers which is now updated real-time
+      
+      const fallbackAvatar = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>";
+
+      if (cachedUsers.length === 0) {
+        listEl.innerHTML = '<div style="text-align:center;opacity:0.6;">Đang tải hoặc chưa có dữ liệu...</div>';
+        return;
+      }
+
+      // Show ALL users (scrollable)
+      listEl.innerHTML = cachedUsers.map((u, index) => {
+          let rankIcon = `${index + 1}`;
+          if (index === 0) rankIcon = '🥇';
+          else if (index === 1) rankIcon = '🥈';
+          else if (index === 2) rankIcon = '🥉';
+          
+          const avatarUrl = u.avatar || fallbackAvatar;
+
+          return `
+          <div class="user-rank-item">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-weight:900; width:25px; text-align:center;">${rankIcon}</span>
+              <img src="${avatarUrl}" style="width:32px;height:32px;border-radius:50%; object-fit:cover;">
+              <span class="user-rank-name">${u.username}</span>
+            </div>
+            <span class="user-rank-xp">
+              LV.${u.level}
+              <span style="font-size:0.7rem; opacity:0.7;">(${u.xp} XP)</span>
+            </span>
+          </div>
+        `;
+      }).join('');
+    },
+
+    showUserProfile(username) {
+        const user = cachedUsers.find(u => u.username === username);
+        if(!user) return;
+        
+        document.getElementById('profile-modal-name').innerText = user.username;
+        document.getElementById('profile-modal-team').innerText = user.team;
+        document.getElementById('profile-modal-level').innerText = user.level;
+        
+        // Stats
+        let s = user.stats || { math:0, english:0, anime:0 };
+        let max = 0; let best = "Chưa chơi nhiều";
+        if (s.math > max) { max = s.math; best = "Toán Học"; }
+        if (s.english > max) { max = s.english; best = "Tiếng Anh"; }
+        if (s.anime > max) { max = s.anime; best = "Anime"; }
+        
+        document.getElementById('profile-modal-best').innerText = best;
+        
+        // Image
+        const fallbackAvatar = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>";
+        document.getElementById('profile-modal-img').src = user.avatar || fallbackAvatar;
+        
+        document.getElementById('user-profile-modal').style.display = 'flex';
+    },
+
     // --- ADMIN PAGE LOGIC ---
     openAdminPage() {
         document.getElementById('main-app').style.display = 'none';
         document.getElementById('admin-screen').style.display = 'flex';
+        // Close menu if open
+        document.getElementById('avatar-menu').classList.remove('active');
         
         if (adminLogged) {
             document.getElementById('admin-login-area').style.display = 'none';
@@ -1277,7 +1629,7 @@
             adminLogged = true;
             input.value = "";
             this.toast("Đăng nhập Admin thành công!");
-            this.openAdminPage(); // Refresh view
+            this.openAdminPage(); 
         } else {
             alert("Mật khẩu sai");
         }
@@ -1287,6 +1639,48 @@
         adminLogged = false;
         this.toast("Đã đăng xuất Admin");
         this.closeAdminPage();
+    },
+
+    // NEW: BROADCAST FEATURE
+    async sendBroadcast() {
+        if (!adminLogged) return;
+        const input = document.getElementById('admin-broadcast-input');
+        const text = input.value.trim();
+        if(!text) return;
+        
+        try {
+            await setDoc(doc(db, "meta", "broadcast"), {
+                message: text,
+                timestamp: Date.now()
+            });
+            this.toast("Đã gửi thông báo!");
+            input.value = "";
+        } catch(e) {
+            console.error(e);
+            this.toast("Lỗi gửi tin");
+        }
+    },
+    
+    // NEW: Listen for broadcast
+    listenForBroadcast() {
+         onSnapshot(doc(db, "meta", "broadcast"), (doc) => {
+             if(doc.exists()) {
+                 const data = doc.data();
+                 // Only show if message is recent (within 5 seconds) to avoid spam on load
+                 if (Date.now() - data.timestamp < 10000) {
+                     this.showBroadcastToast(data.message);
+                 }
+             }
+         });
+    },
+
+    showBroadcastToast(msg) {
+        const t = document.getElementById('broadcast-toast');
+        t.innerText = `📢 ADMIN: ${msg}`;
+        t.style.display = 'block';
+        t.style.animation = 'slideUpBroadcast 0.5s forwards';
+        // Auto hide after 10s
+        setTimeout(() => { t.style.display = 'none'; }, 10000);
     },
 
     async adminAdjustPoints(docId, delta) {
@@ -1305,7 +1699,6 @@
         this.toast("Lỗi Admin update");
       }
     },
-    // ------------------------
 
     toast(m) {
       const t = document.getElementById('app-toast');
@@ -1318,7 +1711,7 @@
     showGameToast(msg, type) {
         const t = document.getElementById('game-toast');
         t.innerText = msg;
-        t.className = type; // success, error, info
+        t.className = type; 
         t.style.display = 'block';
         t.style.animation = 'slideDownToast 0.3s forwards';
         setTimeout(() => { 
@@ -1328,7 +1721,6 @@
 
     renderRank() {
       const list = document.getElementById('ranking-list');
-      
       let data = [];
       if (Object.keys(realtimeTeams).length) {
         data = Object.keys(DOC_TO_TEAM).map(docId => ({
@@ -1339,7 +1731,6 @@
       } else {
         data = TEAMS.map(t => ({...t, score: 0}));
       }
-
       data = data.sort((a,b) => b.score - a.score);
       const max = Math.max(...data.map(d => d.score), 10);
       list.innerHTML = data.map(d => `
@@ -1355,7 +1746,6 @@
     renderGameScoreboard() {
         const board = document.getElementById('game-scoreboard');
         if (!board) return;
-
         let data = [];
         if (Object.keys(realtimeTeams).length) {
             data = Object.keys(DOC_TO_TEAM).map(docId => ({
@@ -1377,22 +1767,26 @@
 
     async renderPrevWinner() {
       const prevEl = document.getElementById('prev-winner');
+      const prevUserEl = document.getElementById('prev-user-winner');
       try {
         const metaRef = doc(db, "meta", "weekly");
         const snap = await getDoc(metaRef);
         if (snap.exists()) {
           const data = snap.data();
+          // Team Winner
           if (data && Array.isArray(data.winners) && data.winners.length) {
             if (data.winners.length === 1) {
               prevEl.innerText = `🏆 Vô địch tuần trước: ${data.winners[0]} — ${data.maxScore} XP`;
             } else {
               prevEl.innerText = `🤝 Hòa tuần trước: ${data.winners.join(', ')} — ${data.maxScore} XP`;
             }
-            return;
+          }
+          // User Winner
+          if (data && data.userWinner) {
+              prevUserEl.innerText = `🔥 Cao thủ tuần trước: ${data.userWinner.name} (LV.${data.userWinner.level})`;
           }
         }
       } catch(e) { console.warn(e); }
-      prevEl.innerText = '';
     },
 
     closeGame() {
@@ -1401,8 +1795,6 @@
       document.getElementById('anime-selection-screen').classList.add('hidden');
       document.getElementById('game-content-area').classList.remove('hidden');
       document.getElementById('game-content-area').style.display = 'flex';
-      
-      // Reset Streak UI when closing game
       streakSystem.reset();
     },
 
@@ -1429,6 +1821,7 @@
         const lastReset = metaSnap.exists() ? (metaSnap.data().lastReset || 0) : 0;
 
         if (!lastReset || lastReset < resetTime) {
+          // 1. Get Team Scores
           const colSnap = await getDocs(collection(db, "teams"));
           const prevScores = {};
           colSnap.forEach(d => prevScores[d.id] = d.data().score || 0);
@@ -1437,6 +1830,23 @@
           const maxScore = arr.length ? Math.max(...arr.map(a=>a[1])) : 0;
           const winners = arr.filter(a=>a[1]===maxScore).map(a=> DOC_TO_TEAM[a[0]]?.id ?? a[0]);
 
+          // 2. Get Top User (snapshot for history)
+          let userWinner = null;
+          try {
+              const usersSnap = await getDocs(collection(db, "users"));
+              let allUsers = [];
+              usersSnap.forEach(d => allUsers.push(d.data()));
+              allUsers.sort((a,b) => (b.xp || 0) - (a.xp || 0));
+              if(allUsers.length > 0) {
+                  userWinner = {
+                      name: allUsers[0].username,
+                      level: allUsers[0].level,
+                      xp: allUsers[0].xp
+                  };
+              }
+          } catch(err) { console.log(err); }
+
+          // 3. Commit Reset
           const batch = writeBatch(db);
           colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
           batch.set(metaRef, {
@@ -1444,6 +1854,7 @@
             prevScores,
             winners,
             maxScore,
+            userWinner, // Save user winner
             updatedAt: Date.now()
           }, { merge: true });
           await batch.commit();
@@ -1459,17 +1870,70 @@
           realtimeTeams = tmp;
           this.renderRank();
         });
+        
         onSnapshot(doc(db, "meta", "weekly"), () => {
           this.renderPrevWinner();
         });
+        
+        // Listen for new users to update leaderboard continuously
+        onSnapshot(collection(db, "users"), (snapshot) => {
+            cachedUsers = [];
+            snapshot.forEach(doc => {
+                 const u = doc.data();
+                 cachedUsers.push({
+                    ...u,
+                    xp: Number(u.xp || 0),
+                    level: Number(u.level || 1),
+                    avatar: u.avatar // might be undefined, will handle in render
+                 });
+            });
+            cachedUsers.sort((a,b) => b.xp - a.xp);
+            
+            this.renderUserLeaderboard();
+            this.updateMenuRank(); // Update rank in menu if open
+        });
+
+        this.listenForBroadcast();
       } catch (e) { console.error(e); }
+    },
+    
+    // NEW: User Search Feature
+    searchUsers(query) {
+        if (!query) {
+            document.getElementById('user-search-results').innerHTML = "";
+            return;
+        }
+        query = query.toLowerCase();
+        const results = cachedUsers.filter(u => u.username.toLowerCase().includes(query));
+        
+        const fallbackAvatar = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>";
+
+        const html = results.map(u => `
+            <div style="display:flex; align-items:center; gap:10px; padding:10px; border-bottom:1px solid var(--glass-border); cursor:pointer;" 
+                 onclick="galaxy.showUserProfile('${u.username}')">
+                <img src="${u.avatar || fallbackAvatar}" style="width:30px; height:30px; border-radius:50%; object-fit:cover;">
+                <div>
+                    <div style="font-weight:bold;">${u.username}</div>
+                    <div style="font-size:0.75rem; opacity:0.7;">${u.team} • LV.${u.level}</div>
+                </div>
+            </div>
+        `).join('');
+        
+        document.getElementById('user-search-results').innerHTML = html || '<div style="padding:10px; text-align:center; opacity:0.6;">Không tìm thấy</div>';
+    },
+    
+    openUserSearch() {
+        document.getElementById('user-search-modal').style.display = 'flex';
+        document.getElementById('user-search-input').focus();
     }
   };
 
-  function adminAdjust(docId, delta) {
-    galaxy.adminAdjustPoints(docId, delta);
-  }
+  window.adminAdjust = adminAdjust;
+  window.adminApplyInput = adminApplyInput;
+  window.adminResetScores = adminResetScores;
+  window.adminUndo = adminUndo;
 
+  function adminAdjust(docId, delta) { galaxy.adminAdjustPoints(docId, delta); }
   async function adminApplyInput(docId){
     if (!adminLogged) return;
     const input = document.getElementById("admin-point-input");
@@ -1481,7 +1945,6 @@
     await galaxy.adminAdjustPoints(docId, val);
     input.value = "";
   }
-
   async function adminResetScores(){
     if (!adminLogged) return;
     if(!confirm("Bạn có chắc chắn muốn RESET điểm về 0?")) return;
@@ -1500,7 +1963,6 @@
       galaxy.toast("Lỗi reset điểm");
     }
   }
-
   async function adminUndo(){
     if (!adminLogged || !adminLastAction){
       galaxy.toast("Không có gì để hoàn tác");
@@ -1537,14 +1999,14 @@
     ans: 0,
     isProcessing: false,
     start() {
+      galaxy.updateGameStats('math');
       document.getElementById('game-overlay').style.display = 'flex';
       document.getElementById('game-label').innerText = "MATH MISSION";
       document.getElementById('anime-selection-screen').classList.add('hidden');
       document.getElementById('game-content-area').classList.remove('hidden');
       document.getElementById('game-content-area').style.display = 'flex';
       galaxy.renderGameScoreboard();
-      
-      streakSystem.reset(); // New game, reset streak display locally
+      streakSystem.reset();
       this.generate();
     },
     generate() {
@@ -1591,12 +2053,12 @@
 
       const val = parseInt(document.getElementById('m-input').value || '', 10);
       if (val === this.ans) {
-        streakSystem.increment(); // Tăng chuỗi
+        streakSystem.increment(); 
         galaxy.showGameToast("ĐÚNG RỒI! +10 XP", "success");
         levelSystem.addXp(10);
         setTimeout(() => this.generate(), 800);
       } else {
-        streakSystem.reset(); // Mất chuỗi
+        streakSystem.reset(); 
         galaxy.showGameToast(`SAI RỒI!`, "error");
         setTimeout(() => this.generate(), 1500);
       }
@@ -1604,14 +2066,14 @@
     skip() {
       if (this.isProcessing) return;
       this.isProcessing = true;
-      streakSystem.reset(); // Mất chuỗi
+      streakSystem.reset(); 
       galaxy.showGameToast("ĐÃ BỎ QUA", "info");
       setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
     }
   };
 
   const ANIME_BANK = [
-      // ===== ONE PIECE (30) =====
+  // ===== ONE PIECE (30) =====
   { t: "ONE PIECE", q: "Luffy ăn trái ác quỷ hệ gì (theo tiết lộ mới nhất)?", o: ["Paramecia", "Logia", "Zoan Thần thoại", "Zoan cổ đại"], a: 2 },
   { t: "ONE PIECE", q: "Ai là người đầu tiên gia nhập băng Mũ Rơm?", o: ["Nami", "Zoro", "Usopp", "Sanji"], a: 1 },
   { t: "ONE PIECE", q: 'Thanh kiếm "Enma" của Zoro từng thuộc về ai?', o: ["Kozuki Oden", "Shimotsuki Ryuma", "Gol D. Roger", "Mihawk"], a: 0 },
@@ -2595,7 +3057,6 @@
   { t: "THỢ SĂN ẨM THỰC", q: "Toriko nổi tiếng vì?", o: ["Thế giới đồ ăn siêu khủng", "Bóng đá", "Học đường", "Robot"], a: 0 },
   { t: "THỢ SĂN ẨM THỰC", q: "Thợ săn ẩm thực được yêu thích vì?", o: ["Vừa đánh nhau vừa đồ ăn", "Chỉ drama", "Chỉ nhạc", "Chỉ sợ"], a: 0 },
   { t: "THỢ SĂN ẨM THỰC", q: "Toriko là bộ anime về?", o: ["Săn nguyên liệu & phiêu lưu", "Tình yêu học đường", "Đua xe", "Zombie"], a: 0 },
-      
 // ===== DANDADAN (30) =====
 { t:"DANDADAN", q:"Nhân vật nam chính của Dandadan là?", o:["Okarun","Kenji","Taro","Shinji"], a:0 },
 { t:"DANDADAN", q:"Nữ chính trong Dandadan tên là?", o:["Momo Ayase","Yuki","Hana","Nana"], a:0 },
@@ -2950,6 +3411,7 @@ const animeGame = {
   lastIndex: -1,
 
   start() {
+    galaxy.updateGameStats('anime');
     document.getElementById('game-overlay').style.display = 'flex';
     document.getElementById('game-label').innerText = "ANIME ZONE";
     galaxy.renderGameScoreboard();
@@ -3085,12 +3547,12 @@ const animeGame = {
     const correct = this.getCorrectText();
 
     if (choice === correct) {
-      streakSystem.increment(); // Streak
+      streakSystem.increment(); 
       galaxy.showGameToast("CHUẨN OTAKU! +15 XP", "success");
       levelSystem.addXp(15);
       setTimeout(() => this.generate(), 800);
     } else {
-      streakSystem.reset(); // Lost Streak
+      streakSystem.reset(); 
       galaxy.showGameToast(`SAI RỒI! ĐÁP ÁN: ${correct}`, "error");
       setTimeout(() => this.generate(), 1500);
     }
@@ -3099,7 +3561,7 @@ const animeGame = {
   skip() {
     if (this.isProcessing) return;
     this.isProcessing = true;
-    streakSystem.reset(); // Lost Streak
+    streakSystem.reset(); 
     galaxy.showGameToast("ĐÃ BỎ QUA", "info");
     setTimeout(() => {
       this.isProcessing = false;
@@ -3110,7 +3572,7 @@ const animeGame = {
 
 
   const ENGLISH_BANK = [
-      // --- TOPIC: ADJECTIVES VS ADVERBS ---
+  // --- TOPIC: ADJECTIVES VS ADVERBS ---
   { q: "She is a very ________ designer. She always has new ideas.", a: "creative", o: ["creative", "creatively", "creation"], t: "Adj_Adv" },
   { q: "He decorated the room ________ for the party.", a: "creatively", o: ["creative", "creatively", "create"], t: "Adj_Adv" },
   { q: "You should be ________ when speaking to elderly people.", a: "polite", o: ["polite", "politely", "politeness"], t: "Adj_Adv" },
@@ -3361,13 +3823,14 @@ const animeGame = {
     lastIndex: -1,
     isProcessing: false,
     start() {
+      galaxy.updateGameStats('english');
       document.getElementById('game-overlay').style.display = 'flex';
       document.getElementById('game-label').innerText = "ENGLISH COMMAND";
       document.getElementById('anime-selection-screen').classList.add('hidden');
       document.getElementById('game-content-area').classList.remove('hidden');
       document.getElementById('game-content-area').style.display = 'flex';
       galaxy.renderGameScoreboard();
-      streakSystem.reset(); // Reset streak
+      streakSystem.reset(); 
       this.generate();
     },
     generate() {
@@ -3404,12 +3867,12 @@ const animeGame = {
       allBtns.forEach(b => b.disabled = true);
 
       if (choice === this.curr.a) {
-        streakSystem.increment(); // Streak
+        streakSystem.increment(); 
         galaxy.showGameToast("ĐÚNG RỒI! +10 XP", "success");
         levelSystem.addXp(10);
         setTimeout(() => this.generate(), 800);
       } else {
-        streakSystem.reset(); // Lost Streak
+        streakSystem.reset(); 
         galaxy.showGameToast(`SAI! ĐÁP ÁN: ${this.curr.a}`, "error");
         setTimeout(() => this.generate(), 2000);
       }
@@ -3417,7 +3880,7 @@ const animeGame = {
     skip() {
       if (this.isProcessing) return;
       this.isProcessing = true;
-      streakSystem.reset(); // Lost Streak
+      streakSystem.reset(); 
       galaxy.showGameToast("ĐÃ BỎ QUA", "info");
       setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
     }
@@ -3460,20 +3923,13 @@ const animeGame = {
 
   startWeeklyResetCountdown();
   
-  // Expose Global
   window.galaxy = galaxy;
   window.englishGame = englishGame;
   window.mathGame = mathGame;
   window.animeGame = animeGame;
   window.authSystem = authSystem;
   
-  window.adminAdjust = adminAdjust;
-  window.adminApplyInput = adminApplyInput;
-  window.adminResetScores = adminResetScores;
-  window.adminUndo = adminUndo;
-  
   window.onload = () => galaxy.init();
 </script>
 </body>
 </html>
-
