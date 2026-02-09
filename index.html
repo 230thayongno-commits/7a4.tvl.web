@@ -6,15 +6,18 @@
     <title>7A4 GALAXY COMMAND - PRO</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
     <style>
-        /* --- CORE VARIABLES & THEMING --- */
+        /* =========================================
+           1. CORE VARIABLES & THEMES
+           ========================================= */
         :root {
-            /* 1. GALAXY THEME (DEFAULT) */
+            /* GALAXY THEME (DEFAULT) */
             --bg-color: #030712;
             --text-color: #fff;
             --card-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
             --primary: #00f3ff;
-            /* Team Colors - Galaxy (Neon) */
+            
+            /* Team Colors */
             --t1: #00f3ff;
             --t2: #bc13fe;
             --t3: #ff0055;
@@ -25,23 +28,20 @@
                 radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.05) 0%, transparent 50%);
         }
 
-        /* 2. TET THEME */
+        /* TET THEME */
         body.tet-theme {
             --bg-color: #3e0000;
             --text-color: #fffaf0;
             --card-bg: rgba(255, 215, 0, 0.1);
             --glass-border: rgba(255, 215, 0, 0.3);
             --primary: #ffd700;
-            /* Team Colors - Tet (Warm/Festive) */
             --t1: #ffd700; /* Vàng kim */
             --t2: #ff4d4d; /* Đỏ tươi */
             --t3: #ff9900; /* Cam */
             --t4: #00ff00; /* Lộc biếc */
-
             --bg-image: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.15) 0%, transparent 60%);
         }
-        
-        /* Decoration pattern for Tet (Lì xì, Đồng xu) */
+        /* Decoration for Tet */
         body.tet-theme::before {
             content: "";
             position: fixed; inset: 0; pointer-events: none; z-index: -1;
@@ -49,27 +49,22 @@
             background-size: 60px 60px;
         }
 
-        /* 3. SCHOOL THEME */
+        /* SCHOOL THEME */
         body.school-theme {
-            --bg-color: #f4f7f6; /* Giấy trắng xanh nhạt */
-            --text-color: #2c3e50; /* Màu mực xanh đen */
+            --bg-color: #f4f7f6;
+            --text-color: #2c3e50;
             --card-bg: rgba(255, 255, 255, 0.6);
             --glass-border: rgba(0, 0, 0, 0.05);
-            --primary: #3498db; /* Xanh dương bút mực */
-
-            /* Team Colors - School (Pastel/Crayon) */
+            --primary: #3498db;
             --t1: #3498db; /* Xanh mực */
             --t2: #9b59b6; /* Tím bằng lăng */
             --t3: #e74c3c; /* Đỏ điểm 10 */
             --t4: #2ecc71; /* Xanh bảng */
-
-            /* Grid paper effect */
             --bg-image: 
                 linear-gradient(#e1e8ed 1px, transparent 1px),
                 linear-gradient(90deg, #e1e8ed 1px, transparent 1px);
         }
-        
-        /* Decoration pattern for School (Bút, Thước) */
+        /* Decoration for School */
         body.school-theme::before {
             content: "";
             position: fixed; inset: 0; pointer-events: none; z-index: -1;
@@ -77,7 +72,7 @@
             background-size: 100px 100px;
         }
 
-        /* Decoration pattern for Galaxy (Planets) */
+        /* Decoration for Galaxy */
         body.galaxy-theme::before {
             content: "";
             position: fixed; inset: 0; pointer-events: none; z-index: -1;
@@ -85,8 +80,10 @@
             animation: floating 20s linear infinite;
         }
 
+        /* =========================================
+           2. GLOBAL RESET & BASE STYLES
+           ========================================= */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-color);
@@ -95,8 +92,18 @@
             min-height: 100vh;
             overflow-x: hidden;
             background-image: var(--bg-image);
-            background-size: 40px 40px; /* Default grid size for school/galaxy fallback */
+            background-size: 40px 40px;
             transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        /* Utilities */
+        .hidden { display: none !important; }
+        .flex-center { display: flex; align-items: center; justify-content: center; }
+        .full-screen-overlay {
+            position: fixed; inset: 0; background: var(--bg-color);
+            background-image: var(--bg-image);
+            z-index: 9999; display: flex; flex-direction: column;
+            overflow-y: auto; color: var(--text-color);
         }
 
         /* Animations */
@@ -106,557 +113,273 @@
         @keyframes slideDownToast { from { top: -50px; opacity: 0; } to { top: 20px; opacity: 1; } }
         @keyframes slideUpBroadcast { from { bottom: -100px; opacity: 0; } to { bottom: 20px; opacity: 1; } }
         @keyframes fireBurn { 0% { transform: scale(1) rotate(-5deg); filter: brightness(1); } 50% { transform: scale(1.2) rotate(5deg); filter: brightness(1.3); } 100% { transform: scale(1) rotate(-5deg); filter: brightness(1); } }
-
-        /* --- CLICK EFFECTS --- */
-        .firework-particle {
-            position: fixed;
-            width: 6px; height: 6px; border-radius: 50%;
-            pointer-events: none; z-index: 99999;
-            animation: fireworkPop 1s ease-out forwards;
-        }
-        @keyframes fireworkPop {
-            0% { transform: translate(var(--tx), var(--ty)) scale(1); opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
-        }
-
-        .galaxy-click-particle {
-            position: fixed;
-            width: 20px; height: 20px;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-            box-shadow: 0 0 10px var(--primary);
-            pointer-events: none; z-index: 99999;
-            transform: translate(-50%, -50%);
-            animation: planetExpand 0.6s ease-out forwards;
-        }
-        .galaxy-click-ring {
-            position: fixed;
-            width: 40px; height: 10px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.5);
-            pointer-events: none; z-index: 99998;
-            transform: translate(-50%, -50%) rotate(-30deg);
-            animation: ringExpand 0.6s ease-out forwards;
-        }
-        @keyframes planetExpand {
-            0% { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
-        }
-        @keyframes ringExpand {
-            0% { transform: translate(-50%, -50%) rotate(-30deg) scale(0.2); opacity: 1; }
-            100% { transform: translate(-50%, -50%) rotate(-30deg) scale(2); opacity: 0; }
-        }
-
-        .school-click-ripple {
-            position: fixed;
-            width: 20px; height: 20px;
-            background: rgba(100, 100, 100, 0.2);
-            border-radius: 50%;
-            pointer-events: none; z-index: 99999;
-            transform: translate(-50%, -50%);
-            animation: rippleEffect 0.5s linear forwards;
-        }
-        @keyframes rippleEffect {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 0.5; }
-            100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
-        }
-
+        
+        /* Particle Effects Animations */
+        @keyframes fireworkPop { 0% { transform: translate(var(--tx), var(--ty)) scale(1); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; } }
+        @keyframes planetExpand { 0% { transform: translate(-50%, -50%) scale(0.2); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; } }
+        @keyframes ringExpand { 0% { transform: translate(-50%, -50%) rotate(-30deg) scale(0.2); opacity: 1; } 100% { transform: translate(-50%, -50%) rotate(-30deg) scale(2); opacity: 0; } }
+        @keyframes rippleEffect { 0% { transform: translate(-50%, -50%) scale(0); opacity: 0.5; } 100% { transform: translate(-50%, -50%) scale(4); opacity: 0; } }
 
         .animate-in { animation: fadeIn 0.5s ease forwards; }
         .slide-in { animation: slideIn 0.3s ease-out forwards; }
 
-        /* UI Components */
+        /* =========================================
+           3. UI COMPONENTS
+           ========================================= */
+        /* Toasts */
         #game-toast, #app-toast {
-            position: fixed;
-            top: 20px; left: 50%; transform: translateX(-50%);
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             background: rgba(255, 255, 255, 0.95); color: #000;
-            padding: 12px 25px; border-radius: 50px;
-            font-weight: 800;
-            z-index: 20000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            padding: 12px 25px; border-radius: 50px; font-weight: 800;
+            z-index: 20000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             display: none; width: max-content; max-width: 90%;
             text-align: center; border: 2px solid transparent;
         }
         #game-toast.success { background: #e6fffa; color: #00a152; border-color: #00ff9d; }
         #game-toast.error { background: #ffe6e6; color: #d32f2f; border-color: #ff0055; }
         #game-toast.info { background: #f0f0f0; color: #555; border-color: #aaa; }
-
-        /* NEW: Broadcast Toast (Bottom Left) */
+        
         #broadcast-toast {
-            position: fixed;
-            bottom: 20px; left: 20px;
-            max-width: 300px;
-            background: rgba(0, 0, 0, 0.9);
-            color: #fff;
-            padding: 15px; border-radius: 12px;
-            font-weight: 600; font-size: 0.9rem;
-            z-index: 10000;
-            border-left: 4px solid var(--primary);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            display: none;
-            line-height: 1.4;
+            position: fixed; bottom: 20px; left: 20px; max-width: 300px;
+            background: rgba(0, 0, 0, 0.9); color: #fff;
+            padding: 15px; border-radius: 12px; font-weight: 600; font-size: 0.9rem;
+            z-index: 10000; border-left: 4px solid var(--primary);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3); display: none; line-height: 1.4;
         }
-        body.school-theme #broadcast-toast {
-            background: #fff; color: #333; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        body.school-theme #broadcast-toast { background: #fff; color: #333; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        /* Buttons & Inputs */
+        .btn-confirm {
+            background: var(--primary); color: #000; width: 100%;
+            padding: 15px 20px; border-radius: 12px; font-weight: 900;
+            font-size: 1.0rem; margin-top: 10px; border: none; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
+        body.school-theme .btn-confirm { color: #fff; }
+        .btn-confirm.small { width: auto; padding: 10px 14px; font-size: 0.9rem; border-radius: 10px; }
+        .btn-confirm:disabled { background: #555; cursor: not-allowed; }
+
+        .auth-input, .admin-input, .admin-input-styled {
+            width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 10px;
+            border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);
+            color: var(--text-color); font-weight: 700; outline: none;
+        }
+        body.school-theme .auth-input, body.school-theme .admin-input { background: #fff; border-color: #ddd; color: #333; }
+        
+        /* Particle Classes */
+        .firework-particle { position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 99999; animation: fireworkPop 1s ease-out forwards; }
+        .galaxy-click-particle { position: fixed; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--primary); box-shadow: 0 0 10px var(--primary); pointer-events: none; z-index: 99999; transform: translate(-50%, -50%); animation: planetExpand 0.6s ease-out forwards; }
+        .galaxy-click-ring { position: fixed; width: 40px; height: 10px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.5); pointer-events: none; z-index: 99998; transform: translate(-50%, -50%) rotate(-30deg); animation: ringExpand 0.6s ease-out forwards; }
+        .school-click-ripple { position: fixed; width: 20px; height: 20px; background: rgba(100, 100, 100, 0.2); border-radius: 50%; pointer-events: none; z-index: 99999; transform: translate(-50%, -50%); animation: rippleEffect 0.5s linear forwards; }
 
         /* Selector Screen */
         #selector-screen {
-            position: fixed;
-            inset: 0; background: var(--bg-color);
-            background-image: var(--bg-image);
-            z-index: 9999; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; padding: 20px;
-            text-align: center;
-            transition: background 0.5s;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 20px; text-align: center; transition: background 0.5s;
         }
-
         .hero-title {
-            font-size: clamp(2rem, 8vw, 3.5rem);
-            font-weight: 900;
+            font-size: clamp(2rem, 8vw, 3.5rem); font-weight: 900;
             background: linear-gradient(45deg, var(--t1), var(--t2));
             -webkit-background-clip: text; color: transparent;
             margin-bottom: 10px; letter-spacing: -1px;
         }
         body.school-theme .hero-title { background: none; color: #2c3e50; }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px; width: 100%; max-width: 500px; margin-top: 20px;
-        }
-
+        .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; max-width: 500px; margin-top: 20px; }
         .team-card {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
+            background: var(--card-bg); border: 1px solid var(--glass-border);
             padding: 20px 10px; border-radius: 20px; font-weight: 800;
             cursor: pointer; transition: 0.3s; text-transform: uppercase;
-            color: var(--text-color);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            color: var(--text-color); box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
         .team-card:hover { transform: scale(1.05); border-color: var(--primary); }
 
-        /* App Layout */
+        /* Main App Header */
         header {
-            padding: 15px 20px;
-            display: flex; justify-content: space-between;
-            align-items: center; 
-            background: var(--bg-color);
-            backdrop-filter: none;
-            position: sticky; top: 0; z-index: 200; /* Increased z-index */
+            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
+            background: var(--bg-color); backdrop-filter: none; position: sticky; top: 0; z-index: 200;
             border-bottom: 1px solid var(--glass-border);
         }
         body.school-theme header { background: rgba(255,255,255,0.95); border-bottom: 1px solid #ddd; }
-
-        /* Level Bar in Header */
-        .user-level-info {
-            display: flex; flex-direction: column; align-items: flex-end; margin-right: 10px;
-        }
+        
+        .user-level-info { display: flex; flex-direction: column; align-items: flex-end; margin-right: 10px; }
         .level-text { font-size: 0.75rem; font-weight: 800; color: var(--primary); }
-        .level-progress-bg {
-            width: 80px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin-top: 2px;
-        }
+        .level-progress-bg { width: 80px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin-top: 2px; }
         body.school-theme .level-progress-bg { background: rgba(0,0,0,0.1); }
         .level-progress-fill { height: 100%; background: linear-gradient(90deg, var(--t1), var(--t2)); width: 0%; transition: width 0.5s ease; }
+        
+        .icon-btn {
+            background: var(--card-bg); border: none; color: var(--text-color);
+            width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.2s; font-size: 1.2rem; border: 1px solid transparent;
+        }
+        body.school-theme .icon-btn { border: 1px solid #ddd; background: #fff; }
+        .icon-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
 
+        /* Main Content */
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; padding-bottom: 100px; }
-
+        
+        /* Rank Cards */
         .rank-card {
-            background: var(--card-bg);
-            border-radius: 24px; padding: 25px;
+            background: var(--card-bg); border-radius: 24px; padding: 25px;
             margin-bottom: 20px; border: 1px solid var(--glass-border);
             position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
         body.school-theme .rank-card { background: #fff; border: 1px solid #ddd; }
-
         .rank-item { margin-bottom: 15px; }
         .rank-label { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 700; font-size: 0.9rem; }
         .bar-outer { background: rgba(128,128,128,0.1); height: 14px; border-radius: 10px; overflow: hidden; }
         .bar-inner { height: 100%; border-radius: 10px; transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .reset-notice { text-align: center; font-size: 0.75rem; color: #888; margin-top: 15px; font-weight: 600; border-top: 1px dashed var(--glass-border); padding-top: 10px; }
 
-        .reset-notice {
-            text-align: center;
-            font-size: 0.75rem; color: #888; margin-top: 15px; font-weight: 600;
-            border-top: 1px dashed var(--glass-border); padding-top: 10px;
+        /* Missions & Updates */
+        .update-card {
+            background: rgba(255,255,255,0.03); border: 1px dashed var(--glass-border);
+            padding: 12px 14px; border-radius: 12px; font-weight: 700; margin-bottom: 18px; color: var(--text-color); opacity: 0.9;
         }
-
+        body.school-theme .update-card { background: #fff; border: 1px dashed #bbb; color: #555; }
+        
         .tiktok-group { display: flex; gap: 12px; margin-bottom: 30px; }
         .tiktok-link {
-            flex: 1;
-            display: flex; align-items: center; justify-content: center;
+            flex: 1; display: flex; align-items: center; justify-content: center;
             gap: 10px; background: var(--card-bg); padding: 15px; border-radius: 16px;
-            text-decoration: none; color: var(--text-color); font-weight: 800;
-            font-size: 0.85rem;
+            text-decoration: none; color: var(--text-color); font-weight: 800; font-size: 0.85rem;
             border: 1px solid var(--glass-border); transition: 0.3s;
         }
         body.galaxy-theme .tiktok-link { background: #000; color: #fff; } 
         .tiktok-link:hover { transform: translateY(-3px); border-color: var(--primary); }
 
-        .mission-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
+        .mission-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .mission-card {
-            background: var(--card-bg);
-            padding: 30px; border-radius: 24px;
+            background: var(--card-bg); padding: 30px; border-radius: 24px;
             border: 1px solid var(--glass-border); cursor: pointer;
             transition: 0.3s; position: relative; overflow: hidden;
-            animation: floating 4s ease-in-out infinite;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            animation: floating 4s ease-in-out infinite; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
         .mission-card:hover { background: rgba(255,255,255,0.08); border-color: var(--primary); }
         body.school-theme .mission-card:hover { background: #fff; }
         .mission-card.locked { opacity: 0.5; cursor: not-allowed; animation: none; }
-
         .mission-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
         .mission-name { font-size: 1.4rem; font-weight: 900; margin-bottom: 8px; color: var(--primary); }
         .mission-desc { font-size: 0.9rem; opacity: 0.7; line-height: 1.4; }
-
-        .badge-soon {
-            position: absolute;
-            top: 12px; right: -30px; background: #febd23;
+        .badge-soon, .badge-new {
+            position: absolute; top: 12px; right: -30px;
             color: #000; padding: 4px 35px; font-size: 0.65rem;
             font-weight: 900; transform: rotate(45deg);
         }
-        .badge-new {
-            position: absolute;
-            top: 12px; right: -30px; background: #ff0055;
-            color: #fff; padding: 4px 35px; font-size: 0.65rem;
-            font-weight: 900; transform: rotate(45deg);
-        }
+        .badge-soon { background: #febd23; }
+        .badge-new { background: #ff0055; color: #fff; }
 
-        /* Overlay Game */
-        #game-overlay {
-            position: fixed;
-            inset: 0; background: var(--bg-color);
-            background-image: var(--bg-image);
-            z-index: 1000; display: none; flex-direction: column; padding: 20px;
-            overflow-y: auto; color: var(--text-color);
-        }
-
-        /* LIVE SCOREBOARD */
-        #game-scoreboard {
-            display: flex;
-            justify-content: center; gap: 10px;
-            margin-bottom: 10px; padding: 10px;
-            background: var(--card-bg); border-radius: 15px;
-            flex-wrap: wrap; border: 1px solid var(--glass-border);
-        }
-        .mini-score-card {
-            display: flex;
-            flex-direction: column; align-items: center;
-            padding: 5px 10px;
-            border-radius: 8px; min-width: 60px;
-        }
+        /* Game Overlay */
+        #game-overlay { inset: 0; background: var(--bg-color); background-image: var(--bg-image); z-index: 1000; display: none; flex-direction: column; padding: 20px; overflow-y: auto; color: var(--text-color); position: fixed;}
+        #game-scoreboard { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; padding: 10px; background: var(--card-bg); border-radius: 15px; flex-wrap: wrap; border: 1px solid var(--glass-border); }
+        .mini-score-card { display: flex; flex-direction: column; align-items: center; padding: 5px 10px; border-radius: 8px; min-width: 60px; }
         .mini-score-name { font-size: 0.7rem; font-weight: 700; margin-bottom: 2px; }
         .mini-score-val { font-size: 0.9rem; font-weight: 900; }
-
-        /* STREAK DISPLAY */
         #streak-display {
             text-align: center; margin-bottom: 10px; font-size: 1.5rem; font-weight: 900;
             color: #ff9900; text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
-            animation: fireBurn 1s infinite;
-            display: none; /* Hidden by default */
+            animation: fireBurn 1s infinite; display: none;
         }
-
         .game-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .game-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            max-width: 600px; margin: 0 auto; width: 100%; padding-bottom: 40px; }
-        
-        .q-tag { background: rgba(0, 243, 255, 0.1);
-            color: var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase;
-        }
+        .game-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 600px; margin: 0 auto; width: 100%; padding-bottom: 40px; }
+        .q-tag { background: rgba(0, 243, 255, 0.1); color: var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; }
         body.school-theme .q-tag { background: rgba(52, 152, 219, 0.1); }
-
         .q-text { font-size: clamp(1.1rem, 4vw, 1.7rem); font-weight: 800; text-align: center; margin-bottom: 25px; line-height: 1.4; }
-
         .option-list { display: grid; gap: 14px; width: 100%; margin-bottom: 10px; }
         .option-item {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
+            background: var(--card-bg); border: 1px solid var(--glass-border);
             padding: 16px 20px; border-radius: 12px; color: var(--text-color);
             text-align: left; font-weight: 700; font-size: 0.95rem; cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         .option-item:hover { transform: scale(1.02); border-color: var(--primary); }
         body.school-theme .option-item { background: #fff; border: 1px solid #ddd; }
         body.school-theme .option-item:hover { background: #f0f9ff; }
-        
         .option-item:disabled { opacity: 0.6; cursor: not-allowed; }
-
         .math-input {
-            background: transparent;
-            border: none; border-bottom: 4px solid var(--primary);
+            background: transparent; border: none; border-bottom: 4px solid var(--primary);
             color: var(--text-color); font-size: 3.5rem; width: 100%; text-align: center;
             font-weight: 900; outline: none; margin-bottom: 20px;
         }
 
-        .btn-confirm {
-            background: var(--primary);
-            color: #000; width: 100%; padding: 15px 20px;
-            border-radius: 12px; font-weight: 900; font-size: 1.0rem; margin-top: 10px; border: none; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        body.school-theme .btn-confirm { color: #fff; } 
-        
-        .btn-confirm.small { width: auto; padding: 10px 14px; font-size: 0.9rem; border-radius: 10px; }
-        .btn-confirm:disabled { background: #555; cursor: not-allowed; }
-
-        footer {
-            margin-top: 30px; padding: 30px; text-align: center;
-            border-top: 1px solid var(--glass-border); color: #888; font-size: 0.8rem;
-        }
-
-        .hidden { display: none !important; }
-
-        .update-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px dashed var(--glass-border);
-            padding: 12px 14px; border-radius: 12px; font-weight: 700; margin-bottom: 18px; color: var(--text-color); opacity: 0.9;
-        }
-        body.school-theme .update-card { background: #fff; border: 1px dashed #bbb; color: #555; }
-
-        /* --- AUTH & ADMIN STYLES --- */
+        /* Modals (Auth, Admin, Settings, Profile) */
         #auth-modal, #admin-screen, #user-profile-modal, #user-search-modal {
-            display: none;
-            position: fixed; inset: 0; background: var(--bg-color);
-            background-image: var(--bg-image);
-            z-index: 2000; flex-direction: column; overflow-y: auto;
+            display: none; position: fixed; inset: 0; background: var(--bg-color);
+            background-image: var(--bg-image); z-index: 2000; flex-direction: column; overflow-y: auto;
             padding: 20px; color: var(--text-color);
         }
-        .auth-container {
-            display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100%;
-        }
-        .auth-card {
+        .auth-container, #admin-login-area { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100%; }
+        .auth-card, .admin-login-card {
             background: var(--card-bg); border: 1px solid var(--glass-border);
             padding: 30px; border-radius: 24px; width: 100%; max-width: 350px; text-align: center;
             backdrop-filter: blur(10px); box-shadow: 0 10px 40px rgba(0,0,0,0.3);
         }
-        .auth-input {
-            width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 10px;
-            border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);
-            color: var(--text-color); font-weight: 700; outline: none;
-        }
-        body.school-theme .auth-input { background: #fff; border-color: #ddd; color: #333; }
-        
+        body.school-theme .admin-login-card { background: rgba(255,255,255,0.9); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); }
         .auth-tab { flex: 1; padding: 10px; cursor: pointer; font-weight: 800; opacity: 0.5; }
         .auth-tab.active { opacity: 1; border-bottom: 2px solid var(--primary); color: var(--primary); }
-
-        /* --- ADMIN PAGE REDESIGN --- */
-        .admin-header {
-            display: flex;
-            justify-content: space-between; align-items: center;
-            margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--glass-border);
-        }
         
-        /* New Admin Login Card */
-        #admin-login-area {
-            display: flex;
-            flex-direction: column; align-items: center; justify-content: center;
-            height: 100%; width: 100%;
-        }
-        .admin-login-card {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
-            padding: 40px 30px;
-            border-radius: 24px;
-            width: 100%; max-width: 400px;
-            text-align: center;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        }
-        body.school-theme .admin-login-card { background: rgba(255,255,255,0.9); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-
-        .lock-icon {
-            font-size: 3rem; margin-bottom: 15px;
-            background: var(--glass-border);
-            width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; margin: 0 auto 20px auto;
-        }
-
-        .admin-input-styled {
-            width: 100%;
-            padding: 16px; border-radius: 12px;
-            border: 2px solid var(--glass-border); 
-            background: rgba(0,0,0,0.1);
-            color: var(--text-color); font-weight: 800; font-size: 1.1rem;
-            outline: none; margin-bottom: 20px;
-            text-align: center;
-            transition: 0.3s;
-        }
+        /* Admin Specific */
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--glass-border); }
+        .lock-icon { font-size: 3rem; background: var(--glass-border); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 20px auto; }
+        .admin-input-styled { text-align: center; border-width: 2px; transition: 0.3s; font-size: 1.1rem; }
         .admin-input-styled:focus { border-color: var(--primary); background: rgba(0,0,0,0.05); }
         body.school-theme .admin-input-styled { background: #f9f9f9; border-color: #ddd; }
-        
-        .admin-section {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
-            padding: 20px; border-radius: 16px; margin-bottom: 20px;
-        }
+        .admin-section { background: var(--card-bg); border: 1px solid var(--glass-border); padding: 20px; border-radius: 16px; margin-bottom: 20px; }
         body.school-theme .admin-section { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-
         .admin-section h3 { margin-top: 0; color: var(--primary); font-size: 1rem; text-transform: uppercase; }
-        .admin-input {
-            width: 100%;
-            padding: 12px; border-radius: 10px;
-            border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05);
-            color: var(--text-color); font-weight: 800; outline: none; margin-bottom: 15px;
-        }
-        body.school-theme .admin-input { background: #f9f9f9; border-color: #ddd; }
 
-        /* --- SETTINGS MODAL (For Guest) --- */
-        #settings-modal {
-            position: fixed;
-            inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
-            z-index: 3000; display: none; justify-content: center; align-items: center;
-        }
-        .settings-content {
-            background: #1a1a1a;
-            padding: 25px; border-radius: 20px;
-            width: 90%; max-width: 350px; border: 1px solid var(--glass-border);
-        }
+        /* Settings Modal */
+        #settings-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 3000; display: none; justify-content: center; align-items: center; }
+        .settings-content { background: #1a1a1a; padding: 25px; border-radius: 20px; width: 90%; max-width: 350px; border: 1px solid var(--glass-border); }
         body.school-theme .settings-content { background: #fff; border: 1px solid #ddd; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-
-        .theme-option {
-            display: flex;
-            align-items: center; justify-content: space-between;
-            padding: 15px; background: rgba(255,255,255,0.05); color: #fff;
-            border-radius: 12px; margin-bottom: 10px; cursor: pointer; border: 1px solid transparent;
-        }
+        .theme-option { display: flex; align-items: center; justify-content: space-between; padding: 15px; background: rgba(255,255,255,0.05); color: #fff; border-radius: 12px; margin-bottom: 10px; cursor: pointer; border: 1px solid transparent; }
         body.school-theme .theme-option { background: #f4f7f6; color: #333; }
-        
         .theme-option.active { border-color: var(--primary); background: rgba(0, 243, 255, 0.1); }
         body.school-theme .theme-option.active { background: rgba(52, 152, 219, 0.1); }
-        
         .theme-option:hover { opacity: 0.8; }
 
-        /* Header Buttons */
-        .icon-btn {
-            background: var(--card-bg);
-            border: none; color: var(--text-color);
-            width: 36px; height: 36px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.2s;
-            font-size: 1.2rem;
-            border: 1px solid transparent;
-        }
-        body.school-theme .icon-btn { border: 1px solid #ddd; background: #fff; }
-        .icon-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+        /* Anime Tags */
+        .anime-tag-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px; max-height: 350px; overflow-y: auto; padding: 5px; }
+        .anime-tag-item { background: var(--card-bg); border: 1px solid var(--glass-border); padding: 8px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; color: var(--text-color); opacity: 0.7; transition: 0.2s; }
+        .anime-tag-item.active { opacity: 1; border-color: var(--primary); background: rgba(0, 243, 255, 0.1); box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
+        body.school-theme .anime-tag-item.active { background: rgba(52, 152, 219, 0.1); box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }
 
-        /* NEW 4.1: Anime Selector Styles */
-        .anime-tag-grid {
-            display: flex;
-            flex-wrap: wrap; gap: 10px; justify-content: center; 
-            margin-bottom: 20px; max-height: 350px; overflow-y: auto; padding: 5px;
-        }
-        .anime-tag-item {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
-            padding: 8px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 700;
-            cursor: pointer; color: var(--text-color); opacity: 0.7;
-            transition: 0.2s;
-        }
-        .anime-tag-item.active {
-            opacity: 1;
-            border-color: var(--primary); background: rgba(0, 243, 255, 0.1);
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
-        }
-        body.school-theme .anime-tag-item.active {
-            background: rgba(52, 152, 219, 0.1); box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
-        }
-
-        /* --- AVATAR & USER MENU STYLES --- */
-        .avatar-container {
-            position: relative;
-        }
-        .avatar-circle {
-            width: 45px; height: 45px;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-            overflow: hidden; cursor: pointer;
-            background: #000;
-            position: relative;
-        }
-        .avatar-circle img {
-            width: 100%; height: 100%; object-fit: cover;
-        }
-        /* MODIFIED: Solid background for better visibility */
+        /* Avatar & User Menu */
+        .avatar-container { position: relative; }
+        .avatar-circle { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--primary); overflow: hidden; cursor: pointer; background: #000; position: relative; }
+        .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
         .avatar-menu {
-            position: absolute;
-            top: 55px; right: 0;
-            width: 280px;
-            background: var(--bg-color); /* Changed from card-bg to solid bg-color */
-            border: 1px solid var(--primary); /* Stronger border */
-            border-radius: 20px;
-            padding: 15px;
-            z-index: 5000;
-            display: none;
-            /* Removed backdrop-filter to avoid blur issues */
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            flex-direction: column;
-            gap: 10px;
+            position: absolute; top: 55px; right: 0; width: 280px;
+            background: var(--bg-color); border: 1px solid var(--primary);
+            border-radius: 20px; padding: 15px; z-index: 5000; display: none;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5); flex-direction: column; gap: 10px;
         }
-        body.school-theme .avatar-menu { 
-            background: #ffffff; /* Solid White */
-            color: #000;
-            border: 1px solid #ddd;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
-        }
-
+        body.school-theme .avatar-menu { background: #ffffff; color: #000; border: 1px solid #ddd; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         .avatar-menu.active { display: flex; animation: slideDownToast 0.3s ease; }
-        
-        .user-menu-header {
-            display: flex; flex-direction: column; align-items: center;
-            border-bottom: 1px solid var(--glass-border);
-            padding-bottom: 15px; margin-bottom: 5px;
-        }
+        .user-menu-header { display: flex; flex-direction: column; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; margin-bottom: 5px; }
         .menu-user-name { font-weight: 900; font-size: 1.2rem; color: var(--primary); margin-top: 10px; }
-        
         .menu-btn {
-            background: rgba(255,255,255,0.05);
-            border: none; color: var(--text-color);
-            padding: 12px; border-radius: 12px;
-            text-align: left; font-weight: 700; cursor: pointer;
-            transition: 0.2s; font-size: 0.9rem;
-            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(255,255,255,0.05); border: none; color: var(--text-color);
+            padding: 12px; border-radius: 12px; text-align: left; font-weight: 700; cursor: pointer;
+            transition: 0.2s; font-size: 0.9rem; display: flex; align-items: center; justify-content: space-between;
         }
         body.school-theme .menu-btn { background: #f4f7f6; color: #333; }
         .menu-btn:hover { background: var(--primary); color: #000; }
         body.school-theme .menu-btn:hover { color: #fff; }
-        
-        .best-stat-box {
-            background: linear-gradient(45deg, rgba(0,243,255,0.1), rgba(188,19,254,0.1));
-            padding: 10px; border-radius: 12px;
-            text-align: center; font-size: 0.8rem; margin-bottom: 10px;
-            border: 1px dashed var(--glass-border);
-        }
+        .best-stat-box { background: linear-gradient(45deg, rgba(0,243,255,0.1), rgba(188,19,254,0.1)); padding: 10px; border-radius: 12px; text-align: center; font-size: 0.8rem; margin-bottom: 10px; border: 1px dashed var(--glass-border); }
         body.school-theme .best-stat-box { background: #f0f9ff; color: #2c3e50; border: 1px dashed #3498db; }
-
-        /* USER RANKING STYLES */
-        .user-rank-list {
-            margin-top: 10px;
-            display: flex; flex-direction: column; gap: 8px;
-            /* Scrollable support */
-            max-height: 300px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-        /* Custom scrollbar */
+        
+        /* User Rankings */
+        .user-rank-list { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; max-height: 300px; overflow-y: auto; padding-right: 5px; }
         .user-rank-list::-webkit-scrollbar { width: 5px; }
         .user-rank-list::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
-        
-        .user-rank-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 10px; background: rgba(255,255,255,0.03);
-            border-radius: 10px; border: 1px solid transparent;
-        }
+        .user-rank-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid transparent; }
         body.school-theme .user-rank-item { background: #f9f9f9; color: #333; }
         .user-rank-item:first-child { border-color: #ffd700; background: rgba(255, 215, 0, 0.1); }
         .user-rank-name { font-weight: 700; font-size: 0.9rem; }
         .user-rank-xp { font-weight: 900; color: var(--primary); }
+        footer { margin-top: 30px; padding: 30px; text-align: center; border-top: 1px solid var(--glass-border); color: #888; font-size: 0.8rem; }
 
         @media (max-width: 600px) {
             .mission-grid { grid-template-columns: 1fr; }
@@ -672,12 +395,10 @@
 <body class="galaxy-theme"> 
     <div id="app-toast">Thông báo</div>
     <div id="game-toast">Kết quả</div>
-    <div id="broadcast-toast"></div> <!-- NEW BROADCAST TOAST -->
+    <div id="broadcast-toast"></div>
 
-    <!-- Hidden file input for avatar upload -->
     <input type="file" id="avatar-upload" accept="image/*" style="display: none;" onchange="galaxy.handleAvatarUpload(this)">
 
-    <!-- Guest Settings Modal -->
     <div id="settings-modal" onclick="if(event.target === this) galaxy.toggleSettings()">
         <div class="settings-content">
             <h3 style="margin-top:0; text-align:center; color: var(--primary);">CÀI ĐẶT GIAO DIỆN</h3>
@@ -707,15 +428,13 @@
         </div>
     </div>
 
-    <div id="selector-screen">
+    <div id="selector-screen" class="full-screen-overlay">
         <div class="hero-title animate-in">7A4 GALAXY<br>COMMAND</div>
         <p class="animate-in" style="color: #888; letter-spacing: 2px; font-size: 0.75rem; font-weight: 600;">HỆ THỐNG ÔN TẬP HK2</p>
         
         <div id="start-options" class="animate-in" style="margin-top:40px; width:100%; max-width:350px;">
             <button onclick="authSystem.showLogin()" class="btn-confirm" style="margin-bottom:15px;">ĐĂNG NHẬP TÀI KHOẢN</button>
-            
             <div style="text-align:center; margin-bottom:15px; opacity:0.6; font-size:0.8rem;">HOẶC</div>
-            
             <div style="border:1px dashed var(--glass-border); padding:15px; border-radius:15px;">
                 <div style="font-size:0.8rem; font-weight:700; margin-bottom:10px; color:var(--primary);">CHƠI NGAY (CHẾ ĐỘ KHÁCH)</div>
                 <div class="team-grid" style="margin-top:0;">
@@ -765,80 +484,50 @@
             <div style="font-weight: 900; letter-spacing: 1px; font-size: 1.1rem; display:flex; align-items:center; gap:10px;">
                 7A4 COMMAND
             </div>
-
-            <!-- RIGHT HEADER AREA -->
             <div id="user-info" style="display: flex; align-items: center; gap: 10px;">
-                
-                <!-- LEVEL (Shared) -->
                 <div class="user-level-info" id="level-ui" style="display:none;">
                     <span class="level-text" id="level-text">LV.1</span>
-                    <div class="level-progress-bg">
-                        <div class="level-progress-fill" id="level-bar"></div>
-                    </div>
+                    <div class="level-progress-bg"><div class="level-progress-fill" id="level-bar"></div></div>
                 </div>
-
-                <!-- GUEST CONTROLS (Only visible if Guest) -->
                 <div id="guest-controls" style="display: flex; align-items: center; gap: 8px;">
                     <span id="team-tag" style="font-weight: 900; background: var(--primary); color: #fff; padding: 4px 12px; border-radius: 8px; font-size: 0.8rem;"></span>
                     <button onclick="galaxy.toggleSettings()" class="icon-btn">⚙️</button>
                     <button onclick="galaxy.logout()" class="icon-btn" style="color:#ff5a5a;">🔄</button>
                 </div>
-
-                <!-- LOGGED IN CONTROLS (Avatar) -->
                 <div id="logged-in-controls" style="display: none; align-items: center;">
                     <div class="avatar-container">
-                        <!-- Fix click event: stopPropagation to prevent immediate body click closing it -->
                         <div class="avatar-circle" onclick="event.stopPropagation(); galaxy.toggleAvatarMenu()">
                             <img id="user-avatar-img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>" alt="Avatar">
                         </div>
-                        
-                        <!-- DROP DOWN MENU -->
                         <div class="avatar-menu" id="avatar-menu" onclick="event.stopPropagation();">
                             <div class="user-menu-header">
                                 <div class="avatar-circle" style="width:70px; height:70px; margin-bottom:10px; pointer-events:none;">
                                     <img id="menu-avatar-img" src="" alt="Avatar">
                                 </div>
                                 <div class="menu-user-name" id="menu-user-name">User</div>
-                                <!-- RANK DISPLAY IN MENU -->
                                 <div id="menu-user-rank" style="font-size: 0.9rem; font-weight: 700; color: #febd23; margin-bottom: 5px;">Hạng: --</div>
                                 <button onclick="document.getElementById('avatar-upload').click()" style="margin-top:10px; font-size:0.7rem; background:transparent; border:1px solid var(--primary); color:var(--primary); padding:4px 10px; border-radius:20px; cursor:pointer;">Đổi Avatar</button>
                             </div>
-
-                            <div class="best-stat-box" id="best-stat-box">
-                                Đang tính toán thống kê...
-                            </div>
-
+                            <div class="best-stat-box" id="best-stat-box">Đang tính toán thống kê...</div>
                             <button class="menu-btn" onclick="galaxy.cycleThemeInMenu()">
-                                <span>🎨 Đổi Giao diện</span>
-                                <span style="font-size:0.8rem; opacity:0.7;" id="current-theme-name">Galaxy</span>
+                                <span>🎨 Đổi Giao diện</span><span style="font-size:0.8rem; opacity:0.7;" id="current-theme-name">Galaxy</span>
                             </button>
-
-                            <button class="menu-btn" onclick="galaxy.openAdminPage()">
-                                <span>👑 Admin Login</span>
-                            </button>
-
-                            <button class="menu-btn" onclick="galaxy.logout()" style="color:#ff5a5a;">
-                                <span>🚪 Đăng xuất</span>
-                            </button>
+                            <button class="menu-btn" onclick="galaxy.openAdminPage()"><span>👑 Admin Login</span></button>
+                            <button class="menu-btn" onclick="galaxy.logout()" style="color:#ff5a5a;"><span>🚪 Đăng xuất</span></button>
                         </div>
                     </div>
                 </div>
-
             </div>
         </header>
 
         <div class="container animate-in">
-            <!-- Team Ranking -->
             <div class="rank-card">
                 <h2 style="margin-top: 0; font-size: 1.1rem; text-align: center; color: var(--primary); text-transform: uppercase; letter-spacing: 2px;">Điểm Số Các Tổ</h2>
                 <div id="ranking-list"></div>
                 <div id="prev-winner" style="margin-top:12px; font-weight:800; text-align:center; opacity: 0.8;"></div>
-                <div class="reset-notice">
-                    ⏰ Còn <strong id="weekly-reset-countdown">--:--:--</strong> hệ thống sẽ tự động xếp hạng và reset điểm.
-                </div>
+                <div class="reset-notice">⏰ Còn <strong id="weekly-reset-countdown">--:--:--</strong> hệ thống sẽ tự động xếp hạng và reset điểm.</div>
             </div>
 
-            <!-- NEW: USER RANKING CARD -->
             <div class="rank-card" id="user-ranking-card">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <h2 style="margin: 0; font-size: 1rem; color: #febd23; text-transform: uppercase;">Cao Thủ 7A4</h2>
@@ -850,9 +539,7 @@
                 </div>
             </div>
 
-            <div class="update-card">
-                 Bản cập nhật 4.4 — Bảng xếp hạng thành viên & Thông báo tức thì.
-            </div>
+            <div class="update-card">Bản cập nhật 4.4 — Bảng xếp hạng thành viên & Thông báo tức thì.</div>
 
             <div class="tiktok-group">
                 <a href="https://www.tiktok.com/@7a4.tvl.2025.2026" target="_blank" class="tiktok-link">TikTok A4 1</a>
@@ -865,35 +552,27 @@
                     <div class="mission-name">Tiếng Anh HK2</div>
                     <div class="mission-desc">100+ câu hỏi Vocabulary, Adverbs, How structure, Ability...</div>
                 </div>
-
                 <div class="mission-card" onclick="mathGame.start()">
                     <span class="mission-icon">📐</span>
                     <div class="mission-name">Toán Học</div>
                     <div class="mission-desc">Cộng trừ, nhân chia, tìm x, số mũ. (Có phím Enter)</div>
                 </div>
-
                 <div class="mission-card" onclick="animeGame.start()">
-                    <span class="badge-new">4.1</span>
-                    <span class="mission-icon">🇯🇵</span>
+                    <span class="badge-new">4.1</span><span class="mission-icon">🇯🇵</span>
                     <div class="mission-name">Anime Zone</div>
                     <div class="mission-desc">Thử thách kiến thức về các bộ Anime. Với hơn 500 câu hỏi.</div>
                 </div>
-
                 <div class="mission-card locked">
-                    <span class="badge-soon">SẮP CÓ</span>
-                    <span class="mission-icon">🧪</span>
+                    <span class="badge-soon">SẮP CÓ</span><span class="mission-icon">🧪</span>
                     <div class="mission-name">KHTN</div>
                     <div class="mission-desc">Hệ thống câu hỏi ôn tập Khoa học tự nhiên.</div>
                 </div>
             </div>
 
-            <footer>
-                *Nếu web có lỗi gì hay các câu hỏi sai xin liên hệ admin tại 2 trang tik tok của lớp.
-            </footer>
+            <footer>*Nếu web có lỗi gì hay các câu hỏi sai xin liên hệ admin tại 2 trang tik tok của lớp.</footer>
         </div>
     </div>
 
-    <!-- NEW: USER SEARCH MODAL -->
     <div id="user-search-modal" onclick="if(event.target === this) document.getElementById('user-search-modal').style.display='none'">
         <div class="auth-card" style="margin:auto; height:80vh; display:flex; flex-direction:column;">
             <h3 style="margin-top:0; color:var(--primary);">TÌM KIẾM THÀNH VIÊN</h3>
@@ -903,7 +582,6 @@
         </div>
     </div>
 
-    <!-- NEW: USER PROFILE MODAL -->
     <div id="user-profile-modal" onclick="if(event.target === this) document.getElementById('user-profile-modal').style.display='none'">
         <div class="auth-card" style="margin:auto;">
             <div class="avatar-circle" style="width:100px; height:100px; margin:0 auto 20px auto;">
@@ -911,7 +589,6 @@
             </div>
             <h2 id="profile-modal-name" style="margin:0; color:var(--primary); text-transform: uppercase;">USER</h2>
             <div id="profile-modal-team" style="font-weight:bold; margin-bottom:15px; opacity:0.8;">Tổ ?</div>
-            
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px;">
                 <div class="update-card" style="margin:0; text-align:center;">
                     <div style="font-size:0.8rem;">LEVEL</div>
@@ -922,7 +599,6 @@
                     <div id="profile-modal-best" style="font-size:1rem; font-weight:900; margin-top:5px;">---</div>
                 </div>
             </div>
-            
             <button onclick="document.getElementById('user-profile-modal').style.display='none'" class="btn-confirm">ĐÓNG</button>
         </div>
     </div>
@@ -943,7 +619,6 @@
         </div>
 
         <div id="admin-controls-area" class="hidden animate-in">
-            <!-- NEW: BROADCAST SECTION -->
             <div class="admin-section" style="border-color: #00ff9d;">
                 <h3 style="color:#00ff9d;">📢 THÔNG BÁO TỨC THÌ (BROADCAST)</h3>
                 <input id="admin-broadcast-input" type="text" class="admin-input" placeholder="Nhập thông báo gửi tới toàn server...">
@@ -964,26 +639,10 @@
             <div class="admin-section">
                 <h3>Điều Chỉnh Nhanh (+/- 1)</h3>
                 <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; text-align:center;">
-                    <div>
-                        <div style="margin-bottom:5px; color:var(--t1)">Tổ 1</div>
-                        <button onclick="adminAdjust('to1',1)" class="btn-confirm small" style="margin-bottom:5px;">+1</button>
-                        <button onclick="adminAdjust('to1',-1)" class="btn-confirm small">-1</button>
-                    </div>
-                    <div>
-                        <div style="margin-bottom:5px; color:var(--t2)">Tổ 2</div>
-                        <button onclick="adminAdjust('to2',1)" class="btn-confirm small" style="margin-bottom:5px;">+1</button>
-                        <button onclick="adminAdjust('to2',-1)" class="btn-confirm small">-1</button>
-                    </div>
-                    <div>
-                        <div style="margin-bottom:5px; color:var(--t3)">Tổ 3</div>
-                        <button onclick="adminAdjust('to3',1)" class="btn-confirm small" style="margin-bottom:5px;">+1</button>
-                        <button onclick="adminAdjust('to3',-1)" class="btn-confirm small">-1</button>
-                    </div>
-                    <div>
-                        <div style="margin-bottom:5px; color:var(--t4)">Tổ 4</div>
-                        <button onclick="adminAdjust('to4',1)" class="btn-confirm small" style="margin-bottom:5px;">+1</button>
-                        <button onclick="adminAdjust('to4',-1)" class="btn-confirm small">-1</button>
-                    </div>
+                    <div><div style="margin-bottom:5px; color:var(--t1)">Tổ 1</div><button onclick="adminAdjust('to1',1)" class="btn-confirm small" style="margin-bottom:5px;">+1</button><button onclick="adminAdjust('to1',-1)" class="btn-confirm small">-1</button></div>
+                    <div><div style="margin-bottom:5px; color:var(--t2)">Tổ 2</div><button onclick="adminAdjust('to2',1)" class="btn-confirm small" style="margin-bottom:5px;">+1</button><button onclick="adminAdjust('to2',-1)" class="btn-confirm small">-1</button></div>
+                    <div><div style="margin-bottom:5px; color:var(--t3)">Tổ 3</div><button onclick="adminAdjust('to3',1)" class="btn-confirm small" style="margin-bottom:5px;">+1</button><button onclick="adminAdjust('to3',-1)" class="btn-confirm small">-1</button></div>
+                    <div><div style="margin-bottom:5px; color:var(--t4)">Tổ 4</div><button onclick="adminAdjust('to4',1)" class="btn-confirm small" style="margin-bottom:5px;">+1</button><button onclick="adminAdjust('to4',-1)" class="btn-confirm small">-1</button></div>
                 </div>
             </div>
 
@@ -1001,7 +660,6 @@
 
     <div id="game-overlay">
         <div id="game-scoreboard"></div>
-        
         <div id="streak-display"></div>
 
         <div class="game-nav">
@@ -1012,9 +670,7 @@
         <div id="anime-selection-screen" class="hidden" style="width:100%; max-width:600px; text-align:center; margin: 0 auto;">
             <h3 style="color:var(--primary); margin-top:0;">CHỌN ÍT NHẤT 15 BỘ ANIME</h3>
             <div style="font-size:0.8rem; margin-bottom:15px; opacity:0.8;">Các câu hỏi sẽ chỉ xuất hiện trong các bộ bạn đã chọn.</div>
-            
             <div id="anime-checkbox-grid" class="anime-tag-grid"></div>
-            
             <div id="anime-select-count" style="margin-bottom:15px; font-weight:bold; color:var(--primary);">Đã chọn: 0</div>
             <button id="btn-start-anime" class="btn-confirm" disabled onclick="animeGame.confirmSelection()">BẮT ĐẦU</button>
         </div>
@@ -1027,1052 +683,584 @@
     </div>
 
 <script type="module">
-  /***** Firebase setup *****/
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-  import {
-    getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, collection, getDocs,
-    writeBatch, increment, query, orderBy, limit
-  } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, collection, getDocs, writeBatch, increment } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBtdoU4bzBVsXXvYswbUf0smAuYIq9rxlM",
-    authDomain: "a4-galaxy-command.firebaseapp.com",
-    projectId: "a4-galaxy-command",
-    storageBucket: "a4-galaxy-command.firebasestorage.app",
-    messagingSenderId: "147400399283",
-    appId: "1:147400399283:web:6d470d3e02a94e01f053c6",
-    measurementId: "G-678SMH2ND5"
-  };
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+    const firebaseConfig = {
+        apiKey: "AIzaSyBtdoU4bzBVsXXvYswbUf0smAuYIq9rxlM",
+        authDomain: "a4-galaxy-command.firebaseapp.com",
+        projectId: "a4-galaxy-command",
+        storageBucket: "a4-galaxy-command.firebasestorage.app",
+        messagingSenderId: "147400399283",
+        appId: "1:147400399283:web:6d470d3e02a94e01f053c6",
+        measurementId: "G-678SMH2ND5"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-  const ADMIN_PASSWORD = "emyeudang"; 
+    const ADMIN_PASSWORD = "emyeudang";
+    const DOC_TO_TEAM = {
+        to1: { id: "Tổ 1", color: "var(--t1)" },
+        to2: { id: "Tổ 2", color: "var(--t2)" },
+        to3: { id: "Tổ 3", color: "var(--t3)" },
+        to4: { id: "Tổ 4", color: "var(--t4)" }
+    };
+    const TEAMS = Object.values(DOC_TO_TEAM);
+    
+    let realtimeTeams = {};
+    let cachedUsers = [];
+    let adminLogged = false;
+    let adminLastAction = null;
 
-  const DOC_TO_TEAM = {
-    to1: { id: "Tổ 1", color: "var(--t1)" },
-    to2: { id: "Tổ 2", color: "var(--t2)" },
-    to3: { id: "Tổ 3", color: "var(--t3)" },
-    to4: { id: "Tổ 4", color: "var(--t4)" }
-  };
-  const TEAMS = [
-    { id: "Tổ 1", color: "var(--t1)" },
-    { id: "Tổ 2", color: "var(--t2)" },
-    { id: "Tổ 3", color: "var(--t3)" },
-    { id: "Tổ 4", color: "var(--t4)" }
-  ];
-  let realtimeTeams = {};
-  let cachedUsers = []; // Cache for search
-  let adminLogged = false;
-  let adminLastAction = null;
+    const currentUser = { id: null, team: null, level: 1, xp: 0, isGuest: true, stats: { math: 0, english: 0, anime: 0 } };
 
-  /* --- AUTH & LEVEL SYSTEM --- */
-  const currentUser = {
-    id: null,      
-    team: null,    
-    level: 1,
-    xp: 0,
-    isGuest: true,
-    stats: { math: 0, english: 0, anime: 0 }
-  };
+    // --- SYSTEMS ---
+    const streakSystem = {
+        current: 0,
+        updateUI() {
+            const el = document.getElementById('streak-display');
+            if (this.current >= 3) {
+                el.innerHTML = `🔥 ${this.current}`;
+                el.style.display = 'block';
+            } else {
+                el.style.display = 'none';
+            }
+        },
+        reset() { this.current = 0; this.updateUI(); },
+        increment() { this.current++; this.updateUI(); }
+    };
 
-  const streakSystem = {
-    current: 0,
-    updateUI() {
-        const el = document.getElementById('streak-display');
-        if (this.current >= 3) {
-            el.innerHTML = `🔥 ${this.current}`;
-            el.style.display = 'block';
-        } else {
-            el.style.display = 'none';
-        }
-    },
-    reset() {
-        this.current = 0;
-        this.updateUI();
-    },
-    increment() {
-        this.current++;
-        this.updateUI();
-    }
-  };
-
-  const levelSystem = {
-    getXpForNextLevel(lvl) {
-        return lvl * 100;
-    },
-    async addXp(amount) {
-        await galaxy.addPointsToTeam(amount);
-        if (currentUser.isGuest) return;
-
-        currentUser.xp += amount;
-        let needed = this.getXpForNextLevel(currentUser.level);
-        if (currentUser.xp >= needed) {
-            currentUser.xp -= needed;
-            currentUser.level++;
-            galaxy.showGameToast(`LEVEL UP! -> ${currentUser.level}`, "success");
-        }
-        this.renderLevelUI();
-        this.saveUserProgress();
-    },
-    renderLevelUI() {
-        if (currentUser.isGuest) {
-            document.getElementById('level-ui').style.display = 'none';
-            return;
-        }
-        document.getElementById('level-ui').style.display = 'flex';
-        document.getElementById('level-text').innerText = `LV.${currentUser.level}`;
-        const needed = this.getXpForNextLevel(currentUser.level);
-        const percent = (currentUser.xp / needed) * 100;
-        document.getElementById('level-bar').style.width = `${percent}%`;
-    },
-    async saveUserProgress() {
-        if (!currentUser.id) return;
-        const ref = doc(db, "users", currentUser.id);
-        try {
-            await updateDoc(ref, {
-                xp: currentUser.xp,
-                level: currentUser.level,
-                stats: currentUser.stats, // Save stats too
-                lastActive: Date.now()
-            });
-        } catch (e) { console.error("Save User Err", e); }
-    }
-  };
-
-  const authSystem = {
-    showLogin() {
-        document.getElementById('selector-screen').style.display = 'none';
-        document.getElementById('auth-modal').style.display = 'flex';
-        this.switchTab('login');
-    },
-    close() {
-        document.getElementById('auth-modal').style.display = 'none';
-        document.getElementById('selector-screen').style.display = 'flex';
-    },
-    switchTab(tab) {
-        document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-        document.getElementById(`tab-${tab}`).classList.add('active');
-        if (tab === 'login') {
-            document.getElementById('form-login').classList.remove('hidden');
-            document.getElementById('form-register').classList.add('hidden');
-        } else {
-            document.getElementById('form-login').classList.add('hidden');
-            document.getElementById('form-register').classList.remove('hidden');
-        }
-    },
-    async doLogin() {
-        const u = document.getElementById('login-user').value.trim().toLowerCase();
-        const p = document.getElementById('login-pass').value.trim();
-        if(!u || !p) return alert("Vui lòng nhập đủ thông tin");
-
-        try {
-            const ref = doc(db, "users", u);
-            const snap = await getDoc(ref);
-            if (!snap.exists()) {
-                alert("Tài khoản không tồn tại!");
+    const levelSystem = {
+        getXpForNextLevel: (lvl) => lvl * 100,
+        async addXp(amount) {
+            await galaxy.addPointsToTeam(amount);
+            if (currentUser.isGuest) return;
+            currentUser.xp += amount;
+            let needed = this.getXpForNextLevel(currentUser.level);
+            if (currentUser.xp >= needed) {
+                currentUser.xp -= needed;
+                currentUser.level++;
+                galaxy.showGameToast(`LEVEL UP! -> ${currentUser.level}`, "success");
+            }
+            this.renderLevelUI();
+            this.saveUserProgress();
+        },
+        renderLevelUI() {
+            if (currentUser.isGuest) {
+                document.getElementById('level-ui').style.display = 'none';
                 return;
             }
-            const data = snap.data();
-            if (data.password !== p) {
-                alert("Mật khẩu sai!");
-                return;
-            }
-            this.setSession(u, data);
-        } catch(e) {
-            console.error(e);
-            alert("Lỗi đăng nhập");
+            document.getElementById('level-ui').style.display = 'flex';
+            document.getElementById('level-text').innerText = `LV.${currentUser.level}`;
+            const needed = this.getXpForNextLevel(currentUser.level);
+            const percent = (currentUser.xp / needed) * 100;
+            document.getElementById('level-bar').style.width = `${percent}%`;
+        },
+        async saveUserProgress() {
+            if (!currentUser.id) return;
+            try {
+                await updateDoc(doc(db, "users", currentUser.id), {
+                    xp: currentUser.xp, level: currentUser.level, stats: currentUser.stats, lastActive: Date.now()
+                });
+            } catch (e) { console.error("Save User Err", e); }
         }
-    },
-    async doRegister() {
-        const u = document.getElementById('reg-user').value.trim().toLowerCase();
-        const p = document.getElementById('reg-pass').value.trim();
-        const t = document.getElementById('reg-team').value;
+    };
 
-        if(!u || !p) return alert("Vui lòng nhập đủ thông tin");
-        if(u.length < 3) return alert("Tên đăng nhập quá ngắn");
-
-        try {
-            const ref = doc(db, "users", u);
-            const snap = await getDoc(ref);
-            if (snap.exists()) {
-                alert("Tên đăng nhập đã tồn tại!");
-                return;
-            }
-            const newUser = {
-                username: u,
-                password: p, 
-                team: t,
-                level: 1,
-                xp: 0,
-                stats: { math: 0, english: 0, anime: 0 },
-                createdAt: Date.now()
-            };
-            await setDoc(ref, newUser);
-            alert("Đăng ký thành công! Hãy đăng nhập ngay.");
+    const authSystem = {
+        showLogin() {
+            document.getElementById('selector-screen').style.display = 'none';
+            document.getElementById('auth-modal').style.display = 'flex';
             this.switchTab('login');
-        } catch(e) {
-            console.error(e);
-            alert("Lỗi tạo tài khoản");
-        }
-    },
-    setSession(username, data) {
-        currentUser.id = username;
-        currentUser.team = data.team;
-        currentUser.level = data.level || 1;
-        currentUser.xp = data.xp || 0;
-        currentUser.stats = data.stats || { math: 0, english: 0, anime: 0 };
-        currentUser.isGuest = false;
-
-        localStorage.setItem('7a4_user_id', username);
-        galaxy.loadAvatar(username); // Load local avatar
-        
-        document.getElementById('auth-modal').style.display = 'none';
-        galaxy.showMain();
-    },
-    async checkAutoLogin() {
-        const uid = localStorage.getItem('7a4_user_id');
-        if (!uid) return false;
-        try {
-            const ref = doc(db, "users", uid);
-            const snap = await getDoc(ref);
-            if (snap.exists()) {
-                this.setSession(uid, snap.data());
-                return true;
-            }
-        } catch(e) { console.error(e); }
-        return false;
-    }
-  }; 
-
-  const galaxy = {
-    currentTheme: 'galaxy',
-
-    init: async function() {
-      const savedTheme = localStorage.getItem('7a4_theme') || 'galaxy';
-      this.setTheme(savedTheme);
-
-      document.addEventListener('click', (e) => {
-        // Only spawn if not clicking interactive elements
-        if (e.target.closest('button') || e.target.closest('.mission-card') || e.target.closest('.option-item') || e.target.closest('input')) return;
-
-        if(this.currentTheme === 'tet') {
-            this.spawnFirework(e.clientX, e.clientY);
-        } else if (this.currentTheme === 'school') {
-            this.spawnSchoolRipple(e.clientX, e.clientY);
-        } else {
-            this.spawnPlanetClick(e.clientX, e.clientY);
-        }
-        
-        // Click outside to close avatar menu (handled via stopPropagation in HTML but here as backup)
-        const menu = document.getElementById('avatar-menu');
-        const avt = document.querySelector('.avatar-circle');
-        if (menu.classList.contains('active') && !menu.contains(e.target) && !avt.contains(e.target)) {
-            menu.classList.remove('active');
-        }
-      });
-      this.setupRealtimeListeners();
-      await this.checkWeeklyResetFirestore();
-      
-      const autoLogged = await authSystem.checkAutoLogin();
-      if (!autoLogged) {
-          this.showSelector();
-      }
-    },
-    
-    setTheme(themeName) {
-        this.currentTheme = themeName;
-        localStorage.setItem('7a4_theme', themeName);
-        
-        document.body.classList.remove('galaxy-theme', 'tet-theme', 'school-theme');
-        document.querySelectorAll('.theme-option').forEach(el => el.classList.remove('active'));
-        if (themeName === 'tet') {
-            document.body.classList.add('tet-theme');
-            document.getElementById('theme-tet').classList.add('active');
-        } else if (themeName === 'school') {
-            document.body.classList.add('school-theme');
-            document.getElementById('theme-school').classList.add('active');
-        } else {
-            document.body.classList.add('galaxy-theme');
-            document.getElementById('theme-galaxy').classList.add('active');
-        }
-        // Update menu text
-        const themeText = {galaxy: "Galaxy", tet: "Tết", school: "Trường học"};
-        const el = document.getElementById('current-theme-name');
-        if(el) el.innerText = themeText[themeName];
-    },
-    
-    cycleThemeInMenu() {
-        const order = ['galaxy', 'tet', 'school'];
-        let idx = order.indexOf(this.currentTheme);
-        idx = (idx + 1) % order.length;
-        this.setTheme(order[idx]);
-    },
-
-    toggleSettings() {
-        const el = document.getElementById('settings-modal');
-        if(el.style.display === 'flex') el.style.display = 'none';
-        else el.style.display = 'flex';
-    },
-
-    // --- EFFECT FUNCTIONS ---
-    spawnFirework(x, y) {
-        const colors = ['#ff0000', '#ffd700', '#ff0055', '#ffffff'];
-        for(let i=0; i<10; i++) {
-            const p = document.createElement('div');
-            p.className = 'firework-particle';
-            p.style.left = x + 'px';
-            p.style.top = y + 'px';
-            p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
-            const angle = Math.random() * Math.PI * 2;
-            const velocity = 20 + Math.random() * 50;
-            const tx = Math.cos(angle) * velocity;
-            const ty = Math.sin(angle) * velocity;
-            p.style.setProperty('--tx', `${tx}px`);
-            p.style.setProperty('--ty', `${ty}px`);
-            document.body.appendChild(p);
-            setTimeout(() => p.remove(), 1000);
-        }
-    },
-    spawnPlanetClick(x, y) {
-        const p = document.createElement('div');
-        p.className = 'galaxy-click-particle';
-        p.style.left = x + 'px';
-        p.style.top = y + 'px';
-        const r = document.createElement('div');
-        r.className = 'galaxy-click-ring';
-        r.style.left = x + 'px';
-        r.style.top = y + 'px';
-        document.body.appendChild(p);
-        document.body.appendChild(r);
-        setTimeout(() => { p.remove(); r.remove(); }, 600);
-    },
-    spawnSchoolRipple(x, y) {
-        const r = document.createElement('div');
-        r.className = 'school-click-ripple';
-        r.style.left = x + 'px';
-        r.style.top = y + 'px';
-        document.body.appendChild(r);
-        setTimeout(() => r.remove(), 500);
-    },
-
-    selectTeamGuest(name) {
-        currentUser.isGuest = true;
-        currentUser.team = name;
-        currentUser.id = null;
-        this.showMain();
-    },
-
-    showSelector() {
-      document.getElementById('selector-screen').style.display = 'flex';
-      document.getElementById('main-app').classList.add('hidden');
-      document.getElementById('main-app').style.display = 'none';
-    },
-
-    showMain() {
-      document.getElementById('selector-screen').style.display = 'none';
-      document.getElementById('main-app').classList.remove('hidden');
-      document.getElementById('main-app').style.display = 'block';
-      
-      if (currentUser.isGuest) {
-          // GUEST MODE UI
-          document.getElementById('logged-in-controls').style.display = 'none';
-          document.getElementById('guest-controls').style.display = 'flex';
-          
-          document.getElementById('team-tag').innerText = currentUser.team;
-          document.getElementById('team-tag').style.background = TEAMS.find(t => t.id === currentUser.team)?.color || 'var(--primary)';
-          
-          // Guests don't see level bar in header
-          document.getElementById('level-ui').style.display = 'none';
-      } else {
-          // LOGGED IN MODE UI
-          document.getElementById('guest-controls').style.display = 'none';
-          document.getElementById('logged-in-controls').style.display = 'flex';
-          
-          // Setup menu info
-          document.getElementById('menu-user-name').innerText = currentUser.id;
-          
-          // Calc best stats
-          this.calculateBestStat();
-          
-          levelSystem.renderLevelUI();
-      }
-      
-      this.renderRank();
-    },
-
-    // AVATAR LOGIC
-    toggleAvatarMenu() {
-        document.getElementById('avatar-menu').classList.toggle('active');
-        if (document.getElementById('avatar-menu').classList.contains('active')) {
-             this.updateMenuRank();
-        }
-    },
-    
-    async handleAvatarUpload(input) {
-      const file = input.files[0];
-      if (!file || !currentUser.id) return;
-
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        const avatarBase64 = e.target.result;
-
-        // 1️⃣ Update UI ngay lập tức
-        document.getElementById('user-avatar-img').src = avatarBase64;
-        document.getElementById('menu-avatar-img').src = avatarBase64;
-
-        // 2️⃣ LƯU LÊN FIRESTORE (QUAN TRỌNG NHẤT)
-        await updateDoc(doc(db, "users", currentUser.id), {
-          avatar: avatarBase64,
-          avatarUpdatedAt: Date.now()
-        });
-
-        galaxy.showGameToast("Đã cập nhật avatar!", "success");
-      };
-      reader.readAsDataURL(file);
-    },
-
-    async loadAvatar(userId, imgId = 'user-avatar-img') {
-        try {
-            const snap = await getDoc(doc(db, "users", userId));
-            // Default robust fallback SVG
-            const fallbackAvatar = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>";
-            
-            let finalUrl = fallbackAvatar;
-            if (snap.exists()) {
-                finalUrl = snap.data().avatar || fallbackAvatar;
-            }
-
-            const el = document.getElementById(imgId);
-            if (el) el.src = finalUrl;
-
-            if (userId === currentUser.id && imgId === 'user-avatar-img') {
-                const menuImg = document.getElementById('menu-avatar-img');
-                if (menuImg) menuImg.src = finalUrl;
-            }
-        } catch (e) {
-            console.error("loadAvatar error:", e);
-        }
-    },
-    
-    updateGameStats(type) {
-        if (currentUser.isGuest) return;
-        if (!currentUser.stats) currentUser.stats = { math: 0, english: 0, anime: 0 };
-        if (!currentUser.stats[type]) currentUser.stats[type] = 0;
-        
-        currentUser.stats[type]++;
-        
-        // Save silently
-        const ref = doc(db, "users", currentUser.id);
-        updateDoc(ref, { stats: currentUser.stats }).catch(e => console.log(e));
-        
-        // Update UI if menu is open
-        this.calculateBestStat();
-    },
-    
-    calculateBestStat() {
-        if (!currentUser.stats) return;
-        const s = currentUser.stats;
-        let max = 0;
-        let best = "Chưa chơi nhiều";
-        
-        if (s.math > max) { max = s.math; best = "📐 Toán Học"; }
-        if (s.english > max) { max = s.english; best = "🇬🇧 Tiếng Anh"; }
-        if (s.anime > max) { max = s.anime; best = "🇯🇵 Anime"; }
-        
-        document.getElementById('best-stat-box').innerHTML = `
-            <div style="font-size:0.7rem; opacity:0.8;">MÔN TỦ CỦA BẠN</div>
-            <div style="font-size:1.1rem; font-weight:900; color:var(--primary); margin-top:2px;">${best}</div>
-            <div style="font-size:0.65rem; margin-top:2px;">(Dựa trên tần suất chơi)</div>
-        `;
-    },
-    
-    updateMenuRank() {
-        if (!currentUser.id || currentUser.isGuest) return;
-        const index = cachedUsers.findIndex(u => u.username === currentUser.id);
-        const el = document.getElementById('menu-user-rank');
-        if(index !== -1) {
-            el.innerText = `Hạng: #${index + 1}`;
-        } else {
-            el.innerText = `Hạng: --`;
-        }
-    },
-
-    logout() {
-      localStorage.removeItem('7a4_user_id'); 
-      currentUser.id = null;
-      currentUser.team = null;
-      currentUser.isGuest = true;
-      document.getElementById('user-avatar-img').src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>"; // reset avatar
-      this.showSelector();
-    },
-
-    teamToDocId(teamLabel) {
-      if (!teamLabel) return null;
-      const num = teamLabel.replace(/\D/g,'');
-      return 'to' + num;
-    },
-
-    async addPointsToTeam(p) {
-      if (!currentUser.team) return;
-      const docId = this.teamToDocId(currentUser.team);
-      if (!docId) return;
-      const ref = doc(db, "teams", docId);
-      try {
-        const s = await getDoc(ref);
-        if (!s.exists()) {
-          await setDoc(ref, { name: DOC_TO_TEAM[docId].id, score: 0, updatedAt: Date.now() });
-        }
-        await updateDoc(ref, { score: increment(p), updatedAt: Date.now() });
-      } catch (e) { console.error("addPointsToTeam error:", e); }
-    },
-
-    async ensureTeamsDocs() {
-      for (const docId of Object.keys(DOC_TO_TEAM)) {
-        const ref = doc(db, "teams", docId);
-        const s = await getDoc(ref);
-        if (!s.exists()) {
-          await setDoc(ref, { name: DOC_TO_TEAM[docId].id, score: 0, updatedAt: Date.now() });
-        }
-      }
-    },
-
-    async renderUserLeaderboard() {
-      const listEl = document.getElementById('user-rank-list');
-      // Render from cachedUsers which is now updated real-time
-      
-      const fallbackAvatar = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>";
-
-      if (cachedUsers.length === 0) {
-        listEl.innerHTML = '<div style="text-align:center;opacity:0.6;">Đang tải hoặc chưa có dữ liệu...</div>';
-        return;
-      }
-
-      // Show ALL users (scrollable)
-      listEl.innerHTML = cachedUsers.map((u, index) => {
-          let rankIcon = `${index + 1}`;
-          if (index === 0) rankIcon = '🥇';
-          else if (index === 1) rankIcon = '🥈';
-          else if (index === 2) rankIcon = '🥉';
-          
-          const avatarUrl = u.avatar || fallbackAvatar;
-
-          return `
-          <div class="user-rank-item">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <span style="font-weight:900; width:25px; text-align:center;">${rankIcon}</span>
-              <img src="${avatarUrl}" style="width:32px;height:32px;border-radius:50%; object-fit:cover;">
-              <span class="user-rank-name">${u.username}</span>
-            </div>
-            <span class="user-rank-xp">
-              LV.${u.level}
-              <span style="font-size:0.7rem; opacity:0.7;">(${u.xp} XP)</span>
-            </span>
-          </div>
-        `;
-      }).join('');
-    },
-
-    showUserProfile(username) {
-        const user = cachedUsers.find(u => u.username === username);
-        if(!user) return;
-        
-        document.getElementById('profile-modal-name').innerText = user.username;
-        document.getElementById('profile-modal-team').innerText = user.team;
-        document.getElementById('profile-modal-level').innerText = user.level;
-        
-        // Stats
-        let s = user.stats || { math:0, english:0, anime:0 };
-        let max = 0; let best = "Chưa chơi nhiều";
-        if (s.math > max) { max = s.math; best = "Toán Học"; }
-        if (s.english > max) { max = s.english; best = "Tiếng Anh"; }
-        if (s.anime > max) { max = s.anime; best = "Anime"; }
-        
-        document.getElementById('profile-modal-best').innerText = best;
-        
-        // Image
-        const fallbackAvatar = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>";
-        document.getElementById('profile-modal-img').src = user.avatar || fallbackAvatar;
-        
-        document.getElementById('user-profile-modal').style.display = 'flex';
-    },
-
-    // --- ADMIN PAGE LOGIC ---
-    openAdminPage() {
-        document.getElementById('main-app').style.display = 'none';
-        document.getElementById('admin-screen').style.display = 'flex';
-        // Close menu if open
-        document.getElementById('avatar-menu').classList.remove('active');
-        
-        if (adminLogged) {
-            document.getElementById('admin-login-area').style.display = 'none';
-            document.getElementById('admin-controls-area').classList.remove('hidden');
-            document.getElementById('admin-controls-area').style.display = 'block';
-        } else {
-            document.getElementById('admin-login-area').style.display = 'flex';
-            document.getElementById('admin-controls-area').classList.add('hidden');
-            document.getElementById('admin-controls-area').style.display = 'none';
-        }
-    },
-
-    closeAdminPage() {
-        document.getElementById('admin-screen').style.display = 'none';
-        if (currentUser.team) {
-            document.getElementById('main-app').style.display = 'block';
-        } else {
+        },
+        close() {
+            document.getElementById('auth-modal').style.display = 'none';
             document.getElementById('selector-screen').style.display = 'flex';
+        },
+        switchTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            if (tab === 'login') {
+                document.getElementById('form-login').classList.remove('hidden');
+                document.getElementById('form-register').classList.add('hidden');
+            } else {
+                document.getElementById('form-login').classList.add('hidden');
+                document.getElementById('form-register').classList.remove('hidden');
+            }
+        },
+        async doLogin() {
+            const u = document.getElementById('login-user').value.trim().toLowerCase();
+            const p = document.getElementById('login-pass').value.trim();
+            if(!u || !p) return alert("Vui lòng nhập đủ thông tin");
+            try {
+                const snap = await getDoc(doc(db, "users", u));
+                if (!snap.exists()) return alert("Tài khoản không tồn tại!");
+                const data = snap.data();
+                if (data.password !== p) return alert("Mật khẩu sai!");
+                this.setSession(u, data);
+            } catch(e) { console.error(e); alert("Lỗi đăng nhập"); }
+        },
+        async doRegister() {
+            const u = document.getElementById('reg-user').value.trim().toLowerCase();
+            const p = document.getElementById('reg-pass').value.trim();
+            const t = document.getElementById('reg-team').value;
+            if(!u || !p) return alert("Vui lòng nhập đủ thông tin");
+            if(u.length < 3) return alert("Tên đăng nhập quá ngắn");
+            try {
+                const ref = doc(db, "users", u);
+                const snap = await getDoc(ref);
+                if (snap.exists()) return alert("Tên đăng nhập đã tồn tại!");
+                await setDoc(ref, {
+                    username: u, password: p, team: t, level: 1, xp: 0,
+                    stats: { math: 0, english: 0, anime: 0 }, createdAt: Date.now()
+                });
+                alert("Đăng ký thành công! Hãy đăng nhập ngay.");
+                this.switchTab('login');
+            } catch(e) { console.error(e); alert("Lỗi tạo tài khoản"); }
+        },
+        setSession(username, data) {
+            currentUser.id = username;
+            currentUser.team = data.team;
+            currentUser.level = data.level || 1;
+            currentUser.xp = data.xp || 0;
+            currentUser.stats = data.stats || { math: 0, english: 0, anime: 0 };
+            currentUser.isGuest = false;
+            localStorage.setItem('7a4_user_id', username);
+            galaxy.loadAvatar(username);
+            document.getElementById('auth-modal').style.display = 'none';
+            galaxy.showMain();
+        },
+        async checkAutoLogin() {
+            const uid = localStorage.getItem('7a4_user_id');
+            if (!uid) return false;
+            try {
+                const snap = await getDoc(doc(db, "users", uid));
+                if (snap.exists()) { this.setSession(uid, snap.data()); return true; }
+            } catch(e) { console.error(e); }
+            return false;
         }
-    },
+    };
 
-    checkAdminLogin() {
-        const input = document.getElementById('admin-password-input');
-        if (input.value === ADMIN_PASSWORD) {
-            adminLogged = true;
-            input.value = "";
-            this.toast("Đăng nhập Admin thành công!");
-            this.openAdminPage(); 
-        } else {
-            alert("Mật khẩu sai");
-        }
-    },
-    
-    logoutAdmin() {
-        adminLogged = false;
-        this.toast("Đã đăng xuất Admin");
-        this.closeAdminPage();
-    },
-
-    // NEW: BROADCAST FEATURE
-    async sendBroadcast() {
-        if (!adminLogged) return;
-        const input = document.getElementById('admin-broadcast-input');
-        const text = input.value.trim();
-        if(!text) return;
-        
-        try {
-            await setDoc(doc(db, "meta", "broadcast"), {
-                message: text,
-                timestamp: Date.now()
+    const galaxy = {
+        currentTheme: 'galaxy',
+        init: async function() {
+            const savedTheme = localStorage.getItem('7a4_theme') || 'galaxy';
+            this.setTheme(savedTheme);
+            document.addEventListener('click', (e) => {
+                if (e.target.closest('button') || e.target.closest('.mission-card') || e.target.closest('.option-item') || e.target.closest('input')) return;
+                if(this.currentTheme === 'tet') this.spawnFirework(e.clientX, e.clientY);
+                else if (this.currentTheme === 'school') this.spawnSchoolRipple(e.clientX, e.clientY);
+                else this.spawnPlanetClick(e.clientX, e.clientY);
+                
+                const menu = document.getElementById('avatar-menu');
+                const avt = document.querySelector('.avatar-circle');
+                if (menu.classList.contains('active') && !menu.contains(e.target) && !avt.contains(e.target)) {
+                    menu.classList.remove('active');
+                }
             });
-            this.toast("Đã gửi thông báo!");
-            input.value = "";
-        } catch(e) {
-            console.error(e);
-            this.toast("Lỗi gửi tin");
-        }
-    },
-    
-    // NEW: Listen for broadcast
-    listenForBroadcast() {
-         onSnapshot(doc(db, "meta", "broadcast"), (doc) => {
-             if(doc.exists()) {
-                 const data = doc.data();
-                 // Only show if message is recent (within 5 seconds) to avoid spam on load
-                 if (Date.now() - data.timestamp < 10000) {
-                     this.showBroadcastToast(data.message);
-                 }
-             }
-         });
-    },
-
-    showBroadcastToast(msg) {
-        const t = document.getElementById('broadcast-toast');
-        t.innerText = `📢 ADMIN: ${msg}`;
-        t.style.display = 'block';
-        t.style.animation = 'slideUpBroadcast 0.5s forwards';
-        // Auto hide after 10s
-        setTimeout(() => { t.style.display = 'none'; }, 10000);
-    },
-
-    async adminAdjustPoints(docId, delta) {
-      if (!adminLogged) return;
-      const ref = doc(db, "teams", docId);
-      try {
-        const s = await getDoc(ref);
-        if (!s.exists()) {
-          await setDoc(ref, { name: DOC_TO_TEAM[docId].id, score: 0, updatedAt: Date.now() });
-        }
-        await updateDoc(ref, { score: increment(delta), updatedAt: Date.now() });
-        adminLastAction = { type: "adjust", docId, delta };
-        this.toast(`${delta>0? '+'+delta: delta} điểm (Admin)`);
-      } catch (e) {
-        console.error(e);
-        this.toast("Lỗi Admin update");
-      }
-    },
-
-    toast(m) {
-      const t = document.getElementById('app-toast');
-      t.innerText = m;
-      t.style.display = 'block';
-      t.style.animation = 'slideDownToast 0.3s forwards';
-      setTimeout(() => { t.style.display = 'none'; }, 2000);
-    },
-
-    showGameToast(msg, type) {
-        const t = document.getElementById('game-toast');
-        t.innerText = msg;
-        t.className = type; 
-        t.style.display = 'block';
-        t.style.animation = 'slideDownToast 0.3s forwards';
-        setTimeout(() => { 
-            t.style.display = 'none'; 
-        }, type === 'error' ? 2000 : 1500);
-    },
-
-    renderRank() {
-      const list = document.getElementById('ranking-list');
-      let data = [];
-      if (Object.keys(realtimeTeams).length) {
-        data = Object.keys(DOC_TO_TEAM).map(docId => ({
-          id: DOC_TO_TEAM[docId].id,
-          score: realtimeTeams[docId]?.score ?? 0,
-          color: DOC_TO_TEAM[docId].color
-        }));
-      } else {
-        data = TEAMS.map(t => ({...t, score: 0}));
-      }
-      data = data.sort((a,b) => b.score - a.score);
-      const max = Math.max(...data.map(d => d.score), 10);
-      list.innerHTML = data.map(d => `
-        <div class="rank-item">
-          <div class="rank-label"><span style="color:${d.color}">${d.id}</span><span>${d.score} XP</span></div>
-          <div class="bar-outer"><div class="bar-inner" style="width:${(d.score/max)*100}%; background:${d.color}"></div></div>
-        </div>
-      `).join('');
-      this.renderPrevWinner();
-      this.renderGameScoreboard();
-    },
-
-    renderGameScoreboard() {
-        const board = document.getElementById('game-scoreboard');
-        if (!board) return;
-        let data = [];
-        if (Object.keys(realtimeTeams).length) {
-            data = Object.keys(DOC_TO_TEAM).map(docId => ({
+            this.setupRealtimeListeners();
+            await this.checkWeeklyResetFirestore();
+            if (!(await authSystem.checkAutoLogin())) this.showSelector();
+        },
+        setTheme(themeName) {
+            this.currentTheme = themeName;
+            localStorage.setItem('7a4_theme', themeName);
+            document.body.classList.remove('galaxy-theme', 'tet-theme', 'school-theme');
+            document.querySelectorAll('.theme-option').forEach(el => el.classList.remove('active'));
+            document.body.classList.add(`${themeName}-theme`);
+            document.getElementById(`theme-${themeName}`)?.classList.add('active');
+            const themeText = {galaxy: "Galaxy", tet: "Tết", school: "Trường học"};
+            if(document.getElementById('current-theme-name')) document.getElementById('current-theme-name').innerText = themeText[themeName];
+        },
+        cycleThemeInMenu() {
+            const order = ['galaxy', 'tet', 'school'];
+            this.setTheme(order[(order.indexOf(this.currentTheme) + 1) % order.length]);
+        },
+        toggleSettings() {
+            const el = document.getElementById('settings-modal');
+            el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
+        },
+        spawnFirework(x, y) {
+            const colors = ['#ff0000', '#ffd700', '#ff0055', '#ffffff'];
+            for(let i=0; i<10; i++) {
+                const p = document.createElement('div');
+                p.className = 'firework-particle';
+                p.style.left = x + 'px'; p.style.top = y + 'px';
+                p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+                const angle = Math.random() * Math.PI * 2, velocity = 20 + Math.random() * 50;
+                p.style.setProperty('--tx', `${Math.cos(angle) * velocity}px`);
+                p.style.setProperty('--ty', `${Math.sin(angle) * velocity}px`);
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 1000);
+            }
+        },
+        spawnPlanetClick(x, y) {
+            const p = document.createElement('div'), r = document.createElement('div');
+            p.className = 'galaxy-click-particle'; p.style.left = x + 'px'; p.style.top = y + 'px';
+            r.className = 'galaxy-click-ring'; r.style.left = x + 'px'; r.style.top = y + 'px';
+            document.body.append(p, r);
+            setTimeout(() => { p.remove(); r.remove(); }, 600);
+        },
+        spawnSchoolRipple(x, y) {
+            const r = document.createElement('div');
+            r.className = 'school-click-ripple'; r.style.left = x + 'px'; r.style.top = y + 'px';
+            document.body.appendChild(r);
+            setTimeout(() => r.remove(), 500);
+        },
+        selectTeamGuest(name) {
+            currentUser.isGuest = true; currentUser.team = name; currentUser.id = null;
+            this.showMain();
+        },
+        showSelector() {
+            document.getElementById('selector-screen').style.display = 'flex';
+            document.getElementById('main-app').classList.add('hidden');
+            document.getElementById('main-app').style.display = 'none';
+        },
+        showMain() {
+            document.getElementById('selector-screen').style.display = 'none';
+            document.getElementById('main-app').classList.remove('hidden');
+            document.getElementById('main-app').style.display = 'block';
+            if (currentUser.isGuest) {
+                document.getElementById('logged-in-controls').style.display = 'none';
+                document.getElementById('guest-controls').style.display = 'flex';
+                document.getElementById('team-tag').innerText = currentUser.team;
+                document.getElementById('team-tag').style.background = TEAMS.find(t => t.id === currentUser.team)?.color || 'var(--primary)';
+                document.getElementById('level-ui').style.display = 'none';
+            } else {
+                document.getElementById('guest-controls').style.display = 'none';
+                document.getElementById('logged-in-controls').style.display = 'flex';
+                document.getElementById('menu-user-name').innerText = currentUser.id;
+                this.calculateBestStat();
+                levelSystem.renderLevelUI();
+            }
+            this.renderRank();
+        },
+        toggleAvatarMenu() {
+            document.getElementById('avatar-menu').classList.toggle('active');
+            if (document.getElementById('avatar-menu').classList.contains('active')) this.updateMenuRank();
+        },
+        async handleAvatarUpload(input) {
+            const file = input.files[0];
+            if (!file || !currentUser.id) return;
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const avatarBase64 = e.target.result;
+                document.getElementById('user-avatar-img').src = avatarBase64;
+                document.getElementById('menu-avatar-img').src = avatarBase64;
+                await updateDoc(doc(db, "users", currentUser.id), { avatar: avatarBase64, avatarUpdatedAt: Date.now() });
+                galaxy.showGameToast("Đã cập nhật avatar!", "success");
+            };
+            reader.readAsDataURL(file);
+        },
+        async loadAvatar(userId, imgId = 'user-avatar-img') {
+            try {
+                const snap = await getDoc(doc(db, "users", userId));
+                const fallback = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>";
+                const url = (snap.exists() && snap.data().avatar) ? snap.data().avatar : fallback;
+                const el = document.getElementById(imgId);
+                if (el) el.src = url;
+                if (userId === currentUser.id && imgId === 'user-avatar-img') document.getElementById('menu-avatar-img').src = url;
+            } catch (e) { console.error("loadAvatar error:", e); }
+        },
+        updateGameStats(type) {
+            if (currentUser.isGuest) return;
+            if (!currentUser.stats) currentUser.stats = { math: 0, english: 0, anime: 0 };
+            currentUser.stats[type] = (currentUser.stats[type] || 0) + 1;
+            updateDoc(doc(db, "users", currentUser.id), { stats: currentUser.stats }).catch(e => console.log(e));
+            this.calculateBestStat();
+        },
+        calculateBestStat() {
+            if (!currentUser.stats) return;
+            const s = currentUser.stats;
+            let max = 0, best = "Chưa chơi nhiều";
+            if (s.math > max) { max = s.math; best = "📐 Toán Học"; }
+            if (s.english > max) { max = s.english; best = "🇬🇧 Tiếng Anh"; }
+            if (s.anime > max) { max = s.anime; best = "🇯🇵 Anime"; }
+            document.getElementById('best-stat-box').innerHTML = `<div style="font-size:0.7rem; opacity:0.8;">MÔN TỦ CỦA BẠN</div><div style="font-size:1.1rem; font-weight:900; color:var(--primary); margin-top:2px;">${best}</div><div style="font-size:0.65rem; margin-top:2px;">(Dựa trên tần suất chơi)</div>`;
+        },
+        updateMenuRank() {
+            if (!currentUser.id || currentUser.isGuest) return;
+            const index = cachedUsers.findIndex(u => u.username === currentUser.id);
+            document.getElementById('menu-user-rank').innerText = index !== -1 ? `Hạng: #${index + 1}` : `Hạng: --`;
+        },
+        logout() {
+            localStorage.removeItem('7a4_user_id'); 
+            currentUser.id = null; currentUser.team = null; currentUser.isGuest = true;
+            document.getElementById('user-avatar-img').src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>";
+            this.showSelector();
+        },
+        async addPointsToTeam(p) {
+            if (!currentUser.team) return;
+            const docId = Object.keys(DOC_TO_TEAM).find(key => DOC_TO_TEAM[key].id === currentUser.team);
+            if (!docId) return;
+            const ref = doc(db, "teams", docId);
+            try {
+                const s = await getDoc(ref);
+                if (!s.exists()) await setDoc(ref, { name: DOC_TO_TEAM[docId].id, score: 0, updatedAt: Date.now() });
+                await updateDoc(ref, { score: increment(p), updatedAt: Date.now() });
+            } catch (e) { console.error(e); }
+        },
+        async renderUserLeaderboard() {
+            const listEl = document.getElementById('user-rank-list');
+            const fallbackAvatar = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>";
+            if (cachedUsers.length === 0) { listEl.innerHTML = '<div style="text-align:center;opacity:0.6;">Đang tải hoặc chưa có dữ liệu...</div>'; return; }
+            
+            listEl.innerHTML = cachedUsers.map((u, index) => {
+                let rankIcon = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}`;
+                return `<div class="user-rank-item"><div style="display:flex; align-items:center; gap:10px;"><span style="font-weight:900; width:25px; text-align:center;">${rankIcon}</span><img src="${u.avatar || fallbackAvatar}" style="width:32px;height:32px;border-radius:50%; object-fit:cover;"><span class="user-rank-name">${u.username}</span></div><span class="user-rank-xp">LV.${u.level} <span style="font-size:0.7rem; opacity:0.7;">(${u.xp} XP)</span></span></div>`;
+            }).join('');
+        },
+        showUserProfile(username) {
+            const user = cachedUsers.find(u => u.username === username);
+            if(!user) return;
+            document.getElementById('profile-modal-name').innerText = user.username;
+            document.getElementById('profile-modal-team').innerText = user.team;
+            document.getElementById('profile-modal-level').innerText = user.level;
+            
+            let s = user.stats || { math:0, english:0, anime:0 };
+            let max = 0, best = "Chưa chơi nhiều";
+            if (s.math > max) { max = s.math; best = "Toán Học"; }
+            if (s.english > max) { max = s.english; best = "Tiếng Anh"; }
+            if (s.anime > max) { max = s.anime; best = "Anime"; }
+            document.getElementById('profile-modal-best').innerText = best;
+            
+            const fallback = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>";
+            document.getElementById('profile-modal-img').src = user.avatar || fallback;
+            document.getElementById('user-profile-modal').style.display = 'flex';
+        },
+        openAdminPage() {
+            document.getElementById('main-app').style.display = 'none';
+            document.getElementById('admin-screen').style.display = 'flex';
+            document.getElementById('avatar-menu').classList.remove('active');
+            if (adminLogged) {
+                document.getElementById('admin-login-area').style.display = 'none';
+                document.getElementById('admin-controls-area').classList.remove('hidden');
+                document.getElementById('admin-controls-area').style.display = 'block';
+            } else {
+                document.getElementById('admin-login-area').style.display = 'flex';
+                document.getElementById('admin-controls-area').classList.add('hidden');
+                document.getElementById('admin-controls-area').style.display = 'none';
+            }
+        },
+        closeAdminPage() {
+            document.getElementById('admin-screen').style.display = 'none';
+            if (currentUser.team) document.getElementById('main-app').style.display = 'block';
+            else document.getElementById('selector-screen').style.display = 'flex';
+        },
+        checkAdminLogin() {
+            const input = document.getElementById('admin-password-input');
+            if (input.value === ADMIN_PASSWORD) {
+                adminLogged = true; input.value = "";
+                this.toast("Đăng nhập Admin thành công!");
+                this.openAdminPage(); 
+            } else alert("Mật khẩu sai");
+        },
+        logoutAdmin() { adminLogged = false; this.toast("Đã đăng xuất Admin"); this.closeAdminPage(); },
+        async sendBroadcast() {
+            if (!adminLogged) return;
+            const input = document.getElementById('admin-broadcast-input');
+            const text = input.value.trim();
+            if(!text) return;
+            try {
+                await setDoc(doc(db, "meta", "broadcast"), { message: text, timestamp: Date.now() });
+                this.toast("Đã gửi thông báo!"); input.value = "";
+            } catch(e) { console.error(e); this.toast("Lỗi gửi tin"); }
+        },
+        listenForBroadcast() {
+             onSnapshot(doc(db, "meta", "broadcast"), (doc) => {
+                 if(doc.exists() && Date.now() - doc.data().timestamp < 10000) this.showBroadcastToast(doc.data().message);
+             });
+        },
+        showBroadcastToast(msg) {
+            const t = document.getElementById('broadcast-toast');
+            t.innerText = `📢 ADMIN: ${msg}`; t.style.display = 'block'; t.style.animation = 'slideUpBroadcast 0.5s forwards';
+            setTimeout(() => { t.style.display = 'none'; }, 10000);
+        },
+        async adminAdjustPoints(docId, delta) {
+            if (!adminLogged) return;
+            try {
+                const ref = doc(db, "teams", docId);
+                const s = await getDoc(ref);
+                if (!s.exists()) await setDoc(ref, { name: DOC_TO_TEAM[docId].id, score: 0, updatedAt: Date.now() });
+                await updateDoc(ref, { score: increment(delta), updatedAt: Date.now() });
+                adminLastAction = { type: "adjust", docId, delta };
+                this.toast(`${delta>0? '+'+delta: delta} điểm (Admin)`);
+            } catch (e) { console.error(e); this.toast("Lỗi Admin update"); }
+        },
+        toast(m) {
+            const t = document.getElementById('app-toast');
+            t.innerText = m; t.style.display = 'block'; t.style.animation = 'slideDownToast 0.3s forwards';
+            setTimeout(() => { t.style.display = 'none'; }, 2000);
+        },
+        showGameToast(msg, type) {
+            const t = document.getElementById('game-toast');
+            t.innerText = msg; t.className = type; t.style.display = 'block'; t.style.animation = 'slideDownToast 0.3s forwards';
+            setTimeout(() => { t.style.display = 'none'; }, type === 'error' ? 2000 : 1500);
+        },
+        renderRank() {
+            const list = document.getElementById('ranking-list');
+            let data = Object.keys(DOC_TO_TEAM).map(docId => ({
                 id: DOC_TO_TEAM[docId].id,
                 score: realtimeTeams[docId]?.score ?? 0,
                 color: DOC_TO_TEAM[docId].color
-            }));
-        } else {
-            data = TEAMS.map(t => ({...t, score: 0}));
-        }
-        data.sort((a,b) => a.id.localeCompare(b.id));
-        board.innerHTML = data.map(d => `
-            <div class="mini-score-card">
-                <span class="mini-score-name" style="color:${d.color}">${d.id}</span>
-                <span class="mini-score-val">${d.score}</span>
-            </div>
-        `).join('');
-    },
+            })).sort((a,b) => b.score - a.score);
+            const max = Math.max(...data.map(d => d.score), 10);
+            list.innerHTML = data.map(d => `
+                <div class="rank-item">
+                  <div class="rank-label"><span style="color:${d.color}">${d.id}</span><span>${d.score} XP</span></div>
+                  <div class="bar-outer"><div class="bar-inner" style="width:${(d.score/max)*100}%; background:${d.color}"></div></div>
+                </div>`).join('');
+            this.renderPrevWinner();
+            this.renderGameScoreboard();
+        },
+        renderGameScoreboard() {
+            const board = document.getElementById('game-scoreboard');
+            if (!board) return;
+            const data = Object.keys(DOC_TO_TEAM).map(docId => ({
+                id: DOC_TO_TEAM[docId].id,
+                score: realtimeTeams[docId]?.score ?? 0,
+                color: DOC_TO_TEAM[docId].color
+            })).sort((a,b) => a.id.localeCompare(b.id));
+            board.innerHTML = data.map(d => `<div class="mini-score-card"><span class="mini-score-name" style="color:${d.color}">${d.id}</span><span class="mini-score-val">${d.score}</span></div>`).join('');
+        },
+        async renderPrevWinner() {
+            try {
+                const snap = await getDoc(doc(db, "meta", "weekly"));
+                if (snap.exists()) {
+                    const data = snap.data();
+                    const prevEl = document.getElementById('prev-winner');
+                    if (data.winners?.length) prevEl.innerText = data.winners.length === 1 ? `🏆 Vô địch tuần trước: ${data.winners[0]} — ${data.maxScore} XP` : `🤝 Hòa tuần trước: ${data.winners.join(', ')} — ${data.maxScore} XP`;
+                    if (data.userWinner) document.getElementById('prev-user-winner').innerText = `🔥 Cao thủ tuần trước: ${data.userWinner.name} (LV.${data.userWinner.level})`;
+                }
+            } catch(e) { console.warn(e); }
+        },
+        closeGame() {
+            document.getElementById('game-overlay').style.display = 'none';
+            document.getElementById('game-toast').style.display = 'none';
+            document.getElementById('anime-selection-screen').classList.add('hidden');
+            document.getElementById('game-content-area').classList.remove('hidden');
+            document.getElementById('game-content-area').style.display = 'flex';
+            streakSystem.reset();
+        },
+        applyTransition() {
+            const content = document.getElementById('game-content-area');
+            content.classList.remove('slide-in');
+            void content.offsetWidth; 
+            content.classList.add('slide-in');
+        },
+        async checkWeeklyResetFirestore() {
+            try {
+                const now = new Date();
+                const reset = new Date(now);
+                reset.setDate(now.getDate() - now.getDay());
+                reset.setHours(12,0,0,0);
+                if (now.getDay() === 0 && now.getHours() < 12) reset.setDate(reset.getDate() - 7);
+                if (reset.getTime() > now.getTime()) reset.setDate(reset.getDate() - 7);
+                const resetTime = reset.getTime();
 
-    async renderPrevWinner() {
-      const prevEl = document.getElementById('prev-winner');
-      const prevUserEl = document.getElementById('prev-user-winner');
-      try {
-        const metaRef = doc(db, "meta", "weekly");
-        const snap = await getDoc(metaRef);
-        if (snap.exists()) {
-          const data = snap.data();
-          // Team Winner
-          if (data && Array.isArray(data.winners) && data.winners.length) {
-            if (data.winners.length === 1) {
-              prevEl.innerText = `🏆 Vô địch tuần trước: ${data.winners[0]} — ${data.maxScore} XP`;
-            } else {
-              prevEl.innerText = `🤝 Hòa tuần trước: ${data.winners.join(', ')} — ${data.maxScore} XP`;
-            }
-          }
-          // User Winner
-          if (data && data.userWinner) {
-              prevUserEl.innerText = `🔥 Cao thủ tuần trước: ${data.userWinner.name} (LV.${data.userWinner.level})`;
-          }
-        }
-      } catch(e) { console.warn(e); }
-    },
+                const metaRef = doc(db, "meta", "weekly");
+                const metaSnap = await getDoc(metaRef);
+                const lastReset = metaSnap.exists() ? (metaSnap.data().lastReset || 0) : 0;
 
-    closeGame() {
-      document.getElementById('game-overlay').style.display = 'none';
-      document.getElementById('game-toast').style.display = 'none';
-      document.getElementById('anime-selection-screen').classList.add('hidden');
-      document.getElementById('game-content-area').classList.remove('hidden');
-      document.getElementById('game-content-area').style.display = 'flex';
-      streakSystem.reset();
-    },
+                if (!lastReset || lastReset < resetTime) {
+                    const colSnap = await getDocs(collection(db, "teams"));
+                    const prevScores = {};
+                    colSnap.forEach(d => prevScores[d.id] = d.data().score || 0);
+                    const arr = Object.entries(prevScores);
+                    const maxScore = arr.length ? Math.max(...arr.map(a=>a[1])) : 0;
+                    const winners = arr.filter(a=>a[1]===maxScore).map(a=> DOC_TO_TEAM[a[0]]?.id ?? a[0]);
 
-    applyTransition() {
-      const content = document.getElementById('game-content-area');
-      content.classList.remove('slide-in');
-      void content.offsetWidth; 
-      content.classList.add('slide-in');
-    },
+                    let userWinner = null;
+                    try {
+                        const usersSnap = await getDocs(collection(db, "users"));
+                        let allUsers = [];
+                        usersSnap.forEach(d => allUsers.push(d.data()));
+                        allUsers.sort((a,b) => (b.xp || 0) - (a.xp || 0));
+                        if(allUsers.length > 0) userWinner = { name: allUsers[0].username, level: allUsers[0].level, xp: allUsers[0].xp };
+                    } catch(err) { console.log(err); }
 
-    async checkWeeklyResetFirestore() {
-      try {
-        await this.ensureTeamsDocs();
-        const now = new Date();
-        const reset = new Date(now);
-        const day = reset.getDay(); 
-        reset.setDate(now.getDate() - day);
-        reset.setHours(12,0,0,0);
-        if (now.getDay() === 0 && now.getHours() < 12) reset.setDate(reset.getDate() - 7);
-        if (reset.getTime() > now.getTime()) reset.setDate(reset.getDate() - 7);
-        const resetTime = reset.getTime();
-        const metaRef = doc(db, "meta", "weekly");
-        const metaSnap = await getDoc(metaRef);
-        const lastReset = metaSnap.exists() ? (metaSnap.data().lastReset || 0) : 0;
-
-        if (!lastReset || lastReset < resetTime) {
-          // 1. Get Team Scores
-          const colSnap = await getDocs(collection(db, "teams"));
-          const prevScores = {};
-          colSnap.forEach(d => prevScores[d.id] = d.data().score || 0);
-
-          const arr = Object.entries(prevScores);
-          const maxScore = arr.length ? Math.max(...arr.map(a=>a[1])) : 0;
-          const winners = arr.filter(a=>a[1]===maxScore).map(a=> DOC_TO_TEAM[a[0]]?.id ?? a[0]);
-
-          // 2. Get Top User (snapshot for history)
-          let userWinner = null;
-          try {
-              const usersSnap = await getDocs(collection(db, "users"));
-              let allUsers = [];
-              usersSnap.forEach(d => allUsers.push(d.data()));
-              allUsers.sort((a,b) => (b.xp || 0) - (a.xp || 0));
-              if(allUsers.length > 0) {
-                  userWinner = {
-                      name: allUsers[0].username,
-                      level: allUsers[0].level,
-                      xp: allUsers[0].xp
-                  };
-              }
-          } catch(err) { console.log(err); }
-
-          // 3. Commit Reset
-          const batch = writeBatch(db);
-          colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
-          batch.set(metaRef, {
-            lastReset: resetTime,
-            prevScores,
-            winners,
-            maxScore,
-            userWinner, // Save user winner
-            updatedAt: Date.now()
-          }, { merge: true });
-          await batch.commit();
-        }
-      } catch (e) { console.error(e); }
-    },
-
-    setupRealtimeListeners() {
-      try {
-        onSnapshot(collection(db, "teams"), (snapshot) => {
-          const tmp = {};
-          snapshot.forEach(d => tmp[d.id] = d.data());
-          realtimeTeams = tmp;
-          this.renderRank();
-        });
-        
-        onSnapshot(doc(db, "meta", "weekly"), () => {
-          this.renderPrevWinner();
-        });
-        
-        // Listen for new users to update leaderboard continuously
-        onSnapshot(collection(db, "users"), (snapshot) => {
-            cachedUsers = [];
-            snapshot.forEach(doc => {
-                 const u = doc.data();
-                 cachedUsers.push({
-                    ...u,
-                    xp: Number(u.xp || 0),
-                    level: Number(u.level || 1),
-                    avatar: u.avatar // might be undefined, will handle in render
-                 });
+                    const batch = writeBatch(db);
+                    colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
+                    batch.set(metaRef, { lastReset: resetTime, prevScores, winners, maxScore, userWinner, updatedAt: Date.now() }, { merge: true });
+                    await batch.commit();
+                }
+            } catch (e) { console.error(e); }
+        },
+        setupRealtimeListeners() {
+            onSnapshot(collection(db, "teams"), (snap) => {
+                const tmp = {}; snap.forEach(d => tmp[d.id] = d.data());
+                realtimeTeams = tmp; this.renderRank();
             });
-            cachedUsers.sort((a,b) => b.level === a.level ? b.xp - a.xp : b.level - a.level);
+            onSnapshot(doc(db, "meta", "weekly"), () => this.renderPrevWinner());
+            onSnapshot(collection(db, "users"), (snap) => {
+                cachedUsers = [];
+                snap.forEach(doc => {
+                     const u = doc.data();
+                     cachedUsers.push({ ...u, xp: Number(u.xp || 0), level: Number(u.level || 1), avatar: u.avatar });
+                });
+                cachedUsers.sort((a,b) => b.level === a.level ? b.xp - a.xp : b.level - a.level);
+                this.renderUserLeaderboard();
+                this.updateMenuRank();
+            });
+            this.listenForBroadcast();
+        },
+        searchUsers(query) {
+            if (!query) { document.getElementById('user-search-results').innerHTML = ""; return; }
+            const results = cachedUsers.filter(u => u.username.toLowerCase().includes(query.toLowerCase()));
+            const fallback = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>";
+            const html = results.map(u => `<div style="display:flex; align-items:center; gap:10px; padding:10px; border-bottom:1px solid var(--glass-border); cursor:pointer;" onclick="galaxy.showUserProfile('${u.username}')"><img src="${u.avatar || fallback}" style="width:30px; height:30px; border-radius:50%; object-fit:cover;"><div><div style="font-weight:bold;">${u.username}</div><div style="font-size:0.75rem; opacity:0.7;">${u.team} • LV.${u.level}</div></div></div>`).join('');
+            document.getElementById('user-search-results').innerHTML = html || '<div style="padding:10px; text-align:center; opacity:0.6;">Không tìm thấy</div>';
+        },
+        openUserSearch() { document.getElementById('user-search-modal').style.display = 'flex'; document.getElementById('user-search-input').focus(); }
+    };
+
+    // --- GAMES ---
+    const mathGame = {
+        ans: 0, isProcessing: false,
+        start() {
+            galaxy.updateGameStats('math');
+            document.getElementById('game-overlay').style.display = 'flex';
+            document.getElementById('game-label').innerText = "MATH MISSION";
+            document.getElementById('anime-selection-screen').classList.add('hidden');
+            document.getElementById('game-content-area').classList.remove('hidden');
+            document.getElementById('game-content-area').style.display = 'flex';
+            galaxy.renderGameScoreboard();
+            streakSystem.reset(); this.generate();
+        },
+        generate() {
+            this.isProcessing = false; galaxy.applyTransition();
+            const type = Math.floor(Math.random() * 4);
+            let q = "";
+            if (type === 0) { const a = Math.floor(Math.random() * 100), b = Math.floor(Math.random() * 50); this.ans = a + b; q = `${a} + ${b} = ?`; } 
+            else if (type === 1) { const a = Math.floor(Math.random() * 12) + 2, b = Math.floor(Math.random() * 11) + 2; this.ans = a * b; q = `${a} × ${b} = ?`; } 
+            else if (type === 2) { const x = Math.floor(Math.random() * 30), a = Math.floor(Math.random() * 20); this.ans = x; q = `Tìm x: x + ${a} = ${x + a}`; } 
+            else { const b = Math.floor(Math.random() * 5) + 2, p = Math.floor(Math.random() * 2) + 2; this.ans = Math.pow(b, p); q = `${b}<sup>${p}</sup> = ?`; }
             
-            this.renderUserLeaderboard();
-            this.updateMenuRank(); // Update rank in menu if open
-        });
-
-        this.listenForBroadcast();
-      } catch (e) { console.error(e); }
-    },
-    
-    // NEW: User Search Feature
-    searchUsers(query) {
-        if (!query) {
-            document.getElementById('user-search-results').innerHTML = "";
-            return;
-        }
-        query = query.toLowerCase();
-        const results = cachedUsers.filter(u => u.username.toLowerCase().includes(query));
-        
-        const fallbackAvatar = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23ccc'><rect width='100' height='100' fill='%23333'/><circle cx='50' cy='40' r='20'/><path d='M20 90 Q50 60 80 90'/></svg>";
-
-        const html = results.map(u => `
-            <div style="display:flex; align-items:center; gap:10px; padding:10px; border-bottom:1px solid var(--glass-border); cursor:pointer;" 
-                 onclick="galaxy.showUserProfile('${u.username}')">
-                <img src="${u.avatar || fallbackAvatar}" style="width:30px; height:30px; border-radius:50%; object-fit:cover;">
-                <div>
-                    <div style="font-weight:bold;">${u.username}</div>
-                    <div style="font-size:0.75rem; opacity:0.7;">${u.team} • LV.${u.level}</div>
-                </div>
-            </div>
-        `).join('');
-        
-        document.getElementById('user-search-results').innerHTML = html || '<div style="padding:10px; text-align:center; opacity:0.6;">Không tìm thấy</div>';
-    },
-    
-    openUserSearch() {
-        document.getElementById('user-search-modal').style.display = 'flex';
-        document.getElementById('user-search-input').focus();
-    }
-  };
-
-  window.adminAdjust = adminAdjust;
-  window.adminApplyInput = adminApplyInput;
-  window.adminResetScores = adminResetScores;
-  window.adminUndo = adminUndo;
-
-  function adminAdjust(docId, delta) { galaxy.adminAdjustPoints(docId, delta); }
-  async function adminApplyInput(docId){
-    if (!adminLogged) return;
-    const input = document.getElementById("admin-point-input");
-    const val = parseInt((input?.value || "").trim(), 10);
-    if (!input || isNaN(val) || val === 0) {
-      galaxy.toast("Nhập số điểm hợp lệ");
-      return;
-    }
-    await galaxy.adminAdjustPoints(docId, val);
-    input.value = "";
-  }
-  async function adminResetScores(){
-    if (!adminLogged) return;
-    if(!confirm("Bạn có chắc chắn muốn RESET điểm về 0?")) return;
-    try{
-      await galaxy.ensureTeamsDocs();
-      const colSnap = await getDocs(collection(db, "teams"));
-      const before = {};
-      colSnap.forEach(d => before[d.id] = d.data().score || 0);
-      const batch = writeBatch(db);
-      colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
-      await batch.commit();
-      adminLastAction = { type: "reset", before };
-      galaxy.toast("Đã RESET điểm tất cả tổ");
-    }catch(e){
-      console.error(e);
-      galaxy.toast("Lỗi reset điểm");
-    }
-  }
-  async function adminUndo(){
-    if (!adminLogged || !adminLastAction){
-      galaxy.toast("Không có gì để hoàn tác");
-      return;
-    }
-    try{
-      if (adminLastAction.type === "adjust"){
-        const { docId, delta } = adminLastAction;
-        await galaxy.adminAdjustPoints(docId, -delta);
-        adminLastAction = null;
-        galaxy.toast("Đã hoàn tác");
-        return;
-      }
-      if (adminLastAction.type === "reset"){
-        const before = adminLastAction.before || {};
-        const batch = writeBatch(db);
-        for (const docId of Object.keys(DOC_TO_TEAM)){
-          const ref = doc(db, "teams", docId);
-          const score = before[docId] ?? 0;
-          batch.update(ref, { score, updatedAt: Date.now() });
-        }
-        await batch.commit();
-        adminLastAction = null;
-        galaxy.toast("Đã hoàn tác RESET");
-        return;
-      }
-    }catch(e){
-      console.error(e);
-      galaxy.toast("Lỗi hoàn tác");
-    }
-  }
-
-  const mathGame = {
-    ans: 0,
-    isProcessing: false,
-    start() {
-      galaxy.updateGameStats('math');
-      document.getElementById('game-overlay').style.display = 'flex';
-      document.getElementById('game-label').innerText = "MATH MISSION";
-      document.getElementById('anime-selection-screen').classList.add('hidden');
-      document.getElementById('game-content-area').classList.remove('hidden');
-      document.getElementById('game-content-area').style.display = 'flex';
-      galaxy.renderGameScoreboard();
-      streakSystem.reset();
-      this.generate();
-    },
-    generate() {
-      this.isProcessing = false;
-      galaxy.applyTransition();
-      const type = Math.floor(Math.random() * 4);
-      let q = "";
-      if (type === 0) {
-        const a = Math.floor(Math.random() * 100), b = Math.floor(Math.random() * 50);
-        this.ans = a + b; q = `${a} + ${b} = ?`;
-      } else if (type === 1) {
-        const a = Math.floor(Math.random() * 12) + 2, b = Math.floor(Math.random() * 11) + 2;
-        this.ans = a * b; q = `${a} × ${b} = ?`;
-      } else if (type === 2) {
-        const x = Math.floor(Math.random() * 30), a = Math.floor(Math.random() * 20);
-        this.ans = x; q = `Tìm x: x + ${a} = ${x + a}`;
-      } else {
-        const b = Math.floor(Math.random() * 5) + 2, p = Math.floor(Math.random() * 2) + 2;
-        this.ans = Math.pow(b, p); q = `${b}<sup>${p}</sup> = ?`;
-      }
-      document.getElementById('q-text').innerHTML = q;
-      document.getElementById('q-action').innerHTML = `
-        <input type="number" id="m-input" class="math-input" autofocus>
-        <div style="display:flex; gap:10px; margin-top:6px;">
-          <button id="btn-m-confirm" class="btn-confirm" onclick="mathGame.check()">XÁC NHẬN</button>
-          <button class="btn-confirm small" style="background:#555; color:#fff;" onclick="mathGame.skip()">BỎ QUA</button>
-        </div>
-      `;
-      const input = document.getElementById('m-input');
-      if (input) {
-        input.focus();
-        input.addEventListener('keydown', (e) => {
-            if(e.key === "Enter") {
-                mathGame.check();
+            document.getElementById('q-text').innerHTML = q;
+            document.getElementById('q-action').innerHTML = `<input type="number" id="m-input" class="math-input" autofocus><div style="display:flex; gap:10px; margin-top:6px;"><button id="btn-m-confirm" class="btn-confirm" onclick="mathGame.check()">XÁC NHẬN</button><button class="btn-confirm small" style="background:#555; color:#fff;" onclick="mathGame.skip()">BỎ QUA</button></div>`;
+            const input = document.getElementById('m-input');
+            if (input) { input.focus(); input.addEventListener('keydown', (e) => { if(e.key === "Enter") mathGame.check(); }); }
+        },
+        check() {
+            if (this.isProcessing) return;
+            this.isProcessing = true;
+            document.getElementById('btn-m-confirm').disabled = true;
+            const val = parseInt(document.getElementById('m-input').value || '', 10);
+            if (val === this.ans) {
+                streakSystem.increment(); galaxy.showGameToast("ĐÚNG RỒI! +10 XP", "success");
+                levelSystem.addXp(10); setTimeout(() => this.generate(), 800);
+            } else {
+                streakSystem.reset(); galaxy.showGameToast(`SAI RỒI!`, "error");
+                setTimeout(() => this.generate(), 1500);
             }
-        });
-      }
-    },
-    check() {
-      if (this.isProcessing) return;
-      this.isProcessing = true;
-      const btn = document.getElementById('btn-m-confirm');
-      if (btn) btn.disabled = true;
+        },
+        skip() {
+            if (this.isProcessing) return;
+            this.isProcessing = true; streakSystem.reset(); galaxy.showGameToast("ĐÃ BỎ QUA", "info");
+            setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
+        }
+    };
 
-      const val = parseInt(document.getElementById('m-input').value || '', 10);
-      if (val === this.ans) {
-        streakSystem.increment(); 
-        galaxy.showGameToast("ĐÚNG RỒI! +10 XP", "success");
-        levelSystem.addXp(10);
-        setTimeout(() => this.generate(), 800);
-      } else {
-        streakSystem.reset(); 
-        galaxy.showGameToast(`SAI RỒI!`, "error");
-        setTimeout(() => this.generate(), 1500);
-      }
-    },
-    skip() {
-      if (this.isProcessing) return;
-      this.isProcessing = true;
-      streakSystem.reset(); 
-      galaxy.showGameToast("ĐÃ BỎ QUA", "info");
-      setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
-    }
-  };
-
-  const ANIME_BANK = [
+    const ANIME_BANK = [
 	  // ===== ONE PIECE (30) =====
   { t: "ONE PIECE", q: "Luffy ăn trái ác quỷ hệ gì (theo tiết lộ mới nhất)?", o: ["Paramecia", "Logia", "Zoan Thần thoại", "Zoan cổ đại"], a: 2 },
   { t: "ONE PIECE", q: "Ai là người đầu tiên gia nhập băng Mũ Rơm?", o: ["Nami", "Zoro", "Usopp", "Sanji"], a: 1 },
@@ -3402,178 +2590,97 @@
 { t:"SAIKI", q:"Saiki đại diện cho?", o:["Overpowered gag","Anh hùng","Phản diện","Bi kịch"], a:0 },
 { t:"SAIKI", q:"Saiki hợp ai?", o:["Thích hài nhanh","Dark fan","Romance fan","Sport"], a:0 },
 
-  ];
+    ];
 
-const animeGame = {
-  curr: null,
-  isProcessing: false,
-  selectedTags: [],
-  filteredBank: [],
-  lastIndex: -1,
+    const animeGame = {
+        curr: null, isProcessing: false, selectedTags: [], filteredBank: [], lastIndex: -1,
+        start() {
+            galaxy.updateGameStats('anime');
+            document.getElementById('game-overlay').style.display = 'flex';
+            document.getElementById('game-label').innerText = "ANIME ZONE";
+            galaxy.renderGameScoreboard();
+            document.getElementById('game-content-area').classList.add('hidden');
+            document.getElementById('game-content-area').style.display = 'none';
+            document.getElementById('anime-selection-screen').classList.remove('hidden');
+            document.getElementById('anime-selection-screen').style.display = 'block';
+            this.selectedTags = []; this.filteredBank = []; this.lastIndex = -1;
+            this.updateSelectionUI(); streakSystem.reset();
+            
+            const uniqueTags = [...new Set(ANIME_BANK.map(item => (item.t ? String(item.t).trim() : "ANIME")).filter(Boolean))];
+            const grid = document.getElementById('anime-checkbox-grid');
+            grid.innerHTML = "";
+            uniqueTags.forEach(tag => {
+                const div = document.createElement("div"); div.className = "anime-tag-item"; div.textContent = tag;
+                div.addEventListener("click", () => this.toggleTag(div, tag));
+                grid.appendChild(div);
+            });
+        },
+        toggleTag(el, tag) {
+            if (this.selectedTags.includes(tag)) {
+                this.selectedTags = this.selectedTags.filter(t => t !== tag); el.classList.remove('active');
+            } else { this.selectedTags.push(tag); el.classList.add('active'); }
+            this.updateSelectionUI();
+        },
+        updateSelectionUI() {
+            const count = this.selectedTags.length;
+            document.getElementById('anime-select-count').innerText = `Đã chọn: ${count}`;
+            const btn = document.getElementById('btn-start-anime');
+            if (count >= 15) { btn.disabled = false; btn.innerText = "BẮT ĐẦU"; }
+            else { btn.disabled = true; btn.innerText = `CẦN CHỌN THÊM ${15 - count}`; }
+        },
+        confirmSelection() {
+            if (this.selectedTags.length < 10) return;
+            this.filteredBank = ANIME_BANK.filter(item => this.selectedTags.includes(item.t ? String(item.t).trim() : "ANIME"));
+            if (this.filteredBank.length === 0) return galaxy.showGameToast("Không có câu hỏi nào!", "error");
+            document.getElementById('anime-selection-screen').classList.add('hidden');
+            document.getElementById('anime-selection-screen').style.display = 'none';
+            document.getElementById('game-content-area').classList.remove('hidden');
+            document.getElementById('game-content-area').style.display = 'flex';
+            this.lastIndex = -1; this.generate();
+        },
+        generate() {
+            this.isProcessing = false; galaxy.applyTransition();
+            if (!this.filteredBank.length) return;
+            let idx = Math.floor(Math.random() * this.filteredBank.length);
+            if (this.filteredBank.length > 1) {
+                let safe = 0; while (idx === this.lastIndex && safe < 30) { idx = Math.floor(Math.random() * this.filteredBank.length); safe++; }
+            }
+            this.lastIndex = idx; this.curr = this.filteredBank[idx];
+            document.getElementById('q-text').innerText = this.curr.q || "(Câu hỏi lỗi)";
+            document.getElementById('q-tag').innerText = (this.curr.t && this.curr.t.trim()) ? this.curr.t.trim() : "ANIME";
 
-  start() {
-    galaxy.updateGameStats('anime');
-    document.getElementById('game-overlay').style.display = 'flex';
-    document.getElementById('game-label').innerText = "ANIME ZONE";
-    galaxy.renderGameScoreboard();
+            const shuffled = [...(this.curr.o || [])].sort(() => Math.random() - 0.5);
+            document.getElementById('q-action').innerHTML = `<div class="option-list" id="anime-option-list"></div><div style="width:100%; display:flex; justify-content:center; margin-top:10px;"><button class="btn-confirm small" style="background:#555;" id="anime-skip-btn">BỎ QUA</button></div>`;
+            const list = document.getElementById("anime-option-list");
+            shuffled.forEach(opt => {
+                const b = document.createElement("button"); b.className = "option-item"; b.type = "button"; b.textContent = opt;
+                b.addEventListener("click", () => this.check(b, opt));
+                list.appendChild(b);
+            });
+            document.getElementById("anime-skip-btn").onclick = () => this.skip();
+        },
+        check(btn, choice) {
+            if (this.isProcessing) return;
+            this.isProcessing = true;
+            document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
+            const correct = (this.curr.o && typeof this.curr.a === 'number') ? this.curr.o[this.curr.a] : null;
+            if (choice === correct) {
+                streakSystem.increment(); galaxy.showGameToast("CHUẨN OTAKU! +15 XP", "success");
+                levelSystem.addXp(15); setTimeout(() => this.generate(), 800);
+            } else {
+                streakSystem.reset(); galaxy.showGameToast(`SAI RỒI! ĐÁP ÁN: ${correct}`, "error");
+                setTimeout(() => this.generate(), 1500);
+            }
+        },
+        skip() {
+            if (this.isProcessing) return;
+            this.isProcessing = true; streakSystem.reset(); galaxy.showGameToast("ĐÃ BỎ QUA", "info");
+            setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
+        }
+    };
 
-    document.getElementById('game-content-area').classList.add('hidden');
-    document.getElementById('game-content-area').style.display = 'none';
-    const selScreen = document.getElementById('anime-selection-screen');
-    selScreen.classList.remove('hidden');
-    selScreen.style.display = 'block';
-
-    this.selectedTags = [];
-    this.filteredBank = [];
-    this.lastIndex = -1;
-    this.updateSelectionUI();
-    streakSystem.reset();
-
-    const uniqueTags = [...new Set(
-      ANIME_BANK
-        .map(item => (item.t ? String(item.t).trim() : "ANIME"))
-        .filter(Boolean)
-    )];
-    const grid = document.getElementById('anime-checkbox-grid');
-    grid.innerHTML = "";
-    uniqueTags.forEach(tag => {
-      const div = document.createElement("div");
-      div.className = "anime-tag-item";
-      div.textContent = tag;
-      div.addEventListener("click", () => this.toggleTag(div, tag));
-      grid.appendChild(div);
-    });
-  },
-
-  toggleTag(el, tag) {
-    if (this.selectedTags.includes(tag)) {
-      this.selectedTags = this.selectedTags.filter(t => t !== tag);
-      el.classList.remove('active');
-    } else {
-      this.selectedTags.push(tag);
-      el.classList.add('active');
-    }
-    this.updateSelectionUI();
-  },
-
-  updateSelectionUI() {
-    const count = this.selectedTags.length;
-    document.getElementById('anime-select-count').innerText = `Đã chọn: ${count}`;
-    const btn = document.getElementById('btn-start-anime');
-    if (count >= 15) {
-      btn.disabled = false;
-      btn.innerText = "BẮT ĐẦU";
-    } else {
-      btn.disabled = true;
-      btn.innerText = `CẦN CHỌN THÊM ${15 - count}`;
-    }
-  },
-
-  confirmSelection() {
-    if (this.selectedTags.length < 10) return;
-    this.filteredBank = ANIME_BANK.filter(item => {
-      const tag = item.t ? String(item.t).trim() : "ANIME";
-      return this.selectedTags.includes(tag);
-    });
-    if (this.filteredBank.length === 0) {
-      galaxy.showGameToast("Không có câu hỏi nào!", "error");
-      return;
-    }
-
-    document.getElementById('anime-selection-screen').classList.add('hidden');
-    document.getElementById('anime-selection-screen').style.display = 'none';
-
-    document.getElementById('game-content-area').classList.remove('hidden');
-    document.getElementById('game-content-area').style.display = 'flex';
-    this.lastIndex = -1;
-    this.generate();
-  },
-
-  getTag() {
-    if (this.curr && this.curr.t && String(this.curr.t).trim() !== "") {
-      return String(this.curr.t).trim();
-    }
-    return "ANIME";
-  },
-
-  getCorrectText() {
-    if (!this.curr) return null;
-    if (!Array.isArray(this.curr.o)) return null;
-    if (typeof this.curr.a !== "number") return null;
-    return this.curr.o[this.curr.a];
-  },
-
-  generate() {
-    this.isProcessing = false;
-    galaxy.applyTransition();
-    if (!Array.isArray(this.filteredBank) || this.filteredBank.length === 0) return;
-    let idx = Math.floor(Math.random() * this.filteredBank.length);
-    if (this.filteredBank.length > 1) {
-      let safe = 0;
-      while (idx === this.lastIndex && safe < 30) {
-        idx = Math.floor(Math.random() * this.filteredBank.length);
-        safe++;
-      }
-    }
-    this.lastIndex = idx;
-    this.curr = this.filteredBank[idx];
-    document.getElementById('q-text').innerText = this.curr.q || "(Câu hỏi lỗi)";
-    document.getElementById('q-tag').innerText = this.getTag();
-
-    const shuffled = [...(this.curr.o || [])].sort(() => Math.random() - 0.5);
-    document.getElementById('q-action').innerHTML = `
-      <div class="option-list" id="anime-option-list"></div>
-      <div style="width:100%; display:flex; justify-content:center; margin-top:10px;">
-        <button class="btn-confirm small" style="background:#555;" id="anime-skip-btn">BỎ QUA</button>
-      </div>
-    `;
-
-    const list = document.getElementById("anime-option-list");
-    shuffled.forEach(opt => {
-      const b = document.createElement("button");
-      b.className = "option-item";
-      b.type = "button";
-      b.textContent = opt;
-      b.addEventListener("click", () => this.check(b, opt));
-      list.appendChild(b);
-    });
-    document.getElementById("anime-skip-btn").onclick = () => this.skip();
-  },
-
-  check(btn, choice) {
-    if (this.isProcessing) return;
-    this.isProcessing = true;
-    document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
-
-    const correct = this.getCorrectText();
-
-    if (choice === correct) {
-      streakSystem.increment(); 
-      galaxy.showGameToast("CHUẨN OTAKU! +15 XP", "success");
-      levelSystem.addXp(15);
-      setTimeout(() => this.generate(), 800);
-    } else {
-      streakSystem.reset(); 
-      galaxy.showGameToast(`SAI RỒI! ĐÁP ÁN: ${correct}`, "error");
-      setTimeout(() => this.generate(), 1500);
-    }
-  },
-
-  skip() {
-    if (this.isProcessing) return;
-    this.isProcessing = true;
-    streakSystem.reset(); 
-    galaxy.showGameToast("ĐÃ BỎ QUA", "info");
-    setTimeout(() => {
-      this.isProcessing = false;
-      this.generate();
-    }, 600);
-  }
-};
-
-
-  const ENGLISH_BANK = [
-  // --- TOPIC: ADJECTIVES VS ADVERBS ---
+    const ENGLISH_BANK = [
+	  // --- TOPIC: ADJECTIVES VS ADVERBS ---
   { q: "She is a very ________ designer. She always has new ideas.", a: "creative", o: ["creative", "creatively", "creation"], t: "Adj_Adv" },
   { q: "He decorated the room ________ for the party.", a: "creatively", o: ["creative", "creatively", "create"], t: "Adj_Adv" },
   { q: "You should be ________ when speaking to elderly people.", a: "polite", o: ["polite", "politely", "politeness"], t: "Adj_Adv" },
@@ -3817,121 +2924,127 @@ const animeGame = {
 
   // 100th question
   { q: "If you don't know the meaning of a word, you can guess it from the ________.", a: "context", o: ["context", "medal", "ton"], t: "Reading" }
-  ];
+    ];
 
-  const englishGame = {
-    curr: null,
-    lastIndex: -1,
-    isProcessing: false,
-    start() {
-      galaxy.updateGameStats('english');
-      document.getElementById('game-overlay').style.display = 'flex';
-      document.getElementById('game-label').innerText = "ENGLISH COMMAND";
-      document.getElementById('anime-selection-screen').classList.add('hidden');
-      document.getElementById('game-content-area').classList.remove('hidden');
-      document.getElementById('game-content-area').style.display = 'flex';
-      galaxy.renderGameScoreboard();
-      streakSystem.reset(); 
-      this.generate();
-    },
-    generate() {
-      this.isProcessing = false;
-      galaxy.applyTransition();
-      if (ENGLISH_BANK.length === 0) return;
-
-      let idx = Math.floor(Math.random() * ENGLISH_BANK.length);
-      let attempts = 0;
-      while (idx === this.lastIndex && attempts < 10) {
-        idx = Math.floor(Math.random() * ENGLISH_BANK.length);
-        attempts++;
-      }
-      this.lastIndex = idx;
-      this.curr = ENGLISH_BANK[idx];
-
-      document.getElementById('q-text').innerText = this.curr.q;
-      document.getElementById('q-tag').innerText = this.curr.t + " • HK2";
-
-      const shuffled = [...this.curr.o].sort(() => Math.random() - 0.5);
-      document.getElementById('q-action').innerHTML = `
-        <div class="option-list">
-          ${shuffled.map(o => `<button class="option-item" onclick="englishGame.check(this, '${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}
-        </div>
-        <div style="width:100%; display:flex; justify-content:center; margin-top:10px;">
-          <button class="btn-confirm small" style="background:#555;" onclick="englishGame.skip()">BỎ QUA</button>
-        </div>
-      `;
-    },
-    check(btn, choice) {
-      if (this.isProcessing) return;
-      this.isProcessing = true;
-      const allBtns = document.querySelectorAll('.option-item');
-      allBtns.forEach(b => b.disabled = true);
-
-      if (choice === this.curr.a) {
-        streakSystem.increment(); 
-        galaxy.showGameToast("ĐÚNG RỒI! +10 XP", "success");
-        levelSystem.addXp(10);
-        setTimeout(() => this.generate(), 800);
-      } else {
-        streakSystem.reset(); 
-        galaxy.showGameToast(`SAI! ĐÁP ÁN: ${this.curr.a}`, "error");
-        setTimeout(() => this.generate(), 2000);
-      }
-    },
-    skip() {
-      if (this.isProcessing) return;
-      this.isProcessing = true;
-      streakSystem.reset(); 
-      galaxy.showGameToast("ĐÃ BỎ QUA", "info");
-      setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
-    }
-  };
-
-  function formatTime(ms){
-    if (ms < 0) ms = 0;
-    const totalSec = Math.floor(ms / 1000);
-    const h = String(Math.floor(totalSec / 3600)).padStart(2,'0');
-    const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2,'0');
-    const s = String(totalSec % 60).padStart(2,'0');
-    return `${h}:${m}:${s}`;
-  }
-
-  function getNextSundayNoon(){
-    const now = new Date();
-    const target = new Date(now);
-    const day = now.getDay();
-    let daysUntilSunday = (7 - day) % 7;
-    target.setDate(now.getDate() + daysUntilSunday);
-    target.setHours(12,0,0,0);
-    if (day === 0 && now.getTime() >= target.getTime()){
-      target.setDate(target.getDate() + 7);
-    }
-    return target;
-  }
-
-  function startWeeklyResetCountdown(){
-    const el = document.getElementById("weekly-reset-countdown");
-    if (!el) return;
-    const tick = () => {
-      const now = new Date();
-      const nextReset = getNextSundayNoon();
-      const diff = nextReset.getTime() - now.getTime();
-      el.innerText = formatTime(diff);
+    const englishGame = {
+        curr: null, lastIndex: -1, isProcessing: false,
+        start() {
+            galaxy.updateGameStats('english');
+            document.getElementById('game-overlay').style.display = 'flex';
+            document.getElementById('game-label').innerText = "ENGLISH COMMAND";
+            document.getElementById('anime-selection-screen').classList.add('hidden');
+            document.getElementById('game-content-area').classList.remove('hidden');
+            document.getElementById('game-content-area').style.display = 'flex';
+            galaxy.renderGameScoreboard();
+            streakSystem.reset(); this.generate();
+        },
+        generate() {
+            this.isProcessing = false; galaxy.applyTransition();
+            if (ENGLISH_BANK.length === 0) return;
+            let idx = Math.floor(Math.random() * ENGLISH_BANK.length);
+            let attempts = 0; while (idx === this.lastIndex && attempts < 10) { idx = Math.floor(Math.random() * ENGLISH_BANK.length); attempts++; }
+            this.lastIndex = idx; this.curr = ENGLISH_BANK[idx];
+            document.getElementById('q-text').innerText = this.curr.q;
+            document.getElementById('q-tag').innerText = this.curr.t + " • HK2";
+            const shuffled = [...this.curr.o].sort(() => Math.random() - 0.5);
+            document.getElementById('q-action').innerHTML = `<div class="option-list">${shuffled.map(o => `<button class="option-item" onclick="englishGame.check(this, '${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div><div style="width:100%; display:flex; justify-content:center; margin-top:10px;"><button class="btn-confirm small" style="background:#555;" onclick="englishGame.skip()">BỎ QUA</button></div>`;
+        },
+        check(btn, choice) {
+            if (this.isProcessing) return;
+            this.isProcessing = true;
+            document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
+            if (choice === this.curr.a) {
+                streakSystem.increment(); galaxy.showGameToast("ĐÚNG RỒI! +10 XP", "success");
+                levelSystem.addXp(10); setTimeout(() => this.generate(), 800);
+            } else {
+                streakSystem.reset(); galaxy.showGameToast(`SAI! ĐÁP ÁN: ${this.curr.a}`, "error");
+                setTimeout(() => this.generate(), 2000);
+            }
+        },
+        skip() {
+            if (this.isProcessing) return;
+            this.isProcessing = true; streakSystem.reset(); galaxy.showGameToast("ĐÃ BỎ QUA", "info");
+            setTimeout(() => { this.isProcessing = false; this.generate(); }, 600);
+        }
     };
-    tick();
-    setInterval(tick, 1000);
-  }
 
-  startWeeklyResetCountdown();
-  
-  window.galaxy = galaxy;
-  window.englishGame = englishGame;
-  window.mathGame = mathGame;
-  window.animeGame = animeGame;
-  window.authSystem = authSystem;
-  
-  window.onload = () => galaxy.init();
+    // --- UTILS & GLOBAL BINDING ---
+    function formatTime(ms){
+        if (ms < 0) ms = 0;
+        const totalSec = Math.floor(ms / 1000);
+        const h = String(Math.floor(totalSec / 3600)).padStart(2,'0');
+        const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2,'0');
+        const s = String(totalSec % 60).padStart(2,'0');
+        return `${h}:${m}:${s}`;
+    }
+
+    function startWeeklyResetCountdown(){
+        const el = document.getElementById("weekly-reset-countdown");
+        if (!el) return;
+        const tick = () => {
+            const now = new Date();
+            const target = new Date(now);
+            let daysUntilSunday = (7 - now.getDay()) % 7;
+            target.setDate(now.getDate() + daysUntilSunday);
+            target.setHours(12,0,0,0);
+            if (now.getDay() === 0 && now.getTime() >= target.getTime()) target.setDate(target.getDate() + 7);
+            el.innerText = formatTime(target.getTime() - now.getTime());
+        };
+        tick(); setInterval(tick, 1000);
+    }
+    
+    // Global binding for HTML onclick compatibility
+    window.galaxy = galaxy;
+    window.englishGame = englishGame;
+    window.mathGame = mathGame;
+    window.animeGame = animeGame;
+    window.authSystem = authSystem;
+    
+    // Admin functions
+    window.adminAdjust = function(docId, delta) { galaxy.adminAdjustPoints(docId, delta); }
+    window.adminApplyInput = async function(docId){
+        if (!adminLogged) return;
+        const input = document.getElementById("admin-point-input");
+        const val = parseInt((input?.value || "").trim(), 10);
+        if (!input || isNaN(val) || val === 0) return galaxy.toast("Nhập số điểm hợp lệ");
+        await galaxy.adminAdjustPoints(docId, val);
+        input.value = "";
+    }
+    window.adminResetScores = async function(){
+        if (!adminLogged) return;
+        if(!confirm("Bạn có chắc chắn muốn RESET điểm về 0?")) return;
+        try{
+            await galaxy.ensureTeamsDocs(); // Ensure docs exist (re-using existing method if needed or logic)
+            const colSnap = await getDocs(collection(db, "teams"));
+            const before = {}; colSnap.forEach(d => before[d.id] = d.data().score || 0);
+            const batch = writeBatch(db);
+            colSnap.forEach(d => batch.update(doc(db, "teams", d.id), { score: 0, updatedAt: Date.now() }));
+            await batch.commit();
+            adminLastAction = { type: "reset", before };
+            galaxy.toast("Đã RESET điểm tất cả tổ");
+        } catch(e){ console.error(e); galaxy.toast("Lỗi reset điểm"); }
+    }
+    window.adminUndo = async function(){
+        if (!adminLogged || !adminLastAction) return galaxy.toast("Không có gì để hoàn tác");
+        try{
+            if (adminLastAction.type === "adjust"){
+                await galaxy.adminAdjustPoints(adminLastAction.docId, -adminLastAction.delta);
+                galaxy.toast("Đã hoàn tác");
+            } else if (adminLastAction.type === "reset"){
+                const before = adminLastAction.before || {};
+                const batch = writeBatch(db);
+                Object.keys(DOC_TO_TEAM).forEach(docId => {
+                    batch.update(doc(db, "teams", docId), { score: before[docId] ?? 0, updatedAt: Date.now() });
+                });
+                await batch.commit();
+                galaxy.toast("Đã hoàn tác RESET");
+            }
+            adminLastAction = null;
+        } catch(e){ console.error(e); galaxy.toast("Lỗi hoàn tác"); }
+    }
+
+    startWeeklyResetCountdown();
+    window.onload = () => galaxy.init();
 </script>
 </body>
 </html>
-
