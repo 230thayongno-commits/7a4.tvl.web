@@ -1887,7 +1887,7 @@
                     avatar: u.avatar // might be undefined, will handle in render
                  });
             });
-            cachedUsers.sort((a,b) => b.xp - a.xp);
+            cachedUsers.sort((a,b) => b.level === a.level ? b.xp - a.xp : b.level - a.level);
             
             this.renderUserLeaderboard();
             this.updateMenuRank(); // Update rank in menu if open
@@ -3933,3 +3933,4 @@ const animeGame = {
 </script>
 </body>
 </html>
+
