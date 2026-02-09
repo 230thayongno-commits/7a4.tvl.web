@@ -730,35 +730,59 @@
         increment() { this.current++; this.updateUI(); }
     };
 
-    const levelSystem = {
-        getXpForNextLevel: (lvl) => lvl * 100,
-async addXp(amount) {
-    if (currentUser.isGuest) return;
+const levelSystem = {
+    async addXp(amount) {
+        if (currentUser.isGuest) return;
 
-    currentUser.xp += amount;
+        currentUser.xp += amount;
 
-    let needed = this.getXpForNextLevel(currentUser.level);
-    if (currentUser.xp >= needed) {
-        currentUser.xp -= needed;
-        currentUser.level++;
-        galaxy.showGameToast(`LEVEL UP! -> ${currentUser.level}`, "success");
+        const needed = this.getXpForNextLevel(currentUser.level);
+        if (currentUser.xp >= needed) {
+            currentUser.xp -= needed;
+            currentUser.level++;
+            galaxy.showGameToast(`LEVEL UP! -> ${currentUser.level}`, "success");
+        }
+
+        this.renderLevelUI();
+        this.saveUserProgress();
+    },
+
+    renderLevelUI() {
+        if (currentUser.isGuest) {
+            const el = document.getElementById('level-ui');
+            if (el) el.style.display = 'none';
+            return;
+        }
+
+        const ui = document.getElementById('level-ui');
+        if (!ui) return;
+
+        ui.style.display = 'flex';
+        document.getElementById('level-text').innerText = `LV.${currentUser.level}`;
+
+        const needed = this.getXpForNextLevel(currentUser.level);
+        const percent = Math.min(100, (currentUser.xp / needed) * 100);
+        document.getElementById('level-bar').style.width = `${percent}%`;
+    },
+
+    async saveUserProgress() {
+        if (!currentUser.id) return;
+        try {
+            await updateDoc(doc(db, "users", currentUser.id), {
+                xp: currentUser.xp,
+                level: currentUser.level,
+                stats: currentUser.stats,
+                lastActive: Date.now()
+            });
+        } catch (e) {
+            console.error("Save User Err", e);
+        }
+    },
+
+    getXpForNextLevel(level) {
+        return Math.floor(100 + level * level * 50);
     }
-
-    this.renderLevelUI();
-    this.saveUserProgress();
-}, // ✅ DẤU PHẨY QUAN TRỌNG
-
-renderLevelUI() {
-    if (currentUser.isGuest) {
-        document.getElementById('level-ui').style.display = 'none';
-        return;
-    }
-    document.getElementById('level-ui').style.display = 'flex';
-    document.getElementById('level-text').innerText = `LV.${currentUser.level}`;
-    const needed = this.getXpForNextLevel(currentUser.level);
-    const percent = (currentUser.xp / needed) * 100;
-    document.getElementById('level-bar').style.width = `${percent}%`;
-},
+};
 
     const galaxy = {
         currentTheme: 'galaxy',
@@ -3062,6 +3086,7 @@ renderLevelUI() {
 </script>
 </body>
 </html>
+
 
 
 
