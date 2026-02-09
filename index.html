@@ -746,101 +746,19 @@ async addXp(amount) {
 
     this.renderLevelUI();
     this.saveUserProgress();
-}
-        renderLevelUI() {
-            if (currentUser.isGuest) {
-                document.getElementById('level-ui').style.display = 'none';
-                return;
-            }
-            document.getElementById('level-ui').style.display = 'flex';
-            document.getElementById('level-text').innerText = `LV.${currentUser.level}`;
-            const needed = this.getXpForNextLevel(currentUser.level);
-            const percent = (currentUser.xp / needed) * 100;
-            document.getElementById('level-bar').style.width = `${percent}%`;
-        },
-        async saveUserProgress() {
-            if (!currentUser.id) return;
-            try {
-                await updateDoc(doc(db, "users", currentUser.id), {
-                    xp: currentUser.xp, level: currentUser.level, stats: currentUser.stats, lastActive: Date.now()
-                });
-            } catch (e) { console.error("Save User Err", e); }
-        }
-    };
+}, // ✅ DẤU PHẨY QUAN TRỌNG
 
-    const authSystem = {
-        showLogin() {
-            document.getElementById('selector-screen').style.display = 'none';
-            document.getElementById('auth-modal').style.display = 'flex';
-            this.switchTab('login');
-        },
-        close() {
-            document.getElementById('auth-modal').style.display = 'none';
-            document.getElementById('selector-screen').style.display = 'flex';
-        },
-        switchTab(tab) {
-            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(`tab-${tab}`).classList.add('active');
-            if (tab === 'login') {
-                document.getElementById('form-login').classList.remove('hidden');
-                document.getElementById('form-register').classList.add('hidden');
-            } else {
-                document.getElementById('form-login').classList.add('hidden');
-                document.getElementById('form-register').classList.remove('hidden');
-            }
-        },
-        async doLogin() {
-            const u = document.getElementById('login-user').value.trim().toLowerCase();
-            const p = document.getElementById('login-pass').value.trim();
-            if(!u || !p) return alert("Vui lòng nhập đủ thông tin");
-            try {
-                const snap = await getDoc(doc(db, "users", u));
-                if (!snap.exists()) return alert("Tài khoản không tồn tại!");
-                const data = snap.data();
-                if (data.password !== p) return alert("Mật khẩu sai!");
-                this.setSession(u, data);
-            } catch(e) { console.error(e); alert("Lỗi đăng nhập"); }
-        },
-        async doRegister() {
-            const u = document.getElementById('reg-user').value.trim().toLowerCase();
-            const p = document.getElementById('reg-pass').value.trim();
-            const t = document.getElementById('reg-team').value;
-            if(!u || !p) return alert("Vui lòng nhập đủ thông tin");
-            if(u.length < 3) return alert("Tên đăng nhập quá ngắn");
-            try {
-                const ref = doc(db, "users", u);
-                const snap = await getDoc(ref);
-                if (snap.exists()) return alert("Tên đăng nhập đã tồn tại!");
-                await setDoc(ref, {
-                    username: u, password: p, team: t, level: 1, xp: 0,
-                    stats: { math: 0, english: 0, anime: 0 }, createdAt: Date.now()
-                });
-                alert("Đăng ký thành công! Hãy đăng nhập ngay.");
-                this.switchTab('login');
-            } catch(e) { console.error(e); alert("Lỗi tạo tài khoản"); }
-        },
-        setSession(username, data) {
-            currentUser.id = username;
-            currentUser.team = data.team;
-            currentUser.level = data.level || 1;
-            currentUser.xp = data.xp || 0;
-            currentUser.stats = data.stats || { math: 0, english: 0, anime: 0 };
-            currentUser.isGuest = false;
-            localStorage.setItem('7a4_user_id', username);
-            galaxy.loadAvatar(username);
-            document.getElementById('auth-modal').style.display = 'none';
-            galaxy.showMain();
-        },
-        async checkAutoLogin() {
-            const uid = localStorage.getItem('7a4_user_id');
-            if (!uid) return false;
-            try {
-                const snap = await getDoc(doc(db, "users", uid));
-                if (snap.exists()) { this.setSession(uid, snap.data()); return true; }
-            } catch(e) { console.error(e); }
-            return false;
-        }
-    };
+renderLevelUI() {
+    if (currentUser.isGuest) {
+        document.getElementById('level-ui').style.display = 'none';
+        return;
+    }
+    document.getElementById('level-ui').style.display = 'flex';
+    document.getElementById('level-text').innerText = `LV.${currentUser.level}`;
+    const needed = this.getXpForNextLevel(currentUser.level);
+    const percent = (currentUser.xp / needed) * 100;
+    document.getElementById('level-bar').style.width = `${percent}%`;
+},
 
     const galaxy = {
         currentTheme: 'galaxy',
@@ -3144,5 +3062,6 @@ async addXp(amount) {
 </script>
 </body>
 </html>
+
 
 
