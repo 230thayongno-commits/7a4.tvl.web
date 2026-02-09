@@ -732,19 +732,21 @@
 
     const levelSystem = {
         getXpForNextLevel: (lvl) => lvl * 100,
-        async addXp(amount) {
-            await galaxy.addPointsToTeam(amount);
-            if (currentUser.isGuest) return;
-            currentUser.xp += amount;
-            let needed = this.getXpForNextLevel(currentUser.level);
-            if (currentUser.xp >= needed) {
-                currentUser.xp -= needed;
-                currentUser.level++;
-                galaxy.showGameToast(`LEVEL UP! -> ${currentUser.level}`, "success");
-            }
-            this.renderLevelUI();
-            this.saveUserProgress();
-        },
+async addXp(amount) {
+    if (currentUser.isGuest) return;
+
+    currentUser.xp += amount;
+
+    let needed = this.getXpForNextLevel(currentUser.level);
+    if (currentUser.xp >= needed) {
+        currentUser.xp -= needed;
+        currentUser.level++;
+        galaxy.showGameToast(`LEVEL UP! -> ${currentUser.level}`, "success");
+    }
+
+    this.renderLevelUI();
+    this.saveUserProgress();
+}
         renderLevelUI() {
             if (currentUser.isGuest) {
                 document.getElementById('level-ui').style.display = 'none';
@@ -3142,4 +3144,5 @@
 </script>
 </body>
 </html>
+
 
