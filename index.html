@@ -556,32 +556,40 @@
             </div>
 
             <div class="mission-grid">
-                <div class="mission-card" onclick="englishGame.start()">
-                    <span class="mission-icon">🇬🇧</span>
-                    <div class="mission-name">Tiếng Anh HK2</div>
-                    <div class="mission-desc">100+ câu hỏi Vocabulary, Adverbs, How structure, Ability...</div>
-                </div>
-                <div class="mission-card" onclick="mathGame.start()">
-                    <span class="mission-icon">📐</span>
-                    <div class="mission-name">Toán Học</div>
-                    <div class="mission-desc">Cộng trừ, nhân chia, tìm x, số mũ. (Có phím Enter)</div>
-                </div>
-                <div class="mission-card" onclick="animeGame.start()">
-                    <span class="badge-new">4.1</span><span class="mission-icon">🇯🇵</span>
-                    <div class="mission-name">Anime Zone</div>
-                    <div class="mission-desc">Thử thách kiến thức về các bộ Anime. Với hơn 500 câu hỏi.</div>
-                </div>
-                <div class="mission-card" onclick="khtnGame.start()">
-                    <span class="badge-new">MỚI</span><span class="mission-icon">🧪</span>
-                    <div class="mission-name">KHTN</div>
-                    <div class="mission-desc">Hệ thống câu hỏi ôn tập Khoa học tự nhiên HK2 (Lý, Hóa, Sinh).</div>
-                </div>
-                <div class="mission-card" onclick="gameZoneGame.showMenu()">
-                    <span class="mission-icon">🎮</span>
-                    <div class="mission-name">Game Zone</div>
-                    <div class="mission-desc">Thử thách kiến thức Game & Minigame Online.</div>
-                </div>
-            </div>
+    <div class="mission-card" onclick="englishGame.start()">
+        <span class="mission-icon">🇬🇧</span>
+        <div class="mission-name">Tiếng Anh HK2</div>
+        <div class="mission-desc">100+ câu hỏi Vocabulary, Adverbs, How structure, Ability.</div>
+    </div>
+    <div class="mission-card" onclick="mathGame.start()">
+        <span class="mission-icon">📐</span>
+        <div class="mission-name">Toán Học</div>
+        <div class="mission-desc">Cộng trừ, nhân chia, tìm x, số mũ. (Có phím Enter)</div>
+    </div>
+    <div class="mission-card" onclick="animeGame.start()">
+        <span class="mission-icon">🇯🇵</span>
+        <div class="mission-name">Anime Zone</div>
+        <div class="mission-desc">Thử thách kiến thức về các bộ Anime. Với hơn 500 câu hỏi.</div>
+    </div>
+    <div class="mission-card" onclick="khtnGame.start()">
+        <span class="mission-icon">🧪</span>
+        <div class="mission-name">KHTN</div>
+        <div class="mission-desc">Hệ thống câu hỏi ôn tập Khoa học tự nhiên HK2 (Lý, Hóa, Sinh).</div>
+    </div>
+
+    <!-- NEW: Movie / Phim -->
+    <div class="mission-card" onclick="movieGame.start()">
+        <span class="mission-icon">🎬</span>
+        <div class="mission-name">PHIM</div>
+        <div class="mission-desc">Chọn bộ phim bạn muốn — rồi trả lời câu hỏi về phim đó.</div>
+    </div>
+
+    <div class="mission-card" onclick="gameZoneGame.showMenu()">
+        <span class="mission-icon">🎮</span>
+        <div class="mission-name">Game Zone</div>
+        <div class="mission-desc">Thử thách kiến thức Game & Minigame Online.</div>
+    </div>
+</div>
 
             <footer>*Nếu web có lỗi gì hay các câu hỏi sai xin liên hệ admin tại 2 trang tik tok của lớp.</footer>
         </div>
@@ -710,6 +718,14 @@
             <div id="game-select-count" style="margin-bottom:15px; font-weight:bold; color:var(--primary);">Đã chọn: 0</div>
             <button id="btn-start-gamequiz" class="btn-confirm" disabled onclick="gameZoneGame.confirmSelection()">BẮT ĐẦU</button>
         </div>
+
+		<div id="movie-selection-screen" class="hidden" style="width:100%; max-width:600px; text-align:center; margin: 0 auto;">
+   			 <h3 style="color:var(--primary); margin-top:0;">CHỌN ÍT NHẤT 5 BỘ PHIM</h3>
+   			 <div style="font-size:0.8rem; margin-bottom:15px; opacity:0.8;">Câu hỏi sẽ chỉ xuất hiện trong các bộ phim bạn đã chọn.</div>
+  		 	 <div id="movie-checkbox-grid" class="anime-tag-grid"></div>
+  			  <div id="movie-select-count" style="margin-bottom:15px; font-weight:bold; color:var(--primary);">Đã chọn: 0</div>
+    		<button id="btn-start-movie" class="btn-confirm" disabled onclick="movieGame.confirmSelection()">BẮT ĐẦU</button>
+	</div>	
 
         <div id="game-content-area" class="game-content">
             <div id="q-tag" class="q-tag">Kiến thức HK2</div>
@@ -1356,25 +1372,42 @@ const mathGame = {
     },
 
     // ===== CHECK =====
-    check() {
-        if (this.isProcessing) return;
-        this.isProcessing = true;
+check() {
+    if (this.isProcessing) return;
+    this.isProcessing = true;
 
-        document.getElementById('btn-m-confirm').disabled = true;
+    document.getElementById('btn-m-confirm').disabled = true;
 
-        const val = parseInt(document.getElementById('m-input')?.value || '', 10);
+    const val = parseInt(document.getElementById('m-input')?.value || '', 10);
 
-        if (val === this.ans) {
-            streakSystem.increment();
-            galaxy.showGameToast("ĐÚNG RỒI! +10 XP", "success");
-            levelSystem.addXp(10);
-            setTimeout(() => this.generate(), 800);
-        } else {
-            streakSystem.reset();
-            galaxy.showGameToast("SAI RỒI!", "error");
-            setTimeout(() => this.generate(), 1400);
+    if (val === this.ans) {
+
+        streakSystem.increment();
+
+        // 🔥 DÙNG ĐÚNG BIẾN
+        const streak = streakSystem.current;
+
+        let xp = 10;
+
+        if (streak >= 3) {
+            xp = 10 + (streak - 2) * 3;
+            if (xp > 25) xp = 25;
         }
-    },
+
+        galaxy.showGameToast(`ĐÚNG RỒI! +${xp} XP`, "success");
+        levelSystem.addXp(xp);
+
+        setTimeout(() => this.generate(), 800);
+
+    } else {
+
+        streakSystem.reset();
+        galaxy.showGameToast("SAI RỒI!", "error");
+
+        setTimeout(() => this.generate(), 1400);
+    }
+},
+
 
     // ===== SKIP =====
     skip() {
@@ -3176,18 +3209,42 @@ const mathGame = {
             const shuffled = [...this.curr.o].sort(() => Math.random() - 0.5);
             document.getElementById('q-action').innerHTML = `<div class="option-list">${shuffled.map(o => `<button class="option-item" onclick="englishGame.check(this, '${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div><div style="width:100%; display:flex; justify-content:center; margin-top:10px;"><button class="btn-confirm small" style="background:#555;" onclick="englishGame.skip()">BỎ QUA</button></div>`;
         },
-        check(btn, choice) {
-            if (this.isProcessing) return;
-            this.isProcessing = true;
-            document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
-            if (choice === this.curr.a) {
-                streakSystem.increment(); galaxy.showGameToast("ĐÚNG RỒI! +10 XP", "success");
-                levelSystem.addXp(10); setTimeout(() => this.generate(), 800);
-            } else {
-                streakSystem.reset(); galaxy.showGameToast(`SAI! ĐÁP ÁN: ${this.curr.a}`, "error");
-                setTimeout(() => this.generate(), 2000);
-            }
-        },
+
+check(btn, choice) {
+    if (this.isProcessing) return;
+    this.isProcessing = true;
+
+    document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
+
+    if (choice === this.curr.a) {
+
+        streakSystem.increment();
+
+        // 🔥 dùng đúng biến trong file của bạn
+        const streak = streakSystem.current;
+
+        let xp = 10;
+
+        if (streak >= 3) {
+            xp = 10 + (streak - 2) * 3;
+            if (xp > 25) xp = 25;
+        }
+
+        galaxy.showGameToast(`ĐÚNG RỒI! +${xp} XP`, "success");
+        levelSystem.addXp(xp);
+
+        setTimeout(() => this.generate(), 800);
+
+    } else {
+
+        streakSystem.reset();
+        galaxy.showGameToast(`SAI! ĐÁP ÁN: ${this.curr.a}`, "error");
+
+        setTimeout(() => this.generate(), 2000);
+    }
+},
+
+
         skip() {
             if (this.isProcessing) return;
             this.isProcessing = true; streakSystem.reset(); galaxy.showGameToast("ĐÃ BỎ QUA", "info");
@@ -3251,70 +3308,54 @@ const mathGame = {
 	
 	// BÀI 15
 	{ q: "Vùng không gian xung quanh nam châm có tính chất gì?", a: "Có từ trường", o: ["Có từ trường", "Có điện trường", "Có trọng trường", "Không có tính chất gì"], t: "Vật Lý" },
-{ q: "Từ trường có khả năng tác dụng lực từ lên vật nào?", a: "Vật liệu từ đặt trong đó", o: ["Vật liệu từ đặt trong đó", "Mọi vật đặt gần nó", "Chỉ các vật bằng nhôm", "Chỉ các vật bằng đồng"], t: "Vật Lý" },
-{ q: "Từ trường tồn tại ở đâu?", a: "Xung quanh nam châm hoặc dây dẫn mang dòng điện", o: ["Xung quanh nam châm hoặc dây dẫn mang dòng điện", "Chỉ xung quanh thanh sắt", "Trong lòng các vật bằng nhựa", "Xung quanh các vật không nhiễm từ"], t: "Vật Lý" },
-{ q: "Hình ảnh trực quan về từ trường được tạo bởi mạt sắt gọi là gì?", a: "Từ phổ", o: ["Từ phổ", "Quang phổ", "Đường sức từ", "Lực từ"], t: "Vật Lý" },
-{ q: "Để quan sát từ phổ, người ta thường dùng vật liệu nào?", a: "Mạt sắt", o: ["Mạt sắt", "Vụn đồng", "Vụn nhôm", "Cát mịn"], t: "Vật Lý" },
-{ q: "Các mạt sắt trong từ phổ sắp xếp thành hình dạng gì?", a: "Các đường cong", o: ["Các đường cong", "Các đường thẳng song song", "Các hình tròn đồng tâm", "Các đường gấp khúc"], t: "Vật Lý" },
-{ q: "Trong từ phổ, các đường mạt sắt nối từ đâu đến đâu?", a: "Từ cực này sang cực kia của nam châm", o: ["Từ cực này sang cực kia của nam châm", "Từ tâm nam châm ra ngoài", "Từ cực Bắc đến vô cực", "Chỉ tập trung tại một cực"], t: "Vật Lý" },
-{ q: "Mạt sắt ở đâu trong từ phổ được sắp xếp dày nhất?", a: "Ở hai cực nam châm", o: ["Ở hai cực nam châm", "Ở giữa thanh nam châm", "Ở xa nam châm", "Dàn đều xung quanh"], t: "Vật Lý" },
-{ q: "Đường sức từ là gì?", a: "Đường được vẽ dọc theo các đường mạt sắt", o: ["Đường được vẽ dọc theo các đường mạt sắt", "Đường thẳng nối hai cực", "Đường đi của dòng điện", "Đường nối tâm Trái Đất"], t: "Vật Lý" },
-{ q: "Mỗi đường sức từ có đặc điểm nào sau đây?", a: "Có một chiều xác định", o: ["Có một chiều xác định", "Không có chiều", "Có hai chiều ngược nhau", "Luôn là đường thẳng"], t: "Vật Lý" },
-{ q: "Bên ngoài nam châm, đường sức từ có chiều đi ra từ cực nào?", a: "Cực Bắc (N)", o: ["Cực Bắc (N)", "Cực Nam (S)", "Cực Đông", "Cực Tây"], t: "Vật Lý" },
-{ q: "Bên ngoài nam châm, đường sức từ có chiều đi vào cực nào?", a: "Cực Nam (S)", o: ["Cực Nam (S)", "Cực Bắc (N)", "Cực Đông", "Cực Tây"], t: "Vật Lý" },
-{ q: "Quy ước chiều của đường sức từ bên ngoài nam châm là gì?", a: "Ra Bắc, vào Nam", o: ["Ra Bắc, vào Nam", "Ra Nam, vào Bắc", "Từ trái sang phải", "Từ trong ra ngoài"], t: "Vật Lý" },
-{ q: "Nơi nào từ trường mạnh thì đường sức từ như thế nào?", a: "Dày (mau)", o: ["Dày (mau)", "Thưa", "Nằm ngang", "Rất dài"], t: "Vật Lý" },
-{ q: "Nơi nào từ trường yếu thì đường sức từ như thế nào?", a: "Thưa", o: ["Thưa", "Dày (mau)", "Ngắn", "Cong nhiều hơn"], t: "Vật Lý" },
-{ q: "Đường sức từ giúp chúng ta hình dung điều gì?", a: "Hình dạng của từ trường", o: ["Hình dạng của từ trường", "Khối lượng nam châm", "Độ dẫn điện của nam châm", "Nhiệt độ của nam châm"], t: "Vật Lý" },
-{ q: "Từ trường có thể tác dụng lực lên dây dẫn mang dòng điện không?", a: "Có", o: ["Có", "Không", "Chỉ khi dây dẫn làm bằng nam châm", "Chỉ khi dây dẫn đặt rất xa"], t: "Vật Lý" },
-{ q: "Hình ảnh từ phổ cho biết điều gì về từ trường?", a: "Độ mạnh yếu và hình dạng không gian", o: ["Độ mạnh yếu và hình dạng không gian", "Màu sắc của từ trường", "Tốc độ của lực từ", "Khối lượng của mạt sắt"], t: "Vật Lý" },
-{ q: "Độ dày của các đường mạt sắt tại hai cực chứng tỏ điều gì?", a: "Từ trường tại đó là mạnh nhất", o: ["Từ trường tại đó là mạnh nhất", "Từ trường tại đó là yếu nhất", "Nam châm bị hỏng tại đó", "Mạt sắt bị hút bởi nhiệt độ"], t: "Vật Lý" },
-{ q: "Khi dùng bút tô dọc theo các đường mạt sắt, ta được gì?", a: "Các đường sức từ", o: ["Các đường sức từ", "Các đường điện từ", "Các đường quang phổ", "Các đường lực cơ học"], t: "Vật Lý" },
-{ q: "Trong các phát biểu sau, phát biểu nào ĐÚNG về đường sức từ?", a: "Mỗi đường sức từ có chiều xác định", o: ["Mỗi đường sức từ có chiều xác định", "Đường sức từ luôn là đường thẳng", "Đường sức từ đi ra từ cực Nam", "Đường sức từ càng thưa thì từ trường càng mạnh"], t: "Vật Lý" },
-{ q: "Vùng không gian nào sau đây có từ trường?", a: "Xung quanh một thanh nam châm thẳng", o: ["Xung quanh một thanh nam châm thẳng", "Xung quanh một thanh thủy tinh", "Xung quanh một viên gạch", "Xung quanh một tờ giấy"], t: "Vật Lý" },
-{ q: "Từ trường KHÔNG tác dụng lực từ lên vật nào?", a: "Mảnh nhựa", o: ["Mảnh nhựa", "Thanh sắt", "Kim nam châm", "Vụn thép"], t: "Vật Lý" },
-{ q: "Chiều đường sức từ được quy ước như thế nào?", a: "Đi ra từ cực N, đi vào cực S", o: ["Đi ra từ cực N, đi vào cực S", "Đi ra từ cực S, đi vào cực N", "Đi từ cực Đông sang Tây", "Đi ngẫu nhiên"], t: "Vật Lý" },
-{ q: "Dụng cụ nào dùng để nhận biết từ trường?", a: "Kim nam châm", o: ["Kim nam châm", "Nhiệt kế", "Thước dây", "Cân đồng hồ"], t: "Vật Lý" },
-{ q: "Đường sức từ của nam châm thẳng có hình dạng gì?", a: "Những đường cong đối xứng qua trục thanh nam châm", o: ["Những đường cong đối xứng qua trục thanh nam châm", "Những đường thẳng song song", "Những hình vuông", "Những đường xoắn ốc"], t: "Vật Lý" },
-{ q: "Đặc điểm của từ phổ là?", a: "Hình ảnh các đường mạt sắt sắp xếp trong từ trường", o: ["Hình ảnh các đường mạt sắt sắp xếp trong từ trường", "Các vạch màu sắc như cầu vồng", "Các tia sáng phát ra từ cực Bắc", "Sự thay đổi nhiệt độ xung quanh nam châm"], t: "Vật Lý" },
-{ q: "Chiều đường sức từ ở bên ngoài thanh nam châm là?", a: "Từ cực Bắc sang cực Nam", o: ["Từ cực Bắc sang cực Nam", "Từ cực Nam sang cực Bắc", "Từ trái sang phải", "Từ trên xuống dưới"], t: "Vật Lý" },
-{ q: "Đường sức từ càng 'mau' nghĩa là?", a: "Từ trường càng mạnh", o: ["Từ trường càng mạnh", "Từ trường càng yếu", "Nam châm càng nhỏ", "Khoảng cách càng xa"], t: "Vật Lý" },
-{ q: "Đường sức từ càng 'thưa' nghĩa là?", a: "Từ trường càng yếu", o: ["Từ trường càng yếu", "Từ trường càng mạnh", "Nam châm là nam châm vĩnh cửu", "Có nhiều mạt sắt"], t: "Vật Lý" },
-{ q: "Khái niệm từ trường liên quan đến loại lực nào?", a: "Lực từ", o: ["Lực từ", "Lực điện", "Lực đàn hồi", "Lực ma sát"], t: "Vật Lý" },
-{ q: "Kí hiệu N trên nam châm là nơi đường sức từ đi ra hay vào?", a: "Đi ra", o: ["Đi ra", "Đi vào", "Vừa ra vừa vào", "Không có đường sức từ"], t: "Vật Lý" },
-{ q: "Kí hiệu S trên nam châm là nơi đường sức từ đi ra hay vào?", a: "Đi vào", o: ["Đi vào", "Đi ra", "Không xác định", "Đi ngang qua"], t: "Vật Lý" },
-
-{ q: "Mạt sắt giúp ta quan sát từ trường vì?", a: "Sắt là vật liệu từ bị từ trường tác dụng lực", o: ["Sắt là vật liệu từ bị từ trường tác dụng lực", "Sắt có màu đen dễ thấy", "Sắt rất nhẹ", "Sắt dẫn nhiệt tốt"], t: "Vật Lý" },
-
-{ q: "Từ trường tác dụng lên vật liệu từ đặt trong nó lực gì?", a: "Lực từ", o: ["Lực từ", "Lực đẩy Archimedes", "Lực hấp dẫn", "Lực vạn vật hữu hình"], t: "Vật Lý" },
-
-{ q: "Đường sức từ có thể giao nhau không? (Suy luận từ chiều xác định)", a: "Không", o: ["Không", "Có", "Chỉ giao nhau ở cực Bắc", "Chỉ giao nhau ở cực Nam"], t: "Vật Lý" },
-
-{ q: "Hình ảnh từ phổ xung quanh nam châm chữ U sẽ khác nam châm thẳng ở điểm nào?", a: "Hình dạng các đường cong mạt sắt", o: ["Hình dạng các đường cong mạt sắt", "Màu sắc của mạt sắt", "Chiều của lực từ", "Số lượng các cực từ"], t: "Vật Lý" },
-
-{ q: "Nếu đặt một kim nam châm trong từ trường, nó sẽ:", a: "Bị tác dụng lực từ và định hướng theo đường sức từ", o: ["Bị tác dụng lực từ và định hướng theo đường sức từ", "Đứng yên bất động", "Bị nóng lên", "Biến thành sắt thường"], t: "Vật Lý" },
-
-{ q: "Từ trường là một dạng của:", a: "Vật chất", o: ["Vật chất", "Năng lượng ánh sáng", "Chất lỏng", "Chất khí"], t: "Vật Lý" },
-
-{ q: "Khi di chuyển ra xa nam châm, từ trường sẽ?", a: "Yếu dần", o: ["Yếu dần", "Mạnh dần", "Không thay đổi", "Biến mất ngay lập tức"], t: "Vật Lý" },
-
-{ q: "Đường sức từ cho biết?", a: "Cả chiều và độ mạnh yếu của từ trường", o: ["Cả chiều và độ mạnh yếu của từ trường", "Chỉ cho biết chiều", "Chỉ cho biết độ mạnh yếu", "Chỉ cho biết tên nam châm"], t: "Vật Lý" },
-
-{ q: "Tại sao ở hai cực mạt sắt lại dày nhất?", a: "Vì từ trường tập trung mạnh nhất tại hai cực", o: ["Vì từ trường tập trung mạnh nhất tại hai cực", "Vì hai cực có nhiều sơn", "Vì hai cực rộng hơn giữa thanh", "Vì mạt sắt thích nằm ở đó"], t: "Vật Lý" },
-
-{ q: "Từ 'mau' trong mô tả đường sức từ có nghĩa là?", a: "Dày, sát nhau", o: ["Dày, sát nhau", "Nhanh chóng", "Màu sắc rực rỡ", "Thưa thớt"], t: "Vật Lý" },
-
-{ q: "Một dây dẫn mang dòng điện có từ trường xung quanh không?", a: "Có", o: ["Có", "Không", "Chỉ khi dây dẫn làm bằng nam châm", "Chỉ khi dây dẫn cực dài"], t: "Vật Lý" },
-
-{ q: "Chiều đường sức từ đi VÀO cực nào?", a: "South (S)", o: ["South (S)", "North (N)", "West (W)", "East (E)"], t: "Vật Lý" },
-
-{ q: "Chiều đường sức từ đi RA từ cực nào?", a: "North (N)", o: ["North (N)", "South (S)", "East (E)", "West (W)"], t: "Vật Lý" },
-
-{ q: "Từ phổ là hình ảnh của?", a: "Các đường sức từ được cụ thể hóa bằng mạt sắt", o: ["Các đường sức từ được cụ thể hóa bằng mạt sắt", "Lực điện trường", "Các tia phóng xạ", "Dòng điện trong nam châm"], t: "Vật Lý" },
-
-{ q: "Đường sức từ là các đường?", a: "Khép kín hoặc vô hạn", o: ["Khép kín hoặc vô hạn", "Gấp khúc", "Luôn đứt đoạn", "Chỉ nằm trong lòng nam châm"], t: "Vật Lý" },
-
-{ q: "Yếu tố nào sau đây quyết định độ mạnh của lực từ lên vật liệu từ?", a: "Độ mạnh của từ trường tại vị trí đó", o: ["Độ mạnh của từ trường tại vị trí đó", "Màu sắc của thanh nam châm", "Hình dạng của mạt sắt", "Độ dài của dây treo"], t: "Vật Lý" },
+	{ q: "Từ trường có khả năng tác dụng lực từ lên vật nào?", a: "Vật liệu từ đặt trong đó", o: ["Vật liệu từ đặt trong đó", "Mọi vật đặt gần nó", "Chỉ các vật bằng nhôm", "Chỉ các vật bằng đồng"], t: "Vật Lý" },
+	{ q: "Từ trường tồn tại ở đâu?", a: "Xung quanh nam châm hoặc dây dẫn mang dòng điện", o: ["Xung quanh nam châm hoặc dây dẫn mang dòng điện", "Chỉ xung quanh thanh sắt", "Trong lòng các vật bằng nhựa", "Xung quanh các vật không nhiễm từ"], t: "Vật Lý" },
+	{ q: "Hình ảnh trực quan về từ trường được tạo bởi mạt sắt gọi là gì?", a: "Từ phổ", o: ["Từ phổ", "Quang phổ", "Đường sức từ", "Lực từ"], t: "Vật Lý" },
+	{ q: "Để quan sát từ phổ, người ta thường dùng vật liệu nào?", a: "Mạt sắt", o: ["Mạt sắt", "Vụn đồng", "Vụn nhôm", "Cát mịn"], t: "Vật Lý" },
+	{ q: "Các mạt sắt trong từ phổ sắp xếp thành hình dạng gì?", a: "Các đường cong", o: ["Các đường cong", "Các đường thẳng song song", "Các hình tròn đồng tâm", "Các đường gấp khúc"], t: "Vật Lý" },
+	{ q: "Trong từ phổ, các đường mạt sắt nối từ đâu đến đâu?", a: "Từ cực này sang cực kia của nam châm", o: ["Từ cực này sang cực kia của nam châm", "Từ tâm nam châm ra ngoài", "Từ cực Bắc đến vô cực", "Chỉ tập trung tại một cực"], t: "Vật Lý" },
+	{ q: "Mạt sắt ở đâu trong từ phổ được sắp xếp dày nhất?", a: "Ở hai cực nam châm", o: ["Ở hai cực nam châm", "Ở giữa thanh nam châm", "Ở xa nam châm", "Dàn đều xung quanh"], t: "Vật Lý" },
+	{ q: "Đường sức từ là gì?", a: "Đường được vẽ dọc theo các đường mạt sắt", o: ["Đường được vẽ dọc theo các đường mạt sắt", "Đường thẳng nối hai cực", "Đường đi của dòng điện", "Đường nối tâm Trái Đất"], t: "Vật Lý" },
+	{ q: "Mỗi đường sức từ có đặc điểm nào sau đây?", a: "Có một chiều xác định", o: ["Có một chiều xác định", "Không có chiều", "Có hai chiều ngược nhau", "Luôn là đường thẳng"], t: "Vật Lý" },
+	{ q: "Bên ngoài nam châm, đường sức từ có chiều đi ra từ cực nào?", a: "Cực Bắc (N)", o: ["Cực Bắc (N)", "Cực Nam (S)", "Cực Đông", "Cực Tây"], t: "Vật Lý" },
+	{ q: "Bên ngoài nam châm, đường sức từ có chiều đi vào cực nào?", a: "Cực Nam (S)", o: ["Cực Nam (S)", "Cực Bắc (N)", "Cực Đông", "Cực Tây"], t: "Vật Lý" },
+	{ q: "Quy ước chiều của đường sức từ bên ngoài nam châm là gì?", a: "Ra Bắc, vào Nam", o: ["Ra Bắc, vào Nam", "Ra Nam, vào Bắc", "Từ trái sang phải", "Từ trong ra ngoài"], t: "Vật Lý" },
+	{ q: "Nơi nào từ trường mạnh thì đường sức từ như thế nào?", a: "Dày (mau)", o: ["Dày (mau)", "Thưa", "Nằm ngang", "Rất dài"], t: "Vật Lý" },
+	{ q: "Nơi nào từ trường yếu thì đường sức từ như thế nào?", a: "Thưa", o: ["Thưa", "Dày (mau)", "Ngắn", "Cong nhiều hơn"], t: "Vật Lý" },
+	{ q: "Đường sức từ giúp chúng ta hình dung điều gì?", a: "Hình dạng của từ trường", o: ["Hình dạng của từ trường", "Khối lượng nam châm", "Độ dẫn điện của nam châm", "Nhiệt độ của nam châm"], t: "Vật Lý" },
+	{ q: "Từ trường có thể tác dụng lực lên dây dẫn mang dòng điện không?", a: "Có", o: ["Có", "Không", "Chỉ khi dây dẫn làm bằng nam châm", "Chỉ khi dây dẫn đặt rất xa"], t: "Vật Lý" },
+	{ q: "Hình ảnh từ phổ cho biết điều gì về từ trường?", a: "Độ mạnh yếu và hình dạng không gian", o: ["Độ mạnh yếu và hình dạng không gian", "Màu sắc của từ trường", "Tốc độ của lực từ", "Khối lượng của mạt sắt"], t: "Vật Lý" },
+	{ q: "Độ dày của các đường mạt sắt tại hai cực chứng tỏ điều gì?", a: "Từ trường tại đó là mạnh nhất", o: ["Từ trường tại đó là mạnh nhất", "Từ trường tại đó là yếu nhất", "Nam châm bị hỏng tại đó", "Mạt sắt bị hút bởi nhiệt độ"], t: "Vật Lý" },
+	{ q: "Khi dùng bút tô dọc theo các đường mạt sắt, ta được gì?", a: "Các đường sức từ", o: ["Các đường sức từ", "Các đường điện từ", "Các đường quang phổ", "Các đường lực cơ học"], t: "Vật Lý" },
+	{ q: "Trong các phát biểu sau, phát biểu nào ĐÚNG về đường sức từ?", a: "Mỗi đường sức từ có chiều xác định", o: ["Mỗi đường sức từ có chiều xác định", "Đường sức từ luôn là đường thẳng", "Đường sức từ đi ra từ cực Nam", "Đường sức từ càng thưa thì từ trường càng mạnh"], t: "Vật Lý" },
+	{ q: "Vùng không gian nào sau đây có từ trường?", a: "Xung quanh một thanh nam châm thẳng", o: ["Xung quanh một thanh nam châm thẳng", "Xung quanh một thanh thủy tinh", "Xung quanh một viên gạch", "Xung quanh một tờ giấy"], t: "Vật Lý" },
+	{ q: "Từ trường KHÔNG tác dụng lực từ lên vật nào?", a: "Mảnh nhựa", o: ["Mảnh nhựa", "Thanh sắt", "Kim nam châm", "Vụn thép"], t: "Vật Lý" },
+	{ q: "Chiều đường sức từ được quy ước như thế nào?", a: "Đi ra từ cực N, đi vào cực S", o: ["Đi ra từ cực N, đi vào cực S", "Đi ra từ cực S, đi vào cực N", "Đi từ cực Đông sang Tây", "Đi ngẫu nhiên"], t: "Vật Lý" },
+	{ q: "Dụng cụ nào dùng để nhận biết từ trường?", a: "Kim nam châm", o: ["Kim nam châm", "Nhiệt kế", "Thước dây", "Cân đồng hồ"], t: "Vật Lý" },
+	{ q: "Đường sức từ của nam châm thẳng có hình dạng gì?", a: "Những đường cong đối xứng qua trục thanh nam châm", o: ["Những đường cong đối xứng qua trục thanh nam châm", "Những đường thẳng song song", "Những hình vuông", "Những đường xoắn ốc"], t: "Vật Lý" },
+	{ q: "Đặc điểm của từ phổ là?", a: "Hình ảnh các đường mạt sắt sắp xếp trong từ trường", o: ["Hình ảnh các đường mạt sắt sắp xếp trong từ trường", "Các vạch màu sắc như cầu vồng", "Các tia sáng phát ra từ cực Bắc", "Sự thay đổi nhiệt độ xung quanh nam châm"], t: "Vật Lý" },
+	{ q: "Chiều đường sức từ ở bên ngoài thanh nam châm là?", a: "Từ cực Bắc sang cực Nam", o: ["Từ cực Bắc sang cực Nam", "Từ cực Nam sang cực Bắc", "Từ trái sang phải", "Từ trên xuống dưới"], t: "Vật Lý" },
+	{ q: "Đường sức từ càng 'mau' nghĩa là?", a: "Từ trường càng mạnh", o: ["Từ trường càng mạnh", "Từ trường càng yếu", "Nam châm càng nhỏ", "Khoảng cách càng xa"], t: "Vật Lý" },
+	{ q: "Đường sức từ càng 'thưa' nghĩa là?", a: "Từ trường càng yếu", o: ["Từ trường càng yếu", "Từ trường càng mạnh", "Nam châm là nam châm vĩnh cửu", "Có nhiều mạt sắt"], t: "Vật Lý" },
+	{ q: "Khái niệm từ trường liên quan đến loại lực nào?", a: "Lực từ", o: ["Lực từ", "Lực điện", "Lực đàn hồi", "Lực ma sát"], t: "Vật Lý" },
+	{ q: "Kí hiệu N trên nam châm là nơi đường sức từ đi ra hay vào?", a: "Đi ra", o: ["Đi ra", "Đi vào", "Vừa ra vừa vào", "Không có đường sức từ"], t: "Vật Lý" },
+	{ q: "Kí hiệu S trên nam châm là nơi đường sức từ đi ra hay vào?", a: "Đi vào", o: ["Đi vào", "Đi ra", "Không xác định", "Đi ngang qua"], t: "Vật Lý" },
+	{ q: "Mạt sắt giúp ta quan sát từ trường vì?", a: "Sắt là vật liệu từ bị từ trường tác dụng lực", o: ["Sắt là vật liệu từ bị từ trường tác dụng lực", "Sắt có màu đen dễ thấy", "Sắt rất nhẹ", "Sắt dẫn nhiệt tốt"], t: "Vật Lý" },
+	{ q: "Từ trường tác dụng lên vật liệu từ đặt trong nó lực gì?", a: "Lực từ", o: ["Lực từ", "Lực đẩy Archimedes", "Lực hấp dẫn", "Lực vạn vật hữu hình"], t: "Vật Lý" },
+	{ q: "Đường sức từ có thể giao nhau không? (Suy luận từ chiều xác định)", a: "Không", o: ["Không", "Có", "Chỉ giao nhau ở cực Bắc", "Chỉ giao nhau ở cực Nam"], t: "Vật Lý" },
+	{ q: "Hình ảnh từ phổ xung quanh nam châm chữ U sẽ khác nam châm thẳng ở điểm nào?", a: "Hình dạng các đường cong mạt sắt", o: ["Hình dạng các đường cong mạt sắt", "Màu sắc của mạt sắt", "Chiều của lực từ", "Số lượng các cực từ"], t: "Vật Lý" },
+	{ q: "Nếu đặt một kim nam châm trong từ trường, nó sẽ:", a: "Bị tác dụng lực từ và định hướng theo đường sức từ", o: ["Bị tác dụng lực từ và định hướng theo đường sức từ", "Đứng yên bất động", "Bị nóng lên", "Biến thành sắt thường"], t: "Vật Lý" },
+	{ q: "Từ trường là một dạng của:", a: "Vật chất", o: ["Vật chất", "Năng lượng ánh sáng", "Chất lỏng", "Chất khí"], t: "Vật Lý" },
+	{ q: "Khi di chuyển ra xa nam châm, từ trường sẽ?", a: "Yếu dần", o: ["Yếu dần", "Mạnh dần", "Không thay đổi", "Biến mất ngay lập tức"], t: "Vật Lý" },
+	{ q: "Đường sức từ cho biết?", a: "Cả chiều và độ mạnh yếu của từ trường", o: ["Cả chiều và độ mạnh yếu của từ trường", "Chỉ cho biết chiều", "Chỉ cho biết độ mạnh yếu", "Chỉ cho biết tên nam châm"], t: "Vật Lý" },
+	{ q: "Tại sao ở hai cực mạt sắt lại dày nhất?", a: "Vì từ trường tập trung mạnh nhất tại hai cực", o: ["Vì từ trường tập trung mạnh nhất tại hai cực", "Vì hai cực có nhiều sơn", "Vì hai cực rộng hơn giữa thanh", "Vì mạt sắt thích nằm ở đó"], t: "Vật Lý" },
+	{ q: "Từ 'mau' trong mô tả đường sức từ có nghĩa là?", a: "Dày, sát nhau", o: ["Dày, sát nhau", "Nhanh chóng", "Màu sắc rực rỡ", "Thưa thớt"], t: "Vật Lý" },
+	{ q: "Một dây dẫn mang dòng điện có từ trường xung quanh không?", a: "Có", o: ["Có", "Không", "Chỉ khi dây dẫn làm bằng nam châm", "Chỉ khi dây dẫn cực dài"], t: "Vật Lý" },
+	{ q: "Chiều đường sức từ đi VÀO cực nào?", a: "South (S)", o: ["South (S)", "North (N)", "West (W)", "East (E)"], t: "Vật Lý" }	,
+	{ q: "Chiều đường sức từ đi RA từ cực nào?", a: "North (N)", o: ["North (N)", "South (S)", "East (E)", "West (W)"], t: "Vật Lý" },
+	{ q: "Từ phổ là hình ảnh của?", a: "Các đường sức từ được cụ thể hóa bằng mạt sắt", o: ["Các đường sức từ được cụ thể hóa bằng mạt sắt", "Lực điện trường", "Các tia phóng xạ", "Dòng điện trong nam châm"], t: "Vật Lý" },
+	{ q: "Đường sức từ là các đường?", a: "Khép kín hoặc vô hạn", o: ["Khép kín hoặc vô hạn", "Gấp khúc", "Luôn đứt đoạn", "Chỉ nằm trong lòng nam châm"], t: "Vật Lý" },
+	{ q: "Yếu tố nào sau đây quyết định độ mạnh của lực từ lên vật liệu từ?", a: "Độ mạnh của từ trường tại vị trí đó", o: ["Độ mạnh của từ trường tại vị trí đó", "Màu sắc của thanh nam châm", "Hình dạng của mạt sắt", "Độ dài của dây treo"], t: "Vật Lý" },
 	{ q: "Trong thí nghiệm từ phổ, nếu thay mạt sắt bằng mạt nhôm thì sao?", a: "Không quan sát được hình dạng từ phổ", o: ["Không quan sát được hình dạng từ phổ", "Hình ảnh vẫn như cũ", "Hình ảnh rõ nét hơn", "Nhôm sẽ bị đẩy ra xa"], t: "Vật Lý" },
 	
 	// BÀI 16
@@ -3696,26 +3737,43 @@ const khtnGame = {
         });
     },
 
-    // ===== KIỂM TRA ĐÁP ÁN =====
-    check(choice) {
-        if (this.isProcessing) return;
-        this.isProcessing = true;
+// ===== KIỂM TRA ĐÁP ÁN =====
+check(choice) {
+    if (this.isProcessing) return;
+    this.isProcessing = true;
 
-        document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
+    document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
 
-        if (choice === this.curr.a) {
-            streakSystem.increment();
-            galaxy.showGameToast("CHÍNH XÁC! +10 XP", "success");
-            levelSystem.addXp(10);
+    if (choice === this.curr.a) {
 
-            setTimeout(() => this.generate(), 800);
-        } else {
-            streakSystem.reset();
-            galaxy.showGameToast(`SAI RỒI! ĐÁP ÁN: ${this.curr.a}`, "error");
+        // tăng streak trước
+        streakSystem.increment();
 
-            setTimeout(() => this.generate(), 1400);
+        // dùng đúng biến trong file của bạn
+        const streak = streakSystem.current;
+
+        let xp = 10; // mặc định 10 XP
+
+        // bắt đầu tăng từ streak 3
+        if (streak >= 3) {
+            xp = 10 + (streak - 2) * 3;
+            if (xp > 25) xp = 25; // tối đa 25 XP
         }
-    },
+
+        galaxy.showGameToast(`CHÍNH XÁC! +${xp} XP`, "success");
+        levelSystem.addXp(xp);
+
+        setTimeout(() => this.generate(), 800);
+
+    } else {
+
+        streakSystem.reset();
+        galaxy.showGameToast(`SAI RỒI! ĐÁP ÁN: ${this.curr.a}`, "error");
+
+        setTimeout(() => this.generate(), 1400);
+    }
+},
+
 
     // ===== BỎ QUA =====
     skip() {
@@ -4679,6 +4737,864 @@ const gameZoneGame = {
     }
 };
 
+// ===== MOVIE BANK (ví dụ) =====
+const MOVIE_BANK = [
+{ t: "SQUID GAME", q: "Ai là người chơi số 456?", o: ["Seong Gi-hun","Cho Sang-woo","Kang Sae-byeok","Oh Il-nam"], a: 0 },
+{ t: "SQUID GAME", q: "Trò chơi đầu tiên trên đảo là trò gì?", o: ["Đèn đỏ đèn xanh (Red Light, Green Light)","Dalgona (kẹo đường)","Kéo co","Marbles (bi)"], a: 0 },
+{ t: "SQUID GAME", q: "Người già bí ẩn, người chơi số 001, tên là gì?", o: ["Oh Il-nam","Hwang Jun-ho","Jang Deok-su","Sang-woo"], a: 0 },
+{ t: "SQUID GAME", q: "Tổng số người chơi ban đầu là bao nhiêu?", o: ["300","456","512","999"], a: 1 },
+{ t: "SQUID GAME", q: "Màu bộ đồ (tracksuit) mà các người chơi mặc là màu gì?", o: ["Xanh lá / xanh lục","Hồng","Đỏ","Xám"], a: 0 },
+{ t: "SQUID GAME", q: "Màu trang phục của các lính/nhân viên (guards) là gì?", o: ["Hồng/đỏ hồng","Đen","Xanh dương","Vàng"], a: 0 },
+{ t: "SQUID GAME", q: "Biểu tượng hình tròn trên mặt nạ của nhân viên nghĩa là gì?", o: ["Công nhân (không vũ khí)","Đội có vũ khí","Quản trị viên","VIP"], a: 0 },
+{ t: "SQUID GAME", q: "Biểu tượng hình tam giác trên mặt nạ của nhân viên nghĩa là gì?", o: ["Công nhân","Đội có vũ khí (soldiers)","Quản trị viên","Medics"], a: 1 },
+{ t: "SQUID GAME", q: "Biểu tượng hình vuông trên mặt nạ của nhân viên nghĩa là gì?", o: ["Công nhân","Đội có vũ khí","Quản lý / giám sát","Khách mời"], a: 2 },
+{ t: "SQUID GAME", q: "Trò 'dalgona' (kẹo đường) có hình nào sau đây xuất hiện?", o: ["Ngôi sao (star)","Trái tim (heart)","Hình chữ nhật (rectangle)","Ngọn lửa (flame)"], a: 0 },
+{ t: "SQUID GAME", q: "Kang Sae-byeok (Số 067) là người đến từ đâu?", o: ["Hàn Quốc","Bắc Triều Tiên (triều đại Bắc)","Trung Quốc","Nhật Bản"], a: 1 },
+{ t: "SQUID GAME", q: "Abdul Ali (Số 199) là người gốc nước nào?", o: ["Pakistan","Ấn Độ","Bangladesh","Nepal"], a: 0 },
+{ t: "SQUID GAME", q: "Cho Sang-woo (Số 218) trước đây làm công việc gì?", o: ["Ngân hàng / quản lý đầu tư","Bác sĩ","Giáo viên","Kĩ sư"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là bạn thời thơ ấu của Seong Gi-hun?", o: ["Cho Sang-woo","Hwang Jun-ho","Oh Il-nam","Jang Deok-su"], a: 0 },
+{ t: "SQUID GAME", q: "Trong trò 'marbles' (bi), mục tiêu của trò chơi là gì?", o: ["Đánh bại đối thủ và chiếm toàn bộ bi của họ","Ném bi vào lỗ","Giữ bi trong tay lâu nhất","Bắn bi trúng đích"], a: 0 },
+{ t: "SQUID GAME", q: "Giải thưởng tiền mặt mà người thắng nhận được là bao nhiêu (theo won trong phim)?", o: ["10,000,000,000 won","45,600,000,000 won","100,000,000,000 won","5,000,000,000 won"], a: 1 },
+{ t: "SQUID GAME", q: "Trò nào sau đây là một trò chính trong loạt trò chơi?", o: ["Kéo co (Tug of War)","Cờ vua","Bóng đá","Cờ tướng"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi số 067?", o: ["Kang Sae-byeok","Ji-yeong","Han Mi-nyeo","Player 199"], a: 0 },
+{ t: "SQUID GAME", q: "Trò nào buộc các người chơi phải đi qua các tấm kính?", o: ["Glass Stepping Stones (cầu kính)","Marbles","Dalgona","Red Light, Green Light"], a: 0 },
+{ t: "SQUID GAME", q: "Trong 'Red Light, Green Light', búp bê lớn có khả năng làm gì?", o: ["Phát hiện chuyển động và bắn những ai di chuyển","Phát tiền thưởng","Phát nhạc","Không làm gì"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi số 249 (gần cuối)?", o: ["Jang Deok-su","Player 249 không phải nhân vật chính","Seong Gi-hun","Ali"], a: 1 },
+{ t: "SQUID GAME", q: "Những người mặc áo khoác đen/áo choàng và bịt mặt (VIPs) trên khán đài là ai?", o: ["Khách VIP giàu có","Nhân viên tổ chức","Người chơi cũ","Bác sĩ"], a: 0 },
+{ t: "SQUID GAME", q: "Trước khi tới đảo, Seong Gi-hun gặp trò chơi nào trên phố với người mặc đồ vest?", o: ["Ddakji (ném bìa giấy)","Cờ vua","Dalgona","Marbles"], a: 0 },
+{ t: "SQUID GAME", q: "Người chơi nào là cựu nhân viên ngân hàng và được cho là đã lừa đảo?", o: ["Cho Sang-woo","Seong Gi-hun","Ali","Kang Sae-byeok"], a: 0 },
+{ t: "SQUID GAME", q: "Trong phần 'dalgona', nếu bạn làm vỡ hình, điều gì sẽ xảy ra?", o: ["Bạn bị loại (bị bắn)","Bạn được cứu","Bạn nhận thêm lượt","Bạn được giải khỏi trò chơi"], a: 0 },
+{ t: "SQUID GAME", q: "Trang phục của người làm nhiệm vụ có số code / dấu hiệu nào thường thấy?", o: ["Hình học trên mặt nạ (circle, triangle, square)","Tên họ in sau lưng","Số thứ tự","Biểu tượng quốc gia"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là nhân vật cố gắng bảo vệ Ali và sau đó bị phản bội?", o: ["Cho Sang-woo","Seong Gi-hun","Kang Sae-byeok","Oh Il-nam"], a: 0 },
+{ t: "SQUID GAME", q: "Seong Gi-hun là người giữ số nào?", o: ["456","218","199","067"], a: 0 },
+{ t: "SQUID GAME", q: "Trong trò kéo co, đội chiến thắng dùng chiến thuật gì để lật ngược tỉ số?", o: ["Đứng quay lưng và kéo đồng bộ (chiến thuật yên lặng)","Chạy nhanh","Ném đá","Không có chiến thuật"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi đã dùng chiêu 'bắn tỉa' rồi sau đó bị giết bởi người khác trong phòng tắm (spoiler nhẹ)?", o: ["Jang Deok-su","Sang-woo","Gi-hun","Ali"], a: 0 },
+{ t: "SQUID GAME", q: "Người chơi nào cố gắng đối xử tử tế nhất với Ji-yeong (player nữ nhỏ)?", o: ["Seong Gi-hun","Cho Sang-woo","Jang Deok-su","Front Man"], a: 0 },
+{ t: "SQUID GAME", q: "Cái gì được dùng để đánh dấu số của các người chơi trên bộ đồ?", o: ["Số in trên áo (mã số)","Tem dán","Huy hiệu vàng","Vòng tay"], a: 0 },
+{ t: "SQUID GAME", q: "Hwang Jun-ho đến đảo với tư cách gì?", o: ["Cảnh sát điều tra em trai mất tích","Người chơi","Bảo vệ VIP","Người phục vụ"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi số 212 (một nhân vật nữ nhỏ nhưng đáng nhớ)?", o: ["Ji-yeong","Kang Sae-byeok","Player 212 không xác định","Oh Il-nam"], a: 0 },
+{ t: "SQUID GAME", q: "Trong tập cuối, trò quyết định cuối cùng tên là gì?", o: ["Squid Game (Trò bạch tuộc)","Glass Bridge","Marbles","Dalgona"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người sáng tạo/biên kịch chính của series?", o: ["Hwang Dong-hyuk","Bong Joon-ho","Park Chan-wook","Kim Ki-duk"], a: 0 },
+{ t: "SQUID GAME", q: "Người chơi được đưa vào một sân vận động có gì ở giữa để chấm bài 'Red Light'?", o: ["Búp bê lớn có cảm biến chuyển động","Một con thú","Một chiếc ghế","Một chiếc bàn"], a: 0 },
+{ t: "SQUID GAME", q: "Trong marbles, ai đã dụ Sang-woo vào một hành động gây tranh cãi?", o: ["Sang-woo tự làm điều đó","Gi-hun","Ali","Sae-byeok"], a: 0 },
+{ t: "SQUID GAME", q: "Những chiếc mặt nạ của người tổ chức (Front Man) khác với người lính ở điểm nào?", o: ["Mặt nạ màu đen và phong cách riêng","Mặt nạ hình tam giác","Không có mặt nạ","Mặt nạ màu đỏ"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi đã mất đi người thân (em gái) trong quá khứ và muốn chuộc lại?", o: ["Kang Sae-byeok","Seong Gi-hun","Cho Sang-woo","Ali"], a: 0 },
+{ t: "SQUID GAME", q: "Những người tham dự (VIP) dùng gì để giải trí khi xem trò chơi?", o: ["Bàn cược và đồ uống, xem bạo lực như giải trí","Tập thể dục","Học tập","Thực hiện nghi thức tôn giáo"], a: 0 },
+{ t: "SQUID GAME", q: "Người tổ chức (creator) giải thích lý do tổ chức trò chơi là vì điều gì (theo lời của Oh Il-nam)?", o: ["Để cảm nhận cảm xúc thực của con người và vì buồn chán với cuộc sống giàu có","Để cứu thế giới","Để tranh đấu chính trị","Để dạy đạo đức"], a: 0 },
+{ t: "SQUID GAME", q: "Trước khi vào trò chơi, người tham gia ký gì?", o: ["Họ đồng ý tham gia và đổi đời (điền đơn)","Không ký gì cả","Ký giấy cam kết an toàn","Ký giấy hiến tài sản"], a: 0 },
+{ t: "SQUID GAME", q: "Người chơi trên đảo được cho ăn loại đồ ăn nào trong lúc nghỉ?", o: ["Đồ ăn đạm bạc và cố định (bữa chung)","Thực phẩm sang trọng","Không cho ăn","Chỉ cho nước"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người cầm lá bài mời tham gia trò chơi (recruiter) xuất hiện trong ep đầu?", o: ["Người đàn ông cho Gi-hun tấm danh thiếp (recruiter)","Oh Il-nam","Cho Sang-woo","Jang Deok-su"], a: 0 },
+{ t: "SQUID GAME", q: "Trong trò 'Red Light, Green Light', ai bắn người di chuyển sau khi búp bê hét 'red light'?", o: ["Các lính bảo vệ (guards)","Oh Il-nam","Gi-hun","Sae-byeok"], a: 0 },
+{ t: "SQUID GAME", q: "Ai cuối cùng chiến thắng chuỗi trò trong mùa 1?", o: ["Seong Gi-hun","Cho Sang-woo","Kang Sae-byeok","Ali"], a: 0 },
+{ t: "SQUID GAME", q: "Phần lớn những ai bị loại thường bị xử lý bằng cách nào?", o: ["Bị bắn và đưa đi (loại)","Bị phạt tiền","Bị cảnh cáo","Được đưa về nhà"] , a: 0 },
+{ t: "SQUID GAME", q: "Những con số trên bộ đồ người chơi có ý nghĩa gì?", o: ["Mã số nhận diện người chơi","Số điểm","Số tuổi","Số tiền nợ"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi đã giúp Gi-hun trong trò marbles rồi hy sinh?", o: ["Ji-yeong (player 240) giúp Gi-hun rồi qua đời","Ali","Sae-byeok","Oh Il-nam"], a: 0 },
+{ t: "SQUID GAME", q: "Trong trò 'dalgona', một hình dễ nhất để hoàn thành là gì (theo cảm nhận chung trong phim)?", o: ["Hình tròn (circle)","Hình ô van","Hình trái tim","Hình ngôi sao"], a: 0 },
+{ t: "SQUID GAME", q: "Số hiệu của Cho Sang-woo là gì?", o: ["218","001","067","456"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người đã tố cáo hoặc phản bội các bạn cùng chơi để cứu mình?", o: ["Cho Sang-woo (có hành động tranh giành marbles)","Seong Gi-hun","Kang Sae-byeok","Ali"], a: 0 },
+{ t: "SQUID GAME", q: "Hình dạng sân chơi trong 'Red Light' có búp bê lấy cảm hứng từ đâu?", o: ["Một bài chơi trẻ em Hàn Quốc 'Mugunghwa kkotchi pieosseumnida'","Một nhân vật phim hoạt hình","Một bức tượng cổ","Một robot từ tương lai"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là nhân vật hay nói 'I want to play' (muốn chơi) trong cảnh tuyển dụng?", o: ["Nhiều con nợ bị dụ chơi; nhưng tấm danh thiếp mời Gi-hun","Gi-hun không trực tiếp nói câu này","Oh Il-nam","Sang-woo"], a: 0 },
+{ t: "SQUID GAME", q: "Trong mùa 1, có bao nhiêu trò chính (không tính trò tuyển chọn trên phố)?", o: ["6","3","10","4"], a: 0 },
+{ t: "SQUID GAME", q: "Ai đảm nhiệm vai trò cảnh sát trà trộn điều tra em trai mất tích?", o: ["Hwang Jun-ho","Seong Gi-hun","Cho Sang-woo","Oh Il-nam"], a: 0 },
+{ t: "SQUID GAME", q: "Những người tổ chức thường dùng thiết bị nào để giám sát các phòng chơi?", o: ["Camera và màn hình theo dõi","Gương một chiều","Chuông báo","Radio cầm tay"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi có biệt danh 'Người đàn ông khóc' (emotional man) — thường hay bật khóc?", o: ["Oh Il-nam (ban đầu ông khóc)","Seong Gi-hun","Ali","Sang-woo"], a: 0 },
+{ t: "SQUID GAME", q: "Trong các tập, có cảnh hồi tưởng về đời sống của nhân vật nào nhiều nhất?", o: ["Seong Gi-hun","Cho Sang-woo","Ali","Kang Sae-byeok"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi có nghề sửa ống nước (trước khi vào trò)?", o: ["Seong Gi-hun (lái xe, sửa chữa nhỏ)","Ali","Sae-byeok","Sang-woo"], a: 0 },
+{ t: "SQUID GAME", q: "Trong marbles, một cách chơi được dùng phổ biến là gì?", o: ["Dự đoán chẵn/lẻ hoặc ăn hết bi của đối thủ","Ném trúng mục tiêu","Xếp hàng tốt nhất","Giữ bi trên tay lâu nhất"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi cuối cùng bị chết trước trận chung kết?", o: ["Cho Sang-woo (có hành động cuối cùng gây tranh cãi)","Ali","Kang Sae-byeok","Ji-yeong"], a: 0 },
+{ t: "SQUID GAME", q: "Trong loạt, thiết kế sân chơi và màu sắc dùng để truyền đạt điều gì?", o: ["Sự tương phản giữa vẻ ngoài tươi sáng và bạo lực bên trong","Sự tối tăm của xã hội","Chủ nghĩa hiện thực","Văn hóa cổ điển"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người phụ nữ trông hung dữ, thường gây rắc rối với người khác (Han Mi-nyeo)?", o: ["Han Mi-nyeo (player 212?)","Kang Sae-byeok","Ji-yeong","Front Man"], a: 0 },
+{ t: "SQUID GAME", q: "Những con số trên thẻ mời (card) để lại cho người chơi có hình gì?", o: ["Hình mặt nạ và số liên hệ","Hình búp bê","Hình con bạch tuộc","Hình cầu"], a: 0 },
+{ t: "SQUID GAME", q: "Trong trò cầu kính, điểm mấu chốt là gì?", o: ["Chọn đúng tấm kính chịu lực (tempered)","Nhanh hơn đội khác","Làm rơi đối thủ","Bắn qua cầu"], a: 0 },
+{ t: "SQUID GAME", q: "Người điều hành phòng y tế và tổ chức sự kiện mặc mặt nạ hình vuông có nhiệm vụ gì?", o: ["Quản lý, giám sát và ra lệnh cho nhân viên","Làm nhiệm vụ y tế","Phục vụ đồ ăn","Giao tiếp với VIP"], a: 0 },
+{ t: "SQUID GAME", q: "Ai đã tặng Gi-hun chiếc danh thiếp màu đen (mời chơi)?", o: ["Người tuyển chọn trên phố (recruiter)","Oh Il-nam","Cho Sang-woo","Jang Deok-su"], a: 0 },
+{ t: "SQUID GAME", q: "Trong loạt, đồ chơi truyền thống Hàn Quốc nào được đưa vào làm cơ sở cho một trò?", o: ["Ddakji hoặc Red Light/Green Light","Taekwondo","Yut-nori","Go-Stop"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi có khả năng lãnh đạo đội trong trò kéo co?", o: ["Sae-byeok và những người lớn tuổi khác cùng phối hợp","Seong Gi-hun","Ali","Ji-yeong"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là nhân vật bị buộc phải chơi marbles với con gái của mình (spoiler cảm xúc)?", o: ["Một số cặp bị phân đôi — câu này ám chỉ tính cảm xúc của marbles","Không chính xác cho 1 câu cụ thể","Seong Gi-hun","Ali"], a: 1 },
+{ t: "SQUID GAME", q: "Trong series, ai đã tiết lộ rằng một số người tổ chức còn nhỏ tuổi (VIPs) đến từ đâu?", o: ["Nước ngoài và giàu có","Xứ sở lạ","Hàn Quốc bình thường","Từ chính phủ"], a: 0 },
+{ t: "SQUID GAME", q: "Seong Gi-hun ở cuối mùa 1 làm gì sau khi thắng (về mặt hành động cá nhân)?", o: ["Nhận tiền, sau đó tìm cách đối đầu với tổ chức","Cưới vợ ngay lập tức","Chạy trốn khỏi đất nước","Bán tiền đi từ thiện hoàn toàn"], a: 0 },
+{ t: "SQUID GAME", q: "Trong bối cảnh tuyển người, tấm bìa giấy 'ddakji' được dùng để làm gì?", o: ["Lôi kéo/thu hút người tham gia thông qua trò chơi đường phố","Làm đồ trang trí","Gửi tin nhắn","Dùng làm tiền"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi cố gắng che giấu danh tính của mình bằng cách không nói nhiều?", o: ["Kang Sae-byeok (lạnh lùng, kín tiếng)","Cho Sang-woo","Gi-hun","Ali"], a: 0 },
+{ t: "SQUID GAME", q: "Một yếu tố thường thấy trong set design (bối cảnh) của Squid Game là gì?", o: ["Màu sắc tươi sáng tương phản với bạo lực","Màu tối u ám hoàn toàn","Bối cảnh thành thị thật","Không có màu sắc"], a: 0 },
+{ t: "SQUID GAME", q: "Ai thường là người quyết định ai bị loại trong các trò chơi (nhìn bề ngoài)?", o: ["Các nhân viên/guards theo lệnh tổ chức","Người chơi khác","VIPs trực tiếp bắn","Oh Il-nam"], a: 0 },
+{ t: "SQUID GAME", q: "Trong loạt, ai là nhân vật trẻ nhất trong nhóm các người chơi chính?", o: ["Ji-yeong (một số nhân vật nữ trẻ)","Sae-byeok","Gi-hun","Ali"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi đã cố gắng bảo vệ một bé gái ở quê nhà (động lực chính của anh ta)?", o: ["Seong Gi-hun (muốn chuộc lỗi với con gái và gia đình)","Cho Sang-woo","Ali","Sae-byeok"], a: 0 },
+{ t: "SQUID GAME", q: "Cái gì được dùng để thống kê và theo dõi tiền thưởng tăng dần (về mặt hình ảnh)?", o: ["Một bảng số tiền hiển thị (tăng theo số người bị loại)","Tài khoản ngân hàng","Sổ tay","Không có gì"], a: 0 },
+{ t: "SQUID GAME", q: "Nhân vật nào tự sát hoặc chết theo cách gây tranh cãi trong lịch sử marbles?", o: ["Một số người bị giết trong marbles; câu hỏi ám chỉ tính cảm xúc, không nêu tên rõ","Seong Gi-hun","Ali","Sae-byeok"], a: 0 },
+{ t: "SQUID GAME", q: "Mục đích ban đầu của một số người tham gia khi ký tham gia là gì?", o: ["Thanh toán nợ hoặc cứu gia đình","Thử thách bản thân","Du lịch","Học hỏi kỹ năng mới"], a: 0 },
+{ t: "SQUID GAME", q: "Ai đã dùng hình ảnh mẹ/con để làm động lực cho nhân vật chính (Gi-hun)?", o: ["Hình ảnh con gái và gia đình thúc đẩy Gi-hun","Oh Il-nam","Sae-byeok","Cho Sang-woo"], a: 0 },
+{ t: "SQUID GAME", q: "Trong series, thứ tự trò chơi kết thúc thường dẫn đến trò nào là cuối cùng?", o: ["Squid Game (trò bạch tuộc)","Marbles","Red Light","Dalgona"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người lên kế hoạch hoặc điều hành trực tiếp trên cầu kính (front line) mà Jun-ho phát hiện?", o: ["Front Man (điều hành)","Oh Il-nam","Seong Gi-hun","Cho Sang-woo"], a: 0 },
+{ t: "SQUID GAME", q: "Một biểu tượng lặp lại xuất hiện nhiều lần trong phim là gì?", o: ["Con bạch tuộc (squid), mặt nạ và số người chơi","Đồng hồ","Chuông","Cánh cửa"], a: 0 },
+{ t: "SQUID GAME", q: "Trong khán đài của VIP, họ làm gì với thú cưng (trong tập có cảnh)?", o: ["Họ cho thú cưng xem và tham gia giết chóc (ví dụ cảnh hành xử tàn nhẫn)","Nuôi để trưng bày","Không có thú cưng","Dùng làm biểu tượng"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi có nền tảng là kẻ tội phạm/đầu gấu (thường bạo lực)?", o: ["Jang Deok-su","Seong Gi-hun","Ali","Sae-byeok"], a: 0 },
+{ t: "SQUID GAME", q: "Trong loạt, nhạc nền và hiệu ứng âm thanh được dùng để truyền đạt cảm giác gì?", o: ["Áp lực, hồi hộp và nghẹt thở","Thoải mái và vui vẻ","Lãng mạn","Hài hước"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi số 001 (đã đề cập) — ông già hay bệnh nhân?", o: ["Oh Il-nam — ông già bệnh nhân","Seong Gi-hun","Hwang Jun-ho","Cho Sang-woo"], a: 0 },
+{ t: "SQUID GAME", q: "Những người tổ chức trò chơi tuyển ai để làm nhân viên?", o: ["Những người được tuyển chọn mặc đồ bảo hộ và bịt mặt (tuyển dụng nội bộ)","Người nổi tiếng","Người thân VIP","Không có ai"], a: 0 },
+{ t: "SQUID GAME", q: "Trong các tập, chữ số 456 gợi nhớ điều gì?", o: ["Số của người thắng cuối cùng (Gi-hun)","Số của VIP","Số vé","Số tiền"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là nhân vật có quá khứ là một người đào tẩu (defector)?", o: ["Kang Sae-byeok (đào tẩu từ Bắc Triều Tiên)","Seong Gi-hun","Ali","Ji-yeong"], a: 0 },
+{ t: "SQUID GAME", q: "Trong phần Marbles, luật chơi có cho phép gì?", o: ["Tùy cặp tự thỏa thuận luật (đa dạng)","Luật cố định toàn tập","Không có luật","Luật do VIP quyết định"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi đã hy sinh để giúp một đồng đội trốn thoát (hành động vị tha)?", o: ["Một vài nhân vật hy sinh cho nhau — ví dụ Ji-yeong chia sẻ marbles với Gi-hun","Ali","Sang-woo","Sae-byeok"], a: 0 },
+{ t: "SQUID GAME", q: "Người tổ chức xem trò chơi này là một thứ gì theo lời giải thích của họ?", o: ["Một thử nghiệm giải trí cho người giàu và một phép thử bản chất con người","Một chương trình truyền hình bình thường","Một cuộc thi thể thao","Một hoạt động thiện nguyện"], a: 0 },
+{ t: "SQUID GAME", q: "Trong tuyển chọn ban đầu, người tuyển dùng trò gì để thách thức Gi-hun?", o: ["Ddakji — ném giấy gấp","Bốc thăm","Đánh bài","Ném tiền"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi có hành động cuối cùng khiến nhiều người tranh cãi (hành vi gây sốc)?", o: ["Cho Sang-woo (hành động cuối cùng trong marbles)","Seong Gi-hun","Jang Deok-su","Ali"], a: 0 },
+{ t: "SQUID GAME", q: "Màu sắc chủ đạo của bối cảnh trong các khu chơi là gì?", o: ["Màu pastel và tươi sáng, tương phản với bạo lực","Tối và u ám","Đen trắng","Đỏ rực"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi có kỹ năng chiến lược trong trò kéo co?", o: ["Những người lớn tuổi có kinh nghiệm làm nghề (lão làng) và đội phối hợp tốt","Seong Gi-hun","Ali","Ji-yeong"], a: 0 },
+{ t: "SQUID GAME", q: "Những người chơi được chia theo số trên đồ, điều đó giúp gì?", o: ["Quản lý dễ theo dõi và phân nhóm","Nhận diện quốc tịch","Xếp hàng ăn","Không có lý do"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người tổ chức đã tin rằng họ có quyền quyết định ai nên sống hay chết vì 'buồn chán'?", o: ["Một số nhân vật tổ chức, thể hiện qua lời của Oh Il-nam","Seong Gi-hun","Cho Sang-woo","Hwang Jun-ho"], a: 0 },
+{ t: "SQUID GAME", q: "Trong loạt, lí do chính khiến nhiều người tham gia là gì?", o: ["Nợ nần và hoàn cảnh khó khăn","Muốn nổi tiếng","Tham gia vì thú vui","Bị ép buộc hoàn toàn"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi chuyên gây rối và dùng vũ lực để áp đảo người khác?", o: ["Jang Deok-su","Seong Gi-hun","Ali","Sae-byeok"], a: 0 },
+{ t: "SQUID GAME", q: "Trong trò 'Red Light', người chơi cần làm gì khi nghe 'Green Light'?", o: ["Di chuyển về phía trước","Đứng im","Quay lưng lại","Ngồi xuống"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là nhân vật được mô tả là có lương tri nhưng bị hoàn cảnh đẩy vào hành vi xấu?", o: ["Seong Gi-hun (có nhiều mâu thuẫn đạo đức)","Jang Deok-su","Cho Sang-woo","Oh Il-nam"], a: 0 },
+{ t: "SQUID GAME", q: "Trong phim, hệ thống theo dõi quản lý người chơi bằng gì?", o: ["Camera, mã số và nhân viên","Đồng hồ định vị","Vệ tinh","Không có gì"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi có động cơ chính là đưa em gái sang Hàn Quốc (hoặc chuộc em)?", o: ["Kang Sae-byeok","Seong Gi-hun","Ali","Cho Sang-woo"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là nhân vật có hành vi tàn nhẫn nhằm sinh tồn, bị xem là phản diện?", o: ["Cho Sang-woo (hành động trong marbles)","Seong Gi-hun","Kang Sae-byeok","Ali"], a: 0 },
+{ t: "SQUID GAME", q: "Trong cảnh hậu trận, Gi-hun tìm cách làm gì với hành động của tổ chức?", o: ["Tìm cách bắt họ và trả thù / vạch trần tổ chức","Rời bỏ mọi thứ","Im lặng","Trở lại chơi lần nữa"], a: 0 },
+{ t: "SQUID GAME", q: "Trong loạt, cái gì thường được dùng để biểu thị tính mất nhân tính của trò chơi?", o: ["Sự hài hòa màu sắc tươi sáng với cảnh máu me và bạo lực","Những câu thoại nhẹ nhàng","Cảnh thiên nhiên","Nhạc vui vẻ"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi có nghề trước đó là lái xe (và có mâu thuẫn với con gái)?", o: ["Seong Gi-hun","Ali","Sae-byeok","Cho Sang-woo"], a: 0 },
+{ t: "SQUID GAME", q: "Ai chịu trách nhiệm bật/tắt búp bê trong trò 'Red Light' trên sân?", o: ["Những nhân viên kỹ thuật phía sau (tổ chức)","Oh Il-nam trực tiếp bấm nút","Seong Gi-hun","Ali"], a: 0 },
+{ t: "SQUID GAME", q: "Trong loạt, có cảnh nào cho thấy sự xuất hiện của truyền thông đại chúng không?", o: ["Không có truyền thông công khai; trò diễn ra bí mật","Có nhiều phóng viên","Truyền hình thực tế","Báo chí dõi theo"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là nhân vật đã hy sinh để Ji-yeong có cơ hội sống tiếp?", o: ["Ji-yeong tự hy sinh cho Gi-hun; cô ấy hy sinh vì tình bạn","Ali","Sae-byeok","Cho Sang-woo"], a: 0 },
+{ t: "SQUID GAME", q: "Trong loạt, ai được miêu tả là người có lương tâm mạnh nhất cuối cùng?", o: ["Seong Gi-hun (vẫn xót xa dù thắng)","Cho Sang-woo","Jang Deok-su","Oh Il-nam"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi số 199?", o: ["Ali","Seong Gi-hun","Cho Sang-woo","Kang Sae-byeok"], a: 0 },
+{ t: "SQUID GAME", q: "Trong loạt, số lượng VIPs xuất hiện để xem các trò là nhằm mục đích gì?", o: ["Giải trí và đặt cược","Cứu trợ nhân đạo","Giúp tổ chức","Chỉ là khán giả bình thường"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi đã bị lừa trong trò marbles bởi người bạn thân?", o: ["Một số cặp bị lừa; nổi bật là hành động của Cho Sang-woo với một đồng đội","Seong Gi-hun","Ali","Ji-yeong"], a: 0 },
+{ t: "SQUID GAME", q: "Trong loạt, nhân vật nào có câu chuyện về em gái/lương tâm khiến khán giả đồng cảm?", o: ["Kang Sae-byeok","Seong Gi-hun","Ali","Ji-yeong"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi cuối cùng đối đầu với Gi-hun trong trận chung kết?", o: ["Cho Sang-woo","Jang Deok-su","Ali","Kang Sae-byeok"], a: 0 },
+{ t: "SQUID GAME", q: "Trong cảnh sân chơi, thành phần nào làm tăng tính ám ảnh thị giác?", o: ["Màu sắc, hình khối, mặt nạ và thiết kế khuôn viên kỳ quặc","Nhạc nhẹ nhàng","Hiệu ứng 3D hiện đại","Nội dung hài hước"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chịu trách nhiệm tuyển dụng những con nợ bằng trò ddakji trên phố?", o: ["Những tuyển chọn viên được cử bởi tổ chức (recruiters)","Oh Il-nam trực tiếp","Gi-hun","Sang-woo"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là nhân vật có quá khứ nợ nần lớn nhất trong nhóm chính?", o: ["Seong Gi-hun (nợ nần và vay mượn)","Cho Sang-woo","Ali","Sae-byeok"], a: 0 },
+{ t: "SQUID GAME", q: "Trong series, khi ai tiết lộ thân phận thật của mình là người tổ chức cuối cùng?", o: ["Oh Il-nam tiết lộ thân phận thật của ông","Seong Gi-hun","Cho Sang-woo","Hwang Jun-ho"], a: 0 },
+{ t: "SQUID GAME", q: "Một điểm nhấn về đạo diễn/biên kịch là gì trong Squid Game?", o: ["Kết hợp sự tàn nhẫn hiện đại với các trò trẻ em truyền thống Hàn Quốc","Phong cách hành động thuần túy","Chỉ là phim hài","Tập trung vào âm nhạc pop"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là nhân vật bị cho là 'đáng thương' nhất do hoàn cảnh gia đình?", o: ["Kang Sae-byeok (muốn cứu em), Ali (gia đình xa xứ)","Seong Gi-hun","Cho Sang-woo","Jang Deok-su"], a: 0 },
+{ t: "SQUID GAME", q: "Trong loạt, ai là người có hành động bất ngờ khiến khán giả sốc ở cuối?", o: ["Cho Sang-woo (quyết định trong marbles)","Seong Gi-hun","Jang Deok-su","Oh Il-nam"], a: 0 },
+{ t: "SQUID GAME", q: "Ai là người chơi mang số 067 (nhắc lại để chắc chắn)?", o: ["Kang Sae-byeok","Seong Gi-hun","Cho Sang-woo","Ali"], a: 0 },
+{ t: "SQUID GAME", q: "Trong loạt, ai tiếp tục cuộc sống sau khi thắng nhưng thay đổi hoàn toàn?", o: ["Seong Gi-hun (thắng nhưng bị ám ảnh và muốn đối đầu tổ chức)","Cho Sang-woo","Ali","Kang Sae-byeok"], a: 0 },
+{ t: "SQUID GAME", q: "Những nhân viên mặc đồ hồng có khẩu hiệu hoặc số trên lưng không?", o: ["Đa số không có tên cá nhân, chỉ đồng phục và biểu tượng","Có tên đầy đủ","Có họ tên và số","Có số điện thoại"], a: 0 },
+
+{ t: "ngôi trường xác sống", q: "Bối cảnh chính của phim diễn ra tại trường nào?", o: ["Hyosan High School","Seoul High School","Busan Central School","Daegu High School"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Virus zombie trong phim được gọi là gì?", o: ["Jonas Virus","Hyosan Virus","Red Blood Virus","X-Virus"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Ai là giáo viên tạo ra virus Jonas?", o: ["Lee Byeong-chan","Park Sun-hwa","Nam So-ju","Song Jae-ik"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Con trai của Lee Byeong-chan tên là gì?", o: ["Lee Jin-su","Lee Su-hyeok","Lee Cheong-san","Yoon Gwi-nam"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Người đầu tiên bị nhiễm trong trường là ai?", o: ["Kim Hyeon-ju","Choi Nam-ra","Nam On-jo","Lee Na-yeon"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nam On-jo là con của ai?", o: ["Nam So-ju","Lee Byeong-chan","Song Jae-ik","Gwi-nam"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nam So-ju làm nghề gì?", o: ["Lính cứu hỏa","Giáo viên","Cảnh sát","Bác sĩ"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Lee Cheong-san thích ai?", o: ["Nam On-jo","Choi Nam-ra","Na-yeon","Mi-jin"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nam On-jo ban đầu có tình cảm với ai?", o: ["Lee Su-hyeok","Lee Cheong-san","Gwi-nam","Woo-jin"], a: 1 },
+{ t: "ngôi trường xác sống", q: "Choi Nam-ra giữ chức vụ gì trong lớp?", o: ["Lớp trưởng","Bí thư","Phó lớp trưởng","Chủ nhiệm CLB"], a: 0 },
+
+{ t: "ngôi trường xác sống", q: "Lee Su-hyeok từng có quá khứ như thế nào?", o: ["Từng là học sinh hư và đánh nhau","Học sinh xuất sắc","Vận động viên quốc gia","Du học sinh"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Yoon Gwi-nam nổi tiếng vì điều gì?", o: ["Bắt nạt bạn học","Học giỏi","Lớp trưởng","Thành viên hội học sinh"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Cảnh bùng phát đầu tiên trong trường xảy ra ở đâu?", o: ["Phòng y tế","Thư viện","Nhà ăn","Sân thượng"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Virus lây truyền chủ yếu qua đường nào?", o: ["Vết cắn và máu","Không khí","Nước uống","Thức ăn"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Han Gyeong-su bị lây nhiễm do ai?", o: ["Lee Na-yeon","Cheong-san","Nam-ra","Gwi-nam"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Lee Na-yeon có tính cách như thế nào?", o: ["Ích kỷ và kiêu ngạo","Dũng cảm","Lạnh lùng ít nói","Hiền lành"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Những người nhiễm nhưng vẫn giữ ý thức được gọi là gì?", o: ["Hambie","Hybrid","Carrier","Alpha"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Yoon Gwi-nam trở thành loại nào sau khi nhiễm?", o: ["Hambie","Zombie thường","Miễn nhiễm hoàn toàn","Không nhiễm"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Choi Nam-ra trở thành gì sau khi bị cắn?", o: ["Hambie","Zombie thường","Miễn nhiễm","Không nhiễm"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Phim có bao nhiêu tập trong mùa 1?", o: ["12","10","8","16"], a: 0 },
+
+{ t: "ngôi trường xác sống", q: "Virus Jonas được tạo ra với mục đích gì?", o: ["Giúp con trai mạnh mẽ để chống bắt nạt","Vũ khí sinh học","Chữa ung thư","Thử nghiệm quân đội"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Lee Byeong-chan đã làm gì sau khi dịch bùng phát?", o: ["Ra đầu thú với cảnh sát","Bỏ trốn","Tự sát","Bị bắn"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nhóm chính trú ẩn lâu nhất ở đâu?", o: ["Phòng phát thanh","Thư viện","Nhà ăn","Phòng hóa học"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Lee Su-hyeok có tình cảm với ai?", o: ["Choi Nam-ra","On-jo","Na-yeon","Mi-jin"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Cheong-san bị Gwi-nam cắn ở đâu?", o: ["Cánh tay","Cổ","Vai","Chân"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nam So-ju hy sinh như thế nào?", o: ["Bị zombie cắn khi cứu người","Bị Gwi-nam giết","Bị bom nổ","Bị quân đội bắn"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Chính phủ đã quyết định làm gì với thành phố Hyosan?", o: ["Ném bom cách ly khu vực","Di tản toàn bộ","Xây tường chắn","Không làm gì"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Song Jae-ik là ai?", o: ["Cảnh sát điều tra","Giáo viên","Học sinh","Lính cứu hỏa"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nam-ra sau khi thành hambie có khả năng gì?", o: ["Nghe rõ và mạnh hơn zombie thường","Bay được","Tàng hình","Không cần ăn"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Cheong-san và Gwi-nam rơi xuống ở đâu?", o: ["Công trường xây dựng","Sân thượng trường","Phòng thể dục","Thư viện"], a: 0 },
+
+{ t: "ngôi trường xác sống", q: "Lee Cheong-san là học sinh lớp nào?", o: ["Lớp 2-5","Lớp 1-3","Lớp 3-1","Lớp 2-1"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nam-ra học cùng lớp với ai?", o: ["On-jo và Cheong-san","Mi-jin","Hee-su","Không cùng lớp"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Mi-jin nổi bật vì điều gì?", o: ["Tính cách mạnh mẽ, thẳng thắn","Nhút nhát","Học giỏi nhất","Là lớp trưởng"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Virus khiến người nhiễm phản ứng mạnh với điều gì?", o: ["Âm thanh","Ánh sáng","Nước","Mùi hương"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Hambie có điểm khác zombie thường ở chỗ nào?", o: ["Vẫn giữ ý thức","Không bị thương","Không cần ăn","Không thể chết"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nam So-ju thuộc đội cứu hộ nào?", o: ["Đội cứu hỏa Hyosan","Quân đội","Cảnh sát","Bệnh viện"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Lee Byeong-chan từng làm nghề gì?", o: ["Giáo viên khoa học","Hiệu trưởng","Bác sĩ","Cảnh sát"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nhóm học sinh đã dùng gì để liên lạc cầu cứu?", o: ["Phòng phát thanh","Điện thoại vệ tinh","Radio quân đội","Internet"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Na-yeon rời nhóm sau khi bị phát hiện làm gì?", o: ["Lén lây nhiễm Gyeong-su","Đánh nhau","Ăn trộm đồ ăn","Trốn học"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nam-ra cuối mùa 1 đã quyết định điều gì?", o: ["Rời nhóm để tìm hambie khác","Ở lại trại","Tự sát","Bỏ đi một mình"], a: 0 },
+
+{ t: "ngôi trường xác sống", q: "Quân đội lập trại cách ly ở đâu?", o: ["Khu cách ly ngoài thành phố","Trong trường","Trên núi","Trong bệnh viện"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Virus Jonas được đặt theo tên ai?", o: ["Một thí nghiệm trong nhật ký của Byeong-chan","Tên con trai ông","Tên thành phố","Tên học sinh"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nhân vật nữ mang thai là ai?", o: ["Hee-su","Mi-jin","Na-yeon","Nam-ra"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Cheong-san từng làm gì để bảo vệ On-jo?", o: ["Đánh nhau với zombie và Gwi-nam","Bỏ chạy","Trốn một mình","Bỏ mặc cô"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Gwi-nam ám ảnh muốn làm gì với Cheong-san?", o: ["Trả thù","Bảo vệ","Giúp đỡ","Kết bạn"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Bộ phim phát hành trên nền tảng nào?", o: ["Netflix","Disney+","HBO","Amazon Prime"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Phim dựa trên webtoon tên gì?", o: ["Now at Our School","Zombie High","Dead Campus","School War"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Choi Nam-ra có tình cảm với ai?", o: ["Lee Su-hyeok","Cheong-san","Gwi-nam","Woo-jin"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Woo-jin là anh trai của ai?", o: ["Ha-ri","On-jo","Na-yeon","Nam-ra"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Ha-ri nổi bật vì kỹ năng gì?", o: ["Bắn cung","Võ thuật","Y tế","Tin học"], a: 0 },
+
+{ t: "ngôi trường xác sống", q: "Zombie trong phim bị thu hút bởi điều gì nhất?", o: ["Âm thanh lớn","Ánh sáng","Nước","Mùi thức ăn"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Cheong-san từng làm việc bán thời gian ở đâu?", o: ["Nhà hàng gà rán","Siêu thị","Quán cà phê","Hiệu sách"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nam So-ju chết sau khi bị gì?", o: ["Bị cắn","Bị bắn","Nổ bom","Rơi xuống đất"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Sau vụ ném bom, thành phố trở nên thế nào?", o: ["Hoang tàn và bị cách ly","Bình thường","Được cứu ngay","Không bị ảnh hưởng"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nam-ra hẹn nhóm ở đâu vào cuối phim?", o: ["Sân thượng trường","Trại cách ly","Nhà cô","Bến xe"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Hambie có thể kiểm soát cơn đói trong thời gian nhất định đúng không?", o: ["Đúng","Sai","Không rõ","Chỉ khi trời tối"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Gwi-nam có khả năng gì sau khi biến đổi?", o: ["Hồi phục nhanh","Bay được","Tàng hình","Miễn nhiễm hoàn toàn"], a: 0 },
+{ t: "ngôi trường xác sống", q: "On-jo được cha dạy kỹ năng gì?", o: ["Sinh tồn cơ bản","Bắn súng","Y tế chuyên sâu","Tin học"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Cheong-san và Gwi-nam cuối cùng bị bao phủ bởi điều gì?", o: ["Vụ nổ bom quân đội","Zombie tấn công","Cháy trường","Nước lũ"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Bộ phim thuộc thể loại nào?", o: ["Kinh dị sinh tồn","Hài","Tình cảm","Tài liệu"], a: 0 },
+
+{ t: "ngôi trường xác sống", q: "Lee Byeong-chan quay video để làm gì?", o: ["Giải thích về virus","Cầu cứu","Xin lỗi con","Đe dọa chính phủ"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nam-ra có kiểm soát được bản thân hoàn toàn không?", o: ["Không hoàn toàn","Có hoàn toàn","Không bao giờ","Luôn mất kiểm soát"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Mi-jin ghét điều gì nhất?", o: ["Bất công và phân biệt đối xử","Zombie","On-jo","Nam-ra"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Quân đội quyết định tiêu hủy Hyosan vì lý do gì?", o: ["Ngăn virus lan rộng","Trả thù","Thử nghiệm","Không có lý do"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Cheong-san trước khi rơi xuống đã nói gì với On-jo?", o: ["Thổ lộ tình cảm","Xin lỗi","Tạm biệt","Không nói gì"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nam-ra ở cuối phim thuộc nhóm nào?", o: ["Hambie còn sống","Người thường","Quân đội","Đã chết"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Những người sống sót cuối cùng được đưa tới đâu?", o: ["Trại cách ly","Seoul","Busan","Nhật Bản"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Virus Jonas gây ảnh hưởng mạnh nhất đến hệ nào?", o: ["Hệ thần kinh","Hệ tiêu hóa","Hệ hô hấp","Hệ tuần hoàn"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nam So-ju cố gắng cứu ai nhiều nhất?", o: ["Con gái On-jo","Nam-ra","Su-hyeok","Mi-jin"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Gwi-nam muốn Cheong-san nhìn thấy điều gì trước khi chết?", o: ["Sự thất bại của cậu","Nam-ra","On-jo","Bom nổ"], a: 0 },
+
+{ t: "ngôi trường xác sống", q: "Hambie có thể cảm nhận zombie khác không?", o: ["Có","Không","Chỉ khi bị thương","Chỉ ban đêm"], a: 0 },
+{ t: "ngôi trường xác sống", q: "On-jo giữ vật gì của Cheong-san?", o: ["Bảng tên","Điện thoại","Áo khoác","Bút"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nhân vật nào thể hiện sự thay đổi rõ nhất từ hư hỏng sang dũng cảm?", o: ["Lee Su-hyeok","Gwi-nam","Na-yeon","Byeong-chan"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Cuối phim, nhóm bạn còn bao nhiêu người sống sót chính?", o: ["Một nhóm nhỏ chưa đến 10 người","Chỉ 2 người","Tất cả","Không ai"], a: 0 },
+{ t: "ngôi trường xác sống", q: "Nam-ra hứa điều gì với Su-hyeok?", o: ["Sẽ quay lại","Sẽ quên anh","Sẽ đi xa","Sẽ báo quân đội"], a: 0 },
+
+{ t: "ZOOTOPIA", q: "Ai là nhân vật chính của Zootopia?", o: ["Judy Hopps","Nick Wilde","Chief Bogo","Flash"], a: 0 },
+{ t: "ZOOTOPIA", q: "Judy Hopps thuộc loài gì?", o: ["Thỏ","Cáo","Hổ","Cừu"], a: 0 },
+{ t: "ZOOTOPIA", q: "Nick Wilde thuộc loài gì?", o: ["Cáo","Chó sói","Mèo","Chó"], a: 0 },
+{ t: "ZOOTOPIA", q: "Thành phố nơi câu chuyện diễn ra có tên là gì?", o: ["Zootopia","Animal City","Savanna City","Wild Town"], a: 0 },
+{ t: "ZOOTOPIA", q: "Ước mơ của Judy khi còn nhỏ là gì?", o: ["Trở thành cảnh sát","Trở thành ca sĩ","Mở tiệm cà rốt","Làm thị trưởng"], a: 0 },
+{ t: "ZOOTOPIA", q: "Bố mẹ Judy làm nghề gì?", o: ["Trồng cà rốt","Cảnh sát","Giáo viên","Bác sĩ"], a: 0 },
+{ t: "ZOOTOPIA", q: "Nick lần đầu xuất hiện khi đang làm gì?", o: ["Mua kem jumbo pop","Lái taxi","Bị bắt giữ","Làm cảnh sát"], a: 0 },
+{ t: "ZOOTOPIA", q: "Judy tốt nghiệp học viện cảnh sát với thành tích gì?", o: ["Thủ khoa","Đội sổ","Trung bình","Bỏ học giữa chừng"], a: 0 },
+{ t: "ZOOTOPIA", q: "Người đứng đầu sở cảnh sát là ai?", o: ["Chief Bogo","Mayor Lionheart","Dawn Bellwether","Clawhauser"], a: 0 },
+{ t: "ZOOTOPIA", q: "Clawhauser thuộc loài gì?", o: ["Báo gêpa","Sư tử","Hổ","Báo đốm"], a: 0 },
+
+{ t: "ZOOTOPIA", q: "Thị trưởng của Zootopia lúc đầu phim là ai?", o: ["Mayor Lionheart","Dawn Bellwether","Chief Bogo","Mr. Big"], a: 0 },
+{ t: "ZOOTOPIA", q: "Phó thị trưởng là ai?", o: ["Dawn Bellwether","Judy Hopps","Gazelle","Mrs. Otterton"], a: 0 },
+{ t: "ZOOTOPIA", q: "Con vật bị mất tích đầu tiên Judy điều tra là ai?", o: ["Mr. Otterton","Nick Wilde","Flash","Yax"], a: 0 },
+{ t: "ZOOTOPIA", q: "Mrs. Otterton thuộc loài gì?", o: ["Rái cá","Cừu","Thỏ","Hươu"], a: 0 },
+{ t: "ZOOTOPIA", q: "Nick từng mơ ước làm nghề gì khi còn nhỏ?", o: ["Hướng đạo sinh","Cảnh sát","Luật sư","Diễn viên"], a: 0 },
+{ t: "ZOOTOPIA", q: "Nick bị từ chối tham gia nhóm hướng đạo vì lý do gì?", o: ["Vì là cáo","Vì gian lận","Vì đến trễ","Vì không đủ tuổi"], a: 0 },
+{ t: "ZOOTOPIA", q: "Khu vực băng giá trong thành phố có tên là gì?", o: ["Tundratown","Savanna Central","Rainforest District","Little Rodentia"], a: 0 },
+{ t: "ZOOTOPIA", q: "Mr. Big thuộc loài gì?", o: ["Chuột chù","Chồn","Sói","Mèo"], a: 0 },
+{ t: "ZOOTOPIA", q: "Con gái của Mr. Big tên là gì?", o: ["Fru Fru","Gazelle","Bonnie","Dawn"], a: 0 },
+{ t: "ZOOTOPIA", q: "Flash làm việc ở đâu?", o: ["Sở giao thông","Sở cảnh sát","Tòa thị chính","Ngân hàng"], a: 0 },
+
+{ t: "ZOOTOPIA", q: "Flash thuộc loài gì?", o: ["Lười","Gấu trúc","Sói","Hươu cao cổ"], a: 0 },
+{ t: "ZOOTOPIA", q: "Khu vực sa mạc của thành phố tên là gì?", o: ["Sahara Square","Savanna Central","Outback Island","Tundratown"], a: 0 },
+{ t: "ZOOTOPIA", q: "Loài động vật nào bị cho là trở nên hoang dã?", o: ["Thú săn mồi","Thú ăn cỏ","Chim","Bò sát"], a: 0 },
+{ t: "ZOOTOPIA", q: "Nguyên nhân khiến động vật trở nên hoang dã là gì?", o: ["Hoa night howler","Virus","Thời tiết","Thức ăn nhiễm độc"], a: 0 },
+{ t: "ZOOTOPIA", q: "Night howler thực chất là gì?", o: ["Một loài hoa","Một con sói","Một loại thuốc","Một loài vi khuẩn"], a: 0 },
+{ t: "ZOOTOPIA", q: "Ai đứng sau âm mưu gây hỗn loạn?", o: ["Dawn Bellwether","Mayor Lionheart","Nick Wilde","Chief Bogo"], a: 0 },
+{ t: "ZOOTOPIA", q: "Mayor Lionheart bị bắt vì tội gì?", o: ["Giam giữ trái phép","Tham ô","Trộm cắp","Gây nổ"], a: 0 },
+{ t: "ZOOTOPIA", q: "Gazelle là gì trong phim?", o: ["Ca sĩ nổi tiếng","Cảnh sát","Phóng viên","Luật sư"], a: 0 },
+{ t: "ZOOTOPIA", q: "Bài hát của Gazelle có tên là gì?", o: ["Try Everything","Let It Go","Roar","Happy"], a: 0 },
+{ t: "ZOOTOPIA", q: "Judy suýt bị đuổi việc vì lý do gì?", o: ["Phát biểu gây chia rẽ","Bỏ ca trực","Đánh nhau","Làm mất hồ sơ"], a: 0 },
+
+{ t: "ZOOTOPIA", q: "Nick làm nghề gì trước khi trở thành cảnh sát?", o: ["Lừa đảo bán kem","Luật sư","Phóng viên","Bác sĩ"], a: 0 },
+{ t: "ZOOTOPIA", q: "Yax thuộc loài gì?", o: ["Bò Tây Tạng","Trâu","Hươu","Ngựa"], a: 0 },
+{ t: "ZOOTOPIA", q: "Little Rodentia là khu vực dành cho ai?", o: ["Động vật nhỏ","Thú săn mồi","Chim","Bò sát"], a: 0 },
+{ t: "ZOOTOPIA", q: "Nick và Judy hợp tác điều tra trong bao nhiêu giờ?", o: ["48 giờ","24 giờ","72 giờ","12 giờ"], a: 0 },
+{ t: "ZOOTOPIA", q: "Chiếc kem jumbo pop được dùng để làm gì?", o: ["Làm kem que nhỏ bán lại","Ăn một mình","Tặng trẻ em","Làm chứng cứ"], a: 0 },
+{ t: "ZOOTOPIA", q: "Biệt danh Nick gọi Judy là gì?", o: ["Carrots","Bunny","Officer","Hopps"], a: 0 },
+{ t: "ZOOTOPIA", q: "Biệt danh Judy gọi Nick là gì?", o: ["Nick","Fox","Wilde","Foxy"], a: 0 },
+{ t: "ZOOTOPIA", q: "Chief Bogo thuộc loài gì?", o: ["Trâu rừng","Sư tử","Tê giác","Hổ"], a: 0 },
+{ t: "ZOOTOPIA", q: "Gia đình Judy sống ở đâu?", o: ["Nông trại Bunnyburrow","Zootopia","Tundratown","Sahara Square"], a: 0 },
+{ t: "ZOOTOPIA", q: "Judy là con thứ mấy trong gia đình?", o: ["Con cả trong nhiều anh chị em","Con một","Con út duy nhất","Con thứ hai"], a: 0 },
+
+{ t: "ZOOTOPIA", q: "Nick từng bị rọ mõm khi còn nhỏ vì điều gì?", o: ["Bị hiểu lầm nguy hiểm","Cắn người","Trộm đồ","Gây rối"], a: 0 },
+{ t: "ZOOTOPIA", q: "Ai là người tiêm thuốc từ hoa night howler cho động vật?", o: ["Dawn Bellwether","Mayor Lionheart","Clawhauser","Gazelle"], a: 0 },
+{ t: "ZOOTOPIA", q: "Judy ghi âm lời thú nhận của Bellwether bằng gì?", o: ["Bút ghi âm cà rốt","Điện thoại","Máy quay","Micro"], a: 0 },
+{ t: "ZOOTOPIA", q: "Kết phim, Nick trở thành gì?", o: ["Cảnh sát","Thị trưởng","Luật sư","Phóng viên"], a: 0 },
+{ t: "ZOOTOPIA", q: "Cảnh sát đối tác của Nick sau cùng là ai?", o: ["Judy Hopps","Chief Bogo","Clawhauser","Flash"], a: 0 },
+
+{ t: "ZOOTOPIA", q: "Thông điệp chính của phim là gì?", o: ["Phá bỏ định kiến","Chiến tranh loài vật","Gia đình là trên hết","Bảo vệ môi trường"], a: 0 },
+{ t: "ZOOTOPIA", q: "Nick có họ là gì?", o: ["Wilde","Fox","Hunter","Swift"], a: 0 },
+{ t: "ZOOTOPIA", q: "Judy có họ là gì?", o: ["Hopps","Carrot","Bunny","Fields"], a: 0 },
+{ t: "ZOOTOPIA", q: "Zootopia do hãng nào sản xuất?", o: ["Walt Disney Animation Studios","Pixar","DreamWorks","Illumination"], a: 0 },
+{ t: "ZOOTOPIA", q: "Zootopia phát hành năm nào?", o: ["2016","2014","2018","2012"], a: 0 },
+
+{ t: "ZOOTOPIA", q: "Ai lồng tiếng cho Judy Hopps (bản gốc)?", o: ["Ginnifer Goodwin","Emma Stone","Anne Hathaway","Scarlett Johansson"], a: 0 },
+{ t: "ZOOTOPIA", q: "Ai lồng tiếng cho Nick Wilde (bản gốc)?", o: ["Jason Bateman","Ryan Reynolds","Chris Pratt","Tom Holland"], a: 0 },
+
+{ t: "ZOOTOPIA", q: "Bellwether thuộc loài gì?", o: ["Cừu","Thỏ","Sói","Hươu"], a: 0 },
+{ t: "ZOOTOPIA", q: "Mr. Otterton thuộc loài gì?", o: ["Rái cá","Hải ly","Chồn","Sói"], a: 0 },
+{ t: "ZOOTOPIA", q: "Zootopia chia thành bao nhiêu khu sinh thái chính được giới thiệu rõ?", o: ["4","2","6","8"], a: 0 },
+
+{ t: "ZOOTOPIA", q: "Clawhauser yêu thích điều gì?", o: ["Gazelle","Thể hình","Nấu ăn","Đọc sách"], a: 0 },
+
+{ t: "ZOOTOPIA", q: "Tên khu rừng mưa trong thành phố là gì?", o: ["Rainforest District","Jungle Town","Green Zone","Forest Park"], a: 0 },
+{ t: "ZOOTOPIA", q: "Outback Island đại diện cho môi trường nào?", o: ["Rừng nhiệt đới","Sa mạc","Băng giá","Thảo nguyên"], a: 0 },
+
+{ t: "ZOOTOPIA", q: "Judy rời Zootopia một thời gian để làm gì?", o: ["Trở về nông trại","Đi du lịch","Đi học tiếp","Làm phóng viên"], a: 0 },
+
+{ t: "ZOOTOPIA", q: "Bellwether muốn tạo ra điều gì giữa các loài?", o: ["Sự sợ hãi và chia rẽ","Hòa bình","Thịnh vượng","Hợp tác"], a: 0 },
+
+{ t: "ZOOTOPIA", q: "Kết phim, ai trở thành thị trưởng?", o: ["Dawn Bellwether","Chief Bogo","Gazelle","Không ai vì bị bắt"], a: 0 },
+{ t: "ZOOTOPIA", q: "Judy bị giao nhiệm vụ đầu tiên là gì khi mới vào sở cảnh sát?", o: ["Ghi vé phạt đỗ xe","Đi tuần tra","Điều tra án mất tích","Trực tổng đài"], a: 0 },
+{ t: "ZOOTOPIA", q: "Nick và Judy gặp Mr. Big tại đâu?", o: ["Tundratown","Sahara Square","Rainforest District","Little Rodentia"], a: 0 },
+{ t: "ZOOTOPIA", q: "Cảnh rượt đuổi trong Little Rodentia liên quan đến loài nào?", o: ["Chuột chù","Sư tử","Voi","Hươu cao cổ"], a: 0 },
+{ t: "ZOOTOPIA", q: "Judy đã dùng mưu gì để buộc Nick giúp mình điều tra?", o: ["Đe dọa tố cáo trốn thuế","Bắt giữ ngay lập tức","Trả tiền cho Nick","Nhờ Chief Bogo can thiệp"], a: 0 },
+{ t: "ZOOTOPIA", q: "Nick trốn thuế bao nhiêu năm?", o: ["20 năm","5 năm","10 năm","2 năm"], a: 0 },
+{ t: "ZOOTOPIA", q: "Sở giao thông nơi Flash làm việc có tên viết tắt là gì?", o: ["DMV","ZPD","ZDM","DPS"], a: 0 },
+{ t: "ZOOTOPIA", q: "Chiếc tàu điện ở Zootopia kết nối các khu vực với nhau được gọi là gì?", o: ["Zootopia Express","Metro Z","Animal Line","City Rail"], a: 0 },
+{ t: "ZOOTOPIA", q: "Judy vô tình xúc phạm nhóm nào trong buổi họp báo?", o: ["Thú săn mồi","Thú ăn cỏ","Động vật nhỏ","Chim"], a: 0 },
+{ t: "ZOOTOPIA", q: "Sau buổi họp báo gây tranh cãi, Judy quyết định làm gì?", o: ["Từ chức và về quê","Xin lỗi ngay lập tức","Bỏ trốn","Kiện tòa thị chính"], a: 0 },
+{ t: "ZOOTOPIA", q: "Ai là người khuyên Judy đừng bỏ cuộc khi còn nhỏ?", o: ["Bố mẹ cô","Nick","Chief Bogo","Gazelle"], a: 0 },
+
+{ t: "ZOOTOPIA", q: "Nick gọi kế hoạch lừa đảo của mình là gì?", o: ["Hustle","Mission Carrot","Wild Plan","Fox Trick"], a: 0 },
+{ t: "ZOOTOPIA", q: "Bellwether sử dụng loại vũ khí nào để bắn tinh chất night howler?", o: ["Súng bắn thuốc","Cung tên","Ống tiêm tay","Bom khí"], a: 0 },
+{ t: "ZOOTOPIA", q: "Trong phòng thí nghiệm bí mật, những động vật bị ảnh hưởng được giữ ở đâu?", o: ["Bệnh viện tâm thần cũ","Sở cảnh sát","Nhà tù trung tâm","Tòa thị chính"], a: 0 },
+{ t: "ZOOTOPIA", q: "Mr. Big cứu Judy vì lý do gì?", o: ["Cô từng cứu con gái ông","Nick cầu xin","Ông thích cô","Vì tiền thưởng"], a: 0 },
+{ t: "ZOOTOPIA", q: "Fru Fru suýt bị rơi vào tình huống nguy hiểm nào?", o: ["Bị bánh donut khổng lồ lăn đè","Bị bắt cóc","Bị rơi xuống hồ băng","Bị cháy nổ"], a: 0 },
+{ t: "ZOOTOPIA", q: "Judy dùng vật gì để che chắn trước khi đối đầu Bellwether cuối phim?", o: ["Thùng kim loại","Bàn gỗ","Cửa kính","Ghế nhựa"], a: 0 },
+{ t: "ZOOTOPIA", q: "Nick giả vờ trở nên hoang dã để làm gì?", o: ["Dụ Bellwether lộ diện","Tấn công Judy","Trốn thoát","Hù dọa cảnh sát"], a: 0 },
+{ t: "ZOOTOPIA", q: "Bellwether muốn thay đổi cán cân quyền lực nghiêng về phía ai?", o: ["Thú ăn cỏ","Thú săn mồi","Động vật nhỏ","Chim"], a: 0 },
+{ t: "ZOOTOPIA", q: "Bộ đồng phục cảnh sát của Judy có biểu tượng gì?", o: ["Huy hiệu ZPD","Hình cà rốt","Hình thỏ","Hình sao vàng"], a: 0 },
+{ t: "ZOOTOPIA", q: "Nick và Judy chính thức trở thành đối tác sau sự kiện nào?", o: ["Nick tốt nghiệp học viện cảnh sát","Bellwether bị bắt","Mayor Lionheart bị bắt","Gazelle biểu diễn"], a: 0 },
+
+{ t: "ZOOTOPIA", q: "Gazelle xuất hiện trong cảnh nào ở cuối phim?", o: ["Biểu diễn ca nhạc ngoài trời","Họp báo","Trong nhà tù","Tại sở cảnh sát"], a: 0 },
+{ t: "ZOOTOPIA", q: "Flash nói câu đùa chậm nổi tiếng về ai?", o: ["Judy","Nick","Chief Bogo","Clawhauser"], a: 0 },
+{ t: "ZOOTOPIA", q: "Nick từng bị trêu chọc trong lễ kết nạp hướng đạo bằng vật gì?", o: ["Rọ mõm","Dây thừng","Mũ bảo hiểm","Sơn màu"], a: 0 },
+{ t: "ZOOTOPIA", q: "Judy dùng cà rốt làm gì trong phim?", o: ["Làm bút ghi âm","Làm vũ khí","Cho Nick ăn","Làm phù hiệu"], a: 0 },
+{ t: "ZOOTOPIA", q: "Loài voi trong phim điều hành loại hình kinh doanh nào?", o: ["Tiệm kem","Ngân hàng","Cửa hàng quần áo","Trạm xăng"], a: 0 },
+{ t: "ZOOTOPIA", q: "Nick và Judy tìm ra manh mối về night howler tại đâu?", o: ["Nông trại Bunnyburrow","Sở cảnh sát","Nhà Mr. Big","Tundratown"], a: 0 },
+{ t: "ZOOTOPIA", q: "Bố mẹ Judy ban đầu lo lắng điều gì khi cô làm cảnh sát?", o: ["Cô sẽ gặp nguy hiểm","Cô không đủ giỏi","Cô bỏ bê gia đình","Cô không kiếm được tiền"], a: 0 },
+{ t: "ZOOTOPIA", q: "Zootopia được xây dựng dựa trên ý tưởng gì?", o: ["Thành phố nơi mọi loài cùng chung sống","Thế giới chỉ có thú săn mồi","Thành phố dưới nước","Thành phố trên mây"], a: 0 },
+{ t: "ZOOTOPIA", q: "Câu nói nổi tiếng của Judy về việc theo đuổi ước mơ là gì?", o: ["Anyone can be anything","Just keep swimming","To infinity and beyond","Hakuna Matata"], a: 0 },
+{ t: "ZOOTOPIA", q: "Nick trêu Judy bằng cách gọi cô là gì xuyên suốt phim?", o: ["Carrots","Officer Bunny","Hoppsie","Short ears"], a: 0 },
+
+{ t: "INSIDE OUT", q: "Nhân vật chính của bộ phim là ai?", o: ["Riley Andersen","Joy","Sadness","Bing Bong"], a: 0 },
+{ t: "INSIDE OUT", q: "Riley bao nhiêu tuổi ở đầu phim?", o: ["11","8","13","15"], a: 0 },
+{ t: "INSIDE OUT", q: "Gia đình Riley chuyển đến thành phố nào?", o: ["San Francisco","Los Angeles","New York","Chicago"], a: 0 },
+{ t: "INSIDE OUT", q: "Cảm xúc nào xuất hiện đầu tiên trong Riley?", o: ["Joy","Sadness","Fear","Anger"], a: 0 },
+{ t: "INSIDE OUT", q: "Có bao nhiêu cảm xúc chính trong trung tâm điều khiển?", o: ["5","4","6","7"], a: 0 },
+{ t: "INSIDE OUT", q: "Cảm xúc màu vàng là ai?", o: ["Joy","Fear","Sadness","Disgust"], a: 0 },
+{ t: "INSIDE OUT", q: "Cảm xúc màu xanh dương là ai?", o: ["Sadness","Joy","Fear","Anger"], a: 0 },
+{ t: "INSIDE OUT", q: "Cảm xúc màu đỏ là ai?", o: ["Anger","Fear","Joy","Disgust"], a: 0 },
+{ t: "INSIDE OUT", q: "Cảm xúc màu tím là ai?", o: ["Fear","Anger","Joy","Sadness"], a: 0 },
+{ t: "INSIDE OUT", q: "Cảm xúc màu xanh lá là ai?", o: ["Disgust","Joy","Sadness","Fear"], a: 0 },
+
+{ t: "INSIDE OUT", q: "Những quả cầu ký ức chính được gọi là gì?", o: ["Core Memories","Memory Seeds","Emotion Orbs","Brain Lights"], a: 0 },
+{ t: "INSIDE OUT", q: "Có bao nhiêu ký ức cốt lõi ban đầu?", o: ["5","3","4","6"], a: 0 },
+{ t: "INSIDE OUT", q: "Các ký ức cốt lõi tạo nên điều gì?", o: ["Các đảo tính cách","Giấc mơ","Suy nghĩ trừu tượng","Tiềm thức"], a: 0 },
+{ t: "INSIDE OUT", q: "Đảo tính cách liên quan đến khúc côn cầu là gì?", o: ["Hockey Island","Family Island","Friendship Island","Goofball Island"], a: 0 },
+{ t: "INSIDE OUT", q: "Người bạn tưởng tượng của Riley tên là gì?", o: ["Bing Bong","Rainbow Cat","Mr. Elephant","Cloudy"], a: 0 },
+{ t: "INSIDE OUT", q: "Bing Bong là sự kết hợp của những con vật nào?", o: ["Voi, mèo, cá heo","Gấu, mèo, thỏ","Chó, mèo, voi","Ngựa, mèo, cá"], a: 0 },
+{ t: "INSIDE OUT", q: "Bing Bong di chuyển bằng cách nào?", o: ["Xe kéo tên lửa","Bay tự do","Xe đạp","Trượt ván"], a: 0 },
+{ t: "INSIDE OUT", q: "Joy và Sadness bị hút ra khỏi trung tâm điều khiển do điều gì?", o: ["Chạm vào ký ức cốt lõi","Sự cố điện","Anger bấm nhầm nút","Fear hoảng loạn"], a: 0 },
+{ t: "INSIDE OUT", q: "Nơi lưu trữ ký ức lâu dài được gọi là gì?", o: ["Long-Term Memory","Deep Mind","Memory Bank","Storage Room"], a: 0 },
+{ t: "INSIDE OUT", q: "Những công nhân trong Long-Term Memory làm gì?", o: ["Phân loại và xóa ký ức","Tạo giấc mơ","Sửa chữa não","Huấn luyện cảm xúc"], a: 0 },
+
+{ t: "INSIDE OUT", q: "Khu vực nơi những ký ức bị quên rơi xuống gọi là gì?", o: ["Memory Dump","The Void","Deep Pit","Forgotten Zone"], a: 0 },
+{ t: "INSIDE OUT", q: "Joy và Bing Bong thoát khỏi hố quên lãng bằng cách nào?", o: ["Dùng xe tên lửa","Leo thang","Gọi Fear","Bay nhờ Sadness"], a: 0 },
+{ t: "INSIDE OUT", q: "Ai đã hy sinh để Joy thoát khỏi hố quên lãng?", o: ["Bing Bong","Sadness","Fear","Anger"], a: 0 },
+{ t: "INSIDE OUT", q: "Đảo tính cách nào sụp đổ đầu tiên?", o: ["Goofball Island","Family Island","Friendship Island","Hockey Island"], a: 0 },
+{ t: "INSIDE OUT", q: "Dream Productions đại diện cho điều gì?", o: ["Xưởng sản xuất giấc mơ","Nhà máy ký ức","Trung tâm tiềm thức","Phòng suy nghĩ"], a: 0 },
+{ t: "INSIDE OUT", q: "Con chó trong giấc mơ Riley là gì?", o: ["Ác mộng","Bạn thân","Ký ức vui","Biểu tượng gia đình"], a: 0 },
+{ t: "INSIDE OUT", q: "Tiềm thức của Riley chứa điều gì đáng sợ?", o: ["Chú hề","Bóng tối","Quái vật","Búp bê"], a: 0 },
+{ t: "INSIDE OUT", q: "Joy nhận ra điều gì về Sadness?", o: ["Sadness cũng quan trọng","Sadness vô dụng","Sadness nguy hiểm","Sadness phải biến mất"], a: 0 },
+{ t: "INSIDE OUT", q: "Riley cố gắng làm gì khi cảm xúc mất kiểm soát?", o: ["Bỏ nhà đi","Nghỉ học","Cãi bố mẹ","Đập phá nhà"], a: 0 },
+{ t: "INSIDE OUT", q: "Riley mua vé xe buýt để đi đâu?", o: ["Minnesota","New York","Los Angeles","Chicago"], a: 0 },
+
+{ t: "INSIDE OUT", q: "Minnesota là nơi Riley từng sống vì điều gì nổi tiếng?", o: ["Khúc côn cầu","Biển","Sa mạc","Công viên giải trí"], a: 0 },
+{ t: "INSIDE OUT", q: "Family Island đại diện cho điều gì?", o: ["Gia đình","Bạn bè","Sở thích","Trường học"], a: 0 },
+{ t: "INSIDE OUT", q: "Friendship Island đại diện cho điều gì?", o: ["Tình bạn","Gia đình","Trường học","Thể thao"], a: 0 },
+{ t: "INSIDE OUT", q: "Goofball Island đại diện cho điều gì?", o: ["Sự vui nhộn","Học tập","Âm nhạc","Sợ hãi"], a: 0 },
+{ t: "INSIDE OUT", q: "Sadness giúp Riley bằng cách nào cuối phim?", o: ["Cho phép cô khóc và chia sẻ","Ngăn cô nói","Xóa ký ức","Làm cô vui lên"], a: 0 },
+{ t: "INSIDE OUT", q: "Bố Riley bị chi phối nhiều bởi cảm xúc nào?", o: ["Anger","Joy","Fear","Sadness"], a: 0 },
+{ t: "INSIDE OUT", q: "Mẹ Riley bị chi phối nhiều bởi cảm xúc nào?", o: ["Sadness","Joy","Anger","Disgust"], a: 0 },
+{ t: "INSIDE OUT", q: "Trung tâm điều khiển của Riley có hình dạng gì?", o: ["Bàn điều khiển tròn","Vuông","Tam giác","Hình sao"], a: 0 },
+{ t: "INSIDE OUT", q: "Ký ức có thể thay đổi màu khi nào?", o: ["Khi cảm xúc khác chạm vào","Sau 1 ngày","Khi bị xóa","Khi Riley ngủ"], a: 0 },
+{ t: "INSIDE OUT", q: "Cảnh cuối phim cho thấy điều gì thay đổi?", o: ["Bảng điều khiển lớn hơn","Chỉ còn Joy","Không còn Sadness","Không còn ký ức"], a: 0 },
+
+{ t: "INSIDE OUT", q: "Bing Bong từng là gì với Riley?", o: ["Bạn tưởng tượng thời thơ ấu","Thú cưng","Anh trai","Hàng xóm"], a: 0 },
+{ t: "INSIDE OUT", q: "Joy ban đầu nghĩ vai trò của mình là gì?", o: ["Giữ Riley luôn vui vẻ","Kiểm soát mọi cảm xúc","Loại bỏ Sadness","Chỉ tạo ký ức"], a: 0 },
+{ t: "INSIDE OUT", q: "Sadness chạm vào ký ức cốt lõi khiến điều gì xảy ra?", o: ["Ký ức chuyển sang màu xanh","Ký ức biến mất","Joy tức giận","Đảo sụp đổ ngay"], a: 0 },
+{ t: "INSIDE OUT", q: "Những ký ức không quan trọng sẽ bị gì?", o: ["Bị xóa theo thời gian","Chuyển thành ác mộng","Gửi về tiềm thức","Thành ký ức cốt lõi"], a: 0 },
+{ t: "INSIDE OUT", q: "Anger kích hoạt điều gì khi Riley tức giận?", o: ["Ngọn lửa trên đầu","Bão tuyết","Nước mắt","Sấm sét"], a: 0 },
+{ t: "INSIDE OUT", q: "Fear giúp Riley tránh điều gì?", o: ["Nguy hiểm","Buồn bã","Mất trí nhớ","Mơ mộng"], a: 0 },
+{ t: "INSIDE OUT", q: "Disgust giúp Riley tránh điều gì?", o: ["Những thứ khó chịu","Ngủ quên","Bài tập","Gia đình"], a: 0 },
+{ t: "INSIDE OUT", q: "Joy và Sadness đi qua khu vực trừu tượng gọi là gì?", o: ["Abstract Thought","Deep Dream","Core Mind","Idea Lab"], a: 0 },
+{ t: "INSIDE OUT", q: "Trong Abstract Thought, họ trải qua mấy giai đoạn biến đổi?", o: ["4","2","3","5"], a: 0 },
+{ t: "INSIDE OUT", q: "Riley chơi môn thể thao nào?", o: ["Khúc côn cầu","Bóng đá","Bóng rổ","Tennis"], a: 0 },
+
+{ t: "INSIDE OUT", q: "Joy hiểu rằng ký ức buồn có thể dẫn đến điều gì?", o: ["Sự kết nối và đồng cảm","Mất kiểm soát","Quên lãng","Tức giận"], a: 0 },
+{ t: "INSIDE OUT", q: "Bố mẹ Riley phản ứng thế nào khi cô khóc cuối phim?", o: ["Ôm và an ủi cô","La mắng cô","Phớt lờ cô","Bỏ đi"], a: 0 },
+{ t: "INSIDE OUT", q: "Sau khi trở về, Joy làm gì khác trước?", o: ["Cho Sadness cùng điều khiển","Đẩy Sadness ra xa","Tắt bảng điều khiển","Rời khỏi trung tâm"], a: 0 },
+{ t: "INSIDE OUT", q: "Ký ức cuối phim có màu gì?", o: ["Vàng pha xanh dương","Chỉ vàng","Chỉ xanh","Đỏ"], a: 0 },
+{ t: "INSIDE OUT", q: "Thông điệp chính của phim là gì?", o: ["Mọi cảm xúc đều quan trọng","Chỉ nên vui vẻ","Buồn là yếu đuối","Tức giận là xấu"], a: 0 },
+
+{ t: "INSIDE OUT", q: "Inside Out do hãng nào sản xuất?", o: ["Pixar Animation Studios","DreamWorks","Illumination","Blue Sky"], a: 0 },
+{ t: "INSIDE OUT", q: "Inside Out phát hành năm nào?", o: ["2015","2014","2016","2013"], a: 0 },
+{ t: "INSIDE OUT", q: "Đạo diễn của Inside Out là ai?", o: ["Pete Docter","John Lasseter","Brad Bird","Andrew Stanton"], a: 0 },
+{ t: "INSIDE OUT", q: "Joy do ai lồng tiếng (bản gốc)?", o: ["Amy Poehler","Emma Stone","Mindy Kaling","Kristen Wiig"], a: 0 },
+{ t: "INSIDE OUT", q: "Sadness do ai lồng tiếng (bản gốc)?", o: ["Phyllis Smith","Tina Fey","Ellen DeGeneres","Sandra Bullock"], a: 0 },
+
+{ t: "INSIDE OUT", q: "Riley thử tham gia đội khúc côn cầu ở San Francisco nhưng điều gì xảy ra?", o: ["Cô mất kiểm soát cảm xúc","Cô ghi bàn ngay","Cô bị chấn thương","Cô bị đuổi khỏi đội"], a: 0 },
+{ t: "INSIDE OUT", q: "Ai nhấn nút khiến Riley quyết định bỏ nhà đi?", o: ["Anger","Joy","Fear","Sadness"], a: 0 },
+{ t: "INSIDE OUT", q: "Anger dùng ý tưởng nào để Riley có tiền mua vé xe?", o: ["Lấy thẻ tín dụng của mẹ","Bán đồ chơi","Xin tiền bạn","Trộm ví"], a: 0 },
+{ t: "INSIDE OUT", q: "Trong Dream Productions, ai điều hành giấc mơ?", o: ["Đạo diễn giấc mơ","Joy","Sadness","Anger"], a: 0 },
+{ t: "INSIDE OUT", q: "Joy và Sadness cải trang thành gì để vào Dream Productions?", o: ["Diễn viên giấc mơ","Công nhân ký ức","Bảo vệ","Khán giả"], a: 0 },
+{ t: "INSIDE OUT", q: "Tiềm thức (Subconscious) được canh giữ bởi điều gì?", o: ["Lính gác tiềm thức","Joy","Bố Riley","Bing Bong"], a: 0 },
+{ t: "INSIDE OUT", q: "Chú hề trong tiềm thức tên là gì?", o: ["Jangles","Bobo","Lulu","Snappy"], a: 0 },
+{ t: "INSIDE OUT", q: "Joy từng cố làm gì với Sadness ở đầu phim?", o: ["Giữ cô tránh xa bảng điều khiển","Đẩy cô ra khỏi trung tâm","Khóa cô lại","Xóa cô khỏi trí nhớ"], a: 0 },
+{ t: "INSIDE OUT", q: "Các đảo tính cách được cung cấp năng lượng bởi điều gì?", o: ["Ký ức cốt lõi","Giấc mơ","Tiềm thức","Suy nghĩ trừu tượng"], a: 0 },
+{ t: "INSIDE OUT", q: "Khi Joy và Sadness vắng mặt, trung tâm điều khiển chỉ còn ai?", o: ["Anger, Fear và Disgust","Joy và Fear","Sadness và Anger","Chỉ Anger"], a: 0 },
+
+{ t: "INSIDE OUT", q: "Disgust phản ứng thế nào với bông cải xanh?", o: ["Ghê sợ và từ chối ăn","Ăn ngay lập tức","Không quan tâm","Chia cho bạn"], a: 0 },
+{ t: "INSIDE OUT", q: "Fear thường lo lắng về điều gì nhất?", o: ["An toàn của Riley","Điểm số","Bạn bè","Thể thao"], a: 0 },
+{ t: "INSIDE OUT", q: "Joy từng xem ký ức nào và nhận ra giá trị của Sadness?", o: ["Ký ức sau trận thua khúc côn cầu","Sinh nhật Riley","Ngày đầu đi học","Buổi dã ngoại"], a: 0 },
+{ t: "INSIDE OUT", q: "Sau khi Bing Bong biến mất, Joy cảm thấy gì?", o: ["Buồn bã","Tức giận","Sợ hãi","Vui vẻ"], a: 0 },
+{ t: "INSIDE OUT", q: "Joy quay lại trung tâm điều khiển bằng cách nào?", o: ["Ống hồi ký ức","Cầu thang bí mật","Thang máy","Cửa tiềm thức"], a: 0 },
+{ t: "INSIDE OUT", q: "Khi Riley quyết định quay về nhà, điều gì xảy ra với các đảo?", o: ["Dần được khôi phục","Biến mất hoàn toàn","Chuyển màu đỏ","Nổ tung"], a: 0 },
+{ t: "INSIDE OUT", q: "Bảng điều khiển mới cuối phim có điểm gì khác?", o: ["Có thêm không gian và phức tạp hơn","Nhỏ hơn","Chỉ có Joy điều khiển","Chuyển sang màu xanh"], a: 0 },
+{ t: "INSIDE OUT", q: "Ký ức hỗn hợp cuối phim thể hiện điều gì?", o: ["Cảm xúc có thể pha trộn","Chỉ còn buồn","Chỉ còn vui","Mất kiểm soát"], a: 0 },
+{ t: "INSIDE OUT", q: "Joy học được bài học gì quan trọng nhất?", o: ["Không thể kiểm soát mọi thứ một mình","Phải luôn vui vẻ","Sadness nên biến mất","Anger luôn sai"], a: 0 },
+{ t: "INSIDE OUT", q: "Bing Bong biến mất vì điều gì?", o: ["Bị quên lãng hoàn toàn","Bị xóa thủ công","Bị Anger đẩy","Bị Joy bỏ lại"], a: 0 },
+
+{ t: "INSIDE OUT", q: "Những ký ức mờ dần trước khi biến mất có màu gì?", o: ["Xám nhạt","Đỏ","Vàng sáng","Xanh lá"], a: 0 },
+{ t: "INSIDE OUT", q: "Khi Riley khóc trước bố mẹ, cảm xúc nào điều khiển?", o: ["Sadness","Joy","Anger","Fear"], a: 0 },
+{ t: "INSIDE OUT", q: "Sau khi Riley chia sẻ cảm xúc, điều gì xảy ra với gia đình?", o: ["Họ gắn kết hơn","Họ tranh cãi","Họ im lặng","Họ bỏ đi"], a: 0 },
+{ t: "INSIDE OUT", q: "Inside Out thuộc thể loại phim gì?", o: ["Hoạt hình, gia đình, tâm lý","Hành động","Kinh dị","Tài liệu"], a: 0 },
+{ t: "INSIDE OUT", q: "Tên đầy đủ của Riley là gì?", o: ["Riley Andersen","Riley Johnson","Riley Smith","Riley Brown"], a: 0 },
+{ t: "INSIDE OUT", q: "Joy có đặc điểm ngoại hình nổi bật nào?", o: ["Phát sáng nhẹ","Có cánh","Đội mũ","Đeo kính"], a: 0 },
+{ t: "INSIDE OUT", q: "Sadness thường mang theo vật gì?", o: ["Cuốn sổ tay ký ức","Chiếc khăn","Bút chì","Gối nhỏ"], a: 0 },
+{ t: "INSIDE OUT", q: "Anger mặc trang phục gì?", o: ["Áo sơ mi và cà vạt","Áo khoác","Đồ thể thao","Áo giáp"], a: 0 },
+{ t: "INSIDE OUT", q: "Fear mặc phụ kiện gì?", o: ["Áo len kẻ và nơ","Mũ bảo hiểm","Áo choàng","Kính râm"], a: 0 },
+{ t: "INSIDE OUT", q: "Disgust mặc trang phục màu gì chủ đạo?", o: ["Xanh lá","Đỏ","Vàng","Tím"], a: 0 },
+
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Tên tiếng Anh của phim 'Nghệ thuật săn quỷ và nấu mì' là gì?", o: ["The Uncanny Counter","Demon Hunter","Mystic Noodle","Soul Catcher"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Phim được phát sóng lần đầu năm nào?", o: ["2020","2018","2019","2021"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Đài truyền hình phát sóng phim là?", o: ["OCN","tvN","SBS","KBS"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Nhân vật chính của phim là ai?", o: ["So Mun","Ga Mo Tak","Do Ha Na","Chu Mae Ok"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "So Mun do ai thủ vai?", o: ["Jo Byeong-gyu","Yoo Jun-sang","Kim Se-jeong","Yeom Hye-ran"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ga Mo Tak là cựu nghề nghiệp gì?", o: ["Cảnh sát","Luật sư","Giáo viên","Bác sĩ"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Do Ha Na có khả năng đặc biệt nào?", o: ["Cảm nhận linh hồn ác quỷ","Bay lượn","Điều khiển lửa","Tàng hình"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Chu Mae Ok có năng lực gì?", o: ["Chữa lành","Đọc tâm trí","Dịch chuyển tức thời","Điều khiển nước"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Nhóm săn quỷ được gọi là gì?", o: ["Counter","Hunters","Spirit Team","Soul Squad"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Công việc vỏ bọc của nhóm Counter là gì?", o: ["Bán mì","Tiệm cà phê","Nhà sách","Tiệm sửa xe"], a: 0 },
+
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Tên quán mì của nhóm là gì?", o: ["Eonni's Noodles","Counter Noodles","Spirit Noodles","Jungjin Noodles"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "So Mun mất cha mẹ trong hoàn cảnh nào?", o: ["Tai nạn xe hơi","Bệnh nặng","Bị sát hại trực tiếp","Cháy nhà"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "So Mun sống cùng ai sau tai nạn?", o: ["Ông bà","Chú ruột","Cô ruột","Anh trai"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Trước khi trở thành Counter, So Mun bị khuyết tật gì?", o: ["Chấn thương chân","Mù một mắt","Mất thính lực","Liệt tay"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Cõi linh hồn nơi các linh hồn tốt trú ngụ gọi là gì?", o: ["Yung","Heaven","Spirit Land","Afterlife"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Linh hồn đồng hành với So Mun tên là gì?", o: ["Wi-gen","Su-ho","Gi-ran","Cheong-sin"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Mục tiêu của Counter là gì?", o: ["Bắt ác quỷ trốn khỏi Yung","Tiêu diệt linh hồn tốt","Kiếm tiền","Bảo vệ chính trị gia"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ác quỷ mạnh lên bằng cách nào?", o: ["Giết nhiều người","Ăn linh hồn tốt","Hút năng lượng Counter","Cầu nguyện"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Tên phản diện chính mùa 1 là?", o: ["Ji Cheong-sin","Baek Hyang-hee","Shin Myeong-hwi","Kim Jeong-yeong"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ji Cheong-sin làm nghề gì để che giấu thân phận?", o: ["Công nhân xây dựng","Luật sư","Giáo viên","Đầu bếp"], a: 0 },
+
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ga Mo Tak mất trí nhớ vì điều gì?", o: ["Tai nạn do ác quỷ gây ra","Bệnh tật","Bị đầu độc","Tự nguyện xoá ký ức"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Do Ha Na thường dùng vật gì để dò tìm linh hồn?", o: ["Tai nghe","Gương","Chuỗi hạt","Sách"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Chu Mae Ok từng mất người thân nào?", o: ["Con trai","Chồng","Chị gái","Em trai"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Tên thị trấn nơi câu chuyện diễn ra là?", o: ["Jungjin","Seoul","Busan","Incheon"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "So Mun có khả năng đặc biệt nổi bật nào?", o: ["Sức mạnh thể chất vượt trội","Tàng hình","Điều khiển nước","Bay"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Lãnh đạo nhóm Counter là ai?", o: ["Ga Mo Tak","So Mun","Do Ha Na","Chu Mae Ok"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Nhóm Counter có bao nhiêu thành viên chính mùa 1?", o: ["4","3","5","6"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Wi-gen thuộc về cõi nào?", o: ["Yung","Địa ngục","Trần gian","Thiên giới"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Khi kích hoạt sức mạnh, Counter tạo ra vùng gì?", o: ["Vùng lãnh thổ","Vòng lửa","Ánh sáng tím","Cánh cổng"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ji Cheong-sin có khả năng gì đặc biệt?", o: ["Hấp thụ linh hồn Counter","Đọc tâm trí","Điều khiển gió","Chữa lành"], a: 0 },
+
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Shin Myeong-hwi giữ chức vụ gì?", o: ["Thị trưởng","Cảnh sát trưởng","Công tố viên","Giám đốc bệnh viện"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "So Mun học ở cấp nào?", o: ["Trung học phổ thông","Đại học","Trung học cơ sở","Tiểu học"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Bạn thân của So Mun tên là?", o: ["Im Ju-yeon","Kim Ung-min","Shin Hyeok-u","Lee Min-ji"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Gia đình Ji Cheong-sin có vấn đề gì?", o: ["Bạo hành gia đình","Nợ nần","Mất tích","Giàu có quyền lực"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Counter bắt ác quỷ bằng cách nào?", o: ["Triệu hồi linh hồn về Yung","Giết tại chỗ","Giam giữ dưới đất","Đóng băng"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ai trong nhóm có khả năng đọc ký ức khi chạm vào người khác?", o: ["Do Ha Na","So Mun","Ga Mo Tak","Chu Mae Ok"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Chu Mae Ok thường đóng vai trò gì trong nhóm?", o: ["Hỗ trợ và chữa trị","Tấn công chính","Do thám","Lãnh đạo chiến thuật"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ji Cheong-sin từng làm gì với các Counter khác?", o: ["Giết họ để hấp thụ sức mạnh","Giúp đỡ họ","Bỏ trốn","Tố giác họ"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "So Mun từng bị khai trừ khỏi nhóm vì lý do gì?", o: ["Vi phạm quy tắc không giết người","Yếu đuối","Phản bội","Mất sức mạnh"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Linh hồn Su-ho có liên quan gì đến So Mun?", o: ["Là cảnh sát điều tra cái chết cha mẹ Mun","Anh trai Mun","Thầy giáo Mun","Hàng xóm Mun"], a: 0 },
+
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Cha mẹ So Mun qua đời do ai gây ra?", o: ["Ji Cheong-sin","Ga Mo Tak","Shin Myeong-hwi","Baek Hyang-hee"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Baek Hyang-hee là ai?", o: ["Đồng bọn của Cheong-sin","Counter mới","Cảnh sát","Giáo viên"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Counter nhận lệnh từ đâu?", o: ["Yung","Chính phủ","Cảnh sát","Tòa án"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Sức mạnh của Counter mạnh hơn khi nào?", o: ["Khi ở trong lãnh thổ","Ban đêm","Gần biển","Khi đông người"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "So Mun có thể triệu hồi linh hồn nào xuống trần gian?", o: ["Wi-gen","Su-ho","Gi-ran","Không ai"], a: 1 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ai là người đầu tiên phát hiện sức mạnh đặc biệt của Mun?", o: ["Ga Mo Tak","Chu Mae Ok","Do Ha Na","Wi-gen"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Yung được miêu tả là nơi như thế nào?", o: ["Cõi linh hồn trung gian","Địa ngục","Thiên đường","Thế giới song song vật lý"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "So Mun có thể mở cổng giữa hai thế giới bằng cách nào?", o: ["Chạy với tốc độ cao","Niệm chú","Vẽ ký hiệu","Dùng gậy phép"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ji Cheong-sin từng làm nghề gì trước khi bị quỷ nhập?", o: ["Nhân viên xây dựng","Sinh viên","Cảnh sát","Nhà báo"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Mục tiêu cuối cùng của Cheong-sin là gì?", o: ["Trở thành ác quỷ cấp 3","Thoát khỏi Yung","Giết Mun","Chiếm quán mì"], a: 0 },
+
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Mùa 1 của phim có bao nhiêu tập?", o: ["16","12","20","18"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Phim thuộc thể loại gì?", o: ["Hành động siêu nhiên","Tình cảm","Hài thuần túy","Tài liệu"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ai trong nhóm có sức mạnh thể chất mạnh nhất ban đầu?", o: ["Ga Mo Tak","So Mun","Do Ha Na","Chu Mae Ok"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "So Mun gia nhập nhóm ở tập mấy?", o: ["Tập 1","Tập 3","Tập 5","Tập 2"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Counter có được phép giết người không?", o: ["Không","Có","Tùy trường hợp","Chỉ khi cấp trên cho phép"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ai là người phản bội Cheong-sin sau này?", o: ["Baek Hyang-hee","Shin Myeong-hwi","Không ai","Ga Mo Tak"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Do Ha Na từng làm nghề gì trước khi trở thành Counter?", o: ["Nhân viên văn phòng","Sinh viên","Cảnh sát","Bác sĩ"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Chu Mae Ok quản lý quán mì với ai?", o: ["Chồng","Con trai","Em gái","Một mình"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Sức mạnh của Mun phát triển mạnh nhất vào giai đoạn nào?", o: ["Cuối mùa 1","Giữa mùa","Đầu mùa","Không thay đổi"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Tập cuối mùa 1 kết thúc với điều gì?", o: ["Đánh bại Cheong-sin","Mun rời nhóm","Yung bị phá hủy","Quán mì đóng cửa"], a: 0 },
+
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ai là linh hồn đầu tiên cố gắng nhập vào So Mun nhưng thất bại?", o: ["Su-ho","Wi-gen","Gi-ran","Không ai"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Lý do Su-ho không thể hoàn thành việc trở thành Counter là gì?", o: ["Linh hồn bị nuốt chửng","Tự từ bỏ","Bị Yung cấm","Bị Mun từ chối"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ai trong nhóm từng bị ác quỷ giết trước khi Mun gia nhập?", o: ["Jang Cheol-joong","Ga Mo Tak","Do Ha Na","Chu Mae Ok"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Jang Cheol-joong giữ vai trò gì trong nhóm Counter trước đó?", o: ["Counter mạnh nhất","Đầu bếp chính","Liên lạc với Yung","Chữa lành"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ai là người thường nấu mì tại quán?", o: ["Chu Mae Ok","Ga Mo Tak","So Mun","Do Ha Na"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Mun thường sử dụng kỹ năng thể thao nào trong chiến đấu?", o: ["Chạy nước rút","Bơi lội","Bóng rổ","Taekwondo"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Do Ha Na bị ám ảnh bởi điều gì trong quá khứ?", o: ["Cái chết của gia đình","Tai nạn xe","Bị phản bội","Mất trí nhớ"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ga Mo Tak từng điều tra vụ án liên quan đến ai trước khi mất trí nhớ?", o: ["Shin Myeong-hwi","Ji Cheong-sin","Baek Hyang-hee","Su-ho"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ác quỷ cấp cao nhất trong mùa 1 đạt cấp mấy?", o: ["Cấp 3","Cấp 1","Cấp 2","Cấp 4"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ai là người bị ác quỷ chiếm xác và làm việc trong tòa thị chính?", o: ["Shin Myeong-hwi","Ga Mo Tak","Im Ju-yeon","Chu Mae Ok"], a: 0 },
+
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "So Mun lần đầu sử dụng sức mạnh hoàn chỉnh khi nào?", o: ["Đối đầu Cheong-sin","Tập luyện","Ở trường học","Tại quán mì"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Wi-gen có tính cách như thế nào?", o: ["Điềm tĩnh và nghiêm khắc","Nóng nảy","Hài hước","Thờ ơ"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ai là người khuyên Mun kiểm soát cảm xúc để giữ sức mạnh?", o: ["Ga Mo Tak","Do Ha Na","Chu Mae Ok","Wi-gen"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Counter có thể mất sức mạnh khi nào?", o: ["Vi phạm quy tắc","Bị thương","Rời thị trấn","Hết tiền"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Ai trong nhóm thường xử lý chiến thuật khi săn quỷ?", o: ["Ga Mo Tak","So Mun","Chu Mae Ok","Do Ha Na"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Mun từng bị đình chỉ quyền Counter bởi ai?", o: ["Yung","Ga Mo Tak","Chu Mae Ok","Do Ha Na"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Linh hồn Gi-ran đồng hành với ai?", o: ["Ga Mo Tak","So Mun","Do Ha Na","Chu Mae Ok"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Linh hồn Chung-ja đồng hành với ai?", o: ["Chu Mae Ok","Do Ha Na","So Mun","Ga Mo Tak"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Kết thúc mùa 1, nhóm Counter như thế nào?", o: ["Tiếp tục nhiệm vụ","Giải tán","Mất sức mạnh","Bị bắt"], a: 0 },
+{ t: "NGHỆ THUẬT SĂN QUỶ VÀ NẤU MÌ", q: "Chủ đề trung tâm của phim là gì?", o: ["Công lý và gia đình","Tình yêu học đường","Hài hước đời thường","Chính trị thuần túy"], a: 0 },
+
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tên tiếng Anh của phim là gì?", o: ["Business Proposal","Office Love","Corporate Dating","CEO Romance"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Phim phát sóng năm nào?", o: ["2022","2021","2020","2023"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Phim được phát sóng trên đài nào?", o: ["SBS","tvN","KBS","JTBC"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Phim có bao nhiêu tập?", o: ["12","16","10","20"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Nữ chính của phim là ai?", o: ["Shin Ha-ri","Jin Young-seo","Kim Hye-ji","Lee Soo-jin"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Nam chính của phim là ai?", o: ["Kang Tae-moo","Cha Sung-hoon","Lee Min-woo","Park Ji-hoon"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Shin Ha-ri làm việc ở bộ phận nào?", o: ["Phát triển thực phẩm","Marketing","Nhân sự","Kế toán"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Kang Tae-moo giữ chức vụ gì?", o: ["Tổng giám đốc","Trưởng phòng","Giám đốc tài chính","Chủ tịch tập đoàn"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri đi xem mắt thay cho ai?", o: ["Jin Young-seo","Chị gái","Đồng nghiệp","Em họ"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Young-seo là con của ai?", o: ["Chủ tập đoàn Marine","Chủ tiệm gà","Chính trị gia","Diễn viên"], a: 0 },
+
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Cha Sung-hoon là ai?", o: ["Thư ký của Tae-moo","Anh trai Ha-ri","Bạn học cũ","Giám đốc marketing"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo muốn kết hôn vì lý do gì?", o: ["Bị ông nội ép","Yêu từ cái nhìn đầu tiên","Cần thừa kế","Tránh scandal"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tên công ty nơi Ha-ri làm việc là gì?", o: ["GO Food","Marine Group","Sunrise Corp","K-Food"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ông nội của Tae-moo giữ chức vụ gì?", o: ["Chủ tịch tập đoàn","Thị trưởng","Giám đốc bệnh viện","Cựu tổng thống"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri giả làm ai khi đi xem mắt?", o: ["Jin Young-seo","Chị họ","Bạn đại học","Nhân viên công ty"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo đề nghị điều gì với Ha-ri?", o: ["Hẹn hò giả","Kết hôn thật","Chuyển công tác","Nghỉ việc"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri sống cùng ai?", o: ["Gia đình","Một mình","Bạn thân","Anh trai"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Young-seo và Sung-hoon phát triển mối quan hệ như thế nào?", o: ["Yêu bí mật","Thù ghét","Không quen biết","Đối thủ"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo từng du học ở đâu?", o: ["Mỹ","Anh","Pháp","Úc"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri có ước mơ gì trong công việc?", o: ["Phát triển sản phẩm thành công","Làm CEO","Mở nhà hàng riêng","Nghỉ việc sớm"], a: 0 },
+
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo có nỗi ám ảnh gì?", o: ["Mưa lớn","Thang máy","Chó","Đám đông"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ai là đầu bếp nổi tiếng mà Ha-ri ngưỡng mộ?", o: ["Lee Min-woo","Kang Tae-moo","Cha Sung-hoon","Không có"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri và Tae-moo lần đầu gặp nhau ở đâu?", o: ["Buổi xem mắt","Công ty","Nhà hàng","Thang máy"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Young-seo chuyển ra ở riêng để làm gì?", o: ["Thoát khỏi kiểm soát gia đình","Đi du học","Kết hôn","Mở công ty"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Sung-hoon lớn lên trong hoàn cảnh nào?", o: ["Trại trẻ mồ côi","Gia đình giàu có","Gia đình quân nhân","Gia đình nghệ sĩ"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo phát hiện Ha-ri là nhân viên công ty khi nào?", o: ["Sau vài buổi hẹn","Ngay lập tức","Tập cuối","Không phát hiện"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri từng dùng tên giả nào?", o: ["Shin Geum-hui","Kim Hye-jin","Lee Ji-eun","Park Min-young"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ông nội Tae-moo thích điều gì ở Ha-ri?", o: ["Sự chân thành","Gia thế giàu có","Danh tiếng","Bằng cấp"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Cặp đôi phụ chính của phim là ai?", o: ["Young-seo và Sung-hoon","Ha-ri và Sung-hoon","Tae-moo và Young-seo","Không có"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Phim được chuyển thể từ đâu?", o: ["Webtoon","Tiểu thuyết","Truyện tranh Nhật","Phim Mỹ"], a: 0 },
+
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri che giấu thân phận vì lý do gì?", o: ["Sợ mất việc","Muốn nổi tiếng","Bị ép buộc","Muốn trả thù"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo yêu Ha-ri thật sự khi nào?", o: ["Trong quá trình hẹn hò giả","Từ đầu","Tập cuối","Không yêu"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Young-seo và Sung-hoon bắt đầu hẹn hò chính thức khi nào?", o: ["Sau nhiều hiểu lầm","Ngay tập 1","Không hẹn hò","Sau khi chia tay"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Gia đình Ha-ri kinh doanh gì?", o: ["Tiệm gà rán","Nhà hàng cao cấp","Cửa hàng tiện lợi","Tiệm bánh"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo phản ứng thế nào khi biết Ha-ri nói dối?", o: ["Tức giận nhưng tha thứ","Chia tay ngay","Sa thải cô","Bỏ đi nước ngoài"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri làm việc trực tiếp dưới quyền ai?", o: ["Kang Tae-moo","Cha Sung-hoon","Trưởng phòng Kim","Young-seo"], a: 2 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo yêu cầu Ha-ri ký hợp đồng hẹn hò trong bao lâu?", o: ["1 năm","6 tháng","3 tháng","Vô thời hạn"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Young-seo gặp Sung-hoon lần đầu ở đâu?", o: ["Nhà Tae-moo","Công ty","Quán bar","Buổi xem mắt"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Sung-hoon giữ bí mật mối quan hệ vì lý do gì?", o: ["Khác biệt địa vị","Không yêu thật","Bị ép buộc","Muốn trêu đùa"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo thường gọi Ha-ri bằng biệt danh gì khi cô giả danh?", o: ["Geum-hui","Honey","Baby","Ha-ri"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri từng bị đồng nghiệp nghi ngờ vì điều gì?", o: ["Hay gặp CEO","Đi làm muộn","Nghỉ việc nhiều","Thăng chức nhanh"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ông nội Tae-moo muốn cháu mình kết hôn trước tuổi nào?", o: ["40","35","30","45"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo bị dị ứng với điều gì?", o: ["Mưa lớn","Hoa","Hải sản","Phấn hoa"], a: 2 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri từng giả vờ có tính cách như thế nào khi xem mắt?", o: ["Lố bịch và phóng túng","Hiền lành","Lạnh lùng","Ít nói"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Sung-hoon được Chủ tịch Kang nuôi dưỡng từ nhỏ vì lý do gì?", o: ["Mồ côi","Con riêng","Họ hàng xa","Thiên tài kinh doanh"], a: 0 },
+
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Young-seo làm việc ở đâu trước khi rời nhà?", o: ["Công ty của cha","GO Food","Ngân hàng","Công ty thời trang"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri và Tae-moo lần đầu nắm tay ở đâu?", o: ["Trước mặt ông nội","Trong văn phòng","Ở công viên","Trong xe"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo cầu hôn Ha-ri ở đâu?", o: ["Trên máy bay","Nhà hàng","Công ty","Bãi biển"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Young-seo từng hiểu lầm Sung-hoon về điều gì?", o: ["Không nghiêm túc trong tình cảm","Có người khác","Muốn chia tay","Phản bội gia đình cô"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri từng suýt bị lộ thân phận khi nào?", o: ["Trong cuộc họp công ty","Trước ông nội","Trong thang máy","Tại nhà cô"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo thích điều gì nhất ở Ha-ri?", o: ["Sự chân thành và đam mê công việc","Gia thế","Sắc đẹp","Sự nổi tiếng"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Gia đình Ha-ri phản ứng thế nào khi biết cô hẹn hò CEO?", o: ["Bất ngờ và lo lắng","Phản đối dữ dội","Không quan tâm","Tức giận"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Young-seo và Sung-hoon công khai mối quan hệ khi nào?", o: ["Cuối phim","Tập 2","Giữa phim","Không công khai"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo từng làm gì để bảo vệ Ha-ri khỏi tin đồn?", o: ["Công khai hẹn hò","Sa thải nhân viên tung tin","Chuyển cô đi","Im lặng"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri được thăng chức nhờ điều gì?", o: ["Ý tưởng sản phẩm thành công","Quan hệ với CEO","May mắn","Gia đình hỗ trợ"], a: 0 },
+
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo có tính cách như thế nào ban đầu?", o: ["Lạnh lùng và nghiêm khắc","Hài hước","Nóng nảy","Lười biếng"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Young-seo chuyển đến sống gần ai?", o: ["Ha-ri","Sung-hoon","Cha mẹ","Bạn đại học"], a: 1 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Sung-hoon cầu hôn Young-seo như thế nào?", o: ["Tỏ tình chân thành","Qua tin nhắn","Không cầu hôn","Nhờ Tae-moo nói hộ"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri từng bị CEO phê bình vì điều gì?", o: ["Sản phẩm lỗi","Đi trễ","Nói dối","Thiếu tôn trọng"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ông nội Tae-moo thích ăn món gì nhất?", o: ["Món do Ha-ri nấu","Pizza","Sushi","Steak"], a: 0 },
+
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri từng giả mang thai để làm gì?", o: ["Đuổi đối tượng xem mắt","Giữ hợp đồng","Trêu Young-seo","Lừa gia đình"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo nhận ra mình yêu Ha-ri khi nào?", o: ["Khi cô gặp nguy hiểm","Buổi xem mắt","Ngay lần đầu","Không nhận ra"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Young-seo từng bị gia đình phản đối vì điều gì?", o: ["Yêu thư ký","Nghỉ việc","Ra ở riêng","Không kết hôn"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Sung-hoon trung thành với Tae-moo vì lý do gì?", o: ["Được nuôi dưỡng và tin tưởng","Tiền lương cao","Họ hàng","Bị ép buộc"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Kết thúc phim, Ha-ri và Tae-moo như thế nào?", o: ["Đính hôn","Chia tay","Giữ bí mật","Ra nước ngoài riêng lẻ"], a: 0 },
+
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Chủ đề chính của phim là gì?", o: ["Tình yêu và sự chân thành","Trả thù","Gia đình tan vỡ","Chính trị"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Phim nổi bật nhờ yếu tố nào?", o: ["Hài hước lãng mạn","Hành động","Kinh dị","Tài liệu"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Tae-moo thay đổi tính cách ra sao khi yêu?", o: ["Trở nên ấm áp hơn","Lạnh lùng hơn","Ít nói hơn","Không thay đổi"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Ha-ri chứng minh năng lực bằng cách nào?", o: ["Phát triển sản phẩm thành công","Dựa vào CEO","Nhờ bạn giúp","Gian lận"], a: 0 },
+{ t: "HẸN HÒ CHỐN CÔNG SỞ", q: "Young-seo được khắc họa là người như thế nào?", o: ["Mạnh mẽ và độc lập","Yếu đuối","Thụ động","Ích kỷ"], a: 0 },
+
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tên tiếng Trung của phim là gì?", o: ["当我飞奔向你","偷偷藏不住","致我们单纯的小美好","暗格里的秘密"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Phim được phát hành vào năm nào?", o: ["2023","2022","2021","2020"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Thể loại chính của phim là gì?", o: ["Thanh xuân học đường","Hành động","Cổ trang","Kinh dị"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Nữ chính của phim là ai?", o: ["Tô Tại Tại","Khương Giai","Lâm Duệ","Hạ Mộng"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Nam chính của phim là ai?", o: ["Trương Lục Nhượng","Cố Nhiên","Quan Phóng","Lý Dịch"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tính cách nổi bật của Tô Tại Tại là gì?", o: ["Hoạt bát, chủ động","Lạnh lùng","Ít nói","Kiêu ngạo"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tính cách của Trương Lục Nhượng thời cấp ba?", o: ["Ít nói, học giỏi","Nghịch ngợm","Nóng tính","Lười học"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Hai nhân vật chính gặp nhau lần đầu ở đâu?", o: ["Trường cấp ba","Công viên","Nhà sách","Bệnh viện"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tô Tại Tại phải lòng Lục Nhượng khi nào?", o: ["Ngay từ lần đầu gặp","Sau khi tốt nghiệp","Khi vào đại học","Sau khi chia tay"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Cố Nhiên là ai trong nhóm bạn?", o: ["Bạn thân nam","Thầy giáo","Anh trai Lục Nhượng","Hàng xóm"], a: 0 },
+
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Quan Phóng thuộc nhóm nào?", o: ["Nhóm bạn thân cấp ba","Gia đình Tại Tại","Giáo viên","Đồng nghiệp đại học"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Khương Giai là gì của Tô Tại Tại?", o: ["Bạn thân","Chị họ","Cô giáo","Hàng xóm"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Trương Lục Nhượng nổi tiếng vì điều gì?", o: ["Học bá","Chơi thể thao giỏi","Ca hát","Diễn xuất"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Bối cảnh chính của phim bắt đầu ở giai đoạn nào?", o: ["Cấp ba","Cấp hai","Đại học","Đi làm"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Mối quan hệ của nhóm bạn kéo dài đến đâu?", o: ["Đến đại học","Chỉ cấp ba","Chỉ 1 học kỳ","Chỉ lớp 12"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Trương Lục Nhượng thường được mô tả là?", o: ["Trầm tính","Hoạt náo","Hay nói","Tăng động"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tô Tại Tại theo đuổi tình cảm theo cách nào?", o: ["Chủ động, thẳng thắn","Âm thầm","Ghen tuông","Tránh né"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Phim được chuyển thể từ đâu?", o: ["Tiểu thuyết","Phim điện ảnh","Kịch bản gốc","Truyện tranh Nhật"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Chủ đề chính của phim là?", o: ["Trưởng thành và tình yêu tuổi trẻ","Trả thù","Chiến tranh","Gia đấu"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Lục Nhượng dần thay đổi nhờ ai?", o: ["Tô Tại Tại","Thầy hiệu trưởng","Anh trai","Cố Nhiên"], a: 0 },
+
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tô Tại Tại thường gọi Lục Nhượng bằng gì?", o: ["Trương Lục Nhượng","Anh Nhượng","Học bá","Lục ca"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Lục Nhượng có biểu cảm nổi bật là?", o: ["Mặt lạnh","Cười lớn","Hay khóc","Nhăn nhó"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Nhóm bạn thường tụ tập ở đâu?", o: ["Trường học","Quán bar","Công ty","Sân bay"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Phim có bao nhiêu tập?", o: ["24","16","12","30"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Không khí chung của phim là?", o: ["Nhẹ nhàng, trong trẻo","U ám","Căng thẳng","Bi kịch"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Lục Nhượng giỏi nhất môn nào?", o: ["Các môn học văn hóa","Thể dục","Âm nhạc","Mỹ thuật"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tô Tại Tại thể hiện tình cảm như thế nào?", o: ["Không ngại bày tỏ","Giấu kín","Viết thư nặc danh","Nhờ bạn nói hộ"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tình bạn trong phim được khắc họa ra sao?", o: ["Gắn bó, chân thành","Toan tính","Phản bội","Xa cách"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Bối cảnh sau cấp ba là gì?", o: ["Đại học","Du học","Đi làm ngay","Nghỉ học"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tô Tại Tại thường mang lại điều gì cho Lục Nhượng?", o: ["Sự ấm áp","Áp lực","Hiểu lầm","Ghen tuông"], a: 0 },
+
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Ai là người luôn động viên Lục Nhượng mở lòng hơn?", o: ["Tô Tại Tại","Cố Nhiên","Quan Phóng","Khương Giai"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Lục Nhượng dần thay đổi thái độ với Tại Tại như thế nào?", o: ["Trở nên dịu dàng hơn","Tránh mặt cô","Ghen tuông","Phớt lờ hoàn toàn"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tô Tại Tại nổi bật nhất ở điểm nào?", o: ["Sự chân thành","Sự lạnh lùng","Sự bí ẩn","Sự nổi loạn"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Nhóm bạn trong phim có bao nhiêu người thân thiết?", o: ["5","3","4","6"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Không khí những năm cấp ba trong phim được xây dựng theo hướng nào?", o: ["Trong sáng","Đầy âm mưu","Căng thẳng cực độ","Bi thương"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Lục Nhượng thường đạt thành tích gì ở trường?", o: ["Top đầu lớp","Đội sổ","Trung bình","Thi lại nhiều lần"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tô Tại Tại thể hiện tình cảm bằng cách nào nhiều nhất?", o: ["Chủ động tiếp cận","Viết nhật ký","Nhờ người khác nói hộ","Im lặng quan sát"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Sau khi lên đại học, mối quan hệ của họ thế nào?", o: ["Tiếp tục phát triển","Cắt đứt liên lạc","Trở thành đối thủ","Hiểu lầm nghiêm trọng"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Chủ đề xuyên suốt của phim là gì?", o: ["Tình yêu tuổi trẻ","Tranh đấu quyền lực","Gia tộc","Sinh tồn"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Điều khiến Lục Nhượng cảm động nhất ở Tại Tại là gì?", o: ["Sự kiên trì","Sự giàu có","Sự nổi tiếng","Sự lạnh nhạt"], a: 0 },
+
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Ai là người thường tạo không khí vui vẻ trong nhóm?", o: ["Cố Nhiên","Lục Nhượng","Hiệu trưởng","Giáo viên chủ nhiệm"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Khương Giai đóng vai trò gì trong nhóm?", o: ["Bạn thân nữ hỗ trợ Tại Tại","Đối thủ tình cảm","Chị gái Lục Nhượng","Giáo viên"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tô Tại Tại thường phản ứng thế nào khi bị từ chối?", o: ["Vẫn tích cực","Bỏ cuộc ngay","Tức giận","Trả đũa"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Gia đình Lục Nhượng ảnh hưởng đến tính cách anh ra sao?", o: ["Khiến anh trầm lặng","Khiến anh nổi loạn","Khiến anh tăng động","Không ảnh hưởng"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Mối quan hệ của nhóm bạn sau nhiều năm là?", o: ["Vẫn thân thiết","Xa lạ hoàn toàn","Thù hận","Không liên lạc"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Lục Nhượng dần học được điều gì từ Tại Tại?", o: ["Cách bày tỏ cảm xúc","Cách học giỏi hơn","Cách chơi thể thao","Cách tranh cãi"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tô Tại Tại được bạn bè đánh giá là người như thế nào?", o: ["Ấm áp","Lạnh lùng","Khó gần","Kiêu kỳ"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tình tiết chính của phim tập trung vào giai đoạn nào nhiều nhất?", o: ["Thời cấp ba","Sau khi kết hôn","Tuổi trung niên","Thời thơ ấu"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Điểm đặc biệt trong tình yêu của họ là gì?", o: ["Trong trẻo, thuần khiết","Đầy âm mưu","Vì lợi ích","Ép buộc"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Ai là người thay đổi nhiều nhất nhờ tình yêu?", o: ["Trương Lục Nhượng","Hiệu trưởng","Cố Nhiên","Quan Phóng"], a: 0 },
+
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tô Tại Tại luôn thể hiện điều gì khi ở cạnh Lục Nhượng?", o: ["Sự chân thật","Sự giả tạo","Sự gượng ép","Sự toan tính"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Phim mang thông điệp chính nào?", o: ["Hãy dũng cảm theo đuổi tình yêu","Trả thù là tất cả","Tiền bạc quan trọng nhất","Quyền lực quyết định"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Lục Nhượng dần chủ động hơn khi nào?", o: ["Khi hiểu rõ tình cảm của mình","Khi bị ép buộc","Khi ghen tuông","Khi thi trượt"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tô Tại Tại có sợ thất bại khi tỏ tình không?", o: ["Không","Có","Rất sợ","Hoảng loạn"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tình bạn trong phim được xây dựng theo hướng nào?", o: ["Chân thành và hỗ trợ nhau","Toan tính lợi ích","Phản bội liên tục","Đố kỵ"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Bộ phim kết thúc theo hướng nào?", o: ["Hạnh phúc","Bi kịch","Mở không rõ ràng","Chia ly vĩnh viễn"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Yếu tố nào khiến phim được yêu thích?", o: ["Sự ngọt ngào tự nhiên","Kỹ xảo hành động","Yếu tố siêu nhiên","Âm mưu cung đấu"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Mối quan hệ của Lục Nhượng với bạn bè thế nào?", o: ["Ít nói nhưng chân thành","Thù địch","Xa cách hoàn toàn","Không có bạn"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tô Tại Tại mang lại điều gì cho tuổi trẻ của Lục Nhượng?", o: ["Ký ức đẹp","Áp lực","Sợ hãi","Hối tiếc"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tình yêu của họ được xây dựng từ điều gì?", o: ["Sự kiên trì và thấu hiểu","Lợi ích vật chất","Sự ép buộc","Hiểu lầm"], a: 0 },
+
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tô Tại Tại tượng trưng cho điều gì trong phim?", o: ["Ánh nắng tuổi trẻ","Bóng tối quá khứ","Âm mưu","Quyền lực"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Lục Nhượng tượng trưng cho điều gì?", o: ["Sự trưởng thành nội tâm","Sự nổi loạn","Tham vọng","Quyền lực"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Cặp đôi chính phát triển tình cảm theo nhịp độ nào?", o: ["Chậm rãi, tự nhiên","Quá nhanh","Đầy xung đột","Gượng ép"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Phim nhấn mạnh giá trị nào nhiều nhất?", o: ["Sự chân thành","Tiền bạc","Danh vọng","Quyền lực"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Sau tất cả, Lục Nhượng nhận ra điều gì?", o: ["Tình cảm của mình dành cho Tại Tại","Sự nghiệp quan trọng hơn","Bạn bè phản bội","Không cần ai bên cạnh"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tô Tại Tại có từ bỏ tình yêu không?", o: ["Không","Có","Từng bỏ cuộc mãi mãi","Chuyển sang yêu người khác"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Tình yêu của họ kéo dài đến giai đoạn nào?", o: ["Sau đại học","Chỉ cấp ba","Chỉ 1 năm","Kết thúc giữa chừng"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Bộ phim để lại cảm xúc gì cho khán giả?", o: ["Ngọt ngào và hoài niệm","Căng thẳng","Sợ hãi","Ám ảnh kinh dị"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Nhân vật nào trưởng thành rõ rệt nhất?", o: ["Trương Lục Nhượng","Hiệu trưởng","Giáo viên","Phụ huynh"], a: 0 },
+{ t: "KHI ANH CHẠY VỀ PHÍA EM", q: "Thông điệp cuối cùng của phim là gì?", o: ["Hãy dũng cảm chạy về phía người mình yêu","Đừng tin ai","Tiền là tất cả","Tình yêu luôn đau khổ"], a: 0 },
+
+{ t: "NHÀ GIA TIÊN", q: "Nhà gia tiên thuộc thể loại chính nào?", o: ["Tâm linh – gia đình","Hành động","Học đường","Khoa học viễn tưởng"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Ai là người sáng tạo chính của phim?", o: ["Huỳnh Lập","Trấn Thành","Lý Hải","Ngô Thanh Vân"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Bối cảnh chính của phim diễn ra ở đâu?", o: ["Một gia đình miền quê Nam Bộ","Thành phố hiện đại","Nước ngoài","Triều đình xưa"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Yếu tố nổi bật xuyên suốt phim là gì?", o: ["Tín ngưỡng thờ cúng tổ tiên","Siêu anh hùng","Thám tử phá án","Chiến tranh"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Chủ đề trung tâm của phim là gì?", o: ["Gia đình và nhân quả","Tình tay ba","Âm mưu chính trị","Sinh tồn"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim khai thác đậm nét văn hóa vùng nào?", o: ["Nam Bộ","Tây Bắc","Miền Trung","Hà Nội cổ"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Không khí chung của phim mang màu sắc gì?", o: ["Huyền bí pha hài hước","Kinh dị thuần túy","Hành động gay cấn","Bi kịch nặng nề"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Ngôi nhà trong phim tượng trưng cho điều gì?", o: ["Cội nguồn gia tộc","Tiền bạc","Quyền lực","Tham vọng"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Tín ngưỡng được nhắc nhiều nhất trong phim là gì?", o: ["Thờ cúng tổ tiên","Thờ thần tài","Thờ mẫu","Thờ cá Ông"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim kết hợp yếu tố tâm linh với yếu tố nào?", o: ["Hài và nhân văn","Hành động","Trinh thám","Thể thao"], a: 0 },
+
+{ t: "NHÀ GIA TIÊN", q: "Thông điệp lớn nhất của phim là gì?", o: ["Hiếu kính với tổ tiên","Theo đuổi danh vọng","Giành quyền lực","Trả thù"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Nhân vật chính phải đối diện điều gì?", o: ["Nghiệp quả gia đình","Kẻ thù quốc tế","Tận thế","Thi đấu sinh tồn"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Yếu tố hài trong phim thường đến từ đâu?", o: ["Tình huống gia đình","Cảnh hành động","Kỹ xảo","Âm nhạc EDM"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim đề cao giá trị nào?", o: ["Tình thân","Tiền bạc","Danh vọng","Cạnh tranh"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Không gian chính thường xuất hiện nhiều nhất là?", o: ["Nhà thờ tổ","Công ty","Trường học","Chiến trường"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim mang đậm yếu tố gì của văn hóa Việt?", o: ["Luật nhân quả","Khoa học viễn tưởng","Du hành thời gian","Robot AI"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Những hiện tượng trong phim thường liên quan đến?", o: ["Tâm linh gia tộc","Công nghệ cao","Virus lạ","Ngoại tinh"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Màu sắc hình ảnh của phim thiên về?", o: ["Cổ xưa, trầm ấm","Hiện đại neon","Tương lai kim loại","Trắng đen"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim muốn nhắc nhở điều gì về quá khứ?", o: ["Không quên nguồn cội","Phải xóa bỏ quá khứ","Trốn tránh gia đình","Cắt đứt truyền thống"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Yếu tố tâm linh trong phim được xây dựng theo hướng nào?", o: ["Gần gũi văn hóa Việt","Phương Tây hóa","Khoa học hóa","Viễn tưởng hóa"], a: 0 },
+
+// 20–40
+{ t: "NHÀ GIA TIÊN", q: "Ngôi nhà thờ tổ đại diện cho điều gì?", o: ["Sự gắn kết dòng họ","Sự giàu sang","Quyền lực cá nhân","Tham vọng cá nhân"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Các xung đột trong phim chủ yếu xoay quanh?", o: ["Gia đình và nghiệp quả","Chiến tranh thế giới","Công nghệ AI","Đấu trường sinh tử"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim nhấn mạnh thái độ nào với tổ tiên?", o: ["Tôn kính","Thờ ơ","Phản kháng","Phủ nhận"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Không khí phim thay đổi khi nào?", o: ["Khi bí mật gia tộc được hé lộ","Khi có cảnh rượt đuổi","Khi thi đấu thể thao","Khi chuyển quốc gia"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Huỳnh Lập nổi bật ở vai trò nào trong phim?", o: ["Sáng tạo nội dung","Nhạc sĩ","Quay phim chính","Thiết kế VFX"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim đề cao điều gì trong gia đình?", o: ["Sự tha thứ","Sự cạnh tranh","Sự ganh ghét","Sự lạnh nhạt"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Yếu tố dân gian thể hiện rõ nhất qua?", o: ["Nghi thức thờ cúng","Đua xe","Robot","Phòng thí nghiệm"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Nhân vật học được điều gì?", o: ["Trân trọng cội nguồn","Chạy theo vật chất","Trốn tránh trách nhiệm","Phủ nhận gia đình"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim mang lại cảm xúc chủ đạo nào?", o: ["Xúc động","Căng thẳng cực độ","Sợ hãi tột độ","Hồi hộp hành động"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Giá trị truyền thống nào được đề cao?", o: ["Hiếu thảo","Cạnh tranh","Danh vọng","Giàu có"], a: 0 },
+
+{ t: "NHÀ GIA TIÊN", q: "Luật nhân quả trong phim thể hiện điều gì?", o: ["Gieo gì gặt nấy","May mắn ngẫu nhiên","Sức mạnh siêu nhiên","Thế lực ngoài hành tinh"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Gia tộc trong phim có vai trò gì?", o: ["Trung tâm câu chuyện","Phụ họa nhỏ","Không liên quan","Chỉ xuất hiện thoáng qua"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Mục đích của việc giữ gìn nhà thờ tổ là gì?", o: ["Bảo tồn truyền thống","Kinh doanh","Trục lợi","Bán đất"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim gửi gắm thông điệp gì về thế hệ trẻ?", o: ["Hiểu và gìn giữ cội nguồn","Phủ nhận truyền thống","Chỉ sống cho bản thân","Cạnh tranh gia sản"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Yếu tố tâm linh trong phim mang tính gì?", o: ["Giáo dục nhẹ nhàng","Hù dọa cực đoan","Bạo lực","Kinh dị máu me"], a: 0 },
+
+{ t: "NHÀ GIA TIÊN", q: "Phim nhấn mạnh điều gì về mối quan hệ giữa quá khứ và hiện tại?", o: ["Quá khứ ảnh hưởng hiện tại","Không liên quan nhau","Chỉ là ký ức","Có thể xóa bỏ hoàn toàn"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Các nghi thức trong phim thường được thực hiện ở đâu?", o: ["Nhà thờ tổ","Công viên","Trung tâm thương mại","Sân vận động"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Những bí mật trong gia tộc thường được hé lộ thông qua?", o: ["Sự kiện tâm linh","Tin nhắn điện thoại","Camera an ninh","Mạng xã hội"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim thể hiện thái độ nào với truyền thống?", o: ["Tôn trọng và gìn giữ","Phủ nhận","Chế giễu","Xem nhẹ"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Không gian trong phim mang cảm giác gì?", o: ["Hoài cổ","Hiện đại tương lai","Khoa học viễn tưởng","Siêu thực công nghệ"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Các xung đột chính thường bắt nguồn từ?", o: ["Hiểu lầm trong gia đình","Chiến tranh quốc tế","Đua xe","Cạnh tranh thể thao"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim đề cập nhiều đến giá trị nào của người Việt?", o: ["Uống nước nhớ nguồn","Cá nhân chủ nghĩa","Chạy theo vật chất","Danh vọng cá nhân"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Nhân vật chính thay đổi theo hướng nào?", o: ["Trưởng thành và thấu hiểu","Ích kỷ hơn","Lạnh lùng hơn","Xa cách gia đình"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Yếu tố hài giúp phim tránh điều gì?", o: ["Trở nên quá nặng nề","Thiếu hành động","Thiếu kỹ xảo","Thiếu âm nhạc"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Gia đình trong phim tượng trưng cho?", o: ["Cội rễ cuộc đời","Tiền bạc","Danh tiếng","Sự cạnh tranh"], a: 0 },
+
+{ t: "NHÀ GIA TIÊN", q: "Thông điệp về lòng hiếu thảo được thể hiện qua?", o: ["Hành động gìn giữ nhà thờ tổ","Thi đấu thể thao","Đầu tư kinh doanh","Du lịch nước ngoài"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim khắc họa luật nhân quả theo hướng nào?", o: ["Nhẹ nhàng, dễ hiểu","Khoa học viễn tưởng","Hành động hóa","Siêu anh hùng hóa"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Những mâu thuẫn gia đình thường được giải quyết bằng?", o: ["Sự thấu hiểu","Bạo lực","Tranh chấp pháp lý","Cắt đứt quan hệ"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Vai trò của tổ tiên trong phim là gì?", o: ["Biểu tượng dẫn dắt tinh thần","Nhân vật phản diện","Không tồn tại","Chỉ là truyền thuyết"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Không khí tâm linh trong phim mang màu sắc gì?", o: ["Dân gian Việt","Phương Tây","Nhật Bản","Hàn Quốc"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim đề cao điều gì trong ứng xử gia đình?", o: ["Sự kính trọng","Sự thờ ơ","Sự ganh ghét","Sự tranh giành"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Ngôi nhà cổ trong phim có ý nghĩa gì?", o: ["Lưu giữ ký ức","Nơi kinh doanh","Biểu tượng công nghệ","Trung tâm thương mại"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Khán giả thường cảm nhận gì sau khi xem phim?", o: ["Sự xúc động","Sợ hãi tột độ","Căng thẳng hành động","Hồi hộp trinh thám"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim hướng đến đối tượng khán giả nào?", o: ["Gia đình nhiều thế hệ","Chỉ trẻ em","Chỉ người lớn tuổi","Chỉ fan hành động"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Giá trị truyền thống nào được nhắc lại nhiều lần?", o: ["Uống nước nhớ nguồn","Cạnh tranh khốc liệt","Giàu có vật chất","Danh tiếng xã hội"], a: 0 },
+
+{ t: "NHÀ GIA TIÊN", q: "Phim sử dụng yếu tố tâm linh để làm gì?", o: ["Truyền tải bài học đạo đức","Hù dọa khán giả","Tạo kỹ xảo hoành tráng","Thể hiện siêu năng lực"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Nhân vật chính học được bài học gì?", o: ["Trân trọng gia đình","Theo đuổi danh vọng","Cạnh tranh gia sản","Trốn tránh trách nhiệm"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Tông màu chủ đạo của phim là?", o: ["Ấm và trầm","Neon rực rỡ","Trắng sáng tương lai","Đen trắng cổ điển"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim khuyến khích điều gì ở thế hệ trẻ?", o: ["Giữ gìn truyền thống","Phủ nhận nguồn cội","Chạy theo vật chất","Cạnh tranh gia tài"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Khi đối diện sai lầm, nhân vật chọn cách nào?", o: ["Sửa chữa và chuộc lỗi","Trốn tránh","Đổ lỗi","Bỏ đi mãi mãi"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Sự xuất hiện của yếu tố tâm linh giúp nhân vật?", o: ["Nhận ra giá trị gia đình","Tăng sức mạnh siêu nhiên","Trở thành anh hùng","Du hành thời gian"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Cốt lõi của câu chuyện xoay quanh?", o: ["Gia tộc và truyền thống","Thế giới siêu anh hùng","Công nghệ tương lai","Chiến tranh"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Phim muốn nhắn gửi điều gì về tổ tiên?", o: ["Luôn dõi theo và phù hộ","Chỉ tồn tại trong quá khứ","Không có ảnh hưởng","Là điều mê tín"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Điều giúp gia đình vượt qua mâu thuẫn là?", o: ["Tình thương","Tiền bạc","Quyền lực","Địa vị"], a: 0 },
+{ t: "NHÀ GIA TIÊN", q: "Giá trị nhân văn lớn nhất phim mang lại là?", o: ["Gìn giữ cội nguồn","Tăng quyền lực","Cạnh tranh gia sản","Theo đuổi vật chất"], a: 0 },
+];
+
+const movieGame = {
+    curr: null,
+    isProcessing: false,
+    selectedTags: [],
+    filteredBank: [],
+    lastIndex: -1,
+    MIN_SELECTION: 5, // đổi nếu muốn giống anime(15) hoặc game(5)
+
+    start() {
+        galaxy.updateGameStats('movie');
+        document.getElementById('game-overlay').style.display = 'flex';
+        document.getElementById('game-label').innerText = "MOVIE BANK";
+        galaxy.renderGameScoreboard();
+
+        // hide others, show movie selection
+        document.getElementById('game-content-area').classList.add('hidden');
+        document.getElementById('game-content-area').style.display = 'none';
+        document.getElementById('anime-selection-screen')?.classList.add('hidden');
+        document.getElementById('game-mode-selection')?.classList.add('hidden');
+        document.getElementById('game-category-selection')?.classList.add('hidden');
+
+        document.getElementById('movie-selection-screen').classList.remove('hidden');
+        document.getElementById('movie-selection-screen').style.display = 'block';
+
+        this.selectedTags = []; this.filteredBank = []; this.lastIndex = -1;
+        this.updateSelectionUI(); streakSystem.reset();
+
+        // gather unique titles/tags
+        const uniqueTags = [...new Set(MOVIE_BANK.map(item => (item.t ? String(item.t).trim() : "MOVIE")).filter(Boolean))];
+
+        const grid = document.getElementById('movie-checkbox-grid');
+        grid.innerHTML = "";
+        uniqueTags.forEach(tag => {
+            const div = document.createElement("div"); div.className = "anime-tag-item"; div.textContent = tag;
+            div.addEventListener("click", () => this.toggleTag(div, tag));
+            grid.appendChild(div);
+        });
+    },
+
+    toggleTag(el, tag) {
+        if (this.selectedTags.includes(tag)) {
+            this.selectedTags = this.selectedTags.filter(t => t !== tag); el.classList.remove('active');
+        } else { this.selectedTags.push(tag); el.classList.add('active'); }
+        this.updateSelectionUI();
+    },
+
+    updateSelectionUI() {
+        const count = this.selectedTags.length;
+        document.getElementById('movie-select-count').innerText = `Đã chọn: ${count}`;
+        const btn = document.getElementById('btn-start-movie');
+        if (count >= this.MIN_SELECTION) { btn.disabled = false; btn.innerText = "BẮT ĐẦU"; }
+        else { btn.disabled = true; btn.innerText = `CẦN CHỌN THÊM ${this.MIN_SELECTION - count}`; }
+    },
+
+    confirmSelection() {
+        if (this.selectedTags.length < this.MIN_SELECTION) return;
+        this.filteredBank = MOVIE_BANK.filter(item => this.selectedTags.includes(item.t ? String(item.t).trim() : "MOVIE"));
+        if (this.filteredBank.length === 0) return galaxy.showGameToast("Không có câu hỏi!", "error");
+        document.getElementById('movie-selection-screen').classList.add('hidden');
+        document.getElementById('movie-selection-screen').style.display = 'none';
+        document.getElementById('game-content-area').classList.remove('hidden');
+        document.getElementById('game-content-area').style.display = 'flex';
+        this.lastIndex = -1; this.generate();
+    },
+
+    generate() {
+        this.isProcessing = false; galaxy.applyTransition();
+        if (!this.filteredBank.length) return;
+        let idx = Math.floor(Math.random() * this.filteredBank.length);
+        if (this.filteredBank.length > 1) {
+            let safe = 0; while (idx === this.lastIndex && safe < 30) { idx = Math.floor(Math.random() * this.filteredBank.length); safe++; }
+        }
+        this.lastIndex = idx; this.curr = this.filteredBank[idx];
+        document.getElementById('q-text').innerText = this.curr.q || "(Câu hỏi lỗi)";
+        document.getElementById('q-tag').innerText = (this.curr.t && this.curr.t.trim()) ? this.curr.t.trim() : "MOVIE";
+
+        const shuffled = [...(this.curr.o || [])].sort(() => Math.random() - 0.5);
+        document.getElementById('q-action').innerHTML = `<div class="option-list" id="movie-option-list"></div><div style="width:100%; display:flex; justify-content:center; margin-top:10px;"><button class="btn-confirm small" style="background:#555;" id="movie-skip-btn">BỎ QUA</button></div>`;
+        const list = document.getElementById("movie-option-list");
+        shuffled.forEach(opt => {
+            const b = document.createElement("button"); b.className = "option-item"; b.type = "button";
+            b.innerText = opt;
+            b.onclick = () => this.check(b, opt);
+            list.appendChild(b);
+        });
+
+        document.getElementById('movie-skip-btn').onclick = () => this.skip();
+    },
+
+    check(btn, choice) {
+        if (this.isProcessing) return;
+        this.isProcessing = true;
+        document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
+        const correct = (typeof this.curr.a === 'number') ? this.curr.o[this.curr.a] : null;
+        if (choice === correct) {
+            streakSystem.increment();
+            galaxy.showGameToast("CHÍNH XÁC! +10 XP", "success");
+            levelSystem.addXp(10);
+            setTimeout(() => this.generate(), 800);
+        } else {
+            streakSystem.reset();
+            galaxy.showGameToast(`SAI RỒI! ĐÁP ÁN: ${correct}`, "error");
+            setTimeout(() => this.generate(), 1400);
+        }
+    },
+
+    skip() {
+        if (this.isProcessing) return;
+        this.isProcessing = true;
+        streakSystem.reset();
+        galaxy.showGameToast("ĐÃ BỎ QUA", "info");
+        setTimeout(() => {
+            this.isProcessing = false;
+            this.generate();
+        }, 600);
+    }
+};
 
 
     // --- UTILS & GLOBAL BINDING ---
@@ -4714,6 +5630,7 @@ const gameZoneGame = {
     window.khtnGame = khtnGame;
     window.gameZoneGame = gameZoneGame;
     window.authSystem = authSystem;
+    window.movieGame = movieGame;
     
     // Admin functions
     window.adminAdjust = function(docId, delta) { galaxy.adminAdjustPoints(docId, delta); }
