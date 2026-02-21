@@ -548,7 +548,7 @@
                 </div>
             </div>
 
-            <div class="update-card">Bản cập nhật 4.5 — Game Zone & Ôn tập KHTN HK2!</div>
+            <div class="update-card">Bản cập nhật 4.6 — Phim & sửa lỗi!</div>
 
             <div class="tiktok-group">
                 <a href="https://www.tiktok.com/@7a4.tvl.2025.2026" target="_blank" class="tiktok-link">TikTok A4 1</a>
@@ -893,6 +893,19 @@
     };
 
     const galaxy = {
+    resetMovieUI() {
+        const sel = document.getElementById('movie-selection-screen');
+        if (sel) sel.classList.add('hidden');
+
+        const count = document.getElementById('movie-selected-count');
+        if (count) count.innerText = "0";
+
+        if (window.movieGame) {
+            movieGame.selectedTags = [];
+            movieGame.filteredBank = [];
+        }
+    }, // ← THÊM DẤU PHẨY Ở ĐÂY
+
         currentTheme: 'galaxy',
         init: async function() {
             const savedTheme = localStorage.getItem('7a4_theme') || 'galaxy';
@@ -1029,6 +1042,7 @@
             if (s.anime > max) { max = s.anime; best = "🇯🇵 Anime"; }
             if ((s.khtn || 0) > max) { max = s.khtn; best = "🧪 KHTN"; }
             if ((s.game || 0) > max) { max = s.game; best = "🎮 Game Master"; }
+	    if ((s.movie || 0) > max) { max = s.movie; best = "🎬 Phim"; }
             document.getElementById('best-stat-box').innerHTML = `<div style="font-size:0.7rem; opacity:0.8;">MÔN TỦ CỦA BẠN</div><div style="font-size:1.1rem; font-weight:900; color:var(--primary); margin-top:2px;">${best}</div><div style="font-size:0.65rem; margin-top:2px;">(Dựa trên tần suất chơi)</div>`;
         },
         updateMenuRank() {
@@ -1278,6 +1292,7 @@ const mathGame = {
 
     // ===== START =====
     start() {
+galaxy.resetMovieUI();
         galaxy.updateGameStats('math');
 
         document.getElementById('game-overlay').style.display = 'flex';
@@ -2853,6 +2868,7 @@ check() {
     const animeGame = {
         curr: null, isProcessing: false, selectedTags: [], filteredBank: [], lastIndex: -1,
         start() {
+galaxy.resetMovieUI();
             galaxy.updateGameStats('anime');
             document.getElementById('game-overlay').style.display = 'flex';
             document.getElementById('game-label').innerText = "ANIME ZONE";
@@ -3189,6 +3205,7 @@ check() {
     const englishGame = {
         curr: null, lastIndex: -1, isProcessing: false,
         start() {
+	galaxy.resetMovieUI();
             galaxy.updateGameStats('english');
             document.getElementById('game-overlay').style.display = 'flex';
             document.getElementById('game-label').innerText = "ENGLISH COMMAND";
@@ -3677,6 +3694,7 @@ const khtnGame = {
 
     // ===== START GAME =====
     start() {
+	galaxy.resetMovieUI();
         galaxy.updateGameStats('khtn');
 
         document.getElementById('game-overlay').style.display = 'flex';
@@ -3793,741 +3811,7 @@ check(choice) {
 
     /* === NEW FEATURE: GAME ZONE & QUIZ === */
     const GAME_BANK = [
-    // CÂU HỎI VỀ BLOX FRUIT (1-10)
-    { t: "ROBLOX", q: "Map nào trong Roblox lấy ý tưởng từ anime One Piece?", o: ["Blox Fruits", "King Legacy", "All Star", "Doors"], a: 0 },
-    { t: "ROBLOX", q: "Trong Blox Fruits, bạn cần đạt Level bao nhiêu để sang được Sea 2?", o: ["500", "700", "1000", "1500"], a: 1 },
-    { t: "ROBLOX", q: "Trái ác quỷ hệ Logia nào có giá rẻ nhất trong Blox Fruits?", o: ["Light", "Flame", "Smoke", "Ice"], a: 2 },
-    { t: "ROBLOX", q: "Vũ khí nào nhận được sau khi đánh bại trùm Rip_Indra trong Blox Fruits?", o: ["Dark Blade", "Valkyrie Helm", "Tushita", "Mini Yoru"], a: 2 },
-    { t: "ROBLOX", q: "Trong Blox Fruits, tộc nào có khả năng bơi dưới nước mà không mất máu?", o: ["Mink", "Human", "Shark", "Sky"], a: 2 },
-    { t: "ROBLOX", q: "Vật phẩm 'Mirror Fractal' dùng để thức tỉnh điều gì?", o: ["Thức tỉnh trái ác quỷ", "Thức tỉnh tộc V4", "Nâng cấp kiếm", "Mở cửa Sea 3"], a: 1 },
-    { t: "ROBLOX", q: "Kiếm Cursed Dual Katana là sự kết hợp của Yama và thanh kiếm nào?", o: ["Tushita", "Shisui", "Wando", "Saddi"], a: 0 },
-    { t: "ROBLOX", q: "NPC 'Blox Fruit Gacha' nằm ở đâu tại Sea 1?", o: ["Đảo Khỉ (Jungle)", "Đảo Hải Quân", "Đảo Sa Mạc", "Đảo Trời"], a: 0 },
-    { t: "ROBLOX", q: "Trái ác quỷ nào có giá trị giao dịch (Trade) cao nhất hiện nay?", o: ["Leopard", "Kitsune", "Dragon", "Dough"], a: 1 },
-    { t: "ROBLOX", q: "Trong Blox Fruits, để lấy được Godhuman bạn cần Mastery bao nhiêu cho các võ cũ?", o: ["300", "400", "500", "600"], a: 1 },
-
-    // CÂU HỎI VỀ DOORS (11-20)
-    { t: "ROBLOX", q: "Trong map Doors, thực thể nào sẽ tấn công nếu bạn nhìn vào nó?", o: ["Rush", "Eyes", "Screech", "Ambush"], a: 1 },
-    { t: "ROBLOX", q: "Thực thể Figure xuất hiện ở những cửa số mấy?", o: ["50 và 100", "10 và 20", "40 và 80", "90 và 99"], a: 0 },
-    { t: "ROBLOX", q: "Trong Doors, bạn phải làm gì khi màn hình xuất hiện chữ 'STOP' và 'TURN AROUND'?", o: ["Chạy tiếp", "Trốn vào tủ", "Quay đầu lại (Halt)", "Nhảy lên"], a: 2 },
-    { t: "ROBLOX", q: "Thực thể nào sẽ cắn bạn nếu bạn ở trong tủ quá lâu?", o: ["Jack", "Hide", "Dupe", "Glitch"], a: 1 },
-    { t: "ROBLOX", q: "Vật phẩm 'Crucifix' (Thánh giá) có công dụng gì?", o: ["Mở cửa", "Hồi máu", "Xích/Bắt thực thể", "Tàng hình"], a: 2 },
-    { t: "ROBLOX", q: "Làm sao để nhận biết thực thể Rush đang đến?", o: ["Đèn nhấp nháy", "Tiếng cười", "Màn hình rung", "Tiếng nước chảy"], a: 0 },
-    { t: "ROBLOX", q: "Thực thể nào là cái bẫy giả dạng một cánh cửa có số sai?", o: ["Timothy", "Dupe", "Seek", "Screech"], a: 1 },
-    { t: "ROBLOX", q: "Trong Doors, thực thể nào rượt đuổi bạn trong hành lang dài đầy mắt?", o: ["Figure", "Halt", "Seek", "Ambush"], a: 2 },
-    { t: "ROBLOX", q: "Bạn nhặt được 'Skeleton Key' ở đâu trong Doors?", o: ["Shop của Jeff", "Trong hòm gỗ", "Đánh boss", "Cửa số 1"], a: 0 },
-    { t: "ROBLOX", q: "Thực thể Timothy ẩn nấp ở đâu?", o: ["Dưới gầm giường", "Trong ngăn kéo", "Trên trần nhà", "Sau cánh cửa"], a: 1 },
-
-    // CÂU HỎI VỀ MURDER MYSTERY 2 (21-30)
-    { t: "ROBLOX", q: "Trong Murder Mystery 2, vai trò nào có nhiệm vụ bảo vệ Innocent?", o: ["Murderer", "Sheriff", "Hero", "Cả B và C"], a: 3 },
-    { t: "ROBLOX", q: "Làm thế nào để trở thành Hero trong MM2?", o: ["Mua bằng Robux", "Nhặt súng khi Sheriff chết và bắn Murderer", "Sống sót cuối cùng", "Level cao tự có"], a: 1 },
-    { t: "ROBLOX", q: "Trong MM2, Murderer chiến thắng khi nào?", o: ["Hết thời gian", "Bắn trúng Sheriff", "Tiêu diệt tất cả mọi người", "Nhặt được súng"], a: 2 },
-    { t: "ROBLOX", q: "Vật phẩm 'Chroma' trong MM2 có đặc điểm gì?", o: ["Sát thương cao", "Thay đổi màu sắc liên tục", "Giúp tàng hình", "Bắn nhanh hơn"], a: 1 },
-    { t: "ROBLOX", q: "Ai là người sáng tạo ra map Murder Mystery 2?", o: ["Nikilis", "Loleris", "Hazem", "Builderman"], a: 0 },
-    { t: "ROBLOX", q: "Kỹ năng 'X-Ray' của Murderer dùng để làm gì?", o: ["Chạy nhanh", "Nhìn xuyên tường", "Ném dao xa", "Tàng hình"], a: 1 },
-    { t: "ROBLOX", q: "Điều gì xảy ra nếu Sheriff bắn nhầm Innocent?", o: ["Thắng game", "Cả hai cùng chết", "Mất súng", "Bị trừ tiền"], a: 1 },
-    { t: "ROBLOX", q: "Loại hộp nào trong MM2 dùng để mở ra skin dao?", o: ["Knife Box", "Gun Box", "Pet Box", "Event Box"], a: 0 },
-    { t: "ROBLOX", q: "Trong MM2, vật phẩm nào quý hiếm hơn?", o: ["Common", "Rare", "Legendary", "Ancient"], a: 3 },
-    { t: "ROBLOX", q: "Chế độ chơi 'Assassin' trong MM2 quy định điều gì?", o: ["Ai cũng có dao", "Ai cũng có súng", "Không có Sheriff", "Chỉ có 2 người"], a: 0 },
-
-    // CÂU HỎI VỀ SOL'S RNG (31-40)
-    { t: "ROBLOX", q: "Mục tiêu chính của người chơi trong Sol'S RNG là gì?", o: ["Đánh boss", "Quay (Roll) ra Aura hiếm", "Xây nhà", "Đua xe"], a: 1 },
-    { t: "ROBLOX", q: "Trong Sol'S RNG, Aura nào có tỉ lệ cực hiếm 1/250,000,000?", o: ["Lunar", "Archangel", "Solar", "Glitch"], a: 1 },
-    { t: "ROBLOX", q: "Vật phẩm 'Luck Glove' giúp tăng chỉ số nào?", o: ["Tốc độ", "May mắn", "Sức mạnh", "Máu"], a: 1 },
-    { t: "ROBLOX", q: "Làm sao để có 'Heavenly Potion' trong Sol'S RNG?", o: ["Nhặt trên đất", "Chế tạo (Craft) tại Workshop", "Mua ở Shop", "Đánh quái"], a: 1 },
-    { t: "ROBLOX", q: "Thời tiết 'Starfall' trong Sol'S RNG giúp tăng tỉ lệ quay ra Aura hệ nào?", o: ["Lửa", "Nước", "Sao/Vũ trụ", "Đất"], a: 2 },
-    { t: "ROBLOX", q: "Aura 'Jackpot' chỉ có thể quay được khi có điều kiện gì?", o: ["Trời mưa", "Trời nắng", "Đang dùng máy Break Through", "Sở hữu 1 triệu xu"], a: 2 },
-    { t: "ROBLOX", q: "Trong Sol'S RNG, NPC Jake giúp bạn làm gì?", o: ["Bán đồ", "Chế tạo vật phẩm (Crafting)", "Tặng Robux", "Đổi màu Aura"], a: 1 },
-    { t: "ROBLOX", q: "Vật phẩm 'Stella's Star' dùng để triệu hồi ai?", o: ["Boss", "NPC Stella", "Rồng", "Người chơi khác"], a: 1 },
-    { t: "ROBLOX", q: "Tỉ lệ của Aura 'Celestial' là bao nhiêu?", o: ["1/100", "1/350,000", "1/1,000,000", "1/5,000"], a: 1 },
-    { t: "ROBLOX", q: "Chỉ số 'Roll Speed' càng cao thì điều gì xảy ra?", o: ["Roll ra đồ xịn", "Thời gian giữa các lần roll ngắn lại", "Chạy nhanh hơn", "Nhảy cao hơn"], a: 1 },
-
-    // GROW A GARDEN / STEAL A BRAINROT & CHUNG (41-50)
-    { t: "ROBLOX", q: "Trong 'Grow a Garden', điều gì quan trọng nhất để cây lớn lên?", o: ["Tưới nước", "Ánh sáng", "Bón phân", "Cả 3 đều đúng"], a: 3 },
-    { t: "ROBLOX", q: "Trong 'Steal a Brainrot', các vật phẩm thường lấy chủ đề từ đâu?", o: ["Sách giáo khoa", "Meme Internet", "Lịch sử thế giới", "Phim kinh điển"], a: 1 },
-    { t: "ROBLOX", q: "Map nào trong Roblox cho phép bạn nuôi thú cưng và trang trí nhà cửa?", o: ["Adopt Me!", "Doors", "Blox Fruits", "MM2"], a: 0 },
-    { t: "ROBLOX", q: "Tiền tệ chính dùng để mua vật phẩm ảo trên toàn nền tảng Roblox là gì?", o: ["Coins", "Gems", "Robux", "Dollars"], a: 2 },
-    { t: "ROBLOX", q: "Map 'Brookhaven' thuộc thể loại nào?", o: ["Kinh dị", "Roleplay (Nhập vai)", "Bắn súng", "Vượt chướng ngại vật"], a: 1 },
-    { t: "ROBLOX", q: "Trong 'All Star Tower Defense', bạn dùng nhân vật gì để thủ thành?", o: ["Siêu anh hùng Mỹ", "Nhân vật Anime", "Cầu thủ bóng đá", "Động vật"], a: 1 },
-    { t: "ROBLOX", q: "Năm phát hành chính thức của nền tảng Roblox là năm nào?", o: ["2004", "2006", "2010", "2015"], a: 1 },
-    { t: "ROBLOX", q: "Nhân vật mặc định có mái tóc màu vàng thường được gọi là gì?", o: ["Noob", "Guest", "Bacon Hair", "Pro"], a: 2 },
-    { t: "ROBLOX", q: "Map 'Tower of Hell' yêu cầu người chơi làm gì?", o: ["Đánh nhau", "Leo lên đỉnh tháp không có Checkpoint", "Xây tháp", "Nuôi thú"], a: 1 },
-    { t: "ROBLOX", q: "Trong Roblox, lệnh '/e dance' dùng để làm gì?", o: ["Để chạy", "Để nhảy múa", "Để thoát game", "Để nạp tiền"], a: 1 },
-
-    // SINH TỒN & NGUYÊN LIỆU (1-15)
-    { t: "MINI WORLD", q: "Vật liệu nào dùng để chế tạo bàn chế tạo (Worktop) đầu tiên?", o: ["Gỗ", "Đá", "Sắt", "Vàng"], a: 0 },
-    { t: "MINI WORLD", q: "Trong sinh tồn, bạn dùng công cụ nào để đào đá và quặng nhanh nhất?", o: ["Rìu", "Cuốc", "Xẻng", "Kiếm"], a: 1 },
-    { t: "MINI WORLD", q: "Quặng nào quý hiếm nhất dùng để chế tạo bộ giáp mạnh nhất?", o: ["Sắt", "Vàng", "Kim cương (Titanium)", "Đồng"], a: 2 },
-    { t: "MINI WORLD", q: "Bạn cần vật phẩm nào để thuần hóa một con Sói?", o: ["Thịt nướng", "Xương cốt", "Cỏ", "Cá"], a: 1 },
-    { t: "MINI WORLD", q: "Làm thế nào để hồi máu nhanh chóng khi bị quái đánh?", o: ["Ăn thức ăn", "Chạy thật nhanh", "Bơi dưới nước", "Nhảy từ trên cao"], a: 0 },
-    { t: "MINI WORLD", q: "Vật phẩm nào giúp bạn thắp sáng các hang động tối?", o: ["Đuốc", "Xô nước", "Khối đất", "Sách"], a: 0 },
-    { t: "MINI WORLD", q: "Để chế tạo giường ngủ, bạn cần gỗ và vật liệu nào sau đây?", o: ["Da thú", "Lông cừu/Vải", "Lá cây", "Sắt"], a: 1 },
-    { t: "MINI WORLD", q: "Làm thế nào để lấy được sữa bò?", o: ["Dùng tay không", "Dùng xô sắt rỗng", "Dùng bát", "Dùng chai thủy tinh"], a: 1 },
-    { t: "MINI WORLD", q: "Loại cây nào cung cấp thực phẩm chính ở khu vực rừng rậm?", o: ["Cây táo", "Cây dừa", "Cây hồng", "Cây cacao"], a: 2 },
-    { t: "MINI WORLD", q: "Khi đào xuống sâu, gặp Dung nham (Lava) bạn nên dùng gì để dập?", o: ["Dùng đất", "Dùng xô nước", "Dùng cát", "Dùng gỗ"], a: 1 },
-    { t: "MINI WORLD", q: "Vật phẩm nào giúp bạn nhìn xuyên đêm trong một khoảng thời gian?", o: ["Thuốc nhìn đêm", "Kính hiển vi", "Ống nhòm", "Mũ sắt"], a: 0 },
-    { t: "MINI WORLD", q: "Bạn có thể tìm thấy quặng Titanium ở độ sâu bao nhiêu?", o: ["Bất kỳ đâu", "Dưới tầng đá sâu", "Trên đỉnh núi", "Trên mây"], a: 1 },
-    { t: "MINI WORLD", q: "Thú cưỡi 'Đà điểu' thích ăn gì nhất?", o: ["Hạt dưa hấu", "Hạt thông", "Trái anh đào", "Cỏ"], a: 2 },
-    { t: "MINI WORLD", q: "Để lấy được mật ong, bạn phải tác động vào đâu?", o: ["Hoa", "Tổ ong", "Cây gỗ", "Lá cây"], a: 1 },
-    { t: "MINI WORLD", q: "Khối nào có thể rơi tự do theo trọng lực?", o: ["Khối đá", "Khối cát", "Khối gỗ", "Khối sắt"], a: 1 },
-
-    // THỰC THỂ & BOSS (16-30)
-    { t: "MINI WORLD", q: "Quái vật Boomer (Quái nổ) có đặc điểm gì?", o: ["Tự nổ khi lại gần", "Bắn cung", "Bay trên trời", "Biết bơi"], a: 0 },
-    { t: "MINI WORLD", q: "Boss 'Rồng Đen' trú ngụ ở đâu?", o: ["Hành tinh Horas", "Địa ngục (Thế giới ngầm)", "Đỉnh núi", "Rừng mưa"], a: 1 },
-    { t: "MINI WORLD", q: "Ai là Boss cuối tại hành tinh Horas?", o: ["Phù thủy", "Người đá khổng lồ (Colossus)", "Rồng Lửa", "Vua xác sống"], a: 1 },
-    { t: "MINI WORLD", q: "Để triệu hồi Thần Tượng Cổ trong rừng mưa, bạn cần gì?", o: ["Mắt địa ngục", "Vật phẩm Đá Viễn Cổ", "Thịt rồng", "Kim cương"], a: 1 },
-    { t: "MINI WORLD", q: "Sinh vật nào thường trộm vật phẩm của bạn vào ban đêm?", o: ["Dã nhân", "Người tàng hình", "Kẻ trộm đồ (Thief)", "Nhện"], a: 2 },
-    { t: "MINI WORLD", q: "Làm thế nào để thuần hóa Dã nhân thành dân làng giúp việc?", o: ["Đánh chúng", "Dùng gậy xương và nướng thịt", "Cho chúng tiền", "Xây nhà cho chúng"], a: 1 },
-    { t: "MINI WORLD", q: "Con Gấu Trúc (Panda) trong game cực kỳ thích ăn gì?", o: ["Trúc", "Táo", "Bánh mì", "Cá"], a: 0 },
-    { t: "MINI WORLD", q: "Vật phẩm 'Trứng rồng' dùng để làm gì sau khi đánh bại Rồng Đen?", o: ["Để ăn", "Hồi sinh hoặc triệu hồi rồng cấp cao hơn", "Trang trí", "Ném quái"], a: 1 },
-    { t: "MINI WORLD", q: "Quái vật nào sợ ánh sáng mặt trời nhất?", o: ["Bò", "Gà", "U hồn (Ghost)", "Heo"], a: 2 },
-    { t: "MINI WORLD", q: "Chim cánh cụt thường sống ở quần xã nào?", o: ["Sa mạc", "Vùng đất băng tuyết", "Rừng rậm", "Bãi biển"], a: 1 },
-    { t: "MINI WORLD", q: "Sinh vật 'Lợn' có thể cưỡi được nếu bạn có vật phẩm gì?", o: ["Yên ngựa", "Yên lợn", "Yên thú", "Dây thừng"], a: 2 },
-    { t: "MINI WORLD", q: "Vị thần nào bảo vệ rừng mưa rậm rạp?", o: ["Thần Vũ Trụ", "Thần Rừng (羽蛇神)", "Thần Lửa", "Thần Nước"], a: 1 },
-    { t: "MINI WORLD", q: "Người ngoài hành tinh thường xuất hiện ở đâu?", o: ["Dưới biển", "Hành tinh Horas", "Địa ngục", "Sâu trong hang"], a: 1 },
-    { t: "MINI WORLD", q: "Con vật nào có thể bơi và tấn công bạn dưới nước?", o: ["Cá mập/Cá Piranha", "Chó", "Mèo", "Gà"], a: 0 },
-    { t: "MINI WORLD", q: "Sinh vật 'Gấu Bắc Cực' thường xuất hiện ở đâu?", o: ["Sa mạc", "Đảo băng", "Rừng thông", "Dưới lòng đất"], a: 1 },
-
-    // CÔNG NGHỆ & KHÁM PHÁ (31-45)
-    { t: "MINI WORLD", q: "Nhiên liệu chính để khởi động Tên lửa lên vũ trụ là gì?", o: ["Than", "Dầu hỏa", "Nhiên liệu rắn", "Gỗ"], a: 2 },
-    { t: "MINI WORLD", q: "Khi ở trên hành tinh Horas, tại sao bạn bị mất máu liên tục?", o: ["Quá nóng", "Thiếu Oxy", "Quá lạnh", "Quái đánh"], a: 1 },
-    { t: "MINI WORLD", q: "Máy dùng để chế tạo xe hơi trong Mini World tên là gì?", o: ["Xưởng cơ khí", "Máy nung", "Bàn thợ rèn", "Máy sao chép"], a: 0 },
-    { t: "MINI WORLD", q: "Dây dẫn tín hiệu năng lượng điện trong game có màu gì?", o: ["Màu Đỏ", "Màu Xanh lá", "Màu Xanh dương", "Màu Vàng"], a: 2 },
-    { t: "MINI WORLD", q: "Vật phẩm 'Cổng dịch chuyển' dùng để làm gì?", o: ["Đi sang địa ngục", "Về nhà nhanh", "Đi lên trời", "Đổi skin"], a: 0 },
-    { t: "MINI WORLD", q: "Để xe hơi chạy được, bạn cần lắp bộ phận nào sau đây?", o: ["Ghế lái và Động cơ", "Cửa sổ", "Thảm trải sàn", "Đèn trang trí"], a: 0 },
-    { t: "MINI WORLD", q: "Ống kính nhìn đêm giúp ích gì khi thám hiểm?", o: ["Nhìn xa hơn", "Nhìn rõ trong bóng tối", "Nhìn xuyên tường", "Nhìn thấy quặng"], a: 1 },
-    { t: "MINI WORLD", q: "Làm thế nào để tạo ra một máy bay đơn giản?", o: ["Lắp cánh quạt và động cơ đẩy", "Chỉ cần bánh xe", "Dùng khối gỗ", "Dùng bong bóng"], a: 0 },
-    { t: "MINI WORLD", q: "Khối 'Cảm biến áp suất' hoạt động khi nào?", o: ["Khi trời mưa", "Khi có thực thể dẫm lên", "Khi trời tối", "Khi bị đập"], a: 1 },
-    { t: "MINI WORLD", q: "Trong bảng mạch, khối 'Cổng NOT' có tác dụng gì?", o: ["Tăng điện", "Đảo ngược tín hiệu điện", "Tắt điện", "Lưu trữ điện"], a: 1 },
-    { t: "MINI WORLD", q: "Máy bắn (Dispenser) dùng để làm gì?", o: ["Để chế tạo", "Để bắn vật phẩm/mũi tên", "Để chứa đồ", "Để trang trí"], a: 1 },
-    { t: "MINI WORLD", q: "Vật phẩm 'Bản đồ trống' dùng để làm gì?", o: ["Để viết chữ", "Để vẽ bản đồ khu vực", "Để ăn", "Để đốt"], a: 1 },
-    { t: "MINI WORLD", q: "Để thở dưới nước lâu hơn, bạn cần mang trang bị nào?", o: ["Mũ thợ lặn", "Ủng da", "Giáp sắt", "Cánh"], a: 0 },
-    { t: "MINI WORLD", q: "Hành tinh nào có môi trường khắc nghiệt và trọng lực thấp?", o: ["Trái đất", "Horas", "Địa ngục", "Sao hỏa"], a: 1 },
-    { t: "MINI WORLD", q: "Ống nhòm trong game giúp bạn làm gì?", o: ["Phóng to tầm nhìn từ xa", "Đào đá nhanh", "Bắn quái", "Nấu ăn"], a: 0 },
-
-    // HỆ THỐNG & CỘNG ĐỒNG (46-50)
-    { t: "MINI WORLD", q: "Ngôn ngữ lập trình được dùng để viết Script trong Mini World là gì?", o: ["Python", "Java", "Lua", "C#"], a: 2 },
-    { t: "MINI WORLD", q: "Bạn có thể tìm và tải map của người khác ở mục nào?", o: ["Cửa hàng", "Thư viện Mini", "Kho đồ", "Cài đặt"], a: 1 },
-    { t: "MINI WORLD", q: "Đơn vị tiền tệ 'Đậu Mini' dùng để làm gì?", o: ["Mua đồ trong shop", "Mở khóa vật phẩm vĩnh viễn", "Hồi sinh", "Cả A và B"], a: 3 },
-    { t: "MINI WORLD", q: "Tính năng 'Tranh vẽ' (UI Editor) cho phép người chơi làm gì?", o: ["Chỉnh sửa giao diện map", "Vẽ tranh treo tường", "Chỉnh màu trời", "Đổi tên game"], a: 0 },
-    { t: "MINI WORLD", q: "Để kết bạn trong game, bạn cần biết thông tin nào của họ?", o: ["Số nhà", "ID Mini", "Mật khẩu", "Họ tên thật"], a: 1 },
-
-    // CÁ VÀ CÂU CÁ (1-20)
-    { t: "PLAY TOGETHER", q: "Thời điểm vàng để săn cá hiếm (phút 00-05 và 30-35) dựa trên thời gian nào?", o: ["Giờ ngoài đời thực", "Giờ trong game", "Giờ máy chủ", "Bất kỳ lúc nào"], a: 0 },
-    { t: "PLAY TOGETHER", q: "Loài cá nào có hình dáng giống một chiếc xe Taxi?", o: ["Cá mập", "Cá Box Fish Taxi", "Cá voi", "Cá vàng"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Cá Voi Xanh - loài cá khổng lồ - thường xuất hiện ở đâu?", o: ["Hồ bơi tại gia", "Thuyền viễn dương (Hải đăng)", "Bến tàu", "Thác nước"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Cá Sấu thường xuất hiện ở khu vực nước ngọt nào?", o: ["Bể bơi khách sạn", "Ao nước tại khu cắm trại", "Đài phun nước Plaza", "Hố xanh"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Loài cá nào chỉ xuất hiện vào ban đêm tại khu vực Plaza?", o: ["Cá chép", "Cá lồng đèn", "Cá trê", "Cá hồi"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Vật phẩm 'Mồi câu' có tác dụng chính là gì?", o: ["Kéo cá nhanh hơn", "Tăng tỉ lệ xuất hiện cá hiếm/bóng lớn", "Giúp cần câu không hỏng", "Làm cá không chạy"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Cá Mập Trắng lớn có bóng cá kích cỡ bao nhiêu?", o: ["Bóng 3", "Bóng 4", "Bóng 5 (Lớn nhất)", "Bóng mini"], a: 2 },
-    { t: "PLAY TOGETHER", q: "Loài cá 'Axolotl' (Khủng long lục lặc) thường được tìm thấy ở đâu?", o: ["Biển sâu", "Hồ bơi tại gia / Khu cư dân", "Bãi biển", "Thuyền buồm"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Bạn có thể câu được 'Cá Tuyết' ở đâu?", o: ["Vùng đất băng giá (Ice Island)", "Sa mạc", "Khu Plaza", "Khu cư dân"], a: 0 },
-    { t: "PLAY TOGETHER", q: "Cá Heo Hồng - loài cá cực hiếm - thường xuất hiện ở đâu?", o: ["Đài phun nước", "Hồ bơi khách sạn", "Biển (Gần thuyền)", "Thác nước"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Bóng cá có hình trái tim là đặc điểm của loại cá trong sự kiện nào?", o: ["Halloween", "Valentine", "Trung thu", "Giáng sinh"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Cần câu nào có độ bền cao nhất và giá đắt nhất hiện nay?", o: ["Cần câu chuyên nghiệp", "Cần câu vàng", "Cần câu mèo", "Cần câu vịt"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Cá mập Megalodon thường xuất hiện ở vị trí nào trên bản đồ?", o: ["Thuyền viễn dương", "Hố xanh (Blue Hole)", "Bãi biển", "Ao nhà"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Bóng cá mini (rất nhỏ) thường là của loài cá nào?", o: ["Cá Ngựa / Cá Betta", "Cá mập", "Cá Voi", "Cá Ngừ"], a: 0 },
-    { t: "PLAY TOGETHER", q: "Khi câu cá, hành động 'giật cần' quá sớm khi cá chưa hiện dấu chấm than sẽ dẫn đến kết quả gì?", o: ["Đứt dây", "Cá chạy mất", "Hỏng cần câu", "Không có gì"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Cá Voi Sát Thủ thường xuất hiện vào thời gian nào?", o: ["Ban ngày", "Ban đêm", "Sáng sớm", "Cả ngày"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Mực Khổng Lồ thường xuất hiện ở đâu?", o: ["Hố xanh (Blue Hole)", "Bãi biển", "Trong nhà", "Trường học"], a: 0 },
-    { t: "PLAY TOGETHER", q: "Loài cá nào có tên gọi liên quan đến hoàng gia?", o: ["Cá Hoàng Đế", "Cá Nữ Hoàng", "Cá Công Chúa", "Cá Vương Miện"], a: 0 },
-    { t: "PLAY TOGETHER", q: "Muốn câu được cá ở Sa mạc, bạn phải câu ở hồ nước tại địa điểm nào?", o: ["Cửa hàng kem", "Ống cống", "Ốc đảo cạnh Kim tự tháp", "Trên cát"], a: 2 },
-    { t: "PLAY TOGETHER", q: "Cá Rồng (Arowana) thường xuất hiện ở đâu?", o: ["Hồ nước khu cư dân", "Bể bơi khách sạn", "Cửa hàng thời trang", "Sân bay"], a: 0 },
-
-    // SỰ KIỆN & MINI GAMES (21-35)
-    { t: "PLAY TOGETHER", q: "Sự kiện hợp tác (Collab) với thương hiệu nào cho phép bạn đổi trang phục Gấu Brown?", o: ["LINE FRIENDS", "Hello Kitty", "BT21", "Mickey"], a: 0 },
-    { t: "PLAY TOGETHER", q: "Trong sự kiện Halloween, NPC sẽ yêu cầu bạn thu thập vật phẩm gì?", o: ["Kẹo", "Bí ngô", "Linh hồn", "Đồng tiền ma"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Vào dịp Tết, bạn có thể nhận 'Bao lì xì' bằng cách nào?", o: ["Làm nhiệm vụ hàng ngày", "Câu cá", "Mua bằng tiền sao", "Đứng yên một chỗ"], a: 0 },
-    { t: "PLAY TOGETHER", q: "Mini-game 'Tiệc trò chơi' (Game Party) có tối đa bao nhiêu người tham gia lúc đầu?", o: ["15 người", "30 người", "50 người", "100 người"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Trong mini-game 'Vượt chướng ngại vật', Checkpoint giúp bạn làm gì?", o: ["Về đích luôn", "Hồi sinh tại điểm đó nếu rơi", "Tăng tốc chạy", "Nhận tiền"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Tiền sự kiện (ví dụ: Mầm non, Xu sự kiện) dùng để làm gì?", o: ["Đổi quà giới hạn", "Mua đồ ăn", "Tặng bạn bè", "Nâng cấp nhà"], a: 0 },
-    { t: "PLAY TOGETHER", q: "Mùa đông tại Đảo Kaia thường có hoạt động đặc biệt nào?", o: ["Câu cá trên băng", "Bơi biển", "Trồng cây dừa", "Đi săn hổ"], a: 0 },
-    { t: "PLAY TOGETHER", q: "Sự kiện 'Bắt côn trùng' yêu cầu bạn trang bị vật phẩm gì?", o: ["Cần câu", "Vợt bắt bọ", "Súng nước", "Ống nhòm"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Nơi nào thường xuyên tổ chức các buổi biểu diễn âm nhạc ảo (Concert)?", o: ["Đảo Concert (Concert Island)", "Trường học", "Ngân hàng", "Bệnh viện"], a: 0 },
-    { t: "PLAY TOGETHER", q: "Khi đi đào kho báu, 'Rương kho báu vàng' thường chứa gì quý nhất?", o: ["Tiền sao", "Đá quý (Kim cương)", "Trang phục hiếm", "Thức ăn pet"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Hoạt động 'Tiệc tại gia' (Home Party) cho phép bạn làm gì với khách?", o: ["Đuổi khách", "Tặng tim cho chủ nhà", "Lấy trộm đồ", "Cấm vào nhà"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Trong mini-game 'Zombie Virus', người bị nhiễm virus phải làm gì?", o: ["Đi trốn", "Đi lây nhiễm cho người khác", "Thoát game", "Đi câu cá"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Tiết học nào trong trường học yêu cầu bạn phải bắt các con ma?", o: ["Toán học", "Tiết học ban đêm (Bắt ma)", "Nấu ăn", "Mỹ thuật"], a: 1 },
-    { t: "PLAY TOGETHER", q: "NPC 'Victor' thường xuất hiện ở Plaza để giao nhiệm vụ gì?", o: ["Giao Pizza", "Tìm đồ", "Chụp ảnh", "Quét rác"], a: 0 },
-    { t: "PLAY TOGETHER", q: "Để tham gia đào kho báu, bạn cần phải đi đâu?", o: ["Khu cư dân", "Đảo Kho Báu (Lost Island)", "Trường học", "Sân vận động"], a: 1 },
-
-    // ĐỊA ĐIỂM & ĐỜI SỐNG (36-50)
-    { t: "PLAY TOGETHER", q: "Nơi nào cho phép bạn mua các loại xe hơi và xe máy?", o: ["Cửa hàng nội thất", "Showroom ô tô", "Sân bay", "Cổng ga"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Địa điểm nào giúp bạn kiếm tiền sao bằng cách tham gia các lớp học?", o: ["Ngân hàng", "Trường học Kaia", "Nhà sách", "Cảnh sát"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Bạn có thể thay đổi diện mạo (tóc, mặt) của mình tại đâu?", o: ["Cửa hàng quần áo", "Tiệm cắt tóc (Salon)", "Bệnh viện", "Khách sạn"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Để di chuyển đến khu vực 'Downtown' (Trung tâm thành phố), bạn cần đi bằng gì?", o: ["Tàu điện ngầm", "Thuyền", "Taxi", "Máy bay"], a: 0 },
-    { t: "PLAY TOGETHER", q: "Nơi nào bạn có thể mua trứng và đồ ăn cho thú cưng?", o: ["Cửa hàng thú cưng (Pet Shop)", "Siêu thị", "Cắm trại", "Bến cảng"], a: 0 },
-    { t: "PLAY TOGETHER", q: "Thú cưỡi (Pet) sẽ tiến hóa hoặc lớn lên khi bạn làm điều gì?", o: ["Để nó ở nhà", "Làm nhiệm vụ mong muốn của Pet", "Bỏ đói nó", "Đánh nó"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Tòa nhà 'Zombie High' nằm ở khu vực nào trên bản đồ?", o: ["Plaza", "Downtown", "Khu cư dân", "Hải đăng"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Để mua nội thất trang trí nhà cửa, bạn tìm đến NPC nào?", o: ["NPC bán xe", "NPC tại cửa hàng nội thất", "NPC giao pizza", "NPC trường học"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Phương tiện di chuyển nào có thể bay trên bầu trời?", o: ["Ván trượt", "Khinh khí cầu / Thảm bay", "Xe bus", "Xe đạp"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Khu vực nào là nơi lý tưởng để đốt lửa trại và nướng cá?", o: ["Plaza", "Camping Ground", "Downtown", "Home Town"], a: 1 },
-    { t: "PLAY TOGETHER", q: "Cách tốt nhất để kiếm Kim cương miễn phí hàng ngày là gì?", o: ["Xem quảng cáo quà tặng", "Làm nhiệm vụ hàng ngày", "Hoàn thành thành tích", "Cả 3 đáp án trên"], a: 3 },
-    { t: "PLAY TOGETHER", q: "Trong bệnh viện, bạn có thể thực hiện tương tác nào?", o: ["Nằm giường bệnh / Khám bệnh", "Đi bơi", "Mua xe", "Đi học"], a: 0 },
-    { t: "PLAY TOGETHER", q: "NPC nào đứng ở bến tàu để giúp bạn đi câu cá ngoài khơi?", o: ["Thuyền trưởng Jack", "Thủy thủ", "Ông lão câu cá", "Cảnh sát"], a: 0 },
-    { t: "PLAY TOGETHER", q: "Ngôi nhà có diện tích lớn nhất và hồ bơi riêng thường gọi là gì?", o: ["Nhà nhỏ", "Nhà hộp cát", "Biệt thự / Tàu du lịch", "Nhà gạch"], a: 2 },
-    { t: "PLAY TOGETHER", q: "Khi bị Cảnh sát bắt trong mini-game 'Trốn tìm', bạn sẽ trở thành gì?", o: ["Người quan sát (Ghost)", "Cảnh sát đi bắt người khác", "Thắng cuộc", "Bị thoát game"], a: 1 },
-
-    // VŨ KHÍ & TRANG BỊ (1-20)
-    { t: "FREE FIRE", q: "Khẩu súng bắn tỉa nào có khả năng bắn xuyên tường keo?", o: ["AWM", "M82B", "Kar98k", "SVD"], a: 1 },
-    { t: "FREE FIRE", q: "Súng AR nào có tốc độ thay đạn và tốc độ bắn cực nhanh (thường gọi là súng 'quốc dân')?", o: ["AK47", "M4A1", "SCAR", "M14"], a: 2 },
-    { t: "FREE FIRE", q: "Khẩu Shotgun nào chỉ có 2 viên đạn nhưng sát thương cực mạnh ở tầm gần?", o: ["M1014", "M1887", "MAG-7", "SPAS12"], a: 1 },
-    { t: "FREE FIRE", q: "Vũ khí cận chiến nào có khả năng chống đạn khi đeo sau lưng?", o: ["Dao", "Kiếm Katana", "Chảo", "Gậy bóng chày"], a: 2 },
-    { t: "FREE FIRE", q: "Khẩu súng nào được mệnh danh là 'vua bắn tỉa' với sát thương cực lớn?", o: ["AWM", "VSS", "SKS", "M14"], a: 0 },
-    { t: "FREE FIRE", q: "Loại nấm cấp 4 trong Free Fire có màu gì?", o: ["Màu đỏ", "Màu xanh lá", "Màu vàng", "Màu tím"], a: 0 },
-    { t: "FREE FIRE", q: "Vật phẩm nào giúp bạn tạo ra một bức tường bảo vệ tức thời?", o: ["Lựu đạn", "Bom keo", "Mìn", "Lựu đạn khói"], a: 1 },
-    { t: "FREE FIRE", q: "Súng tiểu liên (SMG) nào có tốc độ bắn nhanh nhất game?", o: ["MP5", "MP40", "UMP", "Thompson"], a: 1 },
-    { t: "FREE FIRE", q: "Khẩu súng nào có thể nâng cấp lên cấp 1, 2, 3 bằng Chip nâng cấp?", o: ["M4A1", "MP5", "FAMAS", "Cả 3 đều đúng"], a: 3 },
-    { t: "FREE FIRE", q: "Trong Free Fire, 'Thùng thính' (Airdrop) thường có màu gì?", o: ["Xanh dương", "Đỏ", "Vàng", "Xanh lá"], a: 1 },
-    { t: "FREE FIRE", q: "Súng lục nào có khả năng hồi máu cho đồng đội khi bắn vào họ?", o: ["G18", "Desert Eagle", "Súng điện", "USP"], a: 2 },
-    { t: "FREE FIRE", q: "Ống ngắm tối đa có thể gắn được trên súng trường (AR) là bao nhiêu?", o: ["2x", "4x", "8x", "15x"], a: 1 },
-    { t: "FREE FIRE", q: "Khẩu súng SMG nào có khả năng xuyên giáp cực mạnh?", o: ["UMP", "MP40", "P90", "Vector"], a: 0 },
-    { t: "FREE FIRE", q: "Vật phẩm 'Máy quét' giúp bạn thấy điều gì khi đang nhảy dù?", o: ["Thùng thính", "Vị trí kẻ địch xung quanh", "Xe cộ", "Súng xịn"], a: 1 },
-    { t: "FREE FIRE", q: "Súng trường nào bắn theo chế độ 3 viên một lần (Burst)?", o: ["AK47", "M4A1", "FAMAS", "Groza"], a: 2 },
-    { t: "FREE FIRE", q: "Phụ kiện 'Miệng súng' giúp ích gì cho vũ khí?", o: ["Tăng tầm xa", "Giảm giật", "Tăng sát thương", "Thay đạn nhanh"], a: 0 },
-    { t: "FREE FIRE", q: "Khẩu súng nào chỉ xuất hiện trong thùng thính và có sát thương rất ổn định?", o: ["Groza", "AK47", "SCAR", "M4A1"], a: 0 },
-    { t: "FREE FIRE", q: "Lựu đạn choáng (Flashbang) có tác dụng gì lên kẻ địch?", o: ["Gây sát thương", "Làm mù và điếc tạm thời", "Đánh dấu vị trí", "Làm chậm"], a: 1 },
-    { t: "FREE FIRE", q: "Khẩu súng trường nào có sẵn ống ngắm 4x khi nhặt được?", o: ["XM8", "SVD", "VSS", "Cả 3 đều đúng"], a: 3 },
-    { t: "FREE FIRE", q: "Súng máy (LMG) nào có băng đạn lên tới 100 viên?", o: ["M249", "M60", "Kord", "Cả 3 đều đúng"], a: 3 },
-
-    // NHÂN VẬT & KỸ NĂNG (21-35)
-    { t: "FREE FIRE", q: "Nhân vật nào là đại sứ thương hiệu toàn cầu của Free Fire (CR7)?", o: ["Alok", "Chrono", "K", "Skyler"], a: 1 },
-    { t: "FREE FIRE", q: "Kỹ năng của nhân vật Alok có tác dụng gì?", o: ["Tạo hào quang hồi máu và tăng tốc chạy", "Tạo vòng bảo vệ", "Bắn xuyên tường keo", "Tàng hình"], a: 0 },
-    { t: "FREE FIRE", q: "Nhân vật nào lấy cảm hứng từ ca sĩ Sơn Tùng M-TP của Việt Nam?", o: ["Maxim", "Skyler", "Jota", "Hayato"], a: 1 },
-    { t: "FREE FIRE", q: "Kỹ năng 'Xuyên Giáp' là của nhân vật nào?", o: ["Kelly", "Hayato", "Andrew", "Ford"], a: 1 },
-    { t: "FREE FIRE", q: "Nhân vật Kelly giúp người chơi điều gì?", o: ["Hồi máu nhanh", "Tăng tốc độ chạy", "Nhảy cao hơn", "Thay đạn nhanh"], a: 1 },
-    { t: "FREE FIRE", q: "Kỹ năng của nhân vật Moco giúp gì khi bắn trúng địch?", o: ["Gây thêm sát thương", "Đánh dấu vị trí địch trong vài giây", "Làm địch chậm lại", "Hồi EP"], a: 1 },
-    { t: "FREE FIRE", q: "Nhân vật nào có khả năng biến thành bụi cỏ?", o: ["Wukong", "Chrono", "K", "Alok"], a: 0 },
-    { t: "FREE FIRE", q: "Kỹ năng của Maxim giúp người chơi làm gì nhanh hơn?", o: ["Thay đạn", "Ăn nấm và dùng túi trị thương", "Chạy", "Lái xe"], a: 1 },
-    { t: "FREE FIRE", q: "Để hồi máu cho đồng đội từ xa, bạn nên dùng nhân vật nào?", o: ["Olivia", "Kapella", "Dimitri", "Thiva"], a: 2 },
-    { t: "FREE FIRE", q: "Nhân vật Andrew có kỹ năng giúp giảm sát thương lên vật phẩm nào?", o: ["Mũ", "Giáp (Áo chống đạn)", "Balo", "Bom keo"], a: 1 },
-    { t: "FREE FIRE", q: "Kỹ năng của nhân vật Shirou giúp bạn làm gì?", o: ["Tăng tốc chạy", "Phản dấu vết kẻ địch khi bị bắn", "Hồi máu", "Tàng hình"], a: 1 },
-    { t: "FREE FIRE", q: "Trong Free Fire, thanh EP (màu vàng) có tác dụng gì?", o: ["Để chạy nhanh hơn", "Tự động chuyển hóa thành máu (HP)", "Để mua đồ", "Để nhảy cao"], a: 1 },
-    { t: "FREE FIRE", q: "Kỹ năng chủ động là gì?", o: ["Kỹ năng tự kích hoạt", "Kỹ năng phải bấm nút mới dùng được", "Kỹ năng tăng máu", "Kỹ năng ẩn"], a: 1 },
-    { t: "FREE FIRE", q: "Nhân vật nào có khả năng tăng sát thương khi sử dụng Shotgun?", o: ["Caroline", "Nikita", "Jota", "Misha"], a: 0 },
-    { t: "FREE FIRE", q: "Nhân vật Misha giúp bạn điều gì khi lái xe?", o: ["Xe chạy nhanh hơn và khó bị bắn trúng hơn", "Xe không bao giờ hỏng", "Xe bắn được súng", "Xe bay được"], a: 0 },
-
-    // BẢN ĐỒ & KHÁC (36-50)
-    { t: "FREE FIRE", q: "Bản đồ đầu tiên và kinh điển nhất của Free Fire tên là gì?", o: ["Đảo Thiên Đường", "Đảo Quân Sự", "Sa Mạc Kalahari", "Đảo Mặt Trời"], a: 1 },
-    { t: "FREE FIRE", q: "Khu vực 'Tháp Đồng Hồ' (Clock Tower) nằm ở bản đồ nào?", o: ["Đảo Thiên Đường", "Đảo Quân Sự", "Kalahari", "Đảo Huyền Thoại"], a: 1 },
-    { t: "FREE FIRE", q: "Bản đồ lấy bối cảnh sa mạc khô cằn có tên là gì?", o: ["Purgatory", "Bermuda", "Kalahari", "Alpine"], a: 2 },
-    { t: "FREE FIRE", q: "Trong chế độ Tử Chiến (Clash Squad), có tối đa bao nhiêu người trong một đội?", o: ["2 người", "3 người", "4 người", "5 người"], a: 2 },
-    { t: "FREE FIRE", q: "Phương tiện di chuyển nào có thể đi được cả trên cạn và dưới nước?", o: ["Xe Jeep", "Xe máy", "Xe lội nước", "Xe tải quái vật"], a: 2 },
-    { t: "FREE FIRE", q: "Khi bị hạ gục, đồng đội có thể cứu bạn tại đâu (trong chế độ sinh tồn)?", o: ["Trạm hồi sinh", "Tháp đồng hồ", "Thùng thính", "Nhà kho"], a: 0 },
-    { t: "FREE FIRE", q: "Thuật ngữ 'Bo' trong Free Fire chỉ điều gì?", o: ["Vòng an toàn", "Vũ khí", "Xe cộ", "Máy bay"], a: 0 },
-    { t: "FREE FIRE", q: "Mức xếp hạng cao nhất trong Free Fire là gì?", o: ["Kim Cương", "Huyền Thoại", "Thách Đấu", "Đại Cao Thủ"], a: 3 },
-    { t: "FREE FIRE", q: "Vật phẩm 'Máy bay không người lái' (UAV) có tác dụng gì?", o: ["Bắn kẻ địch", "Tiết lộ vị trí kẻ địch trong vùng quét", "Hồi máu", "Chở người chơi"], a: 1 },
-    { t: "FREE FIRE", q: "Trong trận đấu, 'Hố đen' hoặc 'Vùng nguy hiểm' (màu đỏ) cảnh báo điều gì?", o: ["Có thính rơi", "Có bom oanh tạc từ trên trời", "Có xe đi qua", "Có địch"], a: 1 },
-    { t: "FREE FIRE", q: "Đồng tiền dùng để mua sắm tại Máy bán hàng trong trận đấu là gì?", o: ["Kim cương", "Vàng", "Xu FF", "Xu MoCo"], a: 2 },
-    { t: "FREE FIRE", q: "Để hồi phục giáp bị hỏng, bạn cần dùng vật phẩm nào?", o: ["Túi trị thương", "Nấm", "Bộ thiết bị sửa chữa", "Lựu đạn"], a: 2 },
-    { t: "FREE FIRE", q: "Hành động 'Headshot' nghĩa là gì?", o: ["Bắn vào chân", "Bắn vào tay", "Bắn vào đầu", "Bắn vào lưng"], a: 2 },
-    { t: "FREE FIRE", q: "Sự kiện 'Thẻ Vô Cực' (Elite Pass) thường được làm mới sau bao lâu?", o: ["Mỗi tuần", "Mỗi tháng", "Mỗi năm", "Không bao giờ"], a: 1 },
-    { t: "FREE FIRE", q: "Khi chiến thắng một trận đấu sinh tồn, màn hình sẽ hiện chữ gì?", o: ["Victory", "Booyah!", "Winner", "Champion"], a: 1 },
-
-    // VỊ TƯỚNG & KỸ NĂNG (1-20)
-    { t: "LIÊN QUÂN", q: "Vị tướng nào được cộng đồng game thủ Việt Nam gọi vui là 'Đấng'?", o: ["Yorn", "Valhein", "Florentino", "Nakroth"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Tướng Florentino nổi tiếng với kỹ năng tung hoa, vậy anh ta thuộc vai trò chính nào?", o: ["Đỡ đòn", "Đấu sĩ", "Xạ thủ", "Trợ thủ"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào có khả năng 'phân thân' và bay nhảy ảo diệu nhất nhóm sát thủ?", o: ["Murad", "Quillen", "Nakroth", "Ngộ Không"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Tướng xạ thủ nào có khả năng bắn xuyên bản đồ với chiêu cuối 'Tên Thần'?", o: ["Tel'Annas", "Yorn", "Violet", "Slimz"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào có biệt danh là 'Thần rừng' đời đầu của Liên Quân?", o: ["Nakroth", "Kriknak", "Butterfly", "Zill"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Kỹ năng 'Sát vực' là chiêu thức khó chịu của vị tướng hỗ trợ nào?", o: ["Alice", "Gildur", "Grak", "Omen"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Vị tướng pháp sư nào có khả năng đóng băng kẻ địch diện rộng bằng chiêu cuối?", o: ["Krixi", "Điêu Thuyền", "Veera", "Natalya"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Tướng Tulen nổi tiếng với nội tại lôi điện, anh ta thường đi đường nào?", o: ["Đường Rồng", "Đường Mid (Giữa)", "Đường Tà Thần", "Trợ thủ"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào có thể 'hóa rồng' sau khi sử dụng chiêu cuối?", o: ["Preyta", "Cresht", "Caesar", "Volkath"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Tướng Elsu nổi tiếng nhất với kỹ năng gì?", o: ["Bắn tỉa tầm xa", "Hồi máu", "Tạo giáp", "Tàng hình vĩnh viễn"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào là người yêu của Lữ Bố trong cốt truyện Liên Quân?", o: ["Điêu Thuyền", "Sinestrea", "Butterfly", "Ilumia"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Tướng Richter có khả năng thay đổi hiệu ứng kỹ năng dựa trên địa hình nào?", o: ["Cỏ, Sông, Đất", "Núi, Rừng, Biển", "Tháp, Nhà, Lính", "Chỉ có cỏ"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Vị tướng sát thủ nào có khả năng tàng hình và gây sát thương chí mạng từ phía sau?", o: ["Batman", "Quillen", "Paine", "Airi"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Tướng Rouie có kỹ năng đặc biệt nhất là gì?", o: ["Hồi máu", "Truyền tống (Về tế đàn và triệu hồi đồng đội)", "Bất tử", "Tăng sát thương"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào cầm một chiếc lưỡi liềm và có thể kéo đối phương từ xa?", o: ["Mina", "Grak", "Omen", "Natalya"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Tướng Veera thuộc vai trò nào?", o: ["Pháp sư sát thủ", "Đấu sĩ", "Xạ thủ", "Đỡ đòn"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào có biệt danh 'Thỏ tài phiệt'?", o: ["Slimz", "Fennik", "Laville", "Zuka"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Tướng Zip có kỹ năng 'nuốt' đồng đội và lính vào bụng, đúng hay sai?", o: ["Đúng", "Sai", "Chỉ nuốt được lính", "Chỉ nuốt được quái"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào có chiêu cuối tạo ra một sàn đấu 'Tử chiến' không thể thoát ra?", o: ["Omen", "Maloch", "Baldum", "Arum"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Tướng Capheny có thể chuyển đổi giữa hai dạng súng nào?", o: ["Súng lục và Súng trường", "Đại liên và Đại bác", "Cung và Kiếm", "Pháo và Mìn"], a: 1 },
-
-    // TRANG BỊ & PHÉP BỔ TRỢ (21-35)
-    { t: "LIÊN QUÂN", q: "Trang bị nào giúp pháp sư có khả năng 'Bất tử' trong 1.5 giây?", o: ["Quả cầu băng sương", "Trượng bùng nổ", "Vương miện Hecate", "Sách thánh"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Phép bổ trợ nào giúp tướng dịch chuyển một khoảng ngắn ngay lập tức?", o: ["Bộc phá", "Tốc biến", "Trừng trị", "Gầm thét"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Trang bị phòng thủ nào giúp hồi sinh tướng tại chỗ sau khi chết?", o: ["Giáp Gaia", "Giáp thống khổ", "Giáp hộ mệnh", "Khiên thất truyền"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Trang bị 'Phức hợp kiếm' phù hợp nhất với nhóm tướng nào?", o: ["Pháp sư", "Đỡ đòn thuần", "Đấu sĩ/Sát thủ cần tốc đánh và hồi chiêu", "Trợ thủ"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Để khắc chế các tướng có khả năng hồi máu mạnh, bạn nên lên trang bị nào?", o: ["Đao truy hồn / Sách truy hồn", "Kiếm Fafnir", "Nanh Fenrir", "Rìu Hyoga"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Phép bổ trợ 'Trừng trị' bắt buộc phải mang theo khi đi vị trí nào?", o: ["Đường giữa", "Đi rừng", "Đường rồng", "Trợ thủ"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Trang bị 'Thánh kiếm' cung cấp chỉ số quan trọng nào cho xạ thủ?", o: ["Tốc chạy", "Tỉ lệ chí mạng", "Hút máu phép", "Giáp phép"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Phép bổ trợ 'Cấp cứu' giúp hồi máu cho ai?", o: ["Chỉ bản thân", "Bản thân và đồng đội xung quanh", "Chỉ đồng đội", "Lính"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Trang bị 'Liềm đoạt mệnh' giúp tướng tránh bị hạ gục trong tích tắc, đúng hay sai?", o: ["Đúng", "Sai", "Chỉ có tác dụng với xạ thủ", "Chỉ có tác dụng với pháp sư"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Phép bổ trợ nào dùng để gây sát thương chuẩn dựa trên máu đã mất của địch?", o: ["Gầm thét", "Bộc phá", "Cấm trụ", "Thanh tẩy"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Trang bị 'Huân chương Troy' dùng để thủ loại sát thương nào?", o: ["Sát thương vật lý", "Sát thương phép", "Sát thương chuẩn", "Chỉ tăng máu"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Khi đi Trợ thủ, món đồ đầu tiên bạn cần lên là gì?", o: ["Giày", "Trang bị phụ trợ (Đồ trợ thủ)", "Sách phép", "Kiếm"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Trang bị 'Nanh Fenrir' tăng chỉ số nào mạnh nhất?", o: ["Công vật lý", "Công phép", "Giáp", "Tốc đánh"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Phép bổ trợ 'Thanh tẩy' dùng để làm gì?", o: ["Hồi máu", "Xóa bỏ mọi hiệu ứng khống chế", "Tăng tốc chạy", "Làm choáng địch"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Trang bị 'Giày kiên cường' giúp giảm thời gian bị khống chế, đúng hay sai?", o: ["Đúng", "Sai", "Chỉ tăng tốc chạy", "Chỉ tăng giáp"], a: 0 },
-
-    // BẢN ĐỒ & CHIẾN THUẬT (36-50)
-    { t: "LIÊN QUÂN", q: "Con quái vật to lớn nhất bản đồ xuất hiện sau phút thứ 15 là gì?", o: ["Rồng Kraydus", "Tà thần Caesar bạo chúa", "Dơi thủ vệ", "Khỉ"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Tiêu diệt 'Rồng Ánh Sáng' giúp toàn đội nhận được gì?", o: ["Vàng và kinh nghiệm", "Bùa hồi máu", "Tàng hình", "Bất tử tháp"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Vị trí 'Đường Rồng' thường là nơi đi của cặp đôi nào?", o: ["Xạ thủ và Trợ thủ", "Pháp sư và Sát thủ", "Đấu sĩ và Đỡ đòn", "Đi rừng và Mid"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Bùa Xanh có tác dụng chính là gì?", o: ["Hồi năng lượng nhanh và giảm hồi chiêu", "Tăng công vật lý", "Hồi máu", "Tăng giáp"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Bùa Đỏ có tác dụng gì lên đòn đánh thường?", o: ["Làm chậm và gây sát thương đốt", "Hồi máu", "Tăng tốc chạy", "Tăng tầm đánh"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Con 'Dơi Thủ Vệ' nằm ở phần đường nào trên bản đồ?", o: ["Đường Tà Thần Caesar", "Đường Rồng", "Đường Giữa", "Trong hang rồng"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Mạng 'Chiến công đầu' (First Blood) mang lại bao nhiêu vàng?", o: ["100 vàng", "200 vàng", "Nhiều vàng hơn mạng thường", "Không có vàng"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Thuật ngữ 'Gank' trong Liên Quân nghĩa là gì?", o: ["Đi hỗ trợ đồng đội tiêu diệt địch", "Đi về hồi máu", "Đi mua đồ", "Đứng im một chỗ"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Bạn cần phá hủy bao nhiêu tháp của một đường để lính siêu cấp xuất hiện?", o: ["1 tháp", "2 tháp", "3 tháp", "4 tháp"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Thời gian hồi sinh của các bùa lợi (Xanh, Đỏ) là bao lâu?", o: ["30 giây", "60 giây", "90 giây", "120 giây"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Hành động 'Backdoor' trong game nghĩa là gì?", o: ["Đánh nhau trực diện", "Lén lút phá nhà chính mà không cần lính", "Đi gank đường", "Ăn tà thần"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Khi bị tháp bắn, sát thương của tháp sẽ như thế nào?", o: ["Luôn bằng nhau", "Tăng dần theo mỗi phát bắn", "Giảm dần", "Chỉ bắn theo % máu"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Phù hiệu 'Luyện kim' giúp người chơi nhận được thêm gì?", o: ["Máu", "Vàng", "Sát thương", "Giáp"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Bụi cỏ trên bản đồ có tác dụng gì?", o: ["Hồi máu", "Ẩn thân khỏi tầm nhìn của địch", "Tăng tốc chạy", "Làm chậm địch"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Mục tiêu quan trọng nhất để chiến thắng một ván đấu là gì?", o: ["Giết thật nhiều địch", "Ăn nhiều rồng", "Phá hủy nhà chính đối phương", "Mua đủ đồ"], a: 2 },
-
-    // SINH TỒN & NGUYÊN LIỆU (1-15)
-    { t: "MINECRAFT", q: "Block nào được mệnh danh là cứng nhất và không thể phá hủy ở chế độ Sinh tồn?", o: ["Obsidian", "Bedrock", "Diamond Block", "Ancient Debris"], a: 1 },
-    { t: "MINECRAFT", q: "Bạn cần ít nhất bao nhiêu khối Obsidian để tạo ra một cổng Nether hoàn chỉnh (không tính góc)?", o: ["8", "10", "12", "14"], a: 1 },
-    { t: "MINECRAFT", q: "Công cụ nào dùng để khai thác đá và quặng hiệu quả nhất?", o: ["Rìu (Axe)", "Xẻng (Shovel)", "Cuốc (Pickaxe)", "Cuốc đất (Hoe)"], a: 2 },
-    { t: "MINECRAFT", q: "Để khai thác được Kim cương (Diamond), bạn cần ít nhất là cuốc làm bằng gì?", o: ["Gỗ", "Đá", "Sắt", "Vàng"], a: 2 },
-    { t: "MINECRAFT", q: "Vật liệu nào mạnh hơn Kim cương và chỉ có thể tìm thấy ở Nether?", o: ["Netherite", "Emerald", "Quartz", "Gold"], a: 0 },
-    { t: "MINECRAFT", q: "Khi kết hợp Nước và Dung nham (Lava) đang chảy, bạn sẽ tạo ra block nào?", o: ["Obsidian", "Cobblestone", "Stone", "Gravel"], a: 1 },
-    { t: "MINECRAFT", q: "Bạn cần vật phẩm nào để ăn khi thanh thức giảm xuống?", o: ["Gỗ", "Thức ăn (Thịt, táo, bánh)", "Đá", "Hoa"], a: 1 },
-    { t: "MINECRAFT", q: "Làm thế nào để đặt lại điểm hồi sinh của bạn trong thế giới thường?", o: ["Dùng bảng tên", "Ngủ trên giường", "Đặt đuốc", "Bơi dưới nước"], a: 1 },
-    { t: "MINECRAFT", q: "Nguyên liệu chính để chế tạo một bàn chế tạo (Crafting Table) là gì?", o: ["4 Ván gỗ", "4 Đá", "4 Sắt", "2 Gậy"], a: 0 },
-    { t: "MINECRAFT", q: "Phù phép (Enchantment) nào giúp bạn khai thác block và nhận được chính block đó (như kính)?", o: ["Fortune", "Sharpness", "Silk Touch", "Efficiency"], a: 2 },
-    { t: "MINECRAFT", q: "Block nào có khả năng phát sáng mạnh nhất dưới nước?", o: ["Glowstone", "Sea Lantern", "Torch", "Jack o'Lantern"], a: 1 },
-    { t: "MINECRAFT", q: "Để tạo ra một chiếc bánh kem (Cake), bạn cần nguyên liệu nào sau đây?", o: ["Sữa, Đường, Trứng, Lúa mì", "Gỗ, Đá", "Cỏ, Hoa", "Thịt bò, Cá"], a: 0 },
-    { t: "MINECRAFT", q: "Vật phẩm 'Totem of Undying' có tác dụng gì?", o: ["Giúp bay", "Cứu mạng khi bạn sắp chết", "Tăng sức mạnh", "Tàng hình"], a: 1 },
-    { t: "MINECRAFT", q: "Lông cừu có thể thu thập được bằng công cụ nào mà không cần giết cừu?", o: ["Kiếm", "Kéo (Shears)", "Rìu", "Tay không"], a: 1 },
-    { t: "MINECRAFT", q: "Block nào bị ảnh hưởng bởi trọng lực và sẽ rơi xuống nếu không có gì đỡ?", o: ["Đất", "Cát (Sand)", "Gỗ", "Đá"], a: 1 },
-
-    // MOBS - SINH VẬT (16-30)
-    { t: "MINECRAFT", q: "Mob nào sẽ nổ tung khi đến gần người chơi?", o: ["Zombie", "Skeleton", "Creeper", "Enderman"], a: 2 },
-    { t: "MINECRAFT", q: "Mob nào sẽ tấn công bạn nếu bạn nhìn thẳng vào mắt nó?", o: ["Spider", "Enderman", "Creeper", "Slime"], a: 1 },
-    { t: "MINECRAFT", q: "Khi bị sét đánh, con Heo sẽ biến thành sinh vật nào?", o: ["Zombie Pigman (Zombified Piglin)", "Creeper điện", "Phù thủy", "Rồng"], a: 0 },
-    { t: "MINECRAFT", q: "Mob nào thường bắn cung vào người chơi từ xa?", o: ["Zombie", "Skeleton", "Witch", "Ghast"], a: 1 },
-    { t: "MINECRAFT", q: "Bạn có thể dùng vật phẩm nào để thuần hóa một con Sói?", o: ["Cá", "Thịt chín", "Xương (Bone)", "Táo"], a: 2 },
-    { t: "MINECRAFT", q: "Con vật nào có thể giúp bạn cưỡi và di chuyển nhanh hơn?", o: ["Bò", "Ngựa", "Cừu", "Gà"], a: 1 },
-    { t: "MINECRAFT", q: "Mob nào là Boss cuối của trò chơi cư ngụ tại The End?", o: ["Wither", "Ender Dragon", "Warden", "Elder Guardian"], a: 1 },
-    { t: "MINECRAFT", q: "Để triệu hồi Boss Wither, bạn cần 3 cái đầu của sinh vật nào?", o: ["Zombie", "Wither Skeleton", "Skeleton thường", "Rồng"], a: 1 },
-    { t: "MINECRAFT", q: "Mob nào thường đi lang thang và trao đổi vật phẩm với người chơi?", o: ["Dân làng (Villager)", "Pillager", "Zombie", "Iron Golem"], a: 0 },
-    { t: "MINECRAFT", q: "Iron Golem được tạo ra từ block nào?", o: ["Sắt và Bí ngô", "Vàng và Bí ngô", "Kim cương", "Đá"], a: 0 },
-    { t: "MINECRAFT", q: "Con quái vật nào trông giống một bóng ma và thường bay lượn ở Nether?", o: ["Blaze", "Ghast", "Magma Cube", "Phantom"], a: 1 },
-    { t: "MINECRAFT", q: "Mob 'Phantom' sẽ xuất hiện khi người chơi làm gì?", o: ["Đi quá xa", "Không ngủ trong nhiều ngày", "Đào quá sâu", "Giết quá nhiều cừu"], a: 1 },
-    { t: "MINECRAFT", q: "Sinh vật nào mù nhưng có thính giác cực nhạy và sống ở Deep Dark?", o: ["Warden", "Wither", "Enderman", "Spider"], a: 0 },
-    { t: "MINECRAFT", q: "Mèo sợ sinh vật nào nhất?", o: ["Chó", "Creeper", "Phantom", "Người chơi"], a: 2 },
-    { t: "MINECRAFT", q: "Bạn có thể nhuộm màu cho cừu bằng cách nào?", o: ["Dùng thuốc nhuộm (Dye)", "Cho ăn hoa", "Dùng gậy phép", "Ngâm dưới nước"], a: 0 },
-
-    // KHÁM PHÁ & KỸ THUẬT (31-45)
-    { t: "MINECRAFT", q: "Chiều không gian nào được gọi là 'Địa ngục' trong Minecraft?", o: ["The End", "The Nether", "The Void", "Overworld"], a: 1 },
-    { t: "MINECRAFT", q: "Vật phẩm 'Ender Pearl' giúp người chơi làm gì?", o: ["Hồi máu", "Dịch chuyển tức thời", "Tàng hình", "Bắn quái"], a: 1 },
-    { t: "MINECRAFT", q: "Để tìm thấy pháo đài dưới lòng đất (Stronghold), bạn cần dùng vật phẩm nào?", o: ["Ender Pearl", "Eye of Ender", "Compass", "Clock"], a: 1 },
-    { t: "MINECRAFT", q: "Cánh (Elytra) dùng để bay có thể tìm thấy ở đâu?", o: ["Nether Fortress", "End City", "Village", "Jungle Temple"], a: 1 },
-    { t: "MINECRAFT", q: "Dây dẫn tín hiệu trong Minecraft được làm từ gì?", o: ["Sắt", "Vàng", "Đá đỏ (Redstone)", "Đồng"], a: 2 },
-    { t: "MINECRAFT", q: "Block nào có tác dụng đẩy hoặc kéo các block khác khi có điện?", o: ["Piston", "Dispenser", "Dropper", "Observer"], a: 0 },
-    { t: "MINECRAFT", q: "Thế giới trong Minecraft rộng lớn đến mức nào?", o: ["Có giới hạn 1000 block", "Gần như vô tận (do thuật toán tạo ra)", "Bằng trái đất", "Bằng một hòn đảo"], a: 1 },
-    { t: "MINECRAFT", q: "Chế độ chơi nào cho phép bạn bay tự do và có vô hạn tài nguyên?", o: ["Survival", "Hardcore", "Creative", "Adventure"], a: 2 },
-    { t: "MINECRAFT", q: "Bạn dùng gì để điều hướng trong rừng sâu nếu không có bản đồ?", o: ["Clock", "Compass (La bàn)", "Spyglass", "Torch"], a: 1 },
-    { t: "MINECRAFT", q: "Vật phẩm 'Brewing Stand' dùng để làm gì?", o: ["Nấu thức ăn", "Pha chế thuốc (Potion)", "Rèn vũ khí", "Chế tạo đồ gỗ"], a: 1 },
-    { t: "MINECRAFT", q: "Thuốc 'Fire Resistance' giúp bạn miễn nhiễm với điều gì?", o: ["Rơi từ trên cao", "Lửa và Dung nham", "Đuối nước", "Độc"], a: 1 },
-    { t: "MINECRAFT", q: "Block 'Tnt' được kích hoạt bằng cách nào?", o: ["Bật lửa (Flint and Steel)", "Tín hiệu Redstone", "Cả A và B đều đúng", "Chạm tay vào"], a: 2 },
-    { t: "MINECRAFT", q: "Người tạo ra Minecraft (cha đẻ) là ai?", o: ["Bill Gates", "Markus Persson (Notch)", "Steve Jobs", "Elon Musk"], a: 1 },
-    { t: "MINECRAFT", q: "Nhân vật mặc định nam trong game tên là gì?", o: ["Alex", "Steve", "Notch", "Herobrine"], a: 1 },
-    { t: "MINECRAFT", q: "Nhân vật mặc định nữ trong game tên là gì?", o: ["Alex", "Steve", "Niki", "Rose"], a: 0 },
-
-    // KHÁC (46-50)
-    { t: "MINECRAFT", q: "Vàng trong Minecraft có đặc điểm gì nổi bật?", o: ["Cực kỳ bền", "Đào nhanh nhưng độ bền rất thấp", "Không thể dùng làm cuốc", "Rất khó tìm"], a: 1 },
-    { t: "MINECRAFT", q: "Cấu trúc nào thường xuất hiện ở sa mạc và có bẫy TNT?", o: ["Jungle Temple", "Desert Pyramid", "Ocean Monument", "Stronghold"], a: 1 },
-    { t: "MINECRAFT", q: "Bạn có thể trồng lúa mì bằng cách dùng hạt giống lên block nào?", o: ["Đất thường", "Cát", "Đất đã được cuốc (Farmland)", "Đá"], a: 2 },
-    { t: "MINECRAFT", q: "Sách 'Enchanted Book' dùng để làm gì?", o: ["Để đọc", "Để ép phù phép vào vũ khí/giáp", "Để trang trí", "Để làm nhiên liệu nung"], a: 1 },
-    { t: "MINECRAFT", q: "Minecraft thuộc thể loại game gì?", o: ["Đua xe", "Sandbox / Sinh tồn", "Bắn súng tọa độ", "Thể thao"], a: 1 },
-
-    // CỐT TRUYỆN & THẾ GIỚI (1-15)
-    { t: "GENSHIN IMPACT", q: "Thế giới mà người chơi đang khám phá trong Genshin Impact tên là gì?", o: ["Teyvat", "Inazuma", "Celestia", "Khaenri'ah"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Vùng đất đầu tiên mà Nhà Lữ Hành đặt chân đến là gì?", o: ["Liyue", "Mondstadt", "Sumeru", "Fontaine"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Linh vật đồng hành cùng Nhà Lữ Hành suốt chuyến đi tên là gì?", o: ["Paimon", "Amber", "Venti", "Guoba"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Phong Thần Barbatos đang ẩn thân dưới danh tính của ai?", o: ["Diluc", "Venti", "Kaeya", "Jean"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Nham Thần Morax là vị thần bảo hộ cho vùng đất nào?", o: ["Inazuma", "Liyue", "Sumeru", "Natlan"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Vùng đất của sự Vĩnh Hằng, Inazuma, được cai trị bởi vị thần nào?", o: ["Lôi Thần Raiden Shogun", "Thủy Thần Furina", "Thảo Thần Nahida", "Hỏa Thần"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Tên của tổ chức phản diện chính trong game là gì?", o: ["Đoàn Bác Sĩ", "Fatui", "Giáo Đoàn Vực Thẳm", "Thất Tinh Liyue"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Có tổng cộng bao nhiêu nguyên tố trong thế giới Teyvat?", o: ["5", "6", "7", "8"], a: 2 },
-    { t: "GENSHIN IMPACT", q: "Vùng đất của Trí Tuệ, Sumeru, thờ phụng vị thần nào?", o: ["Thảo Thần Nahida", "Nham Thần", "Phong Thần", "Băng Thần"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Thủy Thần là vị thần công lý của vùng đất nào?", o: ["Fontaine", "Snezhnaya", "Natlan", "Liyue"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Băng Thần (The Tsaritsa) là người đứng đầu vùng đất nào?", o: ["Snezhnaya", "Inazuma", "Fontaine", "Mondstadt"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Nhà Lữ Hành ban đầu đi tìm ai?", o: ["Cha mẹ", "Người anh em thất lạc (Lumine/Aether)", "Kho báu", "Thần linh"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Tổ chức 'Thất Tinh Liyue' quản lý việc gì?", o: ["Kinh tế và luật pháp Liyue", "Bảo vệ Mondstadt", "Nghiên cứu thảo mộc", "Đánh Fatui"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Cây đại thụ nằm ở trung tâm Mondstadt tên là gì?", o: ["Cây Đô Thành", "Phong Khởi Địa", "Cây Thần Anh Đào", "Cây Chịu Lạnh"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Hội Hiệp Sĩ Tây Phong bảo vệ vùng đất nào?", o: ["Liyue", "Mondstadt", "Inazuma", "Fontaine"], a: 1 },
-
-    // NHÂN VẬT & KỸ NĂNG (16-35)
-    { t: "GENSHIN IMPACT", q: "Nhân vật nào được gọi là 'Hỏa lực mạnh nhất Mondstadt'?", o: ["Klee", "Diluc", "Amber", "Bennett"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Zhongli thường làm việc tại đâu?", o: ["Vãng Sinh Đường", "Ngân hàng Bắc Quốc", "Hiệp hội Nhà mạo hiểm", "Vân Hàn Xã"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Nhân vật nào có khả năng tạo khiên cực mạnh từ chiêu nguyên tố?", o: ["Zhongli", "Hu Tao", "Tartaglia", "Xiao"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Nhân vật Hu Tao là đường chủ đời thứ mấy của Vãng Sinh Đường?", o: ["75", "76", "77", "78"], a: 2 },
-    { t: "GENSHIN IMPACT", q: "Vũ khí trấn phái của Raiden Shogun là gì?", o: ["Đoạn Thảo Trường Không", "Hòa Phác Diệp", "Trượng Hộ Ma", "Kiếm Đơn"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Nhân vật 'Childe' Tartaglia là Quan Chấp Hành Fatui thứ mấy?", o: ["6", "8", "11", "1"], a: 2 },
-    { t: "GENSHIN IMPACT", q: "Kỹ năng nộ của Kazuha tạo ra một vùng hiệu ứng nguyên tố gì?", o: ["Hỏa", "Thủy", "Phong", "Lôi"], a: 2 },
-    { t: "GENSHIN IMPACT", q: "Nhân vật nào có biệt danh là 'Hộ Pháp Dạ Xoa'?", o: ["Xiao", "Ganyu", "Shenhe", "Yelan"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Nhân vật Ganyu mang dòng máu của sinh vật huyền thoại nào?", o: ["Rồng", "Kỳ Lân", "Phượng Hoàng", "Cáo"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Nhân vật nào là chuyên gia chế tạo thuốc nổ tại Mondstadt?", o: ["Albedo", "Timaeus", "Klee", "Sucrose"], a: 2 },
-    { t: "GENSHIN IMPACT", q: "Kỹ năng của Barbara chủ yếu dùng để làm gì?", o: ["Gây sát thương", "Hồi máu", "Tạo khiên", "Tăng tốc chạy"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Nhân vật nào có thể 'đứng trên nước' bằng kỹ năng đóng băng mặt biển?", o: ["Kaeya", "Ayaka", "Childe", "Cả A và B"], a: 3 },
-    { t: "GENSHIN IMPACT", q: "Vũ khí của nhân vật Yae Miko là loại gì?", o: ["Pháp khí", "Cung", "Trọng kiếm", "Thương"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Nhân vật Bennett nổi tiếng vì điều gì trong cốt truyện?", o: ["Rất giàu", "Cực kỳ xui xẻo", "Rất mạnh mẽ", "Có nhiều bạn"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Nhân vật Shogun Raiden không biết làm việc gì?", o: ["Chiến đấu", "Nấu ăn", "Cầm kỳ thi họa", "Quản lý đất nước"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Nhân vật Wanderer (Kẻ Lang Thang) trước đây là ai?", o: ["Scaramouche", "Dottore", "Signora", "Pierro"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Kỹ năng nộ của Neuvillette bắn ra một dòng nước cực mạnh, anh ta là ai?", o: ["Thủy Thần", "Thủy Long Vương", "Người phàm", "Fatui"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Nhân vật nào là đại diện cho hệ Thảo dùng cung từ Sumeru?", o: ["Tighnari", "Collei", "Alhaitham", "Cả A và B"], a: 3 },
-    { t: "GENSHIN IMPACT", q: "Nhân vật Furina thường đi cùng với mấy 'người bạn' từ kỹ năng nguyên tố?", o: ["1", "2", "3", "4"], a: 2 },
-    { t: "GENSHIN IMPACT", q: "Nhân vật Navia sử dụng loại vũ khí nào để tấn công tầm xa?", o: ["Cung", "Súng dù", "Pháp khí", "Sách"], a: 1 },
-
-    // HỆ THỐNG NGUYÊN TỐ & GAMEPLAY (36-50)
-    { t: "GENSHIN IMPACT", q: "Phản ứng giữa Thủy và Hỏa tạo ra hiệu ứng gì?", o: ["Quá tải", "Bốc hơi", "Điện cảm", "Tan chảy"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Phản ứng 'Quá tải' được tạo bởi hai nguyên tố nào?", o: ["Hỏa và Lôi", "Băng và Lôi", "Thủy và Băng", "Thảo và Lôi"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Phản ứng 'Đóng băng' cần có hai nguyên tố nào?", o: ["Thủy và Băng", "Thủy và Lôi", "Băng và Hỏa", "Băng và Nham"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Nguyên tố nào không thể phản ứng trực tiếp với Nham (Geo)?", o: ["Hỏa", "Thủy", "Băng", "Thảo"], a: 3 },
-    { t: "GENSHIN IMPACT", q: "Phản ứng 'Khuếch tán' được tạo ra bởi nguyên tố nào?", o: ["Phong", "Nham", "Lôi", "Thảo"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Đơn vị dùng để cầu nguyện (quay nhân vật) là gì?", o: ["Nguyên Thạch (Primogem)", "Vàng", "Nhựa", "Mora"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Mora là đơn vị gì trong game?", o: ["Điểm kinh nghiệm", "Tiền tệ", "Năng lượng", "Nguyên liệu đột phá"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Để nâng cấp nhân vật lên cấp độ cao hơn, bạn cần làm gì?", o: ["Đột phá nhân vật", "Cho ăn nấm", "Đi câu cá", "Mua skin"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "La Hoàn Thâm Cảnh là nơi dùng để làm gì?", o: ["Xây nhà", "Thử thách chiến đấu nhận thưởng", "Nấu ăn", "Chụp ảnh"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Nhựa Nguyên Bản dùng để làm gì?", o: ["Chạy nhanh hơn", "Nhận thưởng từ Bí Cảnh/Boss", "Mua nhân vật", "Đổi đồ ăn"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Vật phẩm 'Thần Đồng' (Anemoculus, Geoculus,...) dùng để làm gì?", o: ["Nâng cấp Thất Thiên Thần Tượng", "Làm nhiệm vụ", "Để bán lấy tiền", "Tăng sát thương súng"], a: 0 },
-    { t: "GENSHIN IMPACT", q: "Ấm Trần Ca là hệ thống dùng để làm gì?", o: ["Chế tạo vũ khí", "Xây dựng nhà cửa và trang trí", "Đi đánh boss", "Pha thuốc"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Thánh Di Vật dùng để làm gì cho nhân vật?", o: ["Làm đẹp", "Tăng các chỉ số sức mạnh", "Để bay", "Để bơi"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Nhân vật hệ Nham (Geo) khi phản ứng với nguyên tố khác sẽ tạo ra gì?", o: ["Nổ", "Mảnh khiên kết tinh", "Mưa", "Lốc xoáy"], a: 1 },
-    { t: "GENSHIN IMPACT", q: "Genshin Impact được phát triển bởi công ty nào?", o: ["Tencent", "VNG", "miHoYo (HoYoverse)", "Garena"], a: 2 },
-
-    // VŨ KHÍ & PHỤ KIỆN (1-20)
-    { t: "PUBG MOBILE", q: "Khẩu súng bắn tỉa (SR) nào có thể hạ gục địch đeo mũ 3 chỉ bằng một phát bắn vào đầu?", o: ["M24", "Kar98k", "AWM", "Win94"], a: 2 },
-    { t: "PUBG MOBILE", q: "Súng AR nào sử dụng đạn 7.62mm và có độ giật cực cao nhưng sát thương rất lớn?", o: ["M416", "SCAR-L", "AKM", "AUG"], a: 2 },
-    { t: "PUBG MOBILE", q: "Phụ kiện nào giúp giảm độ giật dọc và ngang tốt nhất cho súng M416?", o: ["Tay cầm dọc", "Tay cầm tam giác", "Tay cầm nửa", "Báng súng"], a: 3 },
-    { t: "PUBG MOBILE", q: "Khẩu súng nào chỉ có thể tìm thấy trong Thùng thính (Airdrop)?", o: ["M16A4", "Groza", "DP-28", "Vector"], a: 1 },
-    { t: "PUBG MOBILE", q: "Loại đạn nào được sử dụng cho súng tiểu liên UMP45?", o: ["9mm", "45 ACP", "5.56mm", "7.62mm"], a: 1 },
-    { t: "PUBG MOBILE", q: "Ống ngắm (Scope) lớn nhất có thể gắn được trên súng AR là bao nhiêu?", o: ["4x", "6x", "8x", "15x"], a: 1 },
-    { t: "PUBG MOBILE", q: "Vũ khí cận chiến nào có thể dùng để đỡ đạn khi đeo sau lưng?", o: ["Xà beng", "Dao rựa", "Chảo", "Liềm"], a: 2 },
-    { t: "PUBG MOBILE", q: "Súng bắn tỉa tự động (DMR) nào có sẵn ống ngắm 4x khi nhặt được?", o: ["SKS", "Mini14", "VSS", "SLR"], a: 2 },
-    { t: "PUBG MOBILE", q: "Khẩu súng máy (LMG) nào có băng đạn lên tới 100 viên?", o: ["DP-28", "M249", "MG3", "Cả B và C"], a: 3 },
-    { t: "PUBG MOBILE", q: "Phụ kiện đầu nòng nào giúp triệt tiêu hoàn toàn tia lửa và tiếng ồn?", o: ["Đầu nòng giảm giật", "Đầu nòng ẩn tia lửa", "Ống giảm thanh", "Choke"], a: 2 },
-    { t: "PUBG MOBILE", q: "Súng lục 'Flare Gun' dùng để làm gì?", o: ["Bắn địch gây sát thương", "Gọi hòm thính hoặc xe bọc thép", "Đánh dấu vị trí", "Tạo khói"], a: 1 },
-    { t: "PUBG MOBILE", q: "Khẩu Shotgun nào có khả năng bắn liên thanh?", o: ["S1897", "S686", "S12K", "DBS"], a: 2 },
-    { t: "PUBG MOBILE", q: "Vật phẩm nào giúp tăng tốc độ thay đạn cho súng?", o: ["Băng đạn thay nhanh", "Băng đạn mở rộng", "Báng súng", "Ống ngắm"], a: 0 },
-    { t: "PUBG MOBILE", q: "Súng Crossbow (Cung) có đặc điểm gì nổi bật?", o: ["Bắn rất xa", "Hoàn toàn im lặng", "Tốc độ đạn nhanh", "Băng đạn lớn"], a: 1 },
-    { t: "PUBG MOBILE", q: "Khẩu súng AR nào có tốc độ bắn nhanh nhất trong dòng đạn 5.56mm?", o: ["M416", "SCAR-L", "M16A4", "AUG"], a: 3 },
-    { t: "PUBG MOBILE", q: "Lựu đạn khói (Smoke) thường được dùng để làm gì?", o: ["Gây sát thương", "Che tầm nhìn khi cứu đồng đội", "Làm mù địch", "Đuổi địch khỏi nhà"], a: 1 },
-    { t: "PUBG MOBILE", q: "Vật phẩm 'Nước tăng lực' giúp gì cho nhân vật?", o: ["Hồi máu ngay lập tức", "Hồi thanh năng lượng và tăng tốc chạy", "Tăng giáp", "Tăng sát thương súng"], a: 1 },
-    { t: "PUBG MOBILE", q: "Ống ngắm 8x chỉ có thể gắn được trên loại súng nào?", o: ["AR và SMG", "Sniper (SR) và DMR", "Shotgun", "Súng lục"], a: 1 },
-    { t: "PUBG MOBILE", q: "Súng 'Vector' sử dụng loại đạn nào?", o: ["9mm", "45 ACP", "5.56mm", "7.62mm"], a: 0 },
-    { t: "PUBG MOBILE", q: "Phụ kiện 'Miếng đệm má' (Cheek Pad) dùng cho loại súng nào?", o: ["Súng lục", "Súng bắn tỉa", "Súng tiểu liên", "Súng máy"], a: 1 },
-
-    // BẢN ĐỒ & CHIẾN THUẬT (21-35)
-    { t: "PUBG MOBILE", q: "Bản đồ đầu tiên và rộng lớn nhất của PUBG Mobile là gì?", o: ["Miramar", "Sanhok", "Erangel", "Vikendi"], a: 2 },
-    { t: "PUBG MOBILE", q: "Khu vực 'Pochinki' nổi tiếng nằm ở bản đồ nào?", o: ["Erangel", "Miramar", "Sanhok", "Livik"], a: 0 },
-    { t: "PUBG MOBILE", q: "Bản đồ nào lấy bối cảnh sa mạc khô cằn?", o: ["Erangel", "Sanhok", "Miramar", "Karakin"], a: 2 },
-    { t: "PUBG MOBILE", q: "Bản đồ 'Sanhok' lấy cảm hứng từ khu vực nào trên thế giới?", o: ["Châu Âu", "Đông Nam Á", "Bắc Mỹ", "Châu Phi"], a: 1 },
-    { t: "PUBG MOBILE", q: "Khu vực 'Bootcamp' nằm ở bản đồ nào?", o: ["Erangel", "Sanhok", "Vikendi", "Miramar"], a: 1 },
-    { t: "PUBG MOBILE", q: "Vòng bo (Playzone) trong PUBG Mobile có tác dụng gì?", o: ["Hồi máu", "Ép người chơi vào vùng an toàn hẹp dần", "Tăng sát thương", "Cấp vũ khí"], a: 1 },
-    { t: "PUBG MOBILE", q: "Khi nhảy dù, bạn nên làm gì để tiếp đất nhanh nhất?", o: ["Bay ngang", "Chúi đầu xuống đất (tốc độ 234km/h)", "Bung dù sớm", "Bay vòng tròn"], a: 1 },
-    { t: "PUBG MOBILE", q: "Vật phẩm 'Túi cứu thương' (First Aid Kit) giúp hồi tối đa bao nhiêu máu?", o: ["50%", "75%", "100%", "25%"], a: 1 },
-    { t: "PUBG MOBILE", q: "Để hồi 100% máu, bạn cần sử dụng vật phẩm nào?", o: ["Túi cứu thương", "Băng gạc", "Bộ y tế (Medkit)", "Nước tăng lực"], a: 2 },
-    { t: "PUBG MOBILE", q: "Thính (Airdrop) thả xuống từ máy bay có thể chứa vật phẩm nào?", o: ["Giáp 3 / Mũ 3", "Vũ khí hiếm", "Trang phục cỏ (Ghillie Suit)", "Cả 3 đáp án trên"], a: 3 },
-    { t: "PUBG MOBILE", q: "Bản đồ nào có diện tích nhỏ nhất và giới hạn 52 người chơi?", o: ["Erangel", "Livik", "Miramar", "Vikendi"], a: 1 },
-    { t: "PUBG MOBILE", q: "Xe 'Uaz' là phương tiện đặc trưng của bản đồ nào?", o: ["Erangel", "Sanhok", "Miramar", "Karakin"], a: 0 },
-    { t: "PUBG MOBILE", q: "Hành động 'Loot' trong game nghĩa là gì?", o: ["Bắn súng", "Thu thập trang bị và vũ khí", "Lái xe", "Ẩn nấp"], a: 1 },
-    { t: "PUBG MOBILE", q: "Vùng màu đỏ (Red Zone) trên bản đồ cảnh báo điều gì?", o: ["Có địch", "Có thính", "Sắp có bom oanh tạc", "Bo sắp thu"], a: 2 },
-    { t: "PUBG MOBILE", q: "Bản đồ 'Vikendi' lấy bối cảnh chủ đạo là gì?", o: ["Rừng rậm", "Sa mạc", "Tuyết trắng", "Đảo hoang"], a: 2 },
-
-    // PHƯƠNG TIỆN & HỆ THỐNG (36-50)
-    { t: "PUBG MOBILE", q: "Phương tiện nào chạy nhanh nhất trên đường nhựa?", o: ["Xe Bus", "Xe máy 2 bánh", "Xe Jeep", "Xe bọc thép BRDM"], a: 1 },
-    { t: "PUBG MOBILE", q: "Xe bọc thép BRDM-2 có khả năng đặc biệt gì?", o: ["Bay được", "Đi được trên cạn và dưới nước", "Bắn đại bác", "Tàng hình"], a: 1 },
-    { t: "PUBG MOBILE", q: "Balo cấp mấy có sức chứa lớn nhất?", o: ["Cấp 1", "Cấp 2", "Cấp 3", "Cấp 4"], a: 2 },
-    { t: "PUBG MOBILE", q: "Khi ngồi trong xe, bạn có thể thay đổi vị trí ngồi không?", o: ["Có", "Không", "Chỉ khi xe dừng", "Chỉ người lái mới được"], a: 0 },
-    { t: "PUBG MOBILE", q: "Mũ bảo hiểm cấp 3 có tác dụng gì quan trọng nhất?", o: ["Làm đẹp", "Chống bị hạ gục ngay bởi súng Kar98k/M24 khi bị bắn vào đầu", "Chạy nhanh hơn", "Nhìn xa hơn"], a: 1 },
-    { t: "PUBG MOBILE", q: "Trong chế độ Squad, một đội có tối đa bao nhiêu người?", o: ["1", "2", "3", "4"], a: 3 },
-    { t: "PUBG MOBILE", q: "Thuật ngữ 'Knock' trong PUBG Mobile nghĩa là gì?", o: ["Bị tiêu diệt hoàn toàn", "Bị hạ gục tạm thời và chờ đồng đội cứu", "Chiến thắng", "Nhặt được đồ"], a: 1 },
-    { t: "PUBG MOBILE", q: "Để hồi sinh đồng đội đã bị tiêu diệt hoàn toàn (trong một số chế độ), bạn cần dùng gì?", o: ["Thẻ triệu hồi", "Nước tăng lực", "Băng gạc", "Súng lục"], a: 0 },
-    { t: "PUBG MOBILE", q: "Đơn vị tiền tệ chính trong game dùng để mua skin là gì?", o: ["Vàng", "UC", "Bạc", "BP"], a: 1 },
-    { t: "PUBG MOBILE", q: "Mức xếp hạng cao nhất trong PUBG Mobile là gì?", o: ["Chí tôn", "Quán quân", "Bậc thầy", "Chinh phục (Conqueror)"], a: 3 },
-    { t: "PUBG MOBILE", q: "Hành động 'Proning' trong game nghĩa là gì?", o: ["Ngồi", "Nhảy", "Nằm", "Chạy"], a: 2 },
-    { t: "PUBG MOBILE", q: "Nút 'Lean' (Nghiêng người) giúp ích gì?", o: ["Chạy nhanh hơn", "Bắn địch từ sau vật cản mà ít bị lộ thân thể", "Nhảy cao hơn", "Hồi máu"], a: 1 },
-    { t: "PUBG MOBILE", q: "Phương tiện 'Dacia' có sức chứa bao nhiêu người?", o: ["2", "3", "4", "5"], a: 2 },
-    { t: "PUBG MOBILE", q: "Mục tiêu cuối cùng để giành chiến thắng trong một trận đấu là gì?", o: ["Giết nhiều địch nhất", "Lái xe lâu nhất", "Là người hoặc đội cuối cùng còn sống sót", "Nhặt nhiều thính nhất"], a: 2 },
-    { t: "PUBG MOBILE", q: "Khi chiến thắng, câu nói nổi tiếng nào sẽ hiện lên màn hình?", o: ["Booyah!", "Victory Royale", "Winner Winner Chicken Dinner!", "Champion!"], a: 2 },
-
-    // TƯỚNG VÀ CỐT TRUYỆN MỚI (1-20)
-    { t: "LIÊN QUÂN", q: "Vị tướng nào có khả năng 'mượn' chiêu cuối của đối phương để sử dụng?", o: ["Enzo", "Rouie", "Machi", "Mina"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Tướng Erin - xạ thủ tinh linh vừa ra mắt - gây loại sát thương chính nào?", o: ["Sát thương vật lý", "Sát thương phép", "Sát thương chuẩn", "Chỉ gây hiệu ứng"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào có chiêu cuối bay lên không trung và thả hàng loạt quả đạn vào kẻ địch?", o: ["Bijar", "Stuart", "Iggy", "Celica"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Tướng Yan có bao nhiêu cấp độ nâng cấp chiêu cuối 'Thánh Quang Diệu'?", o: ["1 cấp", "2 cấp", "3 cấp", "Vô hạn"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào là thủ lĩnh của 'Vực Hỗn Mang'?", o: ["Volkath", "Maloch", "Omen", "Nakroth"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Tướng Helen là phiên bản 'làm lại' của vị tướng trợ thủ nào trước đây?", o: ["Alice", "Payna", "Annette", "TeeMee"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào có chiêu thức 'Xích Ma Quyền' đầy uy lực ở đường Tà Thần?", o: ["Raz", "Skud", "Qi", "Zuka"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Tướng Aya có thể 'nhập' vào đồng đội để bảo vệ, cô ấy thuộc vai trò gì?", o: ["Xạ thủ", "Trợ thủ", "Pháp sư", "Sát thủ"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào có khả năng hóa thành 'Dạng Đại Lộ' cực kỳ to lớn?", o: ["Cresht", "Baldum", "Y'bneth", "Lumburr"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Tướng Bijan có chiêu cuối lái một con thú cưỡi, tên con thú đó là gì?", o: ["Rồng", "Sa mạc thần thú", "Linh Sa", "Ngựa"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào có khả năng đặt bẫy 'Mìn định vị' khiến kẻ địch lộ tầm nhìn?", o: ["Elsu", "TeeMee", "Max", "Lindis"], a: 3 },
-    { t: "LIÊN QUÂN", q: "Tướng Thorne có thể nạp tối đa bao nhiêu viên đạn ma thuật vào súng?", o: ["1 viên", "2 viên", "3 viên", "4 viên"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào được mệnh danh là 'Thần Mặt Trời'?", o: ["Yorn", "Ignis", "Tulen", "Xeniel"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Tướng Sinestrea sử dụng loại vũ khí nào đặc biệt nhất?", o: ["Cung", "Máu của chính mình", "Kiếm", "Pháp khí"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào có khả năng lướt liên tục mỗi khi đánh dấu nội tại 'Nguyệt Quang'?", o: ["Veres", "Airi", "Zata", "Eland'orr"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Tướng Lorion có chiêu cuối 'Bão Từ Trường' dùng để làm gì?", o: ["Hồi máu", "Khống chế hất tung kẻ địch diện rộng", "Đẩy lui địch", "Tăng tốc chạy"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào có thể 'đào hầm' đi xuyên tường?", o: ["Ata", "D'arcy", "Dirak", "Dextra"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Tướng Bonnie có khả năng khống chế kẻ địch bằng món đồ chơi gì?", o: ["Gấu bông", "Thỏ máy", "Quả bóng", "Búp bê"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Vị tướng nào là bạn thân nhất của Laville trong Đội đặc nhiệm ánh sáng?", o: ["Rouie", "Zata", "Tulen", "Cả A và B"], a: 3 },
-    { t: "LIÊN QUÂN", q: "Tướng Ming Shiyao có thể liên kết sợi dây vào đồng đội để tăng chỉ số, anh ta đến từ đâu?", o: ["Tháp Quang Minh", "Vực Hỗn Mang", "Rừng Nguyên Sinh", "Cõi Thiên Linh"], a: 3 },
-
-    // TRANG BỊ VÀ PHÙ HIỆU CHUYÊN SÂU (21-35)
-    { t: "LIÊN QUÂN", q: "Phụ trợ 'Thủy hệ' thường dành cho tướng trợ thủ thiên về hướng nào?", o: ["Hồi máu", "Chống chịu / Đỡ đòn", "Sát thương phép", "Tốc độ"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Trang bị 'Thương Longinus' cung cấp khả năng gì đặc biệt?", o: ["Hút máu", "Xuyên giáp theo đòn đánh", "Phản sát thương", "Bất tử"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Phù hiệu 'Thần Quang' phù hợp nhất với lối chơi của tướng nào?", o: ["Đỡ đòn", "Pháp sư cấu rỉa", "Xạ thủ tốc đánh", "Đấu sĩ hồi máu"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Trang bị 'Kiếm Fafnir' mạnh nhất khi đánh vào kẻ địch có đặc điểm gì?", o: ["Nhiều máu (Tanker)", "Nhiều giáp phép", "Máu thấp", "Chạy nhanh"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Phù hiệu 'Mộc Giáp' thường được các vị tướng nào sử dụng?", o: ["Pháp sư", "Xạ thủ", "Đấu sĩ/Đỡ đòn chịu đòn", "Sát thủ"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Trang bị 'Trượng bùng nổ' giúp pháp sư điều gì?", o: ["Hồi nội năng", "Gây thêm sát thương phép diện rộng khi tung chiêu", "Hồi máu", "Tăng giáp"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Phép bổ trợ 'Cấm trụ' có tác dụng gì lên tháp địch?", o: ["Phá hủy tháp ngay", "Vô hiệu hóa tháp không cho bắn trong vài giây", "Làm tháp bắn nhanh hơn", "Giảm giáp tháp"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Trang bị 'Đao truy hồn' giúp giảm bao nhiêu % khả năng hồi máu của địch?", o: ["20%", "30%", "50%", "70factory"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Phù hiệu 'Chuyển sinh' giúp người chơi điều gì?", o: ["Tăng vàng", "Hồi sinh nhanh tại tế đàn một số lần nhất định", "Bất tử", "Biến về nhanh"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Trang bị 'Phức hợp kiếm' có nội tại 'Sức mạnh nguyên tố' sau khi dùng chiêu, đúng hay sai?", o: ["Đúng", "Sai", "Chỉ có ở bản cũ", "Chỉ dành cho xạ thủ"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Món đồ 'Sách thánh' cung cấp lượng công phép cao nhất và chỉ số nào?", o: ["Tốc chạy", "Giáp", "Lượng máu lớn", "Năng lượng"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Trang bị 'Rìu Leviathan' là đồ đi rừng dành cho nhóm tướng nào?", o: ["Sát thủ máu giấy", "Đỡ đòn / Đấu sĩ đi rừng", "Xạ thủ đi rừng", "Pháp sư đi rừng"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Phù hiệu 'Ma tính' giúp giảm hồi chiêu nào khi sử dụng chiêu cuối?", o: ["Chiêu 1 và 2", "Phép bổ trợ", "Trang bị kích hoạt", "Cả 3 chiêu"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Trang bị 'Quả cầu băng sương' có giá bao nhiêu vàng?", o: ["1800", "2000", "2020", "2200"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Món đồ 'Huân chương Troy' tạo ra lớp giáp chống loại sát thương nào?", o: ["Vật lý", "Phép", "Chuẩn", "Quái rừng"], a: 1 },
-
-    // CHIẾN THUẬT VÀ QUÁI RỪNG (36-50)
-    { t: "LIÊN QUÂN", q: "Sau phút thứ mấy thì Tà thần Caesar cấp 3 (Caesar Bạo Chúa) xuất hiện?", o: ["10 phút", "12 phút", "15 phút", "20 phút"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Tiêu diệt Caesar cấp 2 (Caesar Hắc Ám) giúp bạn triệu hồi được gì?", o: ["Rồng tiên phong", "Ma vương", "Lính siêu cấp", "Vàng"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Trong 5 phút đầu game, các tháp đường giữa và đường Rồng có thuộc tính gì?", o: ["Giảm sát thương gánh chịu", "Bắn nhanh hơn", "Không thể bị tấn công", "Tự hồi máu"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Bùa xanh biến mất sau bao nhiêu giây kể từ khi xuất hiện?", o: ["60 giây", "70 giây", "80 giây", "90 giây"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Vàng nhận được từ 'Cục tiền' (Chim ánh sáng) ở đường Rồng giúp gì?", o: ["Hồi máu", "Tăng vàng và tầm nhìn khu vực rừng địch", "Tăng sát thương", "Tàng hình"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Thuật ngữ 'Snowball' trong trận đấu nghĩa là gì?", o: ["Lăn cầu tuyết - tận dụng lợi thế để ép chết đối thủ", "Đóng băng địch", "Thua ngược", "Bỏ cuộc"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Lính siêu cấp xuất hiện ở đường nào?", o: ["Tất cả các đường", "Chỉ đường Giữa", "Đường có tháp nhà chính bị phá", "Đường có Caesar"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Khi ăn Caesar Bạo Chúa, người ăn sẽ nhận được 'Khung bảo hộ' giúp gì?", o: ["Tăng giáp phép", "Miễn khống chế", "Tạo lớp giáp ảo cực lớn", "Hồi máu 100%"], a: 2 },
-    { t: "LIÊN QUÂN", q: "Vị trí 'Roaming' (Trợ thủ di chuyển) có nhiệm vụ gì chính?", o: ["Lấy tầm nhìn và hỗ trợ các đường cần thiết", "Chỉ đứng bảo vệ xạ thủ", "Đi farm rừng", "Đứng ở đường giữa"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Khi phá hủy nhà chính đối phương, bạn sẽ chiến thắng, đúng hay sai?", o: ["Đúng", "Sai", "Cần phải giết hết địch", "Cần phải ăn Tà thần"], a: 0 },
-    { t: "LIÊN QUÂN", q: "Thuật ngữ 'Stun' dùng để chỉ trạng thái gì của tướng?", o: ["Chạy nhanh", "Bị choáng", "Bị chậm", "Bị câm lặng"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Ai là người có quyền cấm/chọn (Ban/Pick) đầu tiên trong đấu giải?", o: ["Đội đỏ", "Đội xanh", "Tùy chọn", "Máy chọn"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Phép bổ trợ 'Cấp cứu' hồi bao nhiêu % máu cho bản thân và đồng đội?", o: ["10%", "15%", "20%", "25%"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Hành động 'Counter Pick' nghĩa là gì?", o: ["Chọn tướng bị khắc chế", "Chọn tướng để khắc chế tướng đối phương đã chọn", "Chọn tướng giống đối thủ", "Chọn tướng ngẫu nhiên"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Cấp độ (Level) tối đa của một vị tướng trong trận đấu là bao nhiêu?", o: ["10", "15", "18", "20"], a: 1 },
-
-    // VAI TRÒ & KỸ NĂNG (1-15)
-    { t: "AMONG US", q: "Mục tiêu chính của phe Crewmate là gì?", o: ["Tiêu diệt Impostor", "Hoàn thành tất cả nhiệm vụ hoặc đuổi hết Impostor", "Phá hoại tàu", "Trốn trong lỗ thông hơi"], a: 1 },
-    { t: "AMONG US", q: "Impostor có thể di chuyển nhanh giữa các khu vực bằng cách nào?", o: ["Chạy nhanh", "Sử dụng lỗ thông hơi (Vent)", "Tàng hình", "Dùng cổng dịch chuyển"], a: 1 },
-    { t: "AMONG US", q: "Kỹ năng 'Sabotage' của Impostor dùng để làm gì?", o: ["Hồi máu", "Phá hoại các hệ thống trên tàu (Oxy, Ánh sáng, Điện...)", "Sửa máy", "Quét vân tay"], a: 1 },
-    { t: "AMONG US", q: "Vai trò 'Scientist' (Nhà khoa học) có khả năng đặc biệt nào?", o: ["Xem bản đồ", "Kiểm tra nhịp tim đồng đội (Vitals) mọi lúc", "Sửa điện nhanh", "Biến hình"], a: 1 },
-    { t: "AMONG US", q: "Vai trò 'Engineer' (Kỹ sư) có khả năng giống với Impostor ở điểm nào?", o: ["Có thể giết người", "Có thể sử dụng lỗ thông hơi (Vent)", "Có thể phá hoại", "Có thể đổi màu"], a: 1 },
-    { t: "AMONG US", q: "Vai trò 'Shapeshifter' có khả năng gì cực kỳ nguy hiểm?", o: ["Tàng hình", "Biến hình thành người chơi khác", "Đi xuyên tường", "Giết người từ xa"], a: 1 },
-    { t: "AMONG US", q: "Kỹ năng 'Guardian Angel' (Thiên thần bảo hộ) xuất hiện khi nào?", o: ["Khi trận đấu bắt đầu", "Khi một Crewmate bị giết và trở thành hồn ma", "Khi Impostor lộ diện", "Khi hoàn thành 10 nhiệm vụ"], a: 1 },
-    { t: "AMONG US", q: "Impostor có thể thắng ngay lập tức nếu Crewmate không kịp sửa hệ thống nào sau khi bị phá hoại?", o: ["Ánh sáng (Lights)", "Oxy hoặc Lò phản ứng (Reactor)", "Thông tin (Communications)", "Cửa (Doors)"], a: 1 },
-    { t: "AMONG US", q: "Thời gian chờ giữa hai lần giết người của Impostor được gọi là gì?", o: ["Kill Wait", "Kill Cooldown", "Kill Time", "Kill Delay"], a: 1 },
-    { t: "AMONG US", q: "Crewmate có thể làm gì khi phát hiện xác chết?", o: ["Bỏ chạy", "Báo cáo (Report) để mở cuộc họp", "Nhặt xác", "Chụp ảnh"], a: 1 },
-    { t: "AMONG US", q: "Nút 'Emergency Meeting' dùng để làm gì?", o: ["Để sửa máy", "Để gọi mọi người họp khẩn cấp khi chưa thấy xác", "Để hồi máu", "Để kết thúc game"], a: 1 },
-    { t: "AMONG US", q: "Khi bị đuổi khỏi tàu (Eject), người chơi sẽ trở thành gì?", o: ["Thắng cuộc", "Hồn ma (Ghost)", "Impostor", "Khán giả"], a: 1 },
-    { t: "AMONG US", q: "Hồn ma Crewmate có thể tiếp tục giúp đội bằng cách nào?", o: ["Giết Impostor", "Hoàn thành các nhiệm vụ còn dang dở", "Hồi sinh", "Chat với người sống"], a: 1 },
-    { t: "AMONG US", q: "Vai trò 'Ghostface' có trong bản gốc Among Us không?", o: ["Có", "Không", "Chỉ có ở bản cập nhật 2024", "Chỉ có trên điện thoại"], a: 1 },
-    { t: "AMONG US", q: "Số lượng Impostor tối đa trong một trận đấu tiêu chuẩn là bao nhiêu?", o: ["1", "2", "3", "4"], a: 2 },
-
-    // BẢN ĐỒ & NHIỆM VỤ (16-35)
-    { t: "AMONG US", q: "Bản đồ đầu tiên và phổ biến nhất của Among Us tên là gì?", o: ["Mira HQ", "Polus", "The Skeld", "The Airship"], a: 2 },
-    { t: "AMONG US", q: "Nhiệm vụ 'Swipe Card' (Quẹt thẻ) nằm ở phòng nào trên bản đồ The Skeld?", o: ["MedBay", "Admin", "Electrical", "Cafeteria"], a: 1 },
-    { t: "AMONG US", q: "Nhiệm vụ nào được coi là 'Visual Task' (có thể nhìn thấy người khác đang làm)?", o: ["Download Data", "Submit Scan (Quét tại MedBay)", "Fix Wiring", "Calibrate Distributor"], a: 1 },
-    { t: "AMONG US", q: "Trên bản đồ Polus, khu vực nào giúp bạn kiểm tra ai còn sống hay đã chết?", o: ["Security", "Admin", "Vitals", "Laboratory"], a: 2 },
-    { t: "AMONG US", q: "Phòng 'Electrical' trên bản đồ The Skeld nổi tiếng vì điều gì?", o: ["Nhiều nhiệm vụ nhất", "Dễ bị Impostor giết vì khuất tầm nhìn", "Có nút họp", "Đẹp nhất"], a: 1 },
-    { t: "AMONG US", q: "Bản đồ nào có kích thước lớn nhất trong Among Us?", o: ["The Skeld", "The Airship", "Polus", "Mira HQ"], a: 1 },
-    { t: "AMONG US", q: "Nhiệm vụ đổ rác 'Empty Garbage' nằm ở những khu vực nào trên The Skeld?", o: ["Cafeteria và Storage", "Admin và O2", "Medbay và Security", "Navigation"], a: 0 },
-    { t: "AMONG US", q: "Hệ thống Camera giám sát (Security) có mặt trên bản đồ nào?", o: ["The Skeld", "Polus", "The Airship", "Cả 3 đều đúng"], a: 3 },
-    { t: "AMONG US", q: "Trong Mira HQ, các lỗ thông hơi (Vent) có đặc điểm gì đặc biệt?", o: ["Chỉ có 2 cái", "Tất cả đều thông với nhau thành một vòng", "Không có vent", "Chỉ Impostor mới thấy"], a: 1 },
-    { t: "AMONG US", q: "Nhiệm vụ 'Start Reactor' yêu cầu bạn phải làm gì?", o: ["Gõ bàn phím", "Lặp lại thứ tự các ô đèn sáng", "Quẹt thẻ", "Nối dây điện"], a: 1 },
-    { t: "AMONG US", q: "Khi hệ thống 'Comms' bị phá hoại, Crewmate sẽ không thấy gì?", o: ["Không thấy đường đi", "Không thấy danh sách nhiệm vụ và vị trí trên bản đồ", "Không thấy màu của bạn", "Không thấy nút Report"], a: 1 },
-    { t: "AMONG US", q: "Nhiệm vụ 'Fix Wiring' (Nối dây) phải thực hiện qua mấy giai đoạn (mấy phòng)?", o: ["1", "2", "3", "4"], a: 2 },
-    { t: "AMONG US", q: "Bản đồ Polus lấy bối cảnh ở đâu?", o: ["Trên tàu vũ trụ", "Trên một hành tinh tuyết/núi lửa", "Trạm không gian trên mây", "Dưới biển"], a: 1 },
-    { t: "AMONG US", q: "Thang máy và thang leo là đặc trưng di chuyển của bản đồ nào?", o: ["The Skeld", "The Airship", "Mira HQ", "Polus"], a: 1 },
-    { t: "AMONG US", q: "Nhiệm vụ 'Clear Asteroids' (Bắn thiên thạch) nằm ở phòng nào?", o: ["Shields", "Weapons", "O2", "Reactor"], a: 1 },
-
-    // KIẾN THỨC CHUNG & THUẬT NGỮ (36-50)
-    { t: "AMONG US", q: "Thuật ngữ 'Sus' là viết tắt của từ tiếng Anh nào?", o: ["Sustainable", "Suspicious (Đáng nghi)", "Support", "Surprise"], a: 1 },
-    { t: "AMONG US", q: "Màu sắc nào thường bị cộng đồng mạng coi là 'đáng nghi' nhất?", o: ["Xanh lá", "Đỏ (Red)", "Vàng", "Trắng"], a: 1 },
-    { t: "AMONG US", q: "Ai là nhà phát triển của trò chơi Among Us?", o: ["InnerSloth", "Supercell", "Roblox Corporation", "Epic Games"], a: 0 },
-    { t: "AMONG US", q: "Khi một người chơi tự báo cáo xác chết do chính mình giết, hành động đó gọi là gì?", o: ["Hard Report", "Self Report", "Fast Report", "Double Kill"], a: 1 },
-    { t: "AMONG US", q: "Chế độ chơi mới nào cho phép Crewmate đi trốn Impostor thay vì họp?", o: ["Classic", "Hide n Seek (Trốn tìm)", "Battle Royale", "Zombies"], a: 1 },
-    { t: "AMONG US", q: "Trong chế độ Trốn tìm, dấu hiệu nào cho biết Impostor đang ở rất gần?", o: ["Màn hình rung", "Nhạc nổi lên và thanh 'Danger' tăng cao", "Đèn tắt", "Lửa cháy"], a: 1 },
-    { t: "AMONG US", q: "Vật nuôi đi theo người chơi trong Among Us được gọi là gì?", o: ["Skins", "Hats", "Pets", "Followers"], a: 2 },
-    { t: "AMONG US", q: "Nhiệm vụ 'MedBay Scan' có thể cho phép nhiều người quét cùng lúc không?", o: ["Có", "Không (Phải chờ người trước quét xong)", "Chỉ trong bản mod", "Chỉ Impostor mới làm được"], a: 1 },
-    { t: "AMONG US", q: "Khi Impostor thắng, màn hình sẽ hiện dòng chữ gì?", o: ["Victory", "Defeat", "Impostor Win", "Game Over"], a: 1 },
-    { t: "AMONG US", q: "Tính năng 'Anonymous Voting' có tác dụng gì?", o: ["Không cho bầu chọn", "Ẩn danh tính người đã bầu cho ai", "Bầu chọn nhanh", "Tự động kích người chơi"], a: 1 },
-    { t: "AMONG US", q: "Vật phẩm 'Cosmicubes' dùng để làm gì?", o: ["Để thắng game", "Để mở khóa các vật phẩm trang trí (quần áo, mũ...)", "Để tăng tốc chạy", "Để hồi sinh"], a: 1 },
-    { t: "AMONG US", q: "Phòng nào là nơi mọi người xuất hiện lúc bắt đầu trận ở The Skeld?", o: ["Cafeteria", "Admin", "Storage", "Reactor"], a: 0 },
-    { t: "AMONG US", q: "Impostor có làm được nhiệm vụ thật sự không?", o: ["Có", "Không (Chỉ có thể giả vờ đứng làm)", "Chỉ làm được nhiệm vụ nối dây", "Chỉ làm được nhiệm vụ quét"], a: 1 },
-    { t: "AMONG US", q: "Hành động 'Third Impostor' dùng để ám chỉ ai?", o: ["Một Impostor thứ 3 thật sự", "Một Crewmate đưa ra manh mối sai làm hại đồng đội", "Người chơi bị lag", "Người chơi thoát game"], a: 1 },
-    { t: "AMONG US", q: "Trong Among Us, bạn có thể thay đổi tên của mình không?", o: ["Có", "Không", "Chỉ khi mua bản quyền", "Chỉ đổi được 1 lần"], a: 0 },
-    { t: "AMONG US", q: "Khi tất cả Crewmate hoàn thành nhiệm vụ, điều gì sẽ xảy ra?", o: ["Họp khẩn cấp", "Crewmate thắng ngay lập tức", "Impostor lộ diện", "Trận đấu tiếp tục"], a: 1 },
-    { t: "AMONG US", q: "Bản đồ Mira HQ nằm ở đâu?", o: ["Trong không gian", "Trên một tòa nhà chọc trời trên mây", "Dưới lòng đất", "Trên mặt trăng"], a: 1 },
-    { t: "AMONG US", q: "Nhiệm vụ 'Divert Power' (Chuyển năng lượng) yêu cầu bạn làm việc ở mấy phòng?", o: ["1", "2", "3", "4"], a: 1 },
-    { t: "AMONG US", q: "Impostor có thể nhìn thấy nhau không?", o: ["Không", "Có (Tên của đồng đội Impostor hiện màu đỏ)", "Chỉ khi đứng cạnh nhau", "Chỉ khi phá hoại"], a: 1 },
-    { t: "AMONG US", q: "Nhiệm vụ nào yêu cầu người chơi phải chờ 60 giây để xử lý?", o: ["Download Data", "Inspect Sample (Medbay)", "Unlock Manifolds", "Clean O2 Filter"], a: 1 },
-
-    // VỊ TƯỚNG & KỸ NĂNG (1-20)
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Vị tướng nào được mệnh danh là 'Kẻ Bất Dung Thứ'?", o: ["Yone", "Yasuo", "Zed", "Master Yi"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Kỹ năng cuối 'Khúc Cầu Hồn' của Karthus có tác dụng gì?", o: ["Hồi máu cho đồng đội", "Gây sát thương lên tất cả tướng địch trên bản đồ", "Tạo giáp", "Dịch chuyển"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Vị tướng nào là em trai của Yasuo?", o: ["Shen", "Yone", "Kayn", "Sett"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Kỹ năng 'Án Tử' (kéo xích) là của vị tướng hỗ trợ nào?", o: ["Blitzcrank", "Nautilus", "Thresh", "Pyke"], a: 2 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Vị tướng nào có khả năng hóa thành 'Dạng Quỷ' và bay xuyên địa hình với chiêu cuối?", o: ["Kayn", "Nocturne", "Quinn", "Aatrox"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Chiêu cuối của vị tướng Lee Sin có tên là gì?", o: ["Nộ Long Cước", "Sóng Âm", "Vô Ảnh Cước", "Địa Chấn"], a: 0 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Vị tướng nào có biệt danh là 'Đứa Trẻ Bóng Tối' và luôn mang theo gấu Tibbers?", o: ["Zoe", "Annie", "Lulu", "Lux"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Tướng Teemo nổi tiếng với loại bẫy nào gây khó chịu nhất?", o: ["Hộp Hề", "Bẫy Yordle", "Nấm Độc", "Mìn"], a: 2 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Vị tướng nào có khả năng 'đánh cắp' chiêu cuối của đối phương?", o: ["Morderkaiser", "Sylas", "Viego", "Neeko"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Tướng Vayne thuộc vai trò chính nào?", o: ["Pháp sư", "Đỡ đòn", "Xạ thủ", "Hỗ trợ"], a: 2 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Vị tướng nào là biểu tượng của vùng đất Demacia với chiêu cuối 'Công Lý Demacia'?", o: ["Jarvan IV", "Garen", "Xin Zhao", "Galio"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Kỹ năng nội tại của Anivia là gì?", o: ["Tăng tốc chạy", "Hồi máu", "Biến thành trứng khi hết máu", "Đóng băng địch"], a: 2 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Vị tướng nào sử dụng súng đại bác và có kỹ năng 'Đại Bác Đẩy Lùi'?", o: ["Jinx", "Tristana", "Miss Fortune", "Lucian"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Tướng Braum luôn mang theo vật phẩm gì để bảo vệ đồng đội?", o: ["Kiếm", "Cái khiên (cánh cửa)", "Ngọn giáo", "Sách"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Vị tướng nào có thể biến hình thành bất kỳ đồng đội nào?", o: ["LeBlanc", "Neeko", "Shaco", "Zoe"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Chiêu cuối của tướng Ashe là một mũi tên bay toàn bản đồ, nó gây hiệu ứng gì?", o: ["Đẩy lùi", "Làm choáng", "Câm lặng", "Hồi máu"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Vị tướng nào là vua của vùng đất Freljord và cầm một cây búa lớn?", o: ["Olaf", "Ornn", "Tryndamere", "Trundle"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Tướng Ezreal thường sử dụng loại vũ khí nào?", o: ["Cung", "Găng tay ma thuật", "Kiếm", "Súng"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Vị tướng nào có khả năng 'nhập' vào đồng đội giống như Yuumi?", o: ["Chỉ có Yuumi", "Lulu", "Karma", "Soraka"], a: 0 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Tướng Twisted Fate nổi tiếng với loại vũ khí nào?", o: ["Xúc xắc", "Những quân bài", "Tiền vàng", "Súng lục"], a: 1 },
-
-    // TRANG BỊ & PHÉP BỔ TRỢ (21-35)
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Trang bị nào giúp tướng trở nên không thể bị chỉ định và bất tử trong 2.5 giây?", o: ["Giáp Thiên Thần", "Đồng Hồ Cát Zhonya", "Dây Chuyền Iron Solari", "Móng Vuốt Sterak"], a: 1 },
-    { t: "LIÊN QUÂN", q: "Phép bổ trợ nào giúp tướng dịch chuyển một khoảng ngắn ngay lập tức?", o: ["Tăng Tốc", "Tốc Biến", "Dịch Chuyển", "Kiệt Sức"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Trang bị 'Vô Cực Kiếm' cung cấp chỉ số quan trọng nào?", o: ["Sức mạnh phép thuật", "Sát thương chí mạng", "Tốc độ đánh", "Hút máu"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Phép bổ trợ bắt buộc phải có cho vị trí Đi Rừng là gì?", o: ["Thiêu Đốt", "Trừng Phạt", "Lá Chắn", "Tốc Hành"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Trang bị 'Mũ Phù Thủy Rabadon' tăng mạnh chỉ số nào?", o: ["Máu", "Sức mạnh phép thuật", "Giáp", "Giảm hồi chiêu"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Trang bị nào giúp hồi sinh tướng tại chỗ sau khi chết?", o: ["Giáp Tâm Linh", "Giáp Thiên Thần", "Khiên Băng Randuin", "Tim Băng"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Phép bổ trợ 'Dịch Chuyển' (Teleport) giúp bạn đến đâu?", o: ["Về nhà", "Đến đơn vị đồng đội (lính, mắt, trụ)", "Đến bất cứ đâu", "Đến hang Rồng"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Trang bị 'Rìu Đen' thường dành cho nhóm tướng nào?", o: ["Pháp sư", "Xạ thủ", "Đấu sĩ", "Hỗ trợ"], a: 2 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Mắt Xanh (Vật Tổ) có tác dụng gì?", o: ["Tấn công địch", "Cung cấp tầm nhìn khu vực xung quanh", "Hồi máu", "Tăng vàng"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Trang bị 'Lời Nhắc Tử Vong' dùng để khắc chế điều gì?", o: ["Tướng nhiều giáp", "Tướng hồi máu mạnh", "Tướng nhiều phép", "Tướng chạy nhanh"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Giày Cơ Động giúp tăng chỉ số gì nhiều nhất khi không giao tranh?", o: ["Tốc độ đánh", "Tốc độ di chuyển", "Kháng hiệu ứng", "Xuyên giáp"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Trang bị 'Kiếm Tai Ương' thường được dùng cho ai?", o: ["Xạ thủ", "Pháp sư sát thủ", "Đỡ đòn", "Hỗ trợ thuần"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Phép bổ trợ 'Kiệt Sức' làm giảm chỉ số nào của địch?", o: ["Tốc độ chạy và Sát thương đầu ra", "Máu", "Giáp", "Năng lượng"], a: 0 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Vật phẩm 'Bình Thuốc Tái Sử Dụng' có thể dùng tối đa mấy lần mỗi khi về nhà?", o: ["1", "2", "3", "Vô hạn"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Trang bị 'Rìu Mãng Xà' có tác dụng gì?", o: ["Tăng tầm đánh", "Gây sát thương lan diện rộng", "Làm choáng", "Tàng hình"], a: 1 },
-
-    // BẢN ĐỒ & CHIẾN THUẬT (36-50)
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Quái vật mạnh nhất trong hang Baron là gì?", o: ["Rồng Ngàn Tuổi", "Baron Nashor", "Sứ Giả Khe Nứt", "Cua Kỳ Cục"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Tiêu diệt 4 con Rồng Nguyên Tố sẽ nhận được gì?", o: ["Lính siêu cấp", "Linh hồn Rồng", "Chiến thắng luôn", "Vô hạn vàng"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Bùa Đỏ (Bụi Gai Đỏ) cung cấp hiệu ứng gì?", o: ["Hồi năng lượng", "Hồi máu và làm chậm mục tiêu khi đánh thường", "Tăng công phép", "Giảm hồi chiêu"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Bùa Xanh (Khổng Lồ Đá) cung cấp hiệu ứng gì?", o: ["Hồi nội năng/năng lượng và giảm hồi chiêu", "Tăng giáp", "Hút máu", "Tăng vàng"], a: 0 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Sau khi tiêu diệt Sứ Giả Khe Nứt, bạn nhận được vật phẩm để làm gì?", o: ["Hồi máu", "Triệu hồi nó để húc trụ địch", "Tăng tốc chạy", "Bất tử"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Tên bản đồ thi đấu chính thức 5vs5 là gì?", o: ["Vực Gió Hú", "Summoner's Rift", "Khu Rừng Quỷ Quyệt", "Đảo Đính Hôn"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Nhà Chính trong Liên Minh Huyền Thoại được gọi là gì?", o: ["Nexus", "Core", "Ancient", "Throne"], a: 0 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Lính Siêu Cấp sẽ xuất hiện khi nào?", o: ["Sau phút 20", "Khi phá hủy nhà lính (Inhibitor) đối phương", "Khi ăn Baron", "Khi ăn Rồng"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Vị trí 'AD Carry' thường đi đường nào?", o: ["Đường Trên", "Đường Giữa", "Đường Dưới", "Đi Rừng"], a: 2 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Hành động 'Gank' nghĩa là gì?", o: ["Đi hỗ trợ đường khác tiêu diệt địch", "Đứng im trong bụi", "Biến về", "Mua đồ"], a: 0 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Số lượng người chơi tối đa trong một đội là bao nhiêu?", o: ["3", "4", "5", "6"], a: 2 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Bụi cỏ trong bản đồ có tác dụng gì?", o: ["Hồi máu", "Tàng hình đối với kẻ địch đứng ngoài", "Tăng tốc", "Gây sát thương"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Khi bị tháp bắn, sát thương phát thứ 2 sẽ như thế nào?", o: ["Bằng phát đầu", "Mạnh hơn phát đầu", "Yếu hơn phát đầu", "Không thay đổi"], a: 1 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Tên công ty phát triển trò chơi Liên Minh Huyền Thoại là gì?", o: ["Garena", "Valve", "Riot Games", "Blizzard"], a: 2 },
-    { t: "LIÊN MINH HUYỀN THOẠI", q: "Thuật ngữ 'Pentakill' nghĩa là gì?", o: ["Giết 3 người", "Giết 4 người", "Một mình giết cả 5 người đội địch", "Thắng trận"], a: 2 },
-
-    // CỐT TRUYỆN & BỐI CẢNH (1-20)
-    { t: "TAI ƯƠNG", q: "Trò chơi 'Tai Ương' lấy bối cảnh chính tại đâu?", o: ["Một ngôi làng cổ", "Một khu chung cư cũ tại Sài Gòn", "Bệnh viện bỏ hoang", "Trường học"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Câu chuyện trong game dựa trên những truyền thuyết đô thị của quốc gia nào?", o: ["Thái Lan", "Việt Nam", "Nhật Bản", "Trung Quốc"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Bài hát nổi tiếng xuất hiện trong đoạn trailer đầu tiên của game là gì?", o: ["Chuyện tình Lan và Điệp", "Kiếp Cầm Ca", "Nỗi buồn hoa phượng", "Hoa trinh nữ"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Trong game, người chơi thường phải đối mặt với cảm giác gì khi đi dọc hành lang?", o: ["Hồi hộp vì bị truy đuổi", "Ngộp thở và ám ảnh tâm lý", "Vui vẻ", "Phấn khích"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Vật phẩm nào thường xuyên được dùng để dẫn dắt người chơi trong bóng tối?", o: ["Đèn pin", "Bật lửa", "Nến", "Điện thoại"], a: 0 },
-    { t: "TAI ƯƠNG", q: "Các mẩu tin báo cũ trong game thường đề cập đến sự kiện gì?", o: ["Trúng số", "Các vụ mất tích bí ẩn", "Lễ hội hoa", "Khuyến mãi"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Phong cách đồ họa của Tai Ương hướng tới điều gì?", o: ["Hoạt hình", "Siêu thực và u tối", "Tươi sáng", "Pixel"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Âm thanh đặc trưng thường nghe thấy trong các chung cư cũ của game là gì?", o: ["Tiếng nhạc EDM", "Tiếng tivi nhiễu sóng và tiếng bước chân", "Tiếng chim hót", "Tiếng xe máy"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Tên tiếng Anh của trò chơi 'Tai Ương' là gì?", o: ["The Curse", "The Scourge", "The Disaster", "The Horror"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Yếu tố tâm linh nào xuất hiện phổ biến trên các cánh cửa trong game?", o: ["Bùa chú", "Vòng hoa", "Biển báo cấm", "Tranh vẽ"], a: 0 },
-    { t: "TAI ƯƠNG", q: "Màu sắc chủ đạo của game mang lại cảm giác gì?", o: ["Ấm áp", "Lạnh lẽo và cũ kỹ", "Rực rỡ", "Xanh mướt"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Người chơi phải làm gì để giải quyết các nút thắt trong cốt truyện?", o: ["Bắn súng", "Tìm kiếm manh mối và giải đố", "Đua xe", "Nhảy múa"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Hình ảnh bàn thờ trong game có ý nghĩa gì?", o: ["Nơi lưu trữ đồ", "Yếu tố văn hóa tâm linh gây ám ảnh", "Nơi hồi máu", "Nơi mua đồ"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Tại sao bối cảnh chung cư cũ lại gây sợ hãi?", o: ["Vì nó quá rộng", "Vì sự chật hẹp, u tối và quen thuộc với đời thường", "Vì có nhiều người sống", "Vì quá hiện đại"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Game 'Tai Ương' thuộc thể loại nào?", o: ["Hành động lén lút", "Kinh dị sinh tồn / Tâm lý", "Chiến thuật", "Thể thao"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Các vật dụng như tủ thờ, radio cũ, lịch tường có vai trò gì?", o: ["Chỉ để trang trí", "Tăng tính chân thực và khơi gợi ký ức", "Để bán lấy tiền", "Để tấn công ma"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Cảm giác 'Jump-scare' trong Tai Ương thường đến từ đâu?", o: ["Những thay đổi bất ngờ trong môi trường", "Tiếng cười đùa", "Ánh sáng mặt trời", "Tiếng nhạc vui"], a: 0 },
-    { t: "TAI ƯƠNG", q: "Nhân vật chính trong game thường có tâm trạng như thế nào?", o: ["Dũng cảm", "Hoang mang và sợ hãi", "Vui sướng", "Bình thản"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Dấu hiệu nào cho thấy có 'thứ gì đó' đang ở gần bạn?", o: ["Đèn chớp tắt và âm thanh lạ", "Tiếng chuông điện thoại", "Màn hình hiện chữ Win", "Trời đổ mưa"], a: 0 },
-    { t: "TAI ƯƠNG", q: "Ý nghĩa của cái tên 'Tai Ương' là gì?", o: ["Sự may mắn", "Điềm xấu hoặc thảm họa giáng xuống", "Tên một loại hoa", "Sự khởi đầu mới"], a: 1 },
-
-    // CHI TIẾT GAMEPLAY & TRUYỀN THUYẾT (21-40)
-    { t: "TAI ƯƠNG", q: "Tại sao bài hát 'Kiếp Cầm Ca' lại gây ám ảnh trong game?", o: ["Giai điệu nhanh", "Lời bài hát và hoàn cảnh xuất hiện sầu thảm", "Được hát bởi robot", "Không có nhạc"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Hình ảnh người phụ nữ trong đoạn teaser thường gắn liền với chi tiết nào?", o: ["Bó hoa", "Tai nạn hoặc vụ án mất tích", "Cầm một cây súng", "Đang nấu ăn"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Việc sử dụng tiếng Việt trong các thông báo giúp ích gì cho người chơi Việt?", o: ["Gây cười", "Tăng độ kinh dị và cảm giác thân thuộc", "Dễ thắng hơn", "Mua được đồ rẻ hơn"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Người chơi có thể chiến đấu trực diện với ma quỷ trong game không?", o: ["Có, bằng súng", "Không, chủ yếu là lẩn trốn và tìm lối thoát", "Có, bằng gậy", "Có, bằng phép thuật"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Lối kiến trúc hành lang dài hun hút trong game nhằm mục đích gì?", o: ["Để chạy đua", "Tạo sự bất an và sợ hãi về những gì chờ phía trước", "Để trang trí tranh", "Để đặt máy bán hàng"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Những mảnh giấy dán tường bị bong tróc tượng trưng cho điều gì?", o: ["Sự hiện đại", "Sự cũ kỹ, mục nát và bí ẩn", "Sở thích của chủ nhà", "Lối kiến trúc mới"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Tiếng 'rè rè' của tivi cũ trong game thường báo hiệu điều gì?", o: ["Sắp có phim hay", "Có hiện tượng tâm linh sắp xảy ra", "Mạng bị lag", "Tivi bị hỏng đơn thuần"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Yếu tố 'nhân quả' thường được lồng ghép như thế nào?", o: ["Qua các mẩu chuyện về sai lầm trong quá khứ", "Qua số điểm đạt được", "Qua việc nhặt vàng", "Qua việc giết quái"], a: 0 },
-    { t: "TAI ƯƠNG", q: "Cái bóng trong game thường được xử lý như thế nào?", o: ["Rất mờ nhạt", "Rõ nét và đôi khi gây đánh lừa thị giác", "Không có bóng", "Bóng có màu xanh"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Tiếng trẻ con cười hoặc khóc trong không gian vắng lặng có tác dụng gì?", o: ["Làm game vui hơn", "Tăng sự kịch tính và rùng rợn", "Để người chơi đi tìm", "Báo hiệu thính rơi"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Vật phẩm 'Chìa khóa' thường được giấu ở đâu?", o: ["Trong hòm thính", "Trong các ngăn kéo hoặc hốc tường bí mật", "Địch rơi ra", "Được tặng miễn phí"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Khi màn hình chuyển sang màu đỏ hoặc nhiễu, bạn nên làm gì?", o: ["Đứng im", "Chạy ngay lập tức hoặc ẩn nấp", "Tắt máy", "Cười"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Truyền thuyết đô thị về 'người phụ nữ biến mất' thường xuất hiện ở đâu?", o: ["Thang máy", "Hành lang hoặc căn phòng bị niêm phong", "Bể bơi", "Công viên"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Cảm giác cô độc trong game được nhấn mạnh qua yếu tố nào?", o: ["Không có người bạn nào đồng hành", "Nhạc nền vui nhộn", "Có quá nhiều quái vật", "Game quá ngắn"], a: 0 },
-    { t: "TAI ƯƠNG", q: "Ánh sáng đỏ trong game thường tượng trưng cho điều gì?", o: ["Sự an toàn", "Nguy hiểm và chết chóc", "Điểm checkpoint", "Nơi có quà"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Người phát triển trò chơi 'Tai Ương' là ai?", o: ["Beaztek Studio", "miHoYo", "Garena", "VNG"], a: 0 },
-    { t: "TAI ƯƠNG", q: "Tại sao trò chơi lại gây sốt trong cộng đồng game thủ Việt?", o: ["Vì nó miễn phí", "Vì chất lượng đồ họa và cốt truyện mang đậm bản sắc Việt", "Vì là game bắn súng", "Vì dễ chơi"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Môi trường trong game có thể bị thay đổi theo hành động của bạn không?", o: ["Có, một số chi tiết nhỏ thay đổi để hù dọa", "Không, hoàn toàn đứng yên", "Chỉ thay đổi khi bạn thua", "Chỉ thay đổi màu sắc"], a: 0 },
-    { t: "TAI ƯƠNG", q: "Vật phẩm 'Cuốn sổ' thường ghi chép điều gì?", o: ["Công thức nấu ăn", "Nhật ký của những người từng sống ở đó", "Bảng điểm", "Danh sách súng"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Mục đích cuối cùng của người chơi trong Tai Ương là gì?", o: ["Diệt hết ma", "Tìm ra sự thật và thoát khỏi nơi ám ảnh", "Mua nhà mới", "Trở thành ma"], a: 1 },
-
-    // KIẾN THỨC BÊN LỀ (41-50)
-    { t: "TAI ƯƠNG", q: "Đoạn clip trailer của game từng gây bão trên nền tảng nào?", o: ["Facebook", "YouTube", "TikTok", "Cả 3 đều đúng"], a: 3 },
-    { t: "TAI ƯƠNG", q: "Trò chơi này gợi nhớ đến siêu phẩm kinh dị nào trên thế giới?", o: ["P.T (Silent Hill)", "Resident Evil", "Outlast", "Cả 3 đều đúng"], a: 3 },
-    { t: "TAI ƯƠNG", q: "Năm dự kiến ra mắt bản chính thức của Tai Ương là khi nào?", o: ["2020", "2022", "2024/2025", "2030"], a: 2 },
-    { t: "TAI ƯƠNG", q: "Tai Ương được phát triển trên công cụ (Engine) nào?", o: ["Unity", "Unreal Engine", "Cocos2d", "GameMaker"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Hình ảnh những lá bùa vàng dán trên trán xác chết gợi nhớ đến điều gì?", o: ["Cương thi", "Lễ hội", "Quà tặng", "Trang trí"], a: 0 },
-    { t: "TAI ƯƠNG", q: "Game có hỗ trợ ngôn ngữ nào là chính?", o: ["Tiếng Anh", "Tiếng Việt", "Tiếng Trung", "Tiếng Pháp"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Yếu tố 'Tâm linh' trong game thiên về hướng nào?", o: ["Hành động", "Tâm lý và ám ảnh", "Hài hước", "Khoa học viễn tưởng"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Phản ứng của các streamer khi chơi thử bản demo Tai Ương thường là?", o: ["Ngáp", "Giật mình và sợ hãi", "Cười đùa", "Ngủ quên"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Điểm nhấn mạnh nhất của game 'Tai Ương' là gì?", o: ["Hệ thống chiến đấu", "Bầu không khí kinh dị đậm chất Việt", "Chế độ chơi nhiều người", "Đồ họa 2D"], a: 1 },
-    { t: "TAI ƯƠNG", q: "Bạn có nên đeo tai nghe khi chơi Tai Ương không?", o: ["Không cần", "Nên, để trải nghiệm trọn vẹn sự kinh dị của âm thanh", "Chỉ khi máy hỏng loa", "Đeo cho đẹp"], a: 1 },
-    
-    // KIẾN THỨC CHUNG VỀ PHỞ (1-20)
-    { t: "PHỞ ANH HAI", q: "Nguyên liệu chính để tạo nên sợi phở là gì?", o: ["Bột mì", "Bột gạo", "Bột năng", "Bột ngô"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Nước dùng phở bò truyền thống thường được ninh từ xương gì?", o: ["Xương lợn", "Xương gà", "Xương ống bò", "Xương cá"], a: 2 },
-    { t: "PHỞ ANH HAI", q: "Gia vị nào sau đây được coi là 'linh hồn' tạo nên mùi thơm đặc trưng của nước phở?", o: ["Hồi, quế, thảo quả", "Tiêu, ớt", "Hành lá", "Sả, gừng"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Phở được coi là món ăn đặc sản bắt nguồn từ miền nào của Việt Nam?", o: ["Miền Nam", "Miền Trung", "Miền Bắc", "Miền Tây"], a: 2 },
-    { t: "PHỞ ANH HAI", q: "Món phở nào thường được ăn kèm với quẩy?", o: ["Phở xào", "Phở nước", "Phở cuốn", "Phở trộn"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Trong phở bò, 'Tái' nghĩa là gì?", o: ["Thịt nấu chín kỹ", "Thịt nhúng sơ qua nước sôi", "Thịt nướng", "Thịt băm nhỏ"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Phần thịt bò có cả gân và mỡ, ăn giòn giòn trong phở gọi là gì?", o: ["Nạm", "Gầu", "Gân", "Sụn"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Người ta thường cho thêm gì vào bát phở để tăng vị chua thanh?", o: ["Giấm hoặc chanh", "Nước mắm", "Đường", "Muối"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Phở cuốn là món ăn đặc trưng của khu vực nào ở Hà Nội?", o: ["Hồ Tây", "Ngũ Xã", "Phố Cổ", "Hà Đông"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Bánh phở tươi thường có màu gì?", o: ["Vàng nhạt", "Trắng đục", "Xanh lá", "Tím"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Loại rau thơm nào thường 'vắng mặt' trong bát phở Bắc truyền thống nhưng có ở phở Nam?", o: ["Hành lá", "Ngò gai, húng quế", "Hành tây", "Gừng"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Phở gà thường sử dụng loại lá gì thái sợi chỉ để tăng mùi thơm?", o: ["Lá chanh", "Lá lốt", "Lá tía tô", "Lá bạc hà"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Từ 'Nạm' trong phở bò chỉ phần thịt ở đâu?", o: ["Bắp chân", "Phần thịt bụng", "Phần vai", "Phần mông"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Để nước dùng phở trong, người đầu bếp thường phải làm gì khi ninh xương?", o: ["Đậy nắp thật kín", "Hớt bọt liên tục", "Cho nhiều muối", "Cho màu thực phẩm"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Tương đen và tương ớt thường xuất hiện trên bàn ăn của loại phở nào?", o: ["Phở Bắc", "Phở Nam", "Phở áp chảo", "Phở chay"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Ngày 12/12 hàng năm được chọn là ngày gì?", o: ["Ngày của Phở", "Ngày của Bún", "Ngày hội ẩm thực", "Ngày đầu bếp"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Bát phở có cả tái, chín, nạm, gầu, gân, bò viên được gọi là gì?", o: ["Phở đặc biệt / Phở thập cẩm", "Phở một món", "Phở nhỏ", "Phở không người lái"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Hành tây trong bát phở thường được thái như thế nào?", o: ["Thái hạt lựu", "Thái lát mỏng", "Để nguyên củ", "Thái sợi dài"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Khi ăn phở, người ta thường dùng dụng cụ gì?", o: ["Thìa và dĩa", "Đũa và thìa", "Dao và dĩa", "Chỉ dùng đũa"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Phở xào giòn thường được ăn kèm với nước sốt từ gì?", o: ["Nước tương", "Nước cốt bò và rau củ", "Nước cốt dừa", "Mắm tôm"], a: 1 },
-
-    // PHÂN BIỆT CÁC LOẠI PHỞ (21-35)
-    { t: "PHỞ ANH HAI", q: "Phở khô Gia Lai thường được phục vụ theo cách nào?", o: ["Một tô nước", "Hai tô (tô bánh và tô nước lèo)", "Trộn chung một đĩa", "Gói trong lá chuối"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Phở chua là đặc sản nổi tiếng của vùng nào?", o: ["Lạng Sơn / Cao Bằng", "Cần Thơ", "Huế", "Đà Lạt"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Phở 'Không người lái' là tiếng lóng để chỉ bát phở như thế nào?", o: ["Phở không có thịt", "Phở không có hành", "Phở không có nước", "Phở không có bánh"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Sự khác biệt lớn nhất giữa phở Bắc và phở Nam là gì?", o: ["Sợi phở", "Độ ngọt của nước dùng và rau ăn kèm", "Thịt bò", "Cách thái hành"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Món phở nào có sợi phở to, được cuộn tròn bên trong là thịt và rau?", o: ["Phở trộn", "Phở cuốn", "Phở chiên phồng", "Phở áp chảo"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Phở vịt quay là đặc sản của tỉnh nào?", o: ["Lạng Sơn", "Nghệ An", "Quảng Ninh", "Nam Định"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Tiêu chí quan trọng nhất của nước dùng phở ngon là gì?", o: ["Nhiều mỡ", "Ngọt thanh từ xương và trong veo", "Mặn mà", "Cay nồng"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Thịt bò viên thường xuất hiện phổ biến nhất ở đâu?", o: ["Phở Hà Nội", "Phở Sài Gòn", "Phở Nam Định", "Phở cung đình"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Phở bát đá có ưu điểm gì?", o: ["Rẻ hơn", "Giữ nhiệt cực lâu cho nước dùng", "Bát đẹp hơn", "Dễ mang đi"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Gừng nướng và hành khô nướng có tác dụng gì trong nồi nước phở?", o: ["Làm nước có màu đen", "Khử mùi hôi xương và tạo hương thơm", "Làm nước đặc hơn", "Tăng vị cay"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Phở trộn thường sử dụng loại nước sốt nào?", o: ["Nước tương hoặc sốt chua ngọt", "Nước cốt chanh", "Nước mắm nguyên chất", "Sốt cà chua"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Công đoạn nào quan trọng nhất khi xử lý xương bò trước khi ninh?", o: ["Sấy khô", "Luộc sơ và rửa sạch tiết đen", "Tẩm đường", "Để tủ lạnh"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Bánh quẩy ăn phở thường có đặc điểm gì?", o: ["Giòn tan hoặc hơi dai tùy sở thích", "Vị ngọt đậm", "Màu xanh", "Làm từ bột nếp"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Phở tim cật thường được bán nhiều nhất vào thời điểm nào?", o: ["Sáng sớm", "Bữa trưa", "Đêm khuya", "Bữa xế"], a: 2 },
-    { t: "PHỞ ANH HAI", q: "Một bát phở cung cấp chủ yếu chất dinh dưỡng nào?", o: ["Chất béo", "Tinh bột, đạm và khoáng chất", "Chỉ có đạm", "Chỉ có vitamin"], a: 1 },
-
-    // VĂN HÓA & TRẢI NGHIỆM (36-50)
-    { t: "PHỞ ANH HAI", q: "Theo bạn, ăn phở lúc nào là ngon nhất?", o: ["Khi còn nóng hổi", "Khi đã nguội", "Để qua đêm", "Ăn kèm đá lạnh"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Quán phở thường mở cửa vào lúc nào?", o: ["Chỉ buổi tối", "Chỉ buổi trưa", "Thường là sáng sớm đến tối muộn", "Chỉ bán cuối tuần"], a: 2 },
-    { t: "PHỞ ANH HAI", q: "Tại sao nên cho hành lá vào sau cùng khi múc phở?", o: ["Để hành chín nhừ", "Để hành giữ màu xanh và mùi thơm", "Để hành không bị chìm", "Để tiết kiệm hành"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Việc 'húp' nước dùng phở trong văn hóa Việt thể hiện điều gì?", o: ["Sự bất lịch sự", "Sự khen ngợi nước dùng ngon", "Sự vội vã", "Sự khát nước"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Quán phở của Anh Hai nổi tiếng nhất với món gì (giả định)?", o: ["Phở bò tái nạm", "Phở gà xé", "Phở xào", "Cơm tấm"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Khi gọi 'Phở nhiều bánh', khách hàng muốn gì?", o: ["Nhiều thịt hơn", "Nhiều sợi phở hơn", "Nhiều nước hơn", "Nhiều hành hơn"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Trứng chần thường được ăn kèm với phở như thế nào?", o: ["Bỏ trực tiếp vào bát phở hoặc để chén riêng", "Luộc chín kỹ", "Rán chín", "Không ăn kèm được"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Mùi hương của quán phở thường bay xa nhờ vào gia vị nào?", o: ["Muối", "Đường", "Quế và Hồi nướng", "Hành lá"], a: 2 },
-    { t: "PHỞ ANH HAI", q: "Tại sao phở lại được bạn bè quốc tế yêu thích?", o: ["Hương vị cân bằng, bổ dưỡng và tinh tế", "Vì nó rẻ", "Vì nó cay", "Vì dễ làm"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Sợi phở tươi khác bánh đa ở điểm nào?", o: ["Sợi phở mềm và dẻo hơn", "Sợi phở cứng hơn", "Sợi phở màu nâu", "Sợi phở làm từ ngô"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Món 'Phở chiên phồng' có hình dạng như thế nào?", o: ["Sợi dài", "Khối vuông chiên phồng lên", "Hình tròn", "Dạng nước"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Từ 'Chín' trong phở bò nghĩa là gì?", o: ["Thịt bò đã được nấu chín hoàn toàn", "Thịt bò nướng", "Thịt bò băm", "Số 9"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Ăn phở có nên cho quá nhiều tương ớt không?", o: ["Nên cho thật nhiều", "Tùy khẩu vị nhưng không nên làm mất vị thanh của nước dùng", "Cấm tuyệt đối", "Chỉ cho vào thịt"], a: 1 },
-    { t: "PHỞ ANH HAI", q: "Bát phở ngon là sự kết hợp của mấy yếu tố?", o: ["Sắc, Hương, Vị", "Chỉ cần no", "Chỉ cần nhiều thịt", "Chỉ cần rẻ"], a: 0 },
-    { t: "PHỞ ANH HAI", q: "Bạn sẽ làm gì sau khi ăn xong một bát phở ngon tại tiệm Anh Hai?", o: ["Bỏ đi luôn", "Khen ngợi và giới thiệu bạn bè", "Phê bình", "Đòi thêm tiền"], a: 1 },
+    { t: "Đang bảo trì...", q: "Thịt bò viên thường xuất hiện phổ biến nhất ở đâu?", o: ["Phở Hà Nội", "Phở Sài Gòn", "Phở Nam Định", "Phở cung đình"], a: 1 },
     ];
 
 const gameZoneGame = {
@@ -4538,29 +3822,37 @@ const gameZoneGame = {
     lastIndex: -1,
 
     // ===== HIỆN MENU GAME ZONE =====
-    showMenu() {
-        document.getElementById('game-overlay').style.display = 'flex';
-        document.getElementById('game-label').innerText = "GAME ZONE";
-        document.getElementById('game-label').classList.add('soft-font');
+showMenu() {
+    galaxy.resetMovieUI(); // reset phim
 
-        galaxy.renderGameScoreboard();
+    document.getElementById('game-overlay').style.display = 'flex';
+    document.getElementById('game-label').innerText = "GAME ZONE";
+    document.getElementById('game-label').classList.add('soft-font');
 
-        // Hide other screens
-        document.getElementById('game-content-area').classList.add('hidden');
-        document.getElementById('game-content-area').style.display = 'none';
-        document.getElementById('anime-selection-screen')?.classList.add('hidden');
-        document.getElementById('game-category-selection')?.classList.add('hidden');
+    galaxy.renderGameScoreboard();
 
-        // Show mode selection (CENTER FIX)
-        const mode = document.getElementById('game-mode-selection');
-        mode.classList.remove('hidden');
-        mode.style.display = 'flex';
-        mode.style.flexDirection = 'column';
-        mode.style.alignItems = 'center';
-        mode.style.justifyContent = 'center';
+    // Reset tất cả màn
+    document.getElementById('game-mode-selection')?.classList.add('hidden');
+    document.getElementById('game-category-selection')?.classList.add('hidden');
+    document.getElementById('game-content-area')?.classList.add('hidden');
+    document.getElementById('anime-selection-screen')?.classList.add('hidden');
 
-        streakSystem.reset();
-    },
+    // Hiện menu chính
+    const mode = document.getElementById('game-mode-selection');
+    mode.classList.remove('hidden');
+    mode.style.display = 'flex';
+    mode.style.flexDirection = 'column';
+    mode.style.alignItems = 'center';
+    mode.style.justifyContent = 'center';
+
+    // Reset trạng thái
+    this.selectedTags = [];
+    this.filteredBank = [];
+    this.lastIndex = -1;
+    this.isProcessing = false;
+
+    streakSystem.reset();
+},
 
     // ===== ONLINE (COMING SOON) =====
     startOnline() {
@@ -5506,7 +4798,8 @@ const movieGame = {
         this.updateSelectionUI(); streakSystem.reset();
 
         // gather unique titles/tags
-        const uniqueTags = [...new Set(MOVIE_BANK.map(item => (item.t ? String(item.t).trim() : "MOVIE")).filter(Boolean))];
+        // Lấy danh sách tag duy nhất từ MOVIE_BANK
+const uniqueTags = [...new Set(MOVIE_BANK.map(item => (item.t ? String(item.t).trim() : "MOVIE")).filter(Boolean))];
 
         const grid = document.getElementById('movie-checkbox-grid');
         grid.innerHTML = "";
@@ -5679,3 +4972,4 @@ const movieGame = {
 </script>
 </body>
 </html>
+
