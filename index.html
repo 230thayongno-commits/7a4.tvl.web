@@ -3272,88 +3272,182 @@ check(btn, choice) {
 
 const KHOAHOC_BANK = [
 
-{
-q: "Khi nào hai thanh nam châm hút nhau?",
-a: "Khi để hai cực khác tên gần nhau",
-o: [
-"Khi hai cực Bắc để gần nhau",
-"Khi để hai cực khác tên gần nhau",
-"Khi hai cực Nam để gần nhau",
-"Khi để hai cực cùng tên gần nhau"
-],
-t: "KHTN 7"
-},
+    // PHẦN 1: TRẮC NGHIỆM
+    { 
+        q: "Khi nào hai thanh nam châm hút nhau?", 
+        a: "Khi để hai cực khác tên gần nhau", 
+        o: ["Khi hai cực Bắc để gần nhau","Khi để hai cực khác tên gần nhau","Khi hai cực Nam để gần nhau","Khi để hai cực cùng tên gần nhau"], 
+        t: "KHTN 7" 
+    },
 
-{
-q: "Nam châm có thể hút vật nào sau đây?",
-a: "Thép",
-o: ["Nhôm","Đồng","Gỗ","Thép"],
-t: "KHTN 7"
-},
+    { 
+        q: "Nam châm có thể hút vật nào sau đây?", 
+        a: "Thép", 
+        o: ["Nhôm","Đồng","Gỗ","Thép"], 
+        t: "KHTN 7" 
+    },
 
-{
-q: "Từ phổ là gì?",
-a: "Là hình ảnh của các đường mạt sắt sắp xếp xung quanh nam châm",
-o: [
-"Là vùng không gian xung quanh nam châm",
-"Là hình ảnh của các đường mạt sắt sắp xếp xung quanh nam châm",
-"Là hình ảnh của các hạt cát đặt trong từ trường của nam châm",
-"Là hình ảnh của các hạt bụi đặt trong từ trường của nam châm"
-],
-t: "KHTN 7"
-},
+    { 
+        q: "Từ phổ là gì?", 
+        a: "Là hình ảnh của các đường mạt sắt sắp xếp xung quanh nam châm", 
+        o: ["Là vùng không gian xung quanh nam châm","Là hình ảnh của các đường mạt sắt sắp xếp xung quanh nam châm","Là hình ảnh của các hạt cát đặt trong từ trường của nam châm","Là hình ảnh của các hạt bụi đặt trong từ trường của nam châm"], 
+        t: "KHTN 7" 
+    },
 
-{
-q: "Nam châm có mấy cực?",
-a: "2",
-o: ["1","2","3","4"],
-t: "KHTN 7"
-},
+    { 
+        q: "Phát biểu nào sau đây là sai?", 
+        a: "Từ phổ là vùng không gian xung quanh nam châm", 
+        o: ["Từ phổ cho ta hình ảnh trực quan về từ trường","Từ phổ là vùng không gian xung quanh nam châm","Đường sức từ chính là hình ảnh cụ thể của từ trường","Hình ảnh các đường mạt sắt sắp xếp xung quanh nam châm gọi là từ phổ"], 
+        t: "KHTN 7" 
+    },
 
-{
-q: "Bào quan thực hiện quang hợp là gì?",
-a: "Lục lạp",
-o: ["Ti thể","Lục lạp","Nhân","Không bào"],
-t: "KHTN 7"
-},
+    { 
+        q: "Để làm một nam châm điện đơn giản ta cần những dụng cụ nào?", 
+        a: "Dây dẫn điện có vỏ bọc cách điện, đinh sắt, hộp đựng pin, pin 1,5V", 
+        o: ["Dây dẫn điện có vỏ bọc cách điện, đinh sắt, hộp đựng pin, pin 1,5V","Một chiếc kim sắt nhẹ, chậu nước, nam châm vĩnh cửu, xốp màu","Một chiếc xe, một nam châm vĩnh cửu có từ tính mạnh","Một bìa cứng, hai gương phẳng nhỏ hình vuông, dao cắt, băng dính"], 
+        t: "KHTN 7" 
+    },
 
-{
-q: "Trong tế bào, hô hấp diễn ra chủ yếu ở đâu?",
-a: "Ti thể",
-o: ["Nhân","Không bào","Ti thể","Lục lạp"],
-t: "KHTN 7"
-},
+    { 
+        q: "Kim nam châm khi đặt tự do trên Trái Đất luôn định hướng theo hướng Bắc – Nam. Kết luận nào sau đây là đúng?", 
+        a: "Từ trường của Trái Đất tác dụng lực từ lên kim nam châm", 
+        o: ["Trái Đất chỉ tác dụng lực hấp dẫn lên kim nam châm","Từ trường của Trái Đất tác dụng lực từ lên kim nam châm","Kim nam châm tự quay do Trái Đất tự quay","Kim nam châm chịu tác dụng của ánh sáng Mặt Trời"], 
+        t: "KHTN 7" 
+    },
 
-{
-q: "Cây xanh hấp thụ khí nào để quang hợp?",
-a: "Carbon dioxide",
-o: ["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"],
-t: "KHTN 7"
-},
+    { 
+        q: "Chất nào sau đây là sản phẩm của quá trình trao đổi chất được động vật thải ra môi trường?", 
+        a: "Carbon dioxide", 
+        o: ["Oxygen","Carbon dioxide","Chất dinh dưỡng","Vitamin"], 
+        t: "KHTN 7" 
+    },
 
-{
-q: "Quang hợp tạo ra chất gì?",
-a: "Chất hữu cơ",
-o: ["Carbon dioxide","Chất hữu cơ","Nitrogen","Protein"],
-t: "KHTN 7"
-},
+    { 
+        q: "Nhận định nào sau đây đúng khi nói về cấu tạo của lá cây phù hợp chức năng quang hợp?", 
+        a: "Lá thường xếp so le nhau để thu nhận được nhiều ánh sáng", 
+        o: ["Phiến lá hẹp giúp thu nhận ánh sáng tốt hơn","Gân lá làm nhiệm vụ trao đổi khí","Lục lạp có khả năng thoát hơi nước, hấp thụ và chuyển hóa năng lượng ánh sáng","Lá thường xếp so le nhau để thu nhận được nhiều ánh sáng"], 
+        t: "KHTN 7" 
+    },
 
-{
-q: "Động vật thải ra khí gì trong hô hấp?",
-a: "Carbon dioxide",
-o: ["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"],
-t: "KHTN 7"
-},
+    { 
+        q: "Cho phương trình quang hợp dạng chữ sau: (1) + nước → oxygen + chất hữu cơ. Chất tham gia của phương trình là:", 
+        a: "(1) carbon dioxide", 
+        o: ["(1) carbon dioxide","(1) glucose","(1) năng lượng","(1) oxygen"], 
+        t: "KHTN 7" 
+    },
 
-{
-q: "Xương rồng quang hợp chủ yếu bằng bộ phận nào?",
-a: "Thân cây",
-o: ["Lá","Thân cây","Rễ","Gai"],
-t: "KHTN 7"
-}
+    { 
+        q: "Cho phương trình hô hấp tế bào dạng chữ sau: (1) + oxygen → carbon dioxide + nước + năng lượng. Chất tham gia của phương trình là:", 
+        a: "(1) glucose", 
+        o: ["(1) carbon dioxide","(1) glucose","(1) năng lượng","(1) oxygen"], 
+        t: "KHTN 7" 
+    },
+
+    { 
+        q: "Bào quan thực hiện quá trình quang hợp là:", 
+        a: "Lục lạp", 
+        o: ["Diệp lục","Lục lạp","Khí khổng","Tế bào chất"], 
+        t: "KHTN 7" 
+    },
+
+    { 
+        q: "Trong tế bào của hầu hết các sinh vật nhân thực, quá trình hô hấp xảy ra trong loại bào quan nào?", 
+        a: "Ti thể", 
+        o: ["Không bào","Lục lạp","Ti thể","Nhân tế bào"], 
+        t: "KHTN 7" 
+    },
+
+    { 
+        q: "Cho các đặc điểm sau: 1. Thường mọc ở những nơi quang đãng; 2. Phiến lá thường nhỏ; 3. Lá thường có màu xanh sẫm; 4. Lá thường có màu xanh sáng; 5. Thường mọc dưới tán cây khác; 6. Phiến lá thường rộng. Những đặc điểm của cây ưa ánh sáng yếu là:", 
+        a: "3, 5, 6", 
+        o: ["1, 2, 3","1, 2, 4","3, 5, 6","2, 3, 5"], 
+        t: "KHTN 7" 
+    },
+
+    { 
+        q: "Vì sao khi trời nắng, đứng dưới tán cây sẽ cảm thấy mát và dễ chịu hơn khi đứng dưới mái che bằng vật liệu xây dựng?", 
+        a: "Vì khi cây quang hợp sẽ thải ra khí oxygen giúp ta dễ chịu, đồng thời lá cây thoát hơi nước giúp ta cảm thấy mát mẻ hơn", 
+        o: [
+        "Vì khi cây quang hợp sẽ thải ra khí oxygen giúp ta dễ chịu, đồng thời lá cây thoát hơi nước giúp ta cảm thấy mát mẻ hơn",
+        "Vì khi cây quang hợp sẽ thải ra khí carbon dioxide giúp ta dễ chịu, đồng thời lá cây thoát hơi nước giúp ta cảm thấy mát mẻ hơn",
+        "Vì khi cây quang hợp sẽ thải ra khí oxygen giúp ta dễ chịu, đồng thời lá cây hấp thụ hơi nước giúp ta cảm thấy mát mẻ hơn",
+        "Vì khi cây hô hấp sẽ thải ra khí oxygen giúp ta dễ chịu, đồng thời lá cây thoát hơi nước giúp ta cảm thấy mát mẻ hơn"
+        ], 
+        t: "KHTN 7" 
+    },
+
+    { 
+        q: "Trên thực tế, để thích nghi với điều kiện sống tại môi trường sa mạc, lá của cây xương rồng đã biến đổi thành gai. Vậy cây xương rồng quang hợp chủ yếu bằng bộ phận nào sau đây?", 
+        a: "Thân cây", 
+        o: ["Lá cây","Thân cây","Rễ cây","Gai của cây"], 
+        t: "KHTN 7" 
+    },
+
+    { 
+        q: "Vì sao trong thí nghiệm chứng minh tinh bột được tạo thành trong quang hợp lại sử dụng iodine làm thuốc thử?", 
+        a: "Dung dịch iodine phản ứng với tinh bột tạo màu tím đặc trưng", 
+        o: ["Dung dịch iodine phản ứng với tinh bột tạo màu tím đặc trưng","Chỉ có dung dịch iodine mới có tác dụng với tinh bột","Dung dịch iodine dễ tìm","Dung dịch iodine phản ứng với tinh bột tạo màu đỏ đặc trưng"], 
+        t: "KHTN 7" 
+    },
+
+    { 
+        q: "Phát biểu nào sau đây không đúng khi nói về hô hấp tế bào?", 
+        a: "Quá trình hô hấp tế bào thải ra môi trường khí oxygen", 
+        o: ["Đó là quá trình chuyển đổi năng lượng rất quan trọng của tế bào","Đó là quá trình phân giải các chất hữu cơ diễn ra bên trong tế bào","Ở sinh vật nhân thực, quá trình hô hấp tế bào diễn ra trong ti thể","Quá trình hô hấp tế bào thải ra môi trường khí oxygen"], 
+        t: "KHTN 7" 
+    },
+
+    { 
+        q: "Cơ sở khoa học của các biện pháp bảo quản nông sản là:", 
+        a: "Giảm cường độ hô hấp tế bào tới mức tối thiểu", 
+        o: ["Tăng nhẹ cường độ hô hấp tế bào","Giảm nhẹ cường độ hô hấp tế bào","Giảm cường độ hô hấp tế bào tới mức tối thiểu","Tăng cường độ hô hấp tế bào tới mức tối đa"], 
+        t: "KHTN 7" 
+    },
+
+    // PHẦN 2: ĐIỀN KHUYẾT
+    { 
+        q: "Điền từ thích hợp: Cực Bắc địa từ và cực Bắc địa lí ........ nhau.", 
+        a: "không trùng", 
+        o: ["không trùng","trùng khít","vuông góc","song song"], 
+        t: "KHTN 7" 
+    },
+
+    { 
+        q: "Điền từ thích hợp: Để nam châm điện hút được vật nặng hơn, cần ........ độ lớn dòng điện.", 
+        a: "tăng", 
+        o: ["giảm","tăng","giữ nguyên","triệt tiêu"], 
+        t: "KHTN 7" 
+    },
+
+    { 
+        q: "Điền từ thích hợp: ........ vừa là nguyên liệu quang hợp vừa tham gia đóng mở khí khổng.", 
+        a: "Nước", 
+        o: ["Ánh sáng","Nước","Carbon dioxide","Oxygen"], 
+        t: "KHTN 7" 
+    },
+
+    { 
+        q: "Biện pháp ........ dùng để bảo quản thực phẩm trong tủ lạnh.", 
+        a: "bảo quản lạnh", 
+        o: ["bảo quản khô","bảo quản lạnh","ướp muối","hút chân không"], 
+        t: "KHTN 7" 
+    },
+
+    { 
+        q: "Trong quang hợp, năng lượng ánh sáng chuyển thành năng lượng ........", 
+        a: "hóa học", 
+        o: ["quang năng","nhiệt năng","hóa học","cơ năng"], 
+        t: "KHTN 7" 
+    },
+
+    { 
+        q: "Biện pháp ........ làm giảm lượng nước trong nông sản.", 
+        a: "bảo quản khô", 
+        o: ["bảo quản lạnh","bảo quản khô","bơm khí trơ","hút chân không"], 
+        t: "KHTN 7" 
+    }
 
 ];
-
 
 // =========================
 // GAME KHOA HỌC TỰ NHIÊN
@@ -4691,6 +4785,7 @@ const uniqueTags = [...new Set(MOVIE_BANK.map(item => (item.t ? String(item.t).t
 </script>
 </body>
 </html>
+
 
 
 
