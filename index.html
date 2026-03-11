@@ -3266,280 +3266,268 @@ check(btn, choice) {
         }
     };
     
-    /* === NEW FEATURE: KHOA HỌC TỰ NHIÊN (KHTN) === */
-    const KHOAHOC_BANK = [
-[
-    // PHẦN 1: TRẮC NGHIỆM
-    { 
-        q: "Khi nào hai thanh nam châm hút nhau?", 
-        a: "Khi để hai cực khác tên gần nhau", 
-        o: ["Khi hai cực Bắc để gần nhau", "Khi để hai cực khác tên gần nhau", "Khi hai cực Nam để gần nhau", "Khi để hai cực cùng tên gần nhau"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Nam châm có thể hút vật nào sau đây?", 
-        a: "Thép", 
-        o: ["Nhôm", "Đồng", "Gỗ", "Thép"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Từ phổ là gì?", 
-        a: "Là hình ảnh của các đường mạt sắt sắp xếp xung quanh nam châm", 
-        o: ["Là vùng không gian xung quanh nam châm", "Là hình ảnh của các đường mạt sắt sắp xếp xung quanh nam châm", "Là hình ảnh của các hạt cát đặt trong từ trường của nam châm", "Là hình ảnh của các hạt bụi đặt trong từ trường của nam châm"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Phát biểu nào sau đây là sai?", 
-        a: "Từ phổ là vùng không gian xung quanh nam châm", 
-        o: ["Từ phổ cho ta hình ảnh trực quan về từ trường", "Từ phổ là vùng không gian xung quanh nam châm", "Đường sức từ chính là hình ảnh cụ thể của từ trường", "Hình ảnh các đường mạt sắt sắp xếp xung quanh nam châm gọi là từ phổ"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Để làm một nam châm điện đơn giản ta cần những dụng cụ nào?", 
-        a: "Dây dẫn điện có vỏ bọc cách điện, đinh sắt, hộp đựng pin, pin 1,5V", 
-        o: ["Dây dẫn điện có vỏ bọc cách điện, đinh sắt, hộp đựng pin, pin 1,5V", "Một chiếc kim sắt nhẹ, chậu nước, nam châm vĩnh cửu, xốp màu", "Một chiếc xe, một nam châm vĩnh cửu có từ tính mạnh", "Một bìa cứng, hai gương phẳng nhỏ hình vuông, dao cắt, băng dính"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Kim nam châm khi đặt tự do trên Trái Đất luôn định hướng theo hướng Bắc – Nam. Kết luận nào sau đây là đúng?", 
-        a: "Từ trường của Trái Đất tác dụng lực từ lên kim nam châm", 
-        o: ["Trái Đất chỉ tác dụng lực hấp dẫn lên kim nam châm", "Từ trường của Trái Đất tác dụng lực từ lên kim nam châm", "Kim nam châm tự quay do Trái Đất tự quay", "Kim nam châm chịu tác dụng của ánh sáng Mặt Trời"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Chất nào sau đây là sản phẩm của quá trình trao đổi chất được động vật thải ra môi trường?", 
-        a: "Carbon dioxide", 
-        o: ["Oxygen", "Carbon dioxide", "Chất dinh dưỡng", "Vitamin"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Nhận định nào sau đây đúng khi nói về cấu tạo của lá cây phù hợp chức năng quang hợp?", 
-        a: "Lá thường xếp so le nhau để thu nhận được nhiều ánh sáng", 
-        o: ["Phiến lá hẹp giúp thu nhận ánh sáng tốt hơn", "Gân lá làm nhiệm vụ trao đổi khí", "Lục lạp có khả năng thoát hơi nước, hấp thụ và chuyển hóa năng lượng ánh sáng", "Lá thường xếp so le nhau để thu nhận được nhiều ánh sáng"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Cho phương trình quang hợp dạng chữ sau: (1) + nước → oxygen + chất hữu cơ. Chất tham gia của phương trình là:", 
-        a: "(1) carbon dioxide", 
-        o: ["(1) carbon dioxide", "(1) glucose", "(1) năng lượng", "(1) oxygen"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Cho phương trình hô hấp tế bào dạng chữ sau: (1) + oxygen → carbon dioxide + nước + năng lượng. Chất tham gia của phương trình là:", 
-        a: "(1) glucose", 
-        o: ["(1) carbon dioxide", "(1) glucose", "(1) năng lượng", "(1) oxygen"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Bào quan thực hiện quá trình quang hợp là:", 
-        a: "Lục lạp", 
-        o: ["Diệp lục", "Lục lạp", "Khí khổng", "Tế bào chất"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Trong tế bào của hầu hết các sinh vật nhân thực, quá trình hô hấp xảy ra trong loại bào quan nào?", 
-        a: "Ti thể", 
-        o: ["Không bào", "Lục lạp", "Ti thể", "Nhân tế bào"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Cho các đặc điểm sau: 1. Thường mọc ở những nơi quang đãng; 2. Phiến lá thường nhỏ; 3. Lá thường có màu xanh sẫm; 4. Lá thường có màu xanh sáng; 5. Thường mọc dưới tán cây khác; 6. Phiến lá thường rộng. Những đặc điểm của cây ưa ánh sáng yếu là:", 
-        a: "3, 5, 6", 
-        o: ["1, 2, 3", "1, 2, 4", "3, 5, 6", "2, 3, 5"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Vì sao khi trời nắng, đứng dưới tán cây sẽ cảm thấy mát và dễ chịu hơn khi đứng dưới mái che bằng vật liệu xây dựng?", 
-        a: "Vì khi cây quang hợp sẽ thải ra khí oxygen giúp ta dễ chịu, đồng thời lá cây thoát hơi nước giúp ta cảm thấy mát mẻ hơn", 
-        o: ["Vì khi cây quang hợp sẽ thải ra khí oxygen giúp ta dễ chịu, đồng thời lá cây thoát hơi nước giúp ta cảm thấy mát mẻ hơn", "Vì khi cây quang hợp sẽ thải ra khí carbon dioxide giúp ta dễ chịu, đồng thời lá cây thoát hơi nước giúp ta cảm thấy mát mẻ hơn", "Vì khi cây quang hợp sẽ thải ra khí oxygen giúp ta dễ chịu, đồng thời lá cây hấp thụ hơi nước giúp ta cảm thấy mát mẻ hơn", "Vì khi cây hô hấp sẽ thải ra khí oxygen giúp ta dễ chịu, đồng thời lá cây thoát hơi nước giúp ta cảm thấy mát mẻ hơn"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Trên thực tế, để thích nghi với điều kiện sống tại môi trường sa mạc, lá của cây xương rồng đã biến đổi thành gai. Vậy cây xương rồng quang hợp chủ yếu bằng bộ phận nào sau đây?", 
-        a: "Thân cây", 
-        o: ["Lá cây", "Thân cây", "Rễ cây", "Gai của cây"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Vì sao trong thí nghiệm chứng minh tinh bột được tạo thành trong quang hợp lại sử dụng iodine làm thuốc thử?", 
-        a: "Dung dịch iodine phản ứng với tinh bột tạo màu tím đặc trưng", 
-        o: ["Dung dịch iodine phản ứng với tinh bột tạo màu tím đặc trưng", "Chỉ có dung dịch iodine mới có tác dụng với tinh bột", "Dung dịch iodine dễ tìm", "Dung dịch iodine phản ứng với tinh bột tạo màu đỏ đặc trưng"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Phát biểu nào sau đây không đúng khi nói về hô hấp tế bào?", 
-        a: "Quá trình hô hấp tế bào thải ra môi trường khí oxygen", 
-        o: ["Đó là quá trình chuyển đổi năng lượng rất quan trọng của tế bào", "Đó là quá trình phân giải các chất hữu cơ diễn ra bên trong tế bào", "Ở sinh vật nhân thực, quá trình hô hấp tế bào diễn ra trong ti thể", "Quá trình hô hấp tế bào thải ra môi trường khí oxygen"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Cơ sở khoa học của các biện pháp bảo quản nông sản là:", 
-        a: "Giảm cường độ hô hấp tế bào tới mức tối thiểu", 
-        o: ["Tăng nhẹ cường độ hô hấp tế bào", "Giảm nhẹ cường độ hô hấp tế bào", "Giảm cường độ hô hấp tế bào tới mức tối thiểu", "Tăng cường độ hô hấp tế bào tới mức tối đa"], 
-        t: "KHTN 7" 
-    },
+// =========================
+// NGÂN HÀNG CÂU HỎI KHTN
+// =========================
 
-    // PHẦN 2: TỰ LUẬN (Chuyển đổi thành trắc nghiệm điền khuyết)
-    { 
-        q: "Điền từ thích hợp vào chỗ trống: Cực Bắc địa từ và cực Bắc địa lí ........ nhau.", 
-        a: "không trùng", 
-        o: ["không trùng", "trùng khít", "vuông góc với", "song song với"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Điền từ thích hợp vào chỗ trống: Để nam châm điện hút được vật nặng hơn, cần ........ độ lớn dòng điện chạy qua cuộn dây.", 
-        a: "tăng", 
-        o: ["giảm", "tăng", "giữ nguyên", "triệt tiêu"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Điền từ thích hợp vào chỗ trống: ........ vừa là nguyên liệu của quá trình quang hợp, vừa là yếu tố tham gia vào việc đóng, mở khí khổng để trao đổi khí.", 
-        a: "Nước", 
-        o: ["Ánh sáng", "Nước", "Carbon dioxide", "Oxygen"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Điền từ thích hợp vào chỗ trống: Biện pháp ........ được dùng để bảo quản các loại thực phẩm như thịt, cá, rau ở điều kiện nhiệt độ thấp trong các kho lạnh hoặc tủ lạnh.", 
-        a: "bảo quản lạnh", 
-        o: ["bảo quản khô", "bảo quản lạnh", "hút chân không", "ướp muối"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Điền từ thích hợp vào chỗ trống: Trong quá trình quang hợp, một phần năng lượng ánh sáng được chuyển hóa thành năng lượng ........ tích lũy trong các hợp chất hữu cơ ở lá cây.", 
-        a: "hóa học", 
-        o: ["quang năng", "nhiệt năng", "hóa học", "cơ năng"], 
-        t: "KHTN 7" 
-    },
-    { 
-        q: "Điền từ thích hợp vào chỗ trống: Biện pháp ........ làm giảm hàm lượng nước có trong nông sản.", 
-        a: "bảo quản khô", 
-        o: ["bảo quản lạnh", "bảo quản khô", "hút chân không", "bơm khí trơ"], 
-        t: "KHTN 7" 
-    }
-]
-    ];
+const KHOAHOC_BANK = [
+
+{
+q: "Khi nào hai thanh nam châm hút nhau?",
+a: "Khi để hai cực khác tên gần nhau",
+o: [
+"Khi hai cực Bắc để gần nhau",
+"Khi để hai cực khác tên gần nhau",
+"Khi hai cực Nam để gần nhau",
+"Khi để hai cực cùng tên gần nhau"
+],
+t: "KHTN 7"
+},
+
+{
+q: "Nam châm có thể hút vật nào sau đây?",
+a: "Thép",
+o: ["Nhôm","Đồng","Gỗ","Thép"],
+t: "KHTN 7"
+},
+
+{
+q: "Từ phổ là gì?",
+a: "Là hình ảnh của các đường mạt sắt sắp xếp xung quanh nam châm",
+o: [
+"Là vùng không gian xung quanh nam châm",
+"Là hình ảnh của các đường mạt sắt sắp xếp xung quanh nam châm",
+"Là hình ảnh của các hạt cát đặt trong từ trường của nam châm",
+"Là hình ảnh của các hạt bụi đặt trong từ trường của nam châm"
+],
+t: "KHTN 7"
+},
+
+{
+q: "Nam châm có mấy cực?",
+a: "2",
+o: ["1","2","3","4"],
+t: "KHTN 7"
+},
+
+{
+q: "Bào quan thực hiện quang hợp là gì?",
+a: "Lục lạp",
+o: ["Ti thể","Lục lạp","Nhân","Không bào"],
+t: "KHTN 7"
+},
+
+{
+q: "Trong tế bào, hô hấp diễn ra chủ yếu ở đâu?",
+a: "Ti thể",
+o: ["Nhân","Không bào","Ti thể","Lục lạp"],
+t: "KHTN 7"
+},
+
+{
+q: "Cây xanh hấp thụ khí nào để quang hợp?",
+a: "Carbon dioxide",
+o: ["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"],
+t: "KHTN 7"
+},
+
+{
+q: "Quang hợp tạo ra chất gì?",
+a: "Chất hữu cơ",
+o: ["Carbon dioxide","Chất hữu cơ","Nitrogen","Protein"],
+t: "KHTN 7"
+},
+
+{
+q: "Động vật thải ra khí gì trong hô hấp?",
+a: "Carbon dioxide",
+o: ["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"],
+t: "KHTN 7"
+},
+
+{
+q: "Xương rồng quang hợp chủ yếu bằng bộ phận nào?",
+a: "Thân cây",
+o: ["Lá","Thân cây","Rễ","Gai"],
+t: "KHTN 7"
+}
+
+];
+
+
+// =========================
+// GAME KHOA HỌC TỰ NHIÊN
+// =========================
 
 const khtnGame = {
-    curr: null,
-    isProcessing: false,
 
-    // ===== START GAME =====
-    start() {
-	galaxy.resetMovieUI();
-        galaxy.updateGameStats('khtn');
+curr:null,
+isProcessing:false,
 
-        document.getElementById('game-overlay').style.display = 'flex';
-        document.getElementById('game-label').innerText = "KHOA HỌC TỰ NHIÊN";
+// =========================
+// START GAME
+// =========================
 
-        galaxy.renderGameScoreboard();
+start(){
 
-        // Ẩn các màn khác
-        document.getElementById('anime-selection-screen')?.classList.add('hidden');
-        document.getElementById('game-mode-selection')?.classList.add('hidden');
-        document.getElementById('game-category-selection')?.classList.add('hidden');
+galaxy.resetMovieUI();
+galaxy.updateGameStats('khtn');
 
-        // Hiện khu vực chơi
-        const area = document.getElementById('game-content-area');
-        area.classList.remove('hidden');
-        area.style.display = 'flex';
+document.getElementById('game-overlay').style.display='flex';
+document.getElementById('game-label').innerText="KHOA HỌC TỰ NHIÊN";
 
-        // FIX CỨNG TAG (tránh bị dính HÓA / TOÁN)
-        document.getElementById('q-tag').innerText = "KHOA HỌC TỰ NHIÊN";
-        document.getElementById('q-action').innerHTML = "";
-        document.getElementById('q-text').innerText = "";
+galaxy.renderGameScoreboard();
 
-        streakSystem.reset();
-        this.generate();
-    },
+document.getElementById('anime-selection-screen')?.classList.add('hidden');
+document.getElementById('game-mode-selection')?.classList.add('hidden');
+document.getElementById('game-category-selection')?.classList.add('hidden');
 
-    // ===== TẠO CÂU HỎI =====
-    generate() {
-        this.isProcessing = false;
-        galaxy.applyTransition();
+const area=document.getElementById('game-content-area');
+area.classList.remove('hidden');
+area.style.display='flex';
 
-        const idx = Math.floor(Math.random() * KHOAHOC_BANK.length);
-        this.curr = KHOAHOC_BANK[idx];
+document.getElementById('q-tag').innerText="KHOA HỌC TỰ NHIÊN";
+document.getElementById('q-action').innerHTML="";
+document.getElementById('q-text').innerText="";
 
-        // FIX TAG + CÂU HỎI
-        document.getElementById('q-text').innerText = this.curr.q;
-        document.getElementById('q-tag').innerText = "KHOA HỌC TỰ NHIÊN";
+streakSystem.reset();
 
-        const shuffled = [...this.curr.o].sort(() => Math.random() - 0.5);
+this.generate();
 
-        // Render option + nút bỏ qua
-        document.getElementById('q-action').innerHTML = `
-            <div class="option-list" id="khtn-option-list"></div>
-            <div style="width:100%; display:flex; justify-content:center; margin-top:12px;">
-                <button class="btn-confirm small" style="background:#555;" onclick="khtnGame.skip()">
-                    BỎ QUA
-                </button>
-            </div>
-        `;
-
-        const list = document.getElementById("khtn-option-list");
-        shuffled.forEach(opt => {
-            const btn = document.createElement("button");
-            btn.className = "option-item";
-            btn.innerText = opt;
-            btn.onclick = () => this.check(opt);
-            list.appendChild(btn);
-        });
-    },
-
-// ===== KIỂM TRA ĐÁP ÁN =====
-check(choice) {
-    if (this.isProcessing) return;
-    this.isProcessing = true;
-
-    document.querySelectorAll('.option-item').forEach(b => b.disabled = true);
-
-    if (choice === this.curr.a) {
-
-        // tăng streak trước
-        streakSystem.increment();
-
-        // dùng đúng biến trong file của bạn
-        const streak = streakSystem.current;
-
-        let xp = 10; // mặc định 10 XP
-
-        // bắt đầu tăng từ streak 3
-        if (streak >= 3) {
-            xp = 10 + (streak - 2) * 3;
-            if (xp > 25) xp = 25; // tối đa 25 XP
-        }
-
-        galaxy.showGameToast(`CHÍNH XÁC! +${xp} XP`, "success");
-        levelSystem.addXp(xp);
-
-        setTimeout(() => this.generate(), 800);
-
-    } else {
-
-        streakSystem.reset();
-        galaxy.showGameToast(`SAI RỒI! ĐÁP ÁN: ${this.curr.a}`, "error");
-
-        setTimeout(() => this.generate(), 1400);
-    }
 },
 
 
-    // ===== BỎ QUA =====
-    skip() {
-        if (this.isProcessing) return;
-        this.isProcessing = true;
+// =========================
+// RANDOM CÂU HỎI
+// =========================
 
-        streakSystem.reset();
-        galaxy.showGameToast("ĐÃ BỎ QUA", "info");
+generate(){
 
-        setTimeout(() => {
-            this.isProcessing = false;
-            this.generate();
-        }, 600);
-    }
+this.isProcessing=false;
+
+galaxy.applyTransition();
+
+const idx=Math.floor(Math.random()*KHOAHOC_BANK.length);
+
+this.curr=KHOAHOC_BANK[idx];
+
+document.getElementById('q-text').innerText=this.curr.q;
+
+document.getElementById('q-tag').innerText=this.curr.t;
+
+
+// shuffle đáp án
+
+const shuffled=[...this.curr.o].sort(()=>Math.random()-0.5);
+
+
+document.getElementById('q-action').innerHTML=`
+
+<div class="option-list" id="khtn-option-list"></div>
+
+<div style="width:100%;display:flex;justify-content:center;margin-top:12px;">
+<button class="btn-confirm small"
+style="background:#555;"
+onclick="khtnGame.skip()">
+BỎ QUA
+</button>
+</div>
+
+`;
+
+
+const list=document.getElementById('khtn-option-list');
+
+shuffled.forEach(opt=>{
+
+const btn=document.createElement("button");
+
+btn.className="option-item";
+
+btn.innerText=opt;
+
+btn.onclick=()=>this.check(opt);
+
+list.appendChild(btn);
+
+});
+
+},
+
+
+// =========================
+// CHECK ĐÁP ÁN
+// =========================
+
+check(choice){
+
+if(this.isProcessing) return;
+
+this.isProcessing=true;
+
+document.querySelectorAll('.option-item').forEach(b=>b.disabled=true);
+
+
+if(choice===this.curr.a){
+
+streakSystem.increment();
+
+const streak=streakSystem.current;
+
+let xp=10;
+
+if(streak>=3){
+
+xp=10+(streak-2)*3;
+
+if(xp>25) xp=25;
+
+}
+
+galaxy.showGameToast(`CHÍNH XÁC! +${xp} XP`,"success");
+
+levelSystem.addXp(xp);
+
+setTimeout(()=>this.generate(),800);
+
+}
+
+else{
+
+streakSystem.reset();
+
+galaxy.showGameToast(`SAI RỒI! ĐÁP ÁN: ${this.curr.a}`,"error");
+
+setTimeout(()=>this.generate(),1400);
+
+}
+
+},
+
+
+// =========================
+// BỎ QUA
+// =========================
+
+skip(){
+
+if(this.isProcessing) return;
+
+this.isProcessing=true;
+
+streakSystem.reset();
+
+galaxy.showGameToast("ĐÃ BỎ QUA","info");
+
+setTimeout(()=>{
+
+this.generate();
+
+},600);
+
+}
+
 };
-
-
     /* === NEW FEATURE: GAME ZONE & QUIZ === */
     const GAME_BANK = [
     { t: "Đang bảo trì...", q: "Thịt bò viên thường xuất hiện phổ biến nhất ở đâu?", o: ["Phở Hà Nội", "Phở Sài Gòn", "Phở Nam Định", "Phở cung đình"], a: 1 },
@@ -4703,6 +4691,7 @@ const uniqueTags = [...new Set(MOVIE_BANK.map(item => (item.t ? String(item.t).t
 </script>
 </body>
 </html>
+
 
 
 
