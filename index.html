@@ -3271,182 +3271,165 @@ check(btn, choice) {
 // =========================
 
 const KHOAHOC_BANK = [
-
-    // PHẦN 1: TRẮC NGHIỆM
+    // PHẦN ĐỊA LÍ
     { 
-        q: "Khi nào hai thanh nam châm hút nhau?", 
-        a: "Khi để hai cực khác tên gần nhau", 
-        o: ["Khi hai cực Bắc để gần nhau","Khi để hai cực khác tên gần nhau","Khi hai cực Nam để gần nhau","Khi để hai cực cùng tên gần nhau"], 
-        t: "KHTN 7" 
+        q: "Châu Mỹ nằm hoàn toàn ở:", 
+        a: "Nửa bán cầu Tây", 
+        o: ["Nửa bán cầu Đông", "Nửa bán cầu Bắc", "Nửa bán cầu Tây", "Nửa bán cầu Nam"], 
+        t: "Lịch sử - Địa lí 7" 
+    },
+    { 
+        q: "Châu Mỹ không tiếp giáp với đại dương nào?", 
+        a: "Ấn Độ Dương", 
+        o: ["Thái Bình Dương", "Đại Tây Dương", "Bắc Băng Dương", "Ấn Độ Dương"], 
+        t: "Lịch sử - Địa lí 7" 
+    },
+    { 
+        q: "Châu Mỹ có diện tích khoảng:", 
+        a: "42 triệu km2", 
+        o: ["40 triệu km2", "42 triệu km2", "44 triệu km2", "46 triệu km2"], 
+        t: "Lịch sử - Địa lí 7" 
+    },
+    { 
+        q: "Dạng địa hình nào sau đây nằm ở phía tây của Bắc Mỹ?", 
+        a: "Hệ thống núi trẻ Cooc-đi-e", 
+        o: ["Đồng bằng trung tâm lớn", "Dãy núi già A-pa-lát", "Hệ thống núi trẻ Cooc-đi-e", "Sơn nguyên Bra-xin"], 
+        t: "Lịch sử - Địa lí 7" 
+    },
+    { 
+        q: "Đô thị nào sau đây thuộc khu vực Bắc Mỹ?", 
+        a: "Niu-ooc", 
+        o: ["Tokyo", "Niu-ooc", "Bắc Kinh", "Xao-paolo"], 
+        t: "Lịch sử - Địa lí 7" 
+    },
+    { 
+        q: "Đới khí hậu chiếm diện tích lớn nhất ở Bắc Mỹ là:", 
+        a: "Đới khí hậu ôn đới", 
+        o: ["Đới khí hậu nhiệt đới", "Đới khí hậu cận nhiệt đới", "Đới khí hậu hàn đới", "Đới khí hậu ôn đới"], 
+        t: "Lịch sử - Địa lí 7" 
+    },
+    { 
+        q: "Kênh đào Pa-na-ma nối hai đại dương nào?", 
+        a: "Thái Bình Dương và Đại Tây Dương", 
+        o: ["Thái Bình Dương và Ấn Độ Dương", "Thái Bình Dương và Đại Tây Dương", "Bắc Băng Dương và Đại Tây Dương", "Ấn Độ Dương và Đại Tây Dương"], 
+        t: "Lịch sử - Địa lí 7" 
+    },
+    { 
+        q: "Diện tích của Châu Mỹ lớn thứ mấy trên thế giới?", 
+        a: "Thứ 2", 
+        o: ["Thứ 1", "Thứ 2", "Thứ 3", "Thứ 4"], 
+        t: "Lịch sử - Địa lí 7" 
+    },
+    { 
+        q: "Sự phân hóa tự nhiên theo chiều đông - tây ở Nam Mỹ thể hiện rõ nhất ở sự phân hóa địa hình từ Tây sang Đông lần lượt là:", 
+        a: "Núi trẻ An-đét, đồng bằng trung tâm và các sơn nguyên", 
+        o: ["Các sơn nguyên, đồng bằng trung tâm và núi trẻ An-đét", "Đồng bằng trung tâm, các sơn nguyên và núi trẻ An-đét", "Núi trẻ An-đét, đồng bằng trung tâm và các sơn nguyên", "Đồng bằng trung tâm, núi trẻ An-đét và các sơn nguyên"], 
+        t: "Lịch sử - Địa lí 7" 
+    },
+    { 
+        q: "Các trung tâm kinh tế quan trọng Bắc Mỹ tập trung ở khu vực nào?", 
+        a: "Phía đông và đông bắc", 
+        o: ["Phía tây và phía đông", "Phía đông và đông bắc", "Phía nam", "Phía đông bắc và tây"], 
+        t: "Lịch sử - Địa lí 7" 
+    },
+    { 
+        q: "Vùng thưa dân nhất ở Trung và Nam Mỹ là vùng nào?", 
+        a: "Đồng bằng A-ma-dôn", 
+        o: ["Đồng bằng Pam-pa", "Đồng bằng duyên hải phía Tây", "Đồng bằng A-ma-dôn", "Sơn nguyên Bra-xin"], 
+        t: "Lịch sử - Địa lí 7" 
+    },
+    { 
+        q: "Cư dân thuộc chủng tộc Môn-gô-lô-it di cư sang Bắc Mỹ đến từ châu lục nào?", 
+        a: "Châu Á", 
+        o: ["Châu Âu", "Châu Phi", "Châu Đại Dương", "Châu Á"], 
+        t: "Lịch sử - Địa lí 7" 
     },
 
+    // PHẦN LỊCH SỬ
     { 
-        q: "Nam châm có thể hút vật nào sau đây?", 
-        a: "Thép", 
-        o: ["Nhôm","Đồng","Gỗ","Thép"], 
-        t: "KHTN 7" 
+        q: "Sự kiện nào đánh dấu sự thành lập nhà Trần?", 
+        a: "Lý Chiêu Hoàng nhường ngôi cho Trần Cảnh", 
+        o: ["Trần Thủ Độ lật đổ nhà Lý", "Nhà Trần đánh bại quân Tống", "Lý Chiêu Hoàng nhường ngôi cho Trần Cảnh", "Cuộc khởi nghĩa nông dân thắng lợi"], 
+        t: "Lịch sử - Địa lí 7" 
     },
-
     { 
-        q: "Từ phổ là gì?", 
-        a: "Là hình ảnh của các đường mạt sắt sắp xếp xung quanh nam châm", 
-        o: ["Là vùng không gian xung quanh nam châm","Là hình ảnh của các đường mạt sắt sắp xếp xung quanh nam châm","Là hình ảnh của các hạt cát đặt trong từ trường của nam châm","Là hình ảnh của các hạt bụi đặt trong từ trường của nam châm"], 
-        t: "KHTN 7" 
+        q: "Nhà Lý được thành lập năm bao nhiêu?", 
+        a: "Năm 1009", 
+        o: ["Năm 938", "Năm 1009", "Năm 1010", "Năm 1226"], 
+        t: "Lịch sử - Địa lí 7" 
     },
-
     { 
-        q: "Phát biểu nào sau đây là sai?", 
-        a: "Từ phổ là vùng không gian xung quanh nam châm", 
-        o: ["Từ phổ cho ta hình ảnh trực quan về từ trường","Từ phổ là vùng không gian xung quanh nam châm","Đường sức từ chính là hình ảnh cụ thể của từ trường","Hình ảnh các đường mạt sắt sắp xếp xung quanh nam châm gọi là từ phổ"], 
-        t: "KHTN 7" 
+        q: "\"Tiến công trước để tự vệ\" là chủ trương trong cuộc kháng chiến chống quân xâm lược nào?", 
+        a: "Kháng chiến chống Tống thời Lý (Năm 1075)", 
+        o: ["Kháng chiến chống Mông - Nguyên thời Trần", "Kháng chiến chống Minh thời Hồ", "Kháng chiến chống Tống thời Lý (Năm 1075)", "Kháng chiến chống Tống thời Tiền Lê"], 
+        t: "Lịch sử - Địa lí 7" 
     },
-
     { 
-        q: "Để làm một nam châm điện đơn giản ta cần những dụng cụ nào?", 
-        a: "Dây dẫn điện có vỏ bọc cách điện, đinh sắt, hộp đựng pin, pin 1,5V", 
-        o: ["Dây dẫn điện có vỏ bọc cách điện, đinh sắt, hộp đựng pin, pin 1,5V","Một chiếc kim sắt nhẹ, chậu nước, nam châm vĩnh cửu, xốp màu","Một chiếc xe, một nam châm vĩnh cửu có từ tính mạnh","Một bìa cứng, hai gương phẳng nhỏ hình vuông, dao cắt, băng dính"], 
-        t: "KHTN 7" 
+        q: "Nhiệm vụ của Cấm quân là gì?", 
+        a: "Bảo vệ nhà vua và kinh thành", 
+        o: ["Bảo vệ biên cương đất nước", "Bảo vệ nhà vua và kinh thành", "Sản xuất vũ khí và lương thực", "Trấn giữ các lộ, phủ"], 
+        t: "Lịch sử - Địa lí 7" 
     },
-
     { 
-        q: "Kim nam châm khi đặt tự do trên Trái Đất luôn định hướng theo hướng Bắc – Nam. Kết luận nào sau đây là đúng?", 
-        a: "Từ trường của Trái Đất tác dụng lực từ lên kim nam châm", 
-        o: ["Trái Đất chỉ tác dụng lực hấp dẫn lên kim nam châm","Từ trường của Trái Đất tác dụng lực từ lên kim nam châm","Kim nam châm tự quay do Trái Đất tự quay","Kim nam châm chịu tác dụng của ánh sáng Mặt Trời"], 
-        t: "KHTN 7" 
+        q: "Chủ trương đối phó của Lý Thường Kiệt trong cuộc kháng chiến chống Tống là gì?", 
+        a: "Chủ động tiến công trước để tự vệ và xây dựng phòng tuyến phòng ngự kiên cố trên sông Như Nguyệt", 
+        o: ["Chủ động tiến công trước để tự vệ và xây dựng phòng tuyến phòng ngự kiên cố trên sông Như Nguyệt", "Rút lui chiến lược để bảo toàn lực lượng", "Đóng chặt cửa thành để phòng thủ", "Cầu hòa để tránh thương vong"], 
+        t: "Lịch sử - Địa lí 7" 
     },
-
     { 
-        q: "Chất nào sau đây là sản phẩm của quá trình trao đổi chất được động vật thải ra môi trường?", 
-        a: "Carbon dioxide", 
-        o: ["Oxygen","Carbon dioxide","Chất dinh dưỡng","Vitamin"], 
-        t: "KHTN 7" 
+        q: "Lực lượng sản xuất chính trong xã hội thời Ngô - Đinh - Tiền Lê là:", 
+        a: "Nông dân", 
+        o: ["Thợ thủ công", "Thương nhân", "Nô tì", "Nông dân"], 
+        t: "Lịch sử - Địa lí 7" 
     },
-
     { 
-        q: "Nhận định nào sau đây đúng khi nói về cấu tạo của lá cây phù hợp chức năng quang hợp?", 
-        a: "Lá thường xếp so le nhau để thu nhận được nhiều ánh sáng", 
-        o: ["Phiến lá hẹp giúp thu nhận ánh sáng tốt hơn","Gân lá làm nhiệm vụ trao đổi khí","Lục lạp có khả năng thoát hơi nước, hấp thụ và chuyển hóa năng lượng ánh sáng","Lá thường xếp so le nhau để thu nhận được nhiều ánh sáng"], 
-        t: "KHTN 7" 
+        q: "Ai là người dẹp loạn 12 sứ quân thống nhất đất nước?", 
+        a: "Đinh Bộ Lĩnh", 
+        o: ["Ngô Quyền", "Lê Hoàn", "Đinh Bộ Lĩnh", "Lý Công Uẩn"], 
+        t: "Lịch sử - Địa lí 7" 
     },
-
     { 
-        q: "Cho phương trình quang hợp dạng chữ sau: (1) + nước → oxygen + chất hữu cơ. Chất tham gia của phương trình là:", 
-        a: "(1) carbon dioxide", 
-        o: ["(1) carbon dioxide","(1) glucose","(1) năng lượng","(1) oxygen"], 
-        t: "KHTN 7" 
+        q: "Vị vua đầu tiên của nhà Lý là ai?", 
+        a: "Lý Thái Tổ (Lý Công Uẩn)", 
+        o: ["Lý Thái Tông", "Lý Thái Tổ (Lý Công Uẩn)", "Lý Thánh Tông", "Lý Nhân Tông"], 
+        t: "Lịch sử - Địa lí 7" 
     },
-
     { 
-        q: "Cho phương trình hô hấp tế bào dạng chữ sau: (1) + oxygen → carbon dioxide + nước + năng lượng. Chất tham gia của phương trình là:", 
-        a: "(1) glucose", 
-        o: ["(1) carbon dioxide","(1) glucose","(1) năng lượng","(1) oxygen"], 
-        t: "KHTN 7" 
+        q: "Đơn vị hành chính cấp cơ sở trong bộ máy chính quyền dưới thời Tiền Lê là:", 
+        a: "Giáp và xã", 
+        o: ["Lộ và phủ", "Huyện và châu", "Thôn và ấp", "Giáp và xã"], 
+        t: "Lịch sử - Địa lí 7" 
     },
-
     { 
-        q: "Bào quan thực hiện quá trình quang hợp là:", 
-        a: "Lục lạp", 
-        o: ["Diệp lục","Lục lạp","Khí khổng","Tế bào chất"], 
-        t: "KHTN 7" 
+        q: "Để khích lệ tinh thần chiến đấu của các binh sĩ, Hưng Đạo vương Trần Quốc Tuấn đã viết ra tác phẩm nào?", 
+        a: "Hịch tướng sĩ", 
+        o: ["Nam quốc sơn hà", "Hịch tướng sĩ", "Bình Ngô đại cáo", "Bạch Đằng giang phú"], 
+        t: "Lịch sử - Địa lí 7" 
     },
-
     { 
-        q: "Trong tế bào của hầu hết các sinh vật nhân thực, quá trình hô hấp xảy ra trong loại bào quan nào?", 
-        a: "Ti thể", 
-        o: ["Không bào","Lục lạp","Ti thể","Nhân tế bào"], 
-        t: "KHTN 7" 
+        q: "Bộ luật thành văn đầu tiên của nước ta có tên gọi là gì?", 
+        a: "Hình thư", 
+        o: ["Quốc triều hình luật", "Hoàng Việt luật lệ", "Luật Hồng Đức", "Hình thư"], 
+        t: "Lịch sử - Địa lí 7" 
     },
-
     { 
-        q: "Cho các đặc điểm sau: 1. Thường mọc ở những nơi quang đãng; 2. Phiến lá thường nhỏ; 3. Lá thường có màu xanh sẫm; 4. Lá thường có màu xanh sáng; 5. Thường mọc dưới tán cây khác; 6. Phiến lá thường rộng. Những đặc điểm của cây ưa ánh sáng yếu là:", 
-        a: "3, 5, 6", 
-        o: ["1, 2, 3","1, 2, 4","3, 5, 6","2, 3, 5"], 
-        t: "KHTN 7" 
+        q: "Quân đội của nhà Lý bao gồm những bộ phận nào?", 
+        a: "Cấm quân và quân địa phương", 
+        o: ["Cấm quân và hương binh", "Cấm quân và quân địa phương", "Quân chủ lực và quân dân du kích", "Thủy binh và bộ binh"], 
+        t: "Lịch sử - Địa lí 7" 
     },
-
     { 
-        q: "Vì sao khi trời nắng, đứng dưới tán cây sẽ cảm thấy mát và dễ chịu hơn khi đứng dưới mái che bằng vật liệu xây dựng?", 
-        a: "Vì khi cây quang hợp sẽ thải ra khí oxygen giúp ta dễ chịu, đồng thời lá cây thoát hơi nước giúp ta cảm thấy mát mẻ hơn", 
-        o: [
-        "Vì khi cây quang hợp sẽ thải ra khí oxygen giúp ta dễ chịu, đồng thời lá cây thoát hơi nước giúp ta cảm thấy mát mẻ hơn",
-        "Vì khi cây quang hợp sẽ thải ra khí carbon dioxide giúp ta dễ chịu, đồng thời lá cây thoát hơi nước giúp ta cảm thấy mát mẻ hơn",
-        "Vì khi cây quang hợp sẽ thải ra khí oxygen giúp ta dễ chịu, đồng thời lá cây hấp thụ hơi nước giúp ta cảm thấy mát mẻ hơn",
-        "Vì khi cây hô hấp sẽ thải ra khí oxygen giúp ta dễ chịu, đồng thời lá cây thoát hơi nước giúp ta cảm thấy mát mẻ hơn"
-        ], 
-        t: "KHTN 7" 
+        q: "Tầng lớp nào có địa vị thấp nhất trong xã hội thời Ngô - Đinh - Tiền Lê?", 
+        a: "Nô tì", 
+        o: ["Nông dân", "Thợ thủ công", "Thương nhân", "Nô tì"], 
+        t: "Lịch sử - Địa lí 7" 
     },
-
     { 
-        q: "Trên thực tế, để thích nghi với điều kiện sống tại môi trường sa mạc, lá của cây xương rồng đã biến đổi thành gai. Vậy cây xương rồng quang hợp chủ yếu bằng bộ phận nào sau đây?", 
-        a: "Thân cây", 
-        o: ["Lá cây","Thân cây","Rễ cây","Gai của cây"], 
-        t: "KHTN 7" 
-    },
-
-    { 
-        q: "Vì sao trong thí nghiệm chứng minh tinh bột được tạo thành trong quang hợp lại sử dụng iodine làm thuốc thử?", 
-        a: "Dung dịch iodine phản ứng với tinh bột tạo màu tím đặc trưng", 
-        o: ["Dung dịch iodine phản ứng với tinh bột tạo màu tím đặc trưng","Chỉ có dung dịch iodine mới có tác dụng với tinh bột","Dung dịch iodine dễ tìm","Dung dịch iodine phản ứng với tinh bột tạo màu đỏ đặc trưng"], 
-        t: "KHTN 7" 
-    },
-
-    { 
-        q: "Phát biểu nào sau đây không đúng khi nói về hô hấp tế bào?", 
-        a: "Quá trình hô hấp tế bào thải ra môi trường khí oxygen", 
-        o: ["Đó là quá trình chuyển đổi năng lượng rất quan trọng của tế bào","Đó là quá trình phân giải các chất hữu cơ diễn ra bên trong tế bào","Ở sinh vật nhân thực, quá trình hô hấp tế bào diễn ra trong ti thể","Quá trình hô hấp tế bào thải ra môi trường khí oxygen"], 
-        t: "KHTN 7" 
-    },
-
-    { 
-        q: "Cơ sở khoa học của các biện pháp bảo quản nông sản là:", 
-        a: "Giảm cường độ hô hấp tế bào tới mức tối thiểu", 
-        o: ["Tăng nhẹ cường độ hô hấp tế bào","Giảm nhẹ cường độ hô hấp tế bào","Giảm cường độ hô hấp tế bào tới mức tối thiểu","Tăng cường độ hô hấp tế bào tới mức tối đa"], 
-        t: "KHTN 7" 
-    },
-
-    // PHẦN 2: ĐIỀN KHUYẾT
-    { 
-        q: "Điền từ thích hợp: Cực Bắc địa từ và cực Bắc địa lí ........ nhau.", 
-        a: "không trùng", 
-        o: ["không trùng","trùng khít","vuông góc","song song"], 
-        t: "KHTN 7" 
-    },
-
-    { 
-        q: "Điền từ thích hợp: Để nam châm điện hút được vật nặng hơn, cần ........ độ lớn dòng điện.", 
-        a: "tăng", 
-        o: ["giảm","tăng","giữ nguyên","triệt tiêu"], 
-        t: "KHTN 7" 
-    },
-
-    { 
-        q: "Điền từ thích hợp: ........ vừa là nguyên liệu quang hợp vừa tham gia đóng mở khí khổng.", 
-        a: "Nước", 
-        o: ["Ánh sáng","Nước","Carbon dioxide","Oxygen"], 
-        t: "KHTN 7" 
-    },
-
-    { 
-        q: "Biện pháp ........ dùng để bảo quản thực phẩm trong tủ lạnh.", 
-        a: "bảo quản lạnh", 
-        o: ["bảo quản khô","bảo quản lạnh","ướp muối","hút chân không"], 
-        t: "KHTN 7" 
-    },
-
-    { 
-        q: "Trong quang hợp, năng lượng ánh sáng chuyển thành năng lượng ........", 
-        a: "hóa học", 
-        o: ["quang năng","nhiệt năng","hóa học","cơ năng"], 
-        t: "KHTN 7" 
-    },
-
-    { 
-        q: "Biện pháp ........ làm giảm lượng nước trong nông sản.", 
-        a: "bảo quản khô", 
-        o: ["bảo quản lạnh","bảo quản khô","bơm khí trơ","hút chân không"], 
-        t: "KHTN 7" 
+        q: "Ai là người chỉ đạo cuộc kháng chiến chống Tống xâm lược thời Lý?", 
+        a: "Lý Thường Kiệt", 
+        o: ["Lý Đạo Thành", "Lý Thường Kiệt", "Trần Thủ Độ", "Lê Hoàn"], 
+        t: "Lịch sử - Địa lí 7" 
     }
-
 ];
 
 // =========================
